@@ -30,7 +30,7 @@ export default function CarouselSection({
   subtitle,
   items,
   viewAllHref,
-  viewAllLabel = 'View all',
+  viewAllLabel = 'سب دیکھیں',
   bg = 'white',
 }: CarouselSectionProps) {
   const trackRef = useRef<HTMLDivElement>(null)
@@ -75,8 +75,8 @@ export default function CarouselSection({
         {/* Header row */}
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-7 sm:mb-10">
           <div>
-            <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-cyan-600 mb-2">
-              <span className="w-6 h-px bg-cyan-400 inline-block" />
+            <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-dq-600 mb-2">
+              <span className="w-6 h-px bg-dq-400 inline-block" />
               {eyebrow}
             </p>
             <h2 className="font-bold text-[27px] text-slate-900 leading-tight tracking-[-0.02em]">{title}</h2>
@@ -95,7 +95,7 @@ export default function CarouselSection({
                 className={`w-9 h-9 rounded-full border-2 flex items-center justify-center
                   transition-all duration-200
                   ${canLeft
-                    ? 'border-gray-200 text-gray-500 hover:border-cyan-500 hover:text-cyan-600 hover:bg-cyan-50'
+                    ? 'border-gray-200 text-gray-500 hover:border-dq-500 hover:text-dq-600 hover:bg-dq-50'
                     : 'border-gray-100 text-gray-300 cursor-not-allowed'}`}
               >
                 <ChevronLeft size={16} strokeWidth={2} />
@@ -107,7 +107,7 @@ export default function CarouselSection({
                 className={`w-9 h-9 rounded-full border-2 flex items-center justify-center
                   transition-all duration-200
                   ${canRight
-                    ? 'border-gray-200 text-gray-500 hover:border-cyan-500 hover:text-cyan-600 hover:bg-cyan-50'
+                    ? 'border-gray-200 text-gray-500 hover:border-dq-500 hover:text-dq-600 hover:bg-dq-50'
                     : 'border-gray-100 text-gray-300 cursor-not-allowed'}`}
               >
                 <ChevronRight size={16} strokeWidth={2} />
@@ -116,7 +116,7 @@ export default function CarouselSection({
 
             <Link
               href={viewAllHref}
-              className="group inline-flex items-center gap-1.5 text-[13px] font-semibold text-cyan-600 hover:text-cyan-700 transition-colors whitespace-nowrap"
+              className="group inline-flex items-center gap-1.5 text-[13px] font-semibold text-dq-600 hover:text-dq-700 transition-colors whitespace-nowrap"
             >
               {viewAllLabel}
               <ArrowRight

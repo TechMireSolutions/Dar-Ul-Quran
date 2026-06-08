@@ -27,13 +27,13 @@ export default function ContentCard({
         transition-all duration-300 ease-out
         hover:-translate-y-2 hover:shadow-card-hover
         ${active
-          ? 'shadow-[0_2px_16px_rgba(8,145,178,0.14)] border border-cyan-200/80'
+          ? 'shadow-[0_2px_16px_rgba(184,144,14,0.14)] border border-dq-200/80'
           : 'shadow-card border border-gray-100'
         }`}
     >
       {/* Active top accent stripe */}
       {active && (
-        <div className="absolute top-0 inset-x-0 h-[3px] bg-gradient-to-r from-cyan-400 via-cyan-500 to-sky-400 z-10" />
+        <div className="absolute top-0 inset-x-0 h-[3px] bg-gradient-to-r from-dq-400 via-dq-500 to-dq-400 z-10" />
       )}
 
       {/* Image */}
@@ -47,7 +47,7 @@ export default function ContentCard({
               className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.06]"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-cyan-50 via-sky-50 to-slate-100">
+            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-dq-50 via-dq-50 to-slate-100">
               <span className="text-5xl opacity-25 select-none">📖</span>
             </div>
           )}
@@ -59,13 +59,13 @@ export default function ContentCard({
       {/* Body */}
       <div className="flex flex-col flex-1 px-4 pt-4 pb-5">
         {badge && (
-          <span className="w-fit text-[10px] font-bold uppercase tracking-[0.12em] text-cyan-700 bg-cyan-50 border border-cyan-100/80 rounded-full px-2.5 py-0.5 mb-3">
+          <span className="w-fit text-[10px] font-bold uppercase tracking-[0.12em] text-dq-700 bg-dq-50 border border-dq-100/80 rounded-full px-2.5 py-0.5 mb-3">
             {badge}
           </span>
         )}
 
         <h3 className="font-semibold text-slate-900 text-[15px] leading-snug mb-2 line-clamp-2">
-          <Link href={href} className="hover:text-cyan-600 transition-colors duration-150">
+          <Link href={href} className="hover:text-dq-600 transition-colors duration-150">
             {title}
           </Link>
         </h3>
@@ -79,7 +79,7 @@ export default function ContentCard({
         {/* CTA */}
         <Link
           href={href}
-          className="mt-auto inline-flex items-center gap-1 text-[12.5px] font-semibold text-cyan-600 hover:text-cyan-700 pt-0.5 group/cta"
+          className="mt-auto inline-flex items-center gap-1 text-[12.5px] font-semibold text-dq-600 hover:text-dq-700 pt-0.5 group/cta"
         >
           {ctaLabel}
           <ArrowUpRight

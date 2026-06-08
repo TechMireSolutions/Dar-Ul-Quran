@@ -36,7 +36,7 @@ export default async function HomePage() {
     description: [c.price, c.duration].filter(Boolean).join(' · ') || null,
     href:        `/online-courses/${c.slug.current}`,
     badge:       c.subject,
-    ctaLabel:    'Enroll Now',
+    ctaLabel:    'ابھی داخلہ لیں',
   }))
 
   const serviceItems: CarouselItem[] = services.map((s: any) => ({
@@ -48,7 +48,7 @@ export default async function HomePage() {
       : s.price || null,
     href:        `/services/${s.slug.current}`,
     badge:       null,
-    ctaLabel:    'Book Now',
+    ctaLabel:    'ابھی بک کریں',
   }))
 
   return (
@@ -76,68 +76,68 @@ export default async function HomePage() {
 
             {/* Text */}
             <div>
-              <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-cyan-600 mb-3">
-                <span className="w-6 h-px bg-cyan-400 inline-block" />
-                {hp?.aboutEyebrow || 'Who We Are'}
+              <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-dq-600 mb-3">
+                <span className="w-6 h-px bg-dq-400 inline-block" />
+                {hp?.aboutEyebrow || 'ہم کون ہیں'}
               </p>
               <h2 className="font-bold text-[26px] sm:text-[32px] text-slate-900 leading-tight tracking-[-0.02em] mb-4">
-                {hp?.aboutHeading || 'Bringing Shia Islamic Knowledge to Every Corner of the World'}
+                {hp?.aboutHeading || 'دنیا کے ہر کونے میں شیعہ اسلامی علم پہنچانا'}
               </h2>
               {(hp?.aboutBody1 || true) && (
                 <p className="text-[14px] text-gray-500 leading-relaxed mb-4">
-                  {hp?.aboutBody1 || 'Dar Ul Quran was founded with a single purpose — to make authentic Shia Islamic education and religious services accessible to every Muslim, regardless of location or background.'}
+                  {hp?.aboutBody1 || 'دار القرآن ایک واحد مقصد کے ساتھ قائم کیا گیا — ہر مسلمان تک مستند شیعہ اسلامی تعلیم اور مذہبی خدمات کی رسائی، چاہے وہ کہیں بھی ہو۔'}
                 </p>
               )}
               {(hp?.aboutBody2 || true) && (
                 <p className="text-[14px] text-gray-500 leading-relaxed mb-7">
-                  {hp?.aboutBody2 || 'Through online courses taught by qualified scholars, and services like Niyabat Ziarat and Ijara performed with sincerity, we proudly serve thousands of families across the globe.'}
+                  {hp?.aboutBody2 || 'اہل علماء کے آنلائن کورسز اور نیابت زیارت و اجارہ جیسی خدمات کے ذریعے ہم دنیا بھر میں ہزاروں خاندانوں کی خدمت کرتے ہیں۔'}
                 </p>
               )}
               <div className="flex flex-wrap gap-2.5 mb-8">
-                {(hp?.aboutPillars?.length ? hp.aboutPillars : ['Faith', 'Knowledge', 'Access', 'Sincerity']).map((pillar: string) => (
+                {(hp?.aboutPillars?.length ? hp.aboutPillars : ['ایمان', 'علم', 'رسائی', 'اخلاص']).map((pillar: string) => (
                   <span
                     key={pillar}
-                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-cyan-50 border border-cyan-100 text-[12px] font-semibold text-cyan-700"
+                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-dq-50 border border-dq-100 text-[12px] font-semibold text-dq-700"
                   >
-                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 flex-shrink-0" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-dq-500 flex-shrink-0" />
                     {pillar}
                   </span>
                 ))}
               </div>
               <Link
                 href="/about"
-                className="group inline-flex items-center gap-2 bg-cyan-600 hover:bg-cyan-700 text-white
+                className="group inline-flex items-center gap-2 bg-dq-600 hover:bg-dq-700 text-white
                   text-[13px] font-semibold px-6 py-2.5 rounded-full
-                  shadow-[0_4px_16px_rgba(8,145,178,0.3)] hover:shadow-[0_6px_22px_rgba(8,145,178,0.45)]
+                  shadow-[0_4px_16px_rgba(184,144,14,0.3)] hover:shadow-[0_6px_22px_rgba(184,144,14,0.45)]
                   transition-all duration-200 hover:-translate-y-px"
               >
-                {hp?.aboutCtaLabel || 'Learn About Us'}
+                {hp?.aboutCtaLabel || 'ہمارے بارے میں جانیں'}
                 <ArrowRight size={13} strokeWidth={2.5} className="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform duration-150" />
               </Link>
             </div>
 
             {/* Visual card */}
             <div className="relative pb-10">
-              <div className="bg-slate-900 rounded-3xl p-8 sm:p-10 text-white relative overflow-hidden">
+              <div className="bg-dq-900 rounded-3xl p-8 sm:p-10 text-white relative overflow-hidden">
                 <div
                   className="absolute top-0 right-0 w-72 h-72 rounded-full pointer-events-none opacity-20"
-                  style={{ background: 'radial-gradient(circle, rgba(8,145,178,0.6) 0%, transparent 70%)', transform: 'translate(30%, -30%)' }}
+                  style={{ background: 'radial-gradient(circle, rgba(184,144,14,0.6) 0%, transparent 70%)', transform: 'translate(30%, -30%)' }}
                 />
                 <p className="text-center text-[28px] sm:text-[32px] leading-relaxed text-amber-400 font-light mb-3" dir="rtl">
                   {hp?.aboutHadithArabic || 'اطلبوا العلم من المهد إلى اللحد'}
                 </p>
                 <div className="w-10 h-px bg-amber-400/40 mx-auto mb-3" />
                 <p className="text-center text-[13px] text-gray-400 italic leading-relaxed">
-                  &quot;{hp?.aboutHadithTranslation || 'Seek knowledge from the cradle to the grave.'}&quot;
+                  &quot;{hp?.aboutHadithTranslation || 'علم حاصل کرو گہوارے سے لحد تک۔'}&quot;
                 </p>
                 <p className="text-center text-[11px] text-amber-500 font-semibold mt-2 tracking-wide">
-                  — {hp?.aboutHadithAttribution || 'Prophet Muhammad (S.A.W.W.)'}
+                  — {hp?.aboutHadithAttribution || 'حضرت محمد (ص)'}
                 </p>
                 <div className="grid grid-cols-3 gap-4 mt-8 pt-6 border-t border-white/10">
                   {[
-                    { value: hp?.aboutStat1Value || '500+', label: hp?.aboutStat1Label || 'Students' },
-                    { value: hp?.aboutStat2Value || '10+',  label: hp?.aboutStat2Label || 'Scholars' },
-                    { value: hp?.aboutStat3Value || '5+',   label: hp?.aboutStat3Label || 'Countries' },
+                    { value: hp?.aboutStat1Value || '500+', label: hp?.aboutStat1Label || 'طلباء' },
+                    { value: hp?.aboutStat2Value || '10+',  label: hp?.aboutStat2Label || 'علماء' },
+                    { value: hp?.aboutStat3Value || '5+',   label: hp?.aboutStat3Label || 'ممالک' },
                   ].map(s => (
                     <div key={s.label} className="text-center">
                       <p className="text-[22px] font-bold text-white leading-none">{s.value}</p>
@@ -153,8 +153,8 @@ export default async function HomePage() {
                   <span className="text-emerald-600 font-bold text-[16px]">✓</span>
                 </div>
                 <div>
-                  <p className="text-[12px] font-semibold text-slate-800">{hp?.aboutBadgeText || 'Qualified Scholars'}</p>
-                  <p className="text-[11px] text-gray-400">{hp?.aboutBadgeSubtext || 'Certified & trusted'}</p>
+                  <p className="text-[12px] font-semibold text-slate-800">{hp?.aboutBadgeText || 'اہل علماء'}</p>
+                  <p className="text-[11px] text-gray-400">{hp?.aboutBadgeSubtext || 'تصدیق شدہ و قابل اعتماد'}</p>
                 </div>
               </div>
             </div>
@@ -167,11 +167,11 @@ export default async function HomePage() {
       {courseItems.length > 0 && (
         <CarouselSection
           eyebrow="Education"
-          title={hp?.coursesHeading    || 'Online Courses'}
-          subtitle={hp?.coursesSubheading || 'Learn from qualified scholars — Quran, Fiqh, Ethics & more'}
+          title={hp?.coursesHeading    || 'آنلائن کورسز'}
+          subtitle={hp?.coursesSubheading || 'اہل علماء سے سیکھیں — قرآن، فقہ، اخلاق اور مزید'}
           items={courseItems}
           viewAllHref="/online-courses"
-          viewAllLabel="All Courses"
+          viewAllLabel="تمام کورسز"
           bg="white"
         />
       )}
@@ -180,11 +180,11 @@ export default async function HomePage() {
       {serviceItems.length > 0 && (
         <CarouselSection
           eyebrow="What we offer"
-          title={hp?.servicesHeading    || 'Our Services'}
-          subtitle={hp?.servicesSubheading || 'Religious services performed with sincerity and care'}
+          title={hp?.servicesHeading    || 'ہماری خدمات'}
+          subtitle={hp?.servicesSubheading || 'اخلاص اور توجہ کے ساتھ ادا کی گئی مذہبی خدمات'}
           items={serviceItems}
           viewAllHref="/services"
-          viewAllLabel="All Services"
+          viewAllLabel="تمام خدمات"
           bg="gray"
         />
       )}
@@ -195,12 +195,12 @@ export default async function HomePage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-7 sm:mb-10">
               <div>
-                <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-cyan-600 mb-2">
-                  <span className="w-6 h-px bg-cyan-400 inline-block" />
-                  Knowledge
+                <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-dq-600 mb-2">
+                  <span className="w-6 h-px bg-dq-400 inline-block" />
+                  علم
                 </p>
                 <h2 className="font-bold text-[24px] sm:text-[27px] text-slate-900 leading-tight tracking-[-0.02em]">
-                  {hp?.articlesHeading || 'Latest Articles'}
+                  {hp?.articlesHeading || 'تازہ ترین مضامین'}
                 </h2>
                 {hp?.articlesSubheading && (
                   <p className="text-[13px] text-gray-500 mt-1.5">{hp.articlesSubheading}</p>
@@ -208,9 +208,9 @@ export default async function HomePage() {
               </div>
               <Link
                 href="/articles"
-                className="group inline-flex items-center gap-1.5 text-[13px] font-semibold text-cyan-600 hover:text-cyan-700 transition-colors flex-shrink-0 sm:ml-6"
+                className="group inline-flex items-center gap-1.5 text-[13px] font-semibold text-dq-600 hover:text-dq-700 transition-colors flex-shrink-0 sm:ml-6"
               >
-                View all
+                سب دیکھیں
                 <ArrowRight size={13} strokeWidth={2.5} className="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform duration-150" />
               </Link>
             </div>
@@ -223,7 +223,7 @@ export default async function HomePage() {
                   title={post.title}
                   description={post.excerpt || null}
                   badge={post.categories?.[0]?.title || null}
-                  ctaLabel="Read More"
+                  ctaLabel="مزید پڑھیں"
                 />
               ))}
             </div>
@@ -236,13 +236,13 @@ export default async function HomePage() {
       <section className="py-12 md:py-16 bg-slate-50 border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <p className="flex items-center justify-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-cyan-600 mb-3">
-              <span className="w-6 h-px bg-cyan-400 inline-block" />
-              {hp?.testimonialsEyebrow || 'Community'}
-              <span className="w-6 h-px bg-cyan-400 inline-block" />
+            <p className="flex items-center justify-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-dq-600 mb-3">
+              <span className="w-6 h-px bg-dq-400 inline-block" />
+              {hp?.testimonialsEyebrow || 'برادری'}
+              <span className="w-6 h-px bg-dq-400 inline-block" />
             </p>
             <h2 className="font-bold text-[24px] sm:text-[28px] text-slate-900 leading-tight tracking-[-0.02em]">
-              {hp?.testimonialsHeading || 'What Our Community Says'}
+              {hp?.testimonialsHeading || 'ہماری برادری کیا کہتی ہے'}
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -260,8 +260,8 @@ export default async function HomePage() {
                   &quot;{t.quote}&quot;
                 </p>
                 <div className="flex items-center gap-3 pt-4 border-t border-gray-100">
-                  <div className="w-9 h-9 rounded-full bg-cyan-100 flex items-center justify-center flex-shrink-0">
-                    <span className="text-[14px] font-bold text-cyan-700">{t.name[0]}</span>
+                  <div className="w-9 h-9 rounded-full bg-dq-100 flex items-center justify-center flex-shrink-0">
+                    <span className="text-[14px] font-bold text-dq-700">{t.name[0]}</span>
                   </div>
                   <div>
                     <p className="text-[13px] font-semibold text-slate-800">{t.name}</p>
@@ -293,12 +293,12 @@ export default async function HomePage() {
 
           {/* Heading */}
           <h2 className="font-bold text-[28px] lg:text-[34px] text-slate-900 leading-tight tracking-[-0.02em] mb-3">
-            {hp?.donateHeading || 'Support Our Mission'}
+            {hp?.donateHeading || 'ہمارے مشن میں ساتھ دیں'}
           </h2>
 
           {/* Description */}
           <p className="text-[13.5px] text-gray-500 leading-relaxed mb-6 max-w-sm mx-auto">
-            {hp?.donateText || 'Your Sadqah and donations help us continue spreading the teachings of Ahlul Bayt (A.S.)'}
+            {hp?.donateText || 'آپ کا صدقہ اور چندہ ہمیں اہل بیت (ع) کی تعلیمات پھیلاتے رہنے میں مدد کرتا ہے'}
           </p>
 
           {/* Quote */}
@@ -307,11 +307,11 @@ export default async function HomePage() {
               <span className="text-amber-500 text-[15px] font-bold leading-none">"</span>
             </div>
             <p className="text-[13.5px] text-slate-600 italic leading-relaxed">
-              {hp?.donateQuote || 'Sadaqah extinguishes the Lord\'s anger and wards off an evil death.'}
+              {hp?.donateQuote || 'صدقہ رب کے غضب کو بجھاتا اور بری موت کو دور کرتا ہے۔'}
             </p>
             <div className="mt-3 flex items-center justify-center gap-2">
               <span className="w-5 h-px bg-amber-300"/>
-              <cite className="not-italic text-[11px] font-semibold text-amber-600 tracking-wide">{hp?.donateQuoteAttribution || 'Imam Sadiq (A.S.)'}</cite>
+              <cite className="not-italic text-[11px] font-semibold text-amber-600 tracking-wide">{hp?.donateQuoteAttribution || 'امام صادق (ع)'}</cite>
               <span className="w-5 h-px bg-amber-300"/>
             </div>
           </div>
@@ -319,12 +319,12 @@ export default async function HomePage() {
           {/* CTA */}
           <Link
             href="/donate"
-            className="group inline-flex items-center gap-2 bg-cyan-600 hover:bg-cyan-700 text-white
+            className="group inline-flex items-center gap-2 bg-dq-600 hover:bg-dq-700 text-white
               text-[13px] font-semibold px-7 py-2.5 rounded-full
-              shadow-[0_4px_16px_rgba(8,145,178,0.3)] hover:shadow-[0_6px_22px_rgba(8,145,178,0.45)]
+              shadow-[0_4px_16px_rgba(184,144,14,0.3)] hover:shadow-[0_6px_22px_rgba(184,144,14,0.45)]
               transition-all duration-200 hover:-translate-y-px"
           >
-            {hp?.donateCtaLabel || 'Donate Now'}
+            {hp?.donateCtaLabel || 'ابھی عطیہ دیں'}
             <ArrowRight size={13} strokeWidth={2.5} className="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform duration-150"/>
           </Link>
 

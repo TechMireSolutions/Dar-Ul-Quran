@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic'
 export async function generateMetadata(): Promise<Metadata> {
   const page = await safeFetch(pageBySlugQuery, { slug: 'contact' })
   return {
-    title: page?.seoTitle || page?.title || 'Contact Us',
+    title: page?.seoTitle || page?.title || 'رابطہ کریں',
     description: page?.seoDescription || page?.subtitle,
   }
 }
@@ -32,23 +32,23 @@ export default async function ContactPage() {
 
   const subjects: string[] = settings?.contactFormSubjects?.length
     ? settings.contactFormSubjects
-    : ['General Inquiry', 'Course Enrollment', 'Service Request', 'Donation']
+    : ['عام پوچھ گچھ', 'کورس داخلہ', 'خدمت کی درخواست', 'عطیہ']
 
-  const submitLabel: string = settings?.contactFormSubmitLabel || 'Send Message'
+  const submitLabel: string = settings?.contactFormSubmitLabel || 'پیغام بھیجیں'
 
   return (
     <div>
       <div className="bg-white border-b border-gray-100">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-          <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-cyan-600 mb-3">
-            <span className="w-5 h-px bg-cyan-400 inline-block" />
-            {page?.eyebrow || 'Reach Out'}
+          <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-dq-600 mb-3">
+            <span className="w-5 h-px bg-dq-400 inline-block" />
+            {page?.eyebrow || 'رابطہ کیجیے'}
           </p>
           <h1 className="font-bold text-[26px] sm:text-[30px] text-slate-900 tracking-[-0.02em] mb-2">
-            {page?.title || 'Contact Us'}
+            {page?.title || 'ہم سے رابطہ کریں'}
           </h1>
           <p className="text-[13.5px] text-gray-500">
-            {page?.subtitle || 'Get in touch for services, courses, or general inquiries'}
+            {page?.subtitle || 'خدمات، کورسز یا عام پوچھ گچھ کے لیے ہم سے رابطہ کریں'}
           </p>
         </div>
       </div>
@@ -68,14 +68,14 @@ export default async function ContactPage() {
             <div className="lg:col-span-2 space-y-3">
               {contactItems.map(({ Icon, label, value, href }) => (
                 <div key={label} className="flex items-start gap-3 sm:gap-3.5 bg-white border border-gray-100 rounded-xl px-4 py-3.5 shadow-sm">
-                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-cyan-50 border border-cyan-100 flex items-center justify-center flex-shrink-0">
-                    <Icon size={14} className="text-cyan-600" strokeWidth={1.75} />
+                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-dq-50 border border-dq-100 flex items-center justify-center flex-shrink-0">
+                    <Icon size={14} className="text-dq-600" strokeWidth={1.75} />
                   </div>
                   <div className="min-w-0">
                     <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-gray-400 mb-0.5">{label}</p>
                     {href ? (
                       <a href={href} target={href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer"
-                        className="text-[13px] text-slate-700 hover:text-cyan-600 transition-colors break-all">
+                        className="text-[13px] text-slate-700 hover:text-dq-600 transition-colors break-all">
                         {value}
                       </a>
                     ) : (
@@ -89,13 +89,13 @@ export default async function ContactPage() {
                 <div className="flex gap-2 pt-1">
                   {settings?.facebook && (
                     <a href={settings.facebook} target="_blank" rel="noopener noreferrer"
-                      className="flex items-center gap-1.5 text-[12px] font-medium text-gray-500 hover:text-cyan-600 bg-white border border-gray-200 rounded-lg px-3 py-2 transition-colors">
+                      className="flex items-center gap-1.5 text-[12px] font-medium text-gray-500 hover:text-dq-600 bg-white border border-gray-200 rounded-lg px-3 py-2 transition-colors">
                       <Facebook size={13} /> Facebook
                     </a>
                   )}
                   {settings?.youtube && (
                     <a href={settings.youtube} target="_blank" rel="noopener noreferrer"
-                      className="flex items-center gap-1.5 text-[12px] font-medium text-gray-500 hover:text-cyan-600 bg-white border border-gray-200 rounded-lg px-3 py-2 transition-colors">
+                      className="flex items-center gap-1.5 text-[12px] font-medium text-gray-500 hover:text-dq-600 bg-white border border-gray-200 rounded-lg px-3 py-2 transition-colors">
                       <Youtube size={13} /> YouTube
                     </a>
                   )}
@@ -103,7 +103,7 @@ export default async function ContactPage() {
               )}
 
               {contactItems.length === 0 && (
-                <p className="text-[13px] text-gray-400 italic">Add contact details in Sanity Studio → Site Settings.</p>
+                <p className="text-[13px] text-gray-400 italic">سنیٹی اسٹوڈیو میں رابطہ کی تفصیلات شامل کریں۔</p>
               )}
             </div>
 

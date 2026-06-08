@@ -6,6 +6,16 @@ const config: Config = {
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  safelist: [
+    { pattern: /^bg-dq-(50|100|200|300|400|500|600|700|800|900|950)(\/\d+)?$/, variants: ['hover', 'focus', 'active', 'group-hover'] },
+    { pattern: /^text-dq-(50|100|200|300|400|500|600|700|800|900|950)(\/\d+)?$/, variants: ['hover', 'focus', 'group-hover'] },
+    { pattern: /^border-dq-(50|100|200|300|400|500|600|700|800|900|950)(\/\d+)?$/, variants: ['hover', 'focus', 'focus-within'] },
+    { pattern: /^from-dq-(50|100|200|300|400|500|600|700|800|900|950)(\/\d+)?$/ },
+    { pattern: /^to-dq-(50|100|200|300|400|500|600|700|800|900|950)(\/\d+)?$/ },
+    { pattern: /^via-dq-(50|100|200|300|400|500|600|700|800|900|950)(\/\d+)?$/ },
+    { pattern: /^ring-dq-(50|100|200|300|400|500|600|700|800|900|950)(\/\d+)?$/ },
+    { pattern: /^shadow-dq-(50|100|200|300|400|500|600|700|800|900|950)(\/\d+)?$/ },
+  ],
   theme: {
     extend: {
       fontFamily: {
@@ -13,20 +23,18 @@ const config: Config = {
         display: ['var(--font-urdu,system-ui)', 'system-ui', 'sans-serif'],
       },
       colors: {
-        brand: {
-          50:  '#ecfeff',
-          100: '#cffafe',
-          200: '#a5f3fc',
-          500: '#06b6d4',
-          600: '#0891b2',
-          700: '#0e7490',
-          800: '#155e75',
-          900: '#164e63',
-        },
-        gold: {
-          400: '#fbbf24',
-          500: '#f59e0b',
-          600: '#d97706',
+        dq: {
+          50:  '#fdf8e8',
+          100: '#faefc4',
+          200: '#f3d988',
+          300: '#e8c246',
+          400: '#d4a820',
+          500: '#b8900e',
+          600: '#9a7509',
+          700: '#7c5d07',
+          800: '#5f4605',
+          900: '#3d3100',
+          950: '#2a2200',
         },
       },
       keyframes: {
@@ -61,13 +69,13 @@ const config: Config = {
       boxShadow: {
         card:         '0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.04)',
         'card-hover': '0 12px 32px -4px rgb(0 0 0 / 0.11), 0 4px 12px -2px rgb(0 0 0 / 0.06)',
-        'cyan-glow':  '0 6px 24px rgba(8,145,178,0.38)',
+        'gold-glow':  '0 6px 24px rgba(184,144,14,0.38)',
       },
       typography: {
         DEFAULT: {
           css: {
             color: '#0f172a',
-            a: { color: '#0891b2' },
+            a: { color: '#b8900e' },
           },
         },
       },

@@ -59,8 +59,8 @@ export default function ContactForm({ submitLabel, courses, services }: Props) {
   }
 
   const inputCls = `w-full border border-gray-200 rounded-lg px-3.5 py-2.5 text-[13.5px] text-slate-700
-    placeholder:text-gray-400 bg-white focus:outline-none focus:border-cyan-400
-    focus:ring-2 focus:ring-cyan-400/20 transition-all`
+    placeholder:text-gray-400 bg-white focus:outline-none focus:border-dq-400
+    focus:ring-2 focus:ring-dq-400/20 transition-all`
 
   const Label = ({ children, required: req }: { children: React.ReactNode; required?: boolean }) => (
     <label className="block text-[12px] font-semibold text-slate-700 mb-1.5">
@@ -191,9 +191,9 @@ export default function ContactForm({ submitLabel, courses, services }: Props) {
       <button
         type="submit"
         disabled={status === 'loading' || ((purpose === 'course' || purpose === 'service') && !appliedFor)}
-        className="w-full bg-cyan-600 hover:bg-cyan-700 disabled:opacity-60 disabled:cursor-not-allowed
+        className="w-full bg-dq-600 hover:bg-dq-700 disabled:opacity-60 disabled:cursor-not-allowed
           text-white text-[13.5px] font-semibold py-3 rounded-lg
-          shadow-[0_4px_14px_rgba(8,145,178,0.28)] hover:shadow-[0_6px_20px_rgba(8,145,178,0.4)]
+          shadow-[0_4px_14px_rgba(184,144,14,0.28)] hover:shadow-[0_6px_20px_rgba(184,144,14,0.4)]
           transition-all duration-200 hover:-translate-y-px"
       >
         {status === 'loading' ? 'Sending...' : submitLabel}

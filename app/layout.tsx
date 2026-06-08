@@ -29,7 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
     }
   } catch {
     return {
-      title:       { default: 'Dar Ul Quran', template: '%s | Dar Ul Quran' },
+      title:       { default: 'دار القرآن', template: '%s | دار القرآن' },
       description: 'اسلامی علم، آنلائن کورسز اور خدمات',
     }
   }

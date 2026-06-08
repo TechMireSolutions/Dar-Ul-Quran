@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic'
 export async function generateMetadata(): Promise<Metadata> {
   const page = await safeFetch(pageBySlugQuery, { slug: 'articles' })
   return {
-    title: page?.seoTitle || page?.title || 'Articles',
+    title: page?.seoTitle || page?.title || 'مضامین',
     description: page?.seoDescription || page?.subtitle,
   }
 }
@@ -24,15 +24,15 @@ export default async function ArticlesPage() {
     <div>
       <div className="bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-          <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-cyan-600 mb-3">
-            <span className="w-5 h-px bg-cyan-400 inline-block" />
-            {page?.eyebrow || 'Knowledge'}
+          <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-dq-600 mb-3">
+            <span className="w-5 h-px bg-dq-400 inline-block" />
+            {page?.eyebrow || 'علم'}
           </p>
           <h1 className="font-bold text-[26px] sm:text-[30px] text-slate-900 tracking-[-0.02em] mb-2">
-            {page?.title || 'Articles'}
+            {page?.title || 'مضامین'}
           </h1>
           <p className="text-[13.5px] text-gray-500">
-            {page?.subtitle || 'Islamic knowledge, news & reflections'}
+            {page?.subtitle || 'اسلامی علم، خبریں اور مطالعات'}
           </p>
         </div>
       </div>
@@ -40,7 +40,7 @@ export default async function ArticlesPage() {
       <div className="py-8 sm:py-12 bg-slate-50/40 min-h-[50vh]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {posts.length === 0 ? (
-            <p className="text-center text-gray-400 text-[15px] py-24">No articles published yet.</p>
+            <p className="text-center text-gray-400 text-[15px] py-24">ابھی تک کوئی مضمون شائع نہیں ہوا۔</p>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {posts.map((post: any) => (
@@ -51,7 +51,7 @@ export default async function ArticlesPage() {
                   title={post.title}
                   description={post.excerpt || null}
                   badge={post.categories?.[0]?.title || null}
-                  ctaLabel="Read More"
+                  ctaLabel="مزید پڑھیں"
                 />
               ))}
             </div>

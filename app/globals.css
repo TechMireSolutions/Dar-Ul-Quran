@@ -9,7 +9,7 @@
 ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
 /* ─── Text Selection ─── */
-::selection { background: #cffafe; color: #0e7490; }
+::selection { background: #faefc4; color: #3d3100; }
 
 @layer base {
   html {
@@ -40,7 +40,9 @@
 
   /* Focus ring */
   :focus-visible {
-    @apply outline-2 outline-offset-2 outline-cyan-500 rounded;
+    outline: 2px solid #b8900e;
+    outline-offset: 2px;
+    border-radius: 0.25rem;
   }
 }
 
@@ -68,7 +70,7 @@
   right: 0;
   width: 0;
   height: 2px;
-  background: #0891b2;
+  background: #b8900e;
   border-radius: 1px;
   transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -101,7 +103,7 @@
 
 /* ─── Gradient text utilities ─── */
 .text-gradient-cyan {
-  background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+  background: linear-gradient(135deg, #b8900e 0%, #d4a820 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -116,9 +118,19 @@
 /* ─── Focus ring for buttons & links ─── */
 button:focus-visible,
 a:focus-visible {
-  outline: 2px solid #0891b2;
+  outline: 2px solid #b8900e;
   outline-offset: 3px;
   border-radius: 6px;
+}
+
+/* ─── Button text: override global Nastaliq line-height so text stays inside ─── */
+a[class*="rounded-full"],
+a[class*="rounded-xl"],
+a[class*="rounded-lg"],
+button[class*="rounded-full"],
+button[class*="rounded-xl"],
+button[class*="rounded-lg"] {
+  line-height: 1.4;
 }
 
 /* ─── Prevent layout shift on font load ─── */

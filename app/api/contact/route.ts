@@ -62,18 +62,18 @@ export async function POST(req: Request) {
         subject: `New ${purposeText}${appliedFor ? ` — ${appliedFor}` : ''} from ${fullName}`,
         html: `
           <div style="font-family:sans-serif;max-width:560px;margin:0 auto;color:#1e293b">
-            <div style="background:#0e7490;padding:24px 28px;border-radius:10px 10px 0 0">
+            <div style="background:#b8900e;padding:24px 28px;border-radius:10px 10px 0 0">
               <h2 style="margin:0;color:#fff;font-size:18px">New Contact Form Submission</h2>
             </div>
             <div style="background:#f8fafc;padding:24px 28px;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 10px 10px">
               <table style="width:100%;border-collapse:collapse;font-size:14px">
                 <tr><td style="padding:8px 0;color:#64748b;width:130px">Name</td>      <td style="padding:8px 0;font-weight:600">${fullName}</td></tr>
-                <tr><td style="padding:8px 0;color:#64748b">Email</td>     <td style="padding:8px 0"><a href="mailto:${email}" style="color:#0e7490">${email}</a></td></tr>
+                <tr><td style="padding:8px 0;color:#64748b">Email</td>     <td style="padding:8px 0"><a href="mailto:${email}" style="color:#b8900e">${email}</a></td></tr>
                 <tr><td style="padding:8px 0;color:#64748b">Phone</td>     <td style="padding:8px 0">${phone}</td></tr>
                 <tr><td style="padding:8px 0;color:#64748b">Country</td>   <td style="padding:8px 0">${country}</td></tr>
                 <tr><td style="padding:8px 0;color:#64748b">City</td>      <td style="padding:8px 0">${city}</td></tr>
                 <tr><td style="padding:8px 0;color:#64748b">Purpose</td>   <td style="padding:8px 0">${purposeText}</td></tr>
-                ${appliedFor ? `<tr><td style="padding:8px 0;color:#64748b">Applied For</td><td style="padding:8px 0;font-weight:600;color:#0e7490">${appliedFor}</td></tr>` : ''}
+                ${appliedFor ? `<tr><td style="padding:8px 0;color:#64748b">Applied For</td><td style="padding:8px 0;font-weight:600;color:#b8900e">${appliedFor}</td></tr>` : ''}
               </table>
               <div style="margin-top:16px;padding:16px;background:#fff;border:1px solid #e2e8f0;border-radius:8px">
                 <p style="margin:0 0 6px;font-size:12px;color:#64748b;text-transform:uppercase;letter-spacing:.05em">Message</p>

@@ -27,7 +27,7 @@ export async function generateMetadata(
   const { slug } = await params
   const course = await safeFetch(courseBySlugDeepQuery, { slug: slug[slug.length - 1] })
   return {
-    title: course?.seoTitle || course?.title || 'Course',
+    title: course?.seoTitle || course?.title || 'کورس',
     description: course?.seoDescription || course?.excerpt,
   }
 }
@@ -63,15 +63,15 @@ export default async function CourseCatchAllPage(
       <div className="bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <nav className="flex items-center flex-wrap gap-1 text-[12.5px] text-gray-400">
-            <Link href="/online-courses" className="hover:text-cyan-600 transition-colors font-medium">
-              Online Courses
+            <Link href="/online-courses" className="hover:text-dq-600 transition-colors font-medium">
+              آنلائن کورسز
             </Link>
             {ancestry.map(({ title, slug: aSlug }, i) => {
               const href = `/online-courses/${ancestry.slice(0, i + 1).map(a => a.slug).join('/')}`
               return (
                 <span key={aSlug} className="flex items-center gap-1">
                   <ChevronRight size={12} className="text-gray-300" />
-                  <Link href={href} className="hover:text-cyan-600 transition-colors">{title}</Link>
+                  <Link href={href} className="hover:text-dq-600 transition-colors">{title}</Link>
                 </span>
               )
             })}
@@ -87,9 +87,9 @@ export default async function CourseCatchAllPage(
 
         /* ── Parent: child course cards ────────────────────────────────────── */
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-          <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-cyan-600 mb-3">
-            <span className="w-5 h-px bg-cyan-400 inline-block" />
-            Courses
+          <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-dq-600 mb-3">
+            <span className="w-5 h-px bg-dq-400 inline-block" />
+            کورسز
           </p>
           <h1 className="font-bold text-[30px] text-slate-900 tracking-[-0.02em] mb-2">{course.title}</h1>
           {course.excerpt && (
@@ -103,7 +103,7 @@ export default async function CourseCatchAllPage(
                 image={child.featuredImage ? urlFor(child.featuredImage).width(600).height(450).url() : null}
                 title={child.title}
                 description={child.excerpt || [child.price, child.duration].filter(Boolean).join(' · ') || null}
-                ctaLabel={child.childCount > 0 ? 'View Courses' : 'Enroll Now'}
+                ctaLabel={child.childCount > 0 ? 'کورسز دیکھیں' : 'ابھی داخلہ لیں'}
               />
             ))}
           </div>
@@ -115,7 +115,7 @@ export default async function CourseCatchAllPage(
         <div>
 
           {/* ── 1. HERO ──────────────────────────────────────────────────────── */}
-          <section className="relative bg-slate-900 overflow-hidden">
+          <section className="relative bg-dq-900 overflow-hidden">
             {heroImageUrl && (
               <Image
                 src={heroImageUrl}
@@ -126,13 +126,13 @@ export default async function CourseCatchAllPage(
               />
             )}
             {/* Gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-b from-slate-900/60 via-transparent to-slate-900/80 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-b from-dq-900/60 via-transparent to-dq-900/80 pointer-events-none" />
 
             <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 text-center">
               {/* Eyebrow tags */}
               <div className="flex flex-wrap justify-center gap-2 mb-6">
                 {course.subject && (
-                  <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-cyan-400 border border-cyan-700/60 rounded-full px-3.5 py-1 bg-cyan-950/40">
+                  <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-dq-400 border border-dq-700/60 rounded-full px-3.5 py-1 bg-dq-950/40">
                     {course.subject}
                   </span>
                 )}
@@ -163,9 +163,9 @@ export default async function CourseCatchAllPage(
                   href={enrollHref}
                   target={course.enrollmentLink ? '_blank' : undefined}
                   rel={course.enrollmentLink ? 'noopener noreferrer' : undefined}
-                  className="group inline-flex items-center gap-2 bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-bold text-[14px] px-8 py-3.5 rounded-full shadow-[0_4px_24px_rgba(6,182,212,0.45)] transition-all duration-200 hover:-translate-y-px"
+                  className="group inline-flex items-center gap-2 bg-dq-500 hover:bg-dq-400 text-white font-bold text-[14px] px-8 py-3.5 rounded-full shadow-[0_4px_24px_rgba(184,144,14,0.45)] transition-all duration-200 hover:-translate-y-px"
                 >
-                  {course.heroCtaLabel || 'Enroll Now'}
+                  {course.heroCtaLabel || 'ابھی داخلہ لیں'}
                   <ArrowRight size={14} strokeWidth={2.5} className="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform" />
                 </a>
               </div>
@@ -194,7 +194,7 @@ export default async function CourseCatchAllPage(
               <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-12">
                   <h2 className="font-bold text-[24px] sm:text-[32px] text-slate-900 tracking-[-0.02em]">
-                    {course.outcomesHeading || "What You'll Achieve"}
+                    {course.outcomesHeading || 'آپ کیا حاصل کریں گے'}
                   </h2>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -203,8 +203,8 @@ export default async function CourseCatchAllPage(
                       key={i}
                       className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-200"
                     >
-                      <div className="w-10 h-10 rounded-xl bg-cyan-50 border border-cyan-100 flex items-center justify-center mb-4">
-                        <Check size={17} className="text-cyan-600" strokeWidth={2.5} />
+                      <div className="w-10 h-10 rounded-xl bg-dq-50 border border-dq-100 flex items-center justify-center mb-4">
+                        <Check size={17} className="text-dq-600" strokeWidth={2.5} />
                       </div>
                       <h3 className="font-bold text-[15px] text-slate-900 mb-2">{item.title}</h3>
                       {item.desc && (
@@ -223,16 +223,16 @@ export default async function CourseCatchAllPage(
               <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-12">
                   <h2 className="font-bold text-[24px] sm:text-[32px] text-slate-900 tracking-[-0.02em]">
-                    {course.whyUsHeading || 'Why Our Course Stands Out'}
+                    {course.whyUsHeading || 'ہمارا کورس کیوں منفرد ہے'}
                   </h2>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                   {course.whyUs.map((item: any, i: number) => (
                     <div
                       key={i}
-                      className="flex gap-4 p-6 rounded-2xl border border-gray-100 hover:border-cyan-100 hover:bg-cyan-50/30 transition-colors duration-200"
+                      className="flex gap-4 p-6 rounded-2xl border border-gray-100 hover:border-dq-100 hover:bg-dq-50/30 transition-colors duration-200"
                     >
-                      <div className="shrink-0 w-8 h-8 rounded-lg bg-cyan-600 text-white text-[12px] font-bold flex items-center justify-center mt-0.5">
+                      <div className="shrink-0 w-8 h-8 rounded-lg bg-dq-600 text-white text-[12px] font-bold flex items-center justify-center mt-0.5">
                         {i + 1}
                       </div>
                       <div>
@@ -250,20 +250,20 @@ export default async function CourseCatchAllPage(
 
           {/* ── 5. HOW IT WORKS ──────────────────────────────────────────────── */}
           {course.howItWorks?.length > 0 && (
-            <section className="bg-cyan-50 py-16 sm:py-20">
+            <section className="bg-dq-50 py-16 sm:py-20">
               <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-12">
                   <h2 className="font-bold text-[24px] sm:text-[32px] text-slate-900 tracking-[-0.02em]">
-                    {course.howItWorksHeading || 'How It Works'}
+                    {course.howItWorksHeading || 'یہ کیسے کام کرتا ہے'}
                   </h2>
                 </div>
                 <ol className="space-y-4">
                   {course.howItWorks.map((step: any, i: number) => (
                     <li
                       key={i}
-                      className="flex items-start gap-5 bg-white rounded-2xl px-6 py-5 border border-cyan-100 shadow-sm"
+                      className="flex items-start gap-5 bg-white rounded-2xl px-6 py-5 border border-dq-100 shadow-sm"
                     >
-                      <span className="shrink-0 w-9 h-9 rounded-full bg-cyan-600 text-white text-[13px] font-bold flex items-center justify-center">
+                      <span className="shrink-0 w-9 h-9 rounded-full bg-dq-600 text-white text-[13px] font-bold flex items-center justify-center">
                         {i + 1}
                       </span>
                       <div className="pt-0.5">
@@ -284,11 +284,11 @@ export default async function CourseCatchAllPage(
             <section className="bg-white py-16 sm:py-20">
               <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-12">
-                  <p className="text-[10.5px] font-bold uppercase tracking-[0.18em] text-cyan-600 mb-2">
-                    Plans
+                  <p className="text-[10.5px] font-bold uppercase tracking-[0.18em] text-dq-600 mb-2">
+                    پلانز
                   </p>
                   <h2 className="font-bold text-[24px] sm:text-[32px] text-slate-900 tracking-[-0.02em]">
-                    {course.pricingHeading || 'Affordable Plans'}
+                    {course.pricingHeading || 'سستے پلانز'}
                   </h2>
                 </div>
                 <div className="space-y-10">
@@ -296,7 +296,7 @@ export default async function CourseCatchAllPage(
                     <div key={ti}>
                       {table.label && (
                         <h3 className="font-bold text-[14.5px] text-slate-700 mb-4 flex items-center gap-2">
-                          <span className="w-5 h-px bg-cyan-400 inline-block" />
+                          <span className="w-5 h-px bg-dq-400 inline-block" />
                           {table.label}
                         </h3>
                       )}
@@ -305,11 +305,11 @@ export default async function CourseCatchAllPage(
                           <table className="w-full text-[13.5px] border-collapse">
                             <thead>
                               <tr className="bg-slate-800 text-white">
-                                <th className="text-left font-semibold px-5 py-4 rounded-tl-2xl">Study Plan</th>
-                                <th className="text-left font-semibold px-5 py-4">Weekly Frequency</th>
-                                <th className="text-left font-semibold px-5 py-4">Monthly Classes</th>
-                                <th className="text-left font-semibold px-5 py-4">Fee Per Class</th>
-                                <th className="text-left font-semibold px-5 py-4 rounded-tr-2xl">Monthly Total</th>
+                                <th className="text-right font-semibold px-5 py-4 rounded-tr-2xl">مطالعہ پلان</th>
+                                <th className="text-right font-semibold px-5 py-4">ہفتہ وار تعداد</th>
+                                <th className="text-right font-semibold px-5 py-4">ماہانہ کلاسز</th>
+                                <th className="text-right font-semibold px-5 py-4">فی کلاس فیس</th>
+                                <th className="text-right font-semibold px-5 py-4 rounded-tl-2xl">ماہانہ کل</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -322,7 +322,7 @@ export default async function CourseCatchAllPage(
                                   <td className="px-5 py-3.5 text-gray-600">{row.weeklyFrequency}</td>
                                   <td className="px-5 py-3.5 text-gray-600">{row.monthlyClasses}</td>
                                   <td className="px-5 py-3.5 text-gray-600">{row.feePerClass}</td>
-                                  <td className="px-5 py-3.5 font-semibold text-cyan-700">{row.monthlyTotal}</td>
+                                  <td className="px-5 py-3.5 font-semibold text-dq-700">{row.monthlyTotal}</td>
                                 </tr>
                               ))}
                             </tbody>
@@ -338,7 +338,7 @@ export default async function CourseCatchAllPage(
 
           {/* ── 7. CTA BANNER ────────────────────────────────────────────────── */}
           {(course.ctaHeading || course.ctaSubtitle) && (
-            <section className="bg-slate-900 py-16 sm:py-20">
+            <section className="bg-dq-900 py-16 sm:py-20">
               <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
                 {course.ctaHeading && (
                   <h2 className="font-bold text-[26px] sm:text-[34px] text-white tracking-[-0.02em] mb-4">
@@ -353,9 +353,9 @@ export default async function CourseCatchAllPage(
                     href={enrollHref}
                     target={course.enrollmentLink ? '_blank' : undefined}
                     rel={course.enrollmentLink ? 'noopener noreferrer' : undefined}
-                    className="group inline-flex items-center gap-2 bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-bold text-[14px] px-8 py-3.5 rounded-full shadow-[0_4px_20px_rgba(6,182,212,0.3)] transition-all duration-200 hover:-translate-y-px"
+                    className="group inline-flex items-center gap-2 bg-dq-500 hover:bg-dq-400 text-white font-bold text-[14px] px-8 py-3.5 rounded-full shadow-[0_4px_20px_rgba(184,144,14,0.3)] transition-all duration-200 hover:-translate-y-px"
                   >
-                    {course.ctaBtn1Label || 'Join Now'}
+                    {course.ctaBtn1Label || 'ابھی شامل ہوں'}
                     <ArrowRight size={14} strokeWidth={2.5} className="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform" />
                   </a>
                   <a
@@ -365,7 +365,7 @@ export default async function CourseCatchAllPage(
                     className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/15 text-white text-[14px] font-semibold px-8 py-3.5 rounded-full border border-white/20 transition-all duration-200 hover:-translate-y-px"
                   >
                     <MessageCircle size={14} />
-                    {course.ctaBtn2Label || 'WhatsApp Us'}
+                    {course.ctaBtn2Label || 'واٹس ایپ کریں'}
                   </a>
                 </div>
                 {(site?.email || site?.phone) && (
@@ -410,7 +410,7 @@ export default async function CourseCatchAllPage(
               <div className="max-w-3xl mx-auto px-4 sm:px-6">
                 <div className="text-center mb-10">
                   <h2 className="font-bold text-[24px] sm:text-[30px] text-slate-900 tracking-[-0.02em]">
-                    {course.faqSectionHeading || 'FAQs'}
+                    {course.faqSectionHeading || 'اکثر پوچھے گئے سوالات'}
                   </h2>
                 </div>
                 <div className="space-y-3">
@@ -419,7 +419,7 @@ export default async function CourseCatchAllPage(
                       key={i}
                       className="group bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm"
                     >
-                      <summary className="flex items-center justify-between gap-4 px-6 py-5 cursor-pointer list-none font-semibold text-[15px] text-slate-900 hover:text-cyan-700 transition-colors">
+                      <summary className="flex items-center justify-between gap-4 px-6 py-5 cursor-pointer list-none font-semibold text-[15px] text-slate-900 hover:text-dq-700 transition-colors">
                         {item.question}
                         <ChevronRight
                           size={15}
@@ -444,7 +444,7 @@ export default async function CourseCatchAllPage(
               <div className="max-w-3xl mx-auto px-4 sm:px-6
                 prose prose-slate prose-lg max-w-none
                 prose-headings:font-bold prose-headings:tracking-tight
-                prose-a:text-cyan-600 prose-a:no-underline hover:prose-a:underline">
+                prose-a:text-dq-500 prose-a:no-underline hover:prose-a:underline">
                 <PortableText value={course.body} />
               </div>
             </section>

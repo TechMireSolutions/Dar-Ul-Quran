@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params
   const post = await safeFetch(postBySlugQuery, { slug })
   return {
-    title: post?.seoTitle ?? post?.title ?? 'Article',
+    title: post?.seoTitle ?? post?.title ?? 'مضمون',
     description: post?.seoDescription ?? post?.excerpt,
     openGraph: post?.mainImage ? { images: [urlFor(post.mainImage).width(1200).height(630).url()] } : undefined,
   }
@@ -34,7 +34,7 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
           <Link href="/articles"
             className="inline-flex items-center gap-1.5 text-[13px] font-medium text-gray-500 hover:text-slate-900 transition-colors group">
             <ArrowLeft size={13} strokeWidth={2} className="rtl:rotate-180 group-hover:-translate-x-0.5 rtl:group-hover:translate-x-0.5 transition-transform" />
-            Back to Articles
+            مضامین پر واپس
           </Link>
         </div>
       </div>
@@ -45,7 +45,7 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
           <div className="flex flex-wrap gap-2 mb-4 sm:mb-5">
             {post.categories.map((cat: any) => (
               <span key={cat._id}
-                className="text-[10.5px] font-bold uppercase tracking-[0.1em] bg-cyan-50 text-cyan-700 border border-cyan-100 px-3 py-1 rounded-full">
+                className="text-[10.5px] font-bold uppercase tracking-[0.1em] bg-dq-50 text-dq-700 border border-dq-100 px-3 py-1 rounded-full">
                 {cat.title}
               </span>
             ))}
@@ -85,9 +85,9 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
           <div className="prose prose-slate prose-base sm:prose-lg max-w-none
             prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-slate-900
             prose-p:text-gray-700 prose-p:leading-[1.8]
-            prose-a:text-cyan-600 prose-a:no-underline hover:prose-a:underline
+            prose-a:text-dq-500 prose-a:no-underline hover:prose-a:underline
             prose-strong:text-slate-900 prose-strong:font-semibold
-            prose-blockquote:border-l-4 prose-blockquote:border-cyan-400 prose-blockquote:text-slate-600 prose-blockquote:not-italic
+            prose-blockquote:border-l-4 prose-blockquote:border-dq-400 prose-blockquote:text-slate-600 prose-blockquote:not-italic
             prose-li:text-gray-700">
             <PortableText value={post.body} />
           </div>

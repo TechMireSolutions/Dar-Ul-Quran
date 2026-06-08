@@ -15,22 +15,22 @@ interface HeroSectionProps {
   cta2Link?:    string
 }
 
-const DEFAULT_LINES = ['Learn Quran, Fiqh &', 'More From Shia', 'Scholars.']
+const DEFAULT_LINES = ['قرآن، فقہ اور مزید', 'شیعہ علماء سے', 'سیکھیں۔']
 
 const STATS = [
-  { value: '500+', label: 'Students',  Icon: Users         },
-  { value: '20+',  label: 'Courses',   Icon: BookOpen      },
-  { value: '10+',  label: 'Scholars',  Icon: GraduationCap },
+  { value: '500+', label: 'طلباء',  Icon: Users         },
+  { value: '20+',  label: 'کورسز',  Icon: BookOpen      },
+  { value: '10+',  label: 'علماء',  Icon: GraduationCap },
 ]
 
 export default function HeroSection({
-  subtitle    = 'Dar Ul Quran — Faith. Knowledge. Access.',
+  subtitle    = 'دار القرآن — ایمان۔ علم۔ رسائی۔',
   title,
-  description = 'At Dar Ul Quran, we bring accessible and affordable Shia Islamic education to everyone, no matter where you are in the world.',
+  description = 'دار القرآن میں ہم ہر شخص کے لیے آسان اور سستی شیعہ اسلامی تعلیم پیش کرتے ہیں، چاہے آپ دنیا میں کہیں بھی ہوں۔',
   heroImage,
-  cta1Label   = 'Explore Courses',
+  cta1Label   = 'کورسز دیکھیں',
   cta1Link    = '/online-courses',
-  cta2Label   = 'Our Services',
+  cta2Label   = 'ہماری خدمات',
   cta2Link    = '/services',
 }: HeroSectionProps) {
   const [show, setShow] = useState(false)
@@ -60,9 +60,9 @@ export default function HeroSection({
         opacity: 0.5,
       }} />
 
-      {/* Soft cyan glow */}
+      {/* Soft gold glow */}
       <div className="absolute -left-24 top-1/2 -translate-y-1/2 w-[600px] h-[600px] pointer-events-none rounded-full"
-        style={{ background: 'radial-gradient(circle, rgba(8,145,178,0.05) 0%, transparent 65%)' }} />
+        style={{ background: 'radial-gradient(circle, rgba(184,144,14,0.05) 0%, transparent 65%)' }} />
 
       {/* Hero image — full bg on mobile, right-panel on md+ */}
       <div
@@ -72,7 +72,7 @@ export default function HeroSection({
         {heroImage ? (
           <Image src={heroImage} alt="Hero" fill priority className="object-cover object-center md:object-left-top" />
         ) : (
-          <div className="w-full h-full bg-gradient-to-br from-slate-100 via-cyan-50/20 to-white" />
+          <div className="w-full h-full bg-gradient-to-br from-slate-100 via-dq-50/20 to-white" />
         )}
         {/* Mobile overlay — keeps text readable over the full-bleed image */}
         <div className="absolute inset-0 bg-white/90 md:hidden" />
@@ -90,7 +90,7 @@ export default function HeroSection({
           {/* Badge */}
           <div style={a(0)} className="inline-flex items-center gap-2 mb-5 bg-white border border-gray-200 shadow-sm rounded-full px-3.5 py-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse flex-shrink-0" />
-            <span className="text-[11px] font-semibold text-gray-600 tracking-wide">Enrolling Now</span>
+            <span className="text-[11px] font-semibold text-gray-600 tracking-wide">داخلے جاری ہیں</span>
           </div>
 
           {/* Kicker */}
@@ -103,7 +103,7 @@ export default function HeroSection({
             {titleLines.map((line, i) => (
               <span key={i} style={{ ...a(140 + i * 80), display: 'block' }}>
                 {i === titleLines.length - 1
-                  ? <span style={{ color: '#0891b2' }}>{line}</span>
+                  ? <span style={{ color: '#b8900e' }}>{line}</span>
                   : <span style={{ color: '#0f172a' }}>{line}</span>
                 }
               </span>
@@ -118,8 +118,8 @@ export default function HeroSection({
           {/* CTAs */}
           <div style={a(450)} className="flex items-center gap-3 flex-wrap">
             <Link href={cta1Link}
-              className="group inline-flex items-center gap-2 bg-cyan-600 hover:bg-cyan-700 text-white text-[13px] sm:text-[13.5px] font-semibold px-5 sm:px-6 py-2.5 rounded-full
-                shadow-[0_4px_16px_rgba(8,145,178,0.35)] hover:shadow-[0_6px_24px_rgba(8,145,178,0.5)]
+              className="group inline-flex items-center gap-2 bg-dq-600 hover:bg-dq-700 text-white text-[13px] sm:text-[13.5px] font-semibold px-5 sm:px-6 py-2.5 rounded-full
+                shadow-[0_4px_16px_rgba(184,144,14,0.35)] hover:shadow-[0_6px_24px_rgba(184,144,14,0.5)]
                 transition-all duration-200 hover:-translate-y-px">
               {cta1Label}
               <ArrowRight size={13} strokeWidth={2.5} className="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform duration-150" />
@@ -136,8 +136,8 @@ export default function HeroSection({
           <div style={a(550)} className="flex items-center gap-5 sm:gap-6 mt-8 pt-7 border-t border-gray-100 flex-wrap">
             {STATS.map(({ value, label, Icon }) => (
               <div key={label} className="flex items-center gap-2.5">
-                <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-cyan-50 border border-cyan-100 flex items-center justify-center flex-shrink-0">
-                  <Icon size={14} className="text-cyan-600" strokeWidth={1.75} />
+                <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-dq-50 border border-dq-100 flex items-center justify-center flex-shrink-0">
+                  <Icon size={14} className="text-dq-600" strokeWidth={1.75} />
                 </div>
                 <div>
                   <p className="text-[16px] sm:text-[17px] font-bold leading-none tracking-tight" style={{ color: '#0f172a' }}>{value}</p>
