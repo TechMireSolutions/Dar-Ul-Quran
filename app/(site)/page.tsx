@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
-import { client } from '@/sanity/lib/client'
+import { safeFetch } from '@/sanity/lib/client'
 import { urlFor } from '@/sanity/lib/image'
 import {
   featuredPostsQuery,
@@ -17,11 +17,11 @@ export const dynamic = 'force-dynamic'
 
 export default async function HomePage() {
   const [posts, services, courses, hp, testimonials] = await Promise.all([
-    client.fetch(featuredPostsQuery),
-    client.fetch(topLevelServicesQuery),
-    client.fetch(topLevelCoursesQuery),
-    client.fetch(homepageSettingsQuery),
-    client.fetch(testimonialsQuery),
+    safeFetch(featuredPostsQuery),
+    safeFetch(topLevelServicesQuery),
+    safeFetch(topLevelCoursesQuery),
+    safeFetch(homepageSettingsQuery),
+    safeFetch(testimonialsQuery),
   ])
 
   const heroImageUrl = hp?.heroImage
@@ -112,7 +112,7 @@ export default async function HomePage() {
                   transition-all duration-200 hover:-translate-y-px"
               >
                 {hp?.aboutCtaLabel || 'Learn About Us'}
-                <ArrowRight size={13} strokeWidth={2.5} className="group-hover:translate-x-0.5 transition-transform duration-150" />
+                <ArrowRight size={13} strokeWidth={2.5} className="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform duration-150" />
               </Link>
             </div>
 
@@ -211,7 +211,7 @@ export default async function HomePage() {
                 className="group inline-flex items-center gap-1.5 text-[13px] font-semibold text-cyan-600 hover:text-cyan-700 transition-colors flex-shrink-0 sm:ml-6"
               >
                 View all
-                <ArrowRight size={13} strokeWidth={2.5} className="group-hover:translate-x-0.5 transition-transform duration-150" />
+                <ArrowRight size={13} strokeWidth={2.5} className="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform duration-150" />
               </Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -325,7 +325,7 @@ export default async function HomePage() {
               transition-all duration-200 hover:-translate-y-px"
           >
             {hp?.donateCtaLabel || 'Donate Now'}
-            <ArrowRight size={13} strokeWidth={2.5} className="group-hover:translate-x-0.5 transition-transform duration-150"/>
+            <ArrowRight size={13} strokeWidth={2.5} className="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform duration-150"/>
           </Link>
 
         </div>

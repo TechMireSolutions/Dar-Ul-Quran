@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRight, ChevronRight, MessageCircle, Plus, Check } from 'lucide-react'
-import { client } from '@/sanity/lib/client'
+import { safeFetch } from '@/sanity/lib/client'
 import { urlFor } from '@/sanity/lib/image'
 import { serviceBySlugDeepQuery, siteSettingsQuery } from '@/sanity/lib/queries'
 import { PortableText } from '@portabletext/react'
@@ -25,7 +25,7 @@ export async function generateMetadata(
   { params }: { params: Promise<{ slug: string[] }> }
 ): Promise<Metadata> {
   const { slug } = await params
-  const service = await client.fetch(serviceBySlugDeepQuery, { slug: slug[slug.length - 1] })
+  const service = await safeFetch(serviceBySlugDeepQuery, { slug: slug[slug.length - 1] })
   return {
     title:       service?.seoTitle       || service?.title || 'Service',
     description: service?.seoDescription || service?.excerpt,
@@ -39,8 +39,8 @@ export default async function ServiceCatchAllPage(
   const currentSlug = slug[slug.length - 1]
 
   const [service, site] = await Promise.all([
-    client.fetch(serviceBySlugDeepQuery, { slug: currentSlug }),
-    client.fetch(siteSettingsQuery),
+    safeFetch(serviceBySlugDeepQuery, { slug: currentSlug }),
+    safeFetch(siteSettingsQuery),
   ])
   if (!service) notFound()
 
@@ -254,7 +254,7 @@ export default async function ServiceCatchAllPage(
                   <Link href="/contact"
                     className="group inline-flex items-center gap-2 bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-bold text-[14px] px-8 py-3.5 rounded-full shadow-[0_4px_20px_rgba(6,182,212,0.3)] transition-all duration-200 hover:-translate-y-px">
                     {service.ctaBtn1Label || 'Get Started'}
-                    <ArrowRight size={14} strokeWidth={2.5} className="group-hover:translate-x-0.5 transition-transform" />
+                    <ArrowRight size={14} strokeWidth={2.5} className="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform" />
                   </Link>
                   <a href={whatsappHref} target="_blank" rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/15 text-white text-[14px] font-semibold px-8 py-3.5 rounded-full border border-white/20 transition-all duration-200 hover:-translate-y-px">

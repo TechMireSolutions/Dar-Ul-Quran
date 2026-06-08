@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { client } from '@/sanity/lib/client'
+import { safeFetch } from '@/sanity/lib/client'
 import { siteSettingsQuery, pageBySlugQuery } from '@/sanity/lib/queries'
 import { PortableText } from '@portabletext/react'
 import { ArrowRight } from 'lucide-react'
@@ -8,7 +8,7 @@ import { ArrowRight } from 'lucide-react'
 export const dynamic = 'force-dynamic'
 
 export async function generateMetadata(): Promise<Metadata> {
-  const page = await client.fetch(pageBySlugQuery, { slug: 'donate' })
+  const page = await safeFetch(pageBySlugQuery, { slug: 'donate' })
   return {
     title: page?.seoTitle || page?.title || 'Donate',
     description: page?.seoDescription || page?.subtitle,
@@ -17,8 +17,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function DonatePage() {
   const [settings, page] = await Promise.all([
-    client.fetch(siteSettingsQuery),
-    client.fetch(pageBySlugQuery, { slug: 'donate' }),
+    safeFetch(siteSettingsQuery),
+    safeFetch(pageBySlugQuery, { slug: 'donate' }),
   ])
 
   const causes: { title: string; desc: string }[] = settings?.donateCauses?.length
@@ -92,7 +92,7 @@ export default async function DonatePage() {
                   <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944 2.28a.78.78 0 0 1 .77-.65h7.794c2.728 0 4.636.602 5.668 1.79.49.56.802 1.147.952 1.795.157.676.13 1.484-.08 2.47l-.007.045v.387l.277.157c.232.13.442.29.625.472.31.318.524.72.636 1.194.115.483.103 1.056-.036 1.705-.164.76-.428 1.42-.785 1.963a5.09 5.09 0 0 1-1.247 1.39c-.478.365-1.04.64-1.674.82-.617.175-1.32.264-2.09.264h-.497a1.41 1.41 0 0 0-1.393 1.19l-.112.61-.58 3.672-.026.14a.78.78 0 0 1-.77.648z" />
                 </svg>
                 {settings?.donatePayOnlineLabel || 'Donate via PayPal'}
-                <ArrowRight size={14} strokeWidth={2.5} className="group-hover:translate-x-0.5 transition-transform" />
+                <ArrowRight size={14} strokeWidth={2.5} className="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform" />
               </a>
               <Link href="/contact"
                 className="inline-flex items-center justify-center text-[13px] font-medium text-slate-300 hover:text-white border border-white/20 hover:border-white/50 px-6 py-3 rounded-full transition-all duration-200">

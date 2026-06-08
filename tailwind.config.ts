@@ -9,8 +9,8 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans:    ['var(--font-jakarta,system-ui)', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
-        display: ['var(--font-jakarta,system-ui)', 'system-ui', 'sans-serif'],
+        sans:    ['var(--font-urdu,system-ui)', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+        display: ['var(--font-urdu,system-ui)', 'system-ui', 'sans-serif'],
       },
       colors: {
         brand: {

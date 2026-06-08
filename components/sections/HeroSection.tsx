@@ -66,7 +66,7 @@ export default function HeroSection({
 
       {/* Hero image — full bg on mobile, right-panel on md+ */}
       <div
-        className="absolute inset-0 md:inset-auto md:right-0 md:top-0 md:h-full md:w-[55%] pointer-events-none select-none"
+        className="absolute inset-0 md:inset-auto md:right-0 rtl:md:right-auto rtl:md:left-0 md:top-0 md:h-full md:w-[55%] pointer-events-none select-none"
         style={{ opacity: show ? 1 : 0, transition: 'opacity 1s ease 100ms' }}
       >
         {heroImage ? (
@@ -78,7 +78,7 @@ export default function HeroSection({
         <div className="absolute inset-0 bg-white/90 md:hidden" />
         <div className="absolute inset-0 bg-gradient-to-b from-white/60 via-transparent to-white/80 md:hidden" />
         {/* Desktop overlays */}
-        <div className="absolute inset-0 hidden md:block bg-gradient-to-r from-white via-white/55 to-transparent" />
+        <div className="absolute inset-0 hidden md:block bg-gradient-to-r rtl:bg-gradient-to-l from-white via-white/55 to-transparent" />
         <div className="absolute inset-0 hidden md:block bg-gradient-to-t from-white/15 to-transparent" />
       </div>
 
@@ -122,7 +122,7 @@ export default function HeroSection({
                 shadow-[0_4px_16px_rgba(8,145,178,0.35)] hover:shadow-[0_6px_24px_rgba(8,145,178,0.5)]
                 transition-all duration-200 hover:-translate-y-px">
               {cta1Label}
-              <ArrowRight size={13} strokeWidth={2.5} className="group-hover:translate-x-0.5 transition-transform duration-150" />
+              <ArrowRight size={13} strokeWidth={2.5} className="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform duration-150" />
             </Link>
             <Link href={cta2Link}
               className="inline-flex items-center text-[13px] sm:text-[13.5px] font-medium text-slate-700 hover:text-slate-900

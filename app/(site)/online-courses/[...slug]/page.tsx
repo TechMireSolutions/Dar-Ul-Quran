@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRight, ChevronRight, Check, MessageCircle, Mail, Phone } from 'lucide-react'
-import { client } from '@/sanity/lib/client'
+import { safeFetch } from '@/sanity/lib/client'
 import { urlFor } from '@/sanity/lib/image'
 import { courseBySlugDeepQuery, siteSettingsQuery } from '@/sanity/lib/queries'
 import { PortableText } from '@portabletext/react'
@@ -25,7 +25,7 @@ export async function generateMetadata(
   { params }: { params: Promise<{ slug: string[] }> }
 ): Promise<Metadata> {
   const { slug } = await params
-  const course = await client.fetch(courseBySlugDeepQuery, { slug: slug[slug.length - 1] })
+  const course = await safeFetch(courseBySlugDeepQuery, { slug: slug[slug.length - 1] })
   return {
     title: course?.seoTitle || course?.title || 'Course',
     description: course?.seoDescription || course?.excerpt,
@@ -39,8 +39,8 @@ export default async function CourseCatchAllPage(
   const currentSlug = slug[slug.length - 1]
 
   const [course, site] = await Promise.all([
-    client.fetch(courseBySlugDeepQuery, { slug: currentSlug }),
-    client.fetch(siteSettingsQuery),
+    safeFetch(courseBySlugDeepQuery, { slug: currentSlug }),
+    safeFetch(siteSettingsQuery),
   ])
   if (!course) notFound()
 
@@ -166,7 +166,7 @@ export default async function CourseCatchAllPage(
                   className="group inline-flex items-center gap-2 bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-bold text-[14px] px-8 py-3.5 rounded-full shadow-[0_4px_24px_rgba(6,182,212,0.45)] transition-all duration-200 hover:-translate-y-px"
                 >
                   {course.heroCtaLabel || 'Enroll Now'}
-                  <ArrowRight size={14} strokeWidth={2.5} className="group-hover:translate-x-0.5 transition-transform" />
+                  <ArrowRight size={14} strokeWidth={2.5} className="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform" />
                 </a>
               </div>
             </div>
@@ -356,7 +356,7 @@ export default async function CourseCatchAllPage(
                     className="group inline-flex items-center gap-2 bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-bold text-[14px] px-8 py-3.5 rounded-full shadow-[0_4px_20px_rgba(6,182,212,0.3)] transition-all duration-200 hover:-translate-y-px"
                   >
                     {course.ctaBtn1Label || 'Join Now'}
-                    <ArrowRight size={14} strokeWidth={2.5} className="group-hover:translate-x-0.5 transition-transform" />
+                    <ArrowRight size={14} strokeWidth={2.5} className="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform" />
                   </a>
                   <a
                     href={whatsappHref}

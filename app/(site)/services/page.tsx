@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { client } from '@/sanity/lib/client'
+import { safeFetch } from '@/sanity/lib/client'
 import { urlFor } from '@/sanity/lib/image'
 import { topLevelServicesQuery, pageBySlugQuery } from '@/sanity/lib/queries'
 import ContentCard from '@/components/ui/ContentCard'
@@ -7,7 +7,7 @@ import ContentCard from '@/components/ui/ContentCard'
 export const dynamic = 'force-dynamic'
 
 export async function generateMetadata(): Promise<Metadata> {
-  const page = await client.fetch(pageBySlugQuery, { slug: 'services' })
+  const page = await safeFetch(pageBySlugQuery, { slug: 'services' })
   return {
     title: page?.seoTitle || page?.title || 'Services',
     description: page?.seoDescription || page?.subtitle,
@@ -16,8 +16,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function ServicesPage() {
   const [services, page] = await Promise.all([
-    client.fetch(topLevelServicesQuery),
-    client.fetch(pageBySlugQuery, { slug: 'services' }),
+    safeFetch(topLevelServicesQuery),
+    safeFetch(pageBySlugQuery, { slug: 'services' }),
   ])
 
   return (

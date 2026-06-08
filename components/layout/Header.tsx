@@ -97,7 +97,7 @@ export default function Header({ darulQuranUrl, siteName = 'Dar Ul Quran', logoU
           </nav>
 
           {/* Search — desktop */}
-          <div className="hidden lg:flex items-center ml-auto">
+          <div className="hidden lg:flex items-center ms-auto">
             {searchOpen ? (
               <form onSubmit={handleSearch}
                 className="flex items-center rounded-full overflow-hidden border border-cyan-400 shadow-[0_0_0_3px_rgba(8,145,178,0.12)] animate-scale-in">
@@ -128,7 +128,7 @@ export default function Header({ darulQuranUrl, siteName = 'Dar Ul Quran', logoU
 
           {/* Mobile hamburger */}
           <button
-            className="lg:hidden ml-auto w-9 h-9 flex items-center justify-center rounded-full text-gray-600 hover:bg-gray-100 transition-colors"
+            className="lg:hidden ms-auto w-9 h-9 flex items-center justify-center rounded-full text-gray-600 hover:bg-gray-100 transition-colors"
             onClick={() => setMenuOpen(true)}
             aria-label="Open menu"
           >

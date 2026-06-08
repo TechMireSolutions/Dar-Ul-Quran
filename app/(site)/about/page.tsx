@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { client } from '@/sanity/lib/client'
+import { safeFetch } from '@/sanity/lib/client'
 import { pageBySlugQuery, siteSettingsQuery } from '@/sanity/lib/queries'
 import { PortableText } from '@portabletext/react'
 import { ArrowRight, BookOpen, Heart, Star } from 'lucide-react'
@@ -8,7 +8,7 @@ import { ArrowRight, BookOpen, Heart, Star } from 'lucide-react'
 export const dynamic = 'force-dynamic'
 
 export async function generateMetadata(): Promise<Metadata> {
-  const page = await client.fetch(pageBySlugQuery, { slug: 'about' })
+  const page = await safeFetch(pageBySlugQuery, { slug: 'about' })
   return {
     title: page?.seoTitle || page?.title || 'About Us',
     description: page?.seoDescription || page?.subtitle,
@@ -17,8 +17,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function AboutPage() {
   const [page, settings] = await Promise.all([
-    client.fetch(pageBySlugQuery, { slug: 'about' }),
-    client.fetch(siteSettingsQuery),
+    safeFetch(pageBySlugQuery, { slug: 'about' }),
+    safeFetch(siteSettingsQuery),
   ])
 
   const siteName = settings?.siteName || 'Dar Ul Quran'
@@ -90,7 +90,7 @@ export default async function AboutPage() {
               className="group inline-flex items-center gap-2 bg-cyan-600 hover:bg-cyan-700 text-white text-[13.5px] font-semibold px-5 sm:px-6 py-2.5 rounded-full
                 shadow-[0_4px_16px_rgba(8,145,178,0.3)] transition-all duration-200 hover:-translate-y-px">
               Contact Us
-              <ArrowRight size={13} strokeWidth={2.5} className="group-hover:translate-x-0.5 transition-transform duration-150" />
+              <ArrowRight size={13} strokeWidth={2.5} className="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform duration-150" />
             </Link>
             <Link href="/online-courses"
               className="inline-flex items-center text-[13.5px] font-medium text-slate-700 hover:text-slate-900

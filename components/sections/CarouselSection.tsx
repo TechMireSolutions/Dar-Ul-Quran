@@ -122,7 +122,7 @@ export default function CarouselSection({
               <ArrowRight
                 size={13}
                 strokeWidth={2.5}
-                className="group-hover:translate-x-0.5 transition-transform duration-150"
+                className="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform duration-150"
               />
             </Link>
           </div>

@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft, CalendarDays, User } from 'lucide-react'
-import { client } from '@/sanity/lib/client'
+import { safeFetch } from '@/sanity/lib/client'
 import { urlFor } from '@/sanity/lib/image'
 import { postBySlugQuery } from '@/sanity/lib/queries'
 import { PortableText } from '@portabletext/react'
@@ -12,7 +12,7 @@ export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
-  const post = await client.fetch(postBySlugQuery, { slug })
+  const post = await safeFetch(postBySlugQuery, { slug })
   return {
     title: post?.seoTitle ?? post?.title ?? 'Article',
     description: post?.seoDescription ?? post?.excerpt,
@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function ArticleDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const post = await client.fetch(postBySlugQuery, { slug })
+  const post = await safeFetch(postBySlugQuery, { slug })
   if (!post) notFound()
 
   return (
@@ -33,7 +33,7 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <Link href="/articles"
             className="inline-flex items-center gap-1.5 text-[13px] font-medium text-gray-500 hover:text-slate-900 transition-colors group">
-            <ArrowLeft size={13} strokeWidth={2} className="group-hover:-translate-x-0.5 transition-transform" />
+            <ArrowLeft size={13} strokeWidth={2} className="rtl:rotate-180 group-hover:-translate-x-0.5 rtl:group-hover:translate-x-0.5 transition-transform" />
             Back to Articles
           </Link>
         </div>

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { client } from '@/sanity/lib/client'
+import { safeFetch } from '@/sanity/lib/client'
 import { siteSettingsQuery, pageBySlugQuery, allCoursesForFormQuery, allServicesForFormQuery } from '@/sanity/lib/queries'
 import { PortableText } from '@portabletext/react'
 import { Mail, Phone, MessageCircle, MapPin, Facebook, Youtube } from 'lucide-react'
@@ -8,7 +8,7 @@ import ContactForm from './ContactForm'
 export const dynamic = 'force-dynamic'
 
 export async function generateMetadata(): Promise<Metadata> {
-  const page = await client.fetch(pageBySlugQuery, { slug: 'contact' })
+  const page = await safeFetch(pageBySlugQuery, { slug: 'contact' })
   return {
     title: page?.seoTitle || page?.title || 'Contact Us',
     description: page?.seoDescription || page?.subtitle,
@@ -17,10 +17,10 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function ContactPage() {
   const [settings, page, courses, services] = await Promise.all([
-    client.fetch(siteSettingsQuery),
-    client.fetch(pageBySlugQuery, { slug: 'contact' }),
-    client.fetch(allCoursesForFormQuery),
-    client.fetch(allServicesForFormQuery),
+    safeFetch(siteSettingsQuery),
+    safeFetch(pageBySlugQuery, { slug: 'contact' }),
+    safeFetch(allCoursesForFormQuery),
+    safeFetch(allServicesForFormQuery),
   ])
 
   const contactItems = [

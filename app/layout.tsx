@@ -1,38 +1,45 @@
 import type { Metadata } from 'next'
-import { Plus_Jakarta_Sans } from 'next/font/google'
-import { client } from '@/sanity/lib/client'
+import { Noto_Nastaliq_Urdu } from 'next/font/google'
+import { safeFetch } from '@/sanity/lib/client'
 import { urlFor } from '@/sanity/lib/image'
 import './globals.css'
 
-const jakarta = Plus_Jakarta_Sans({
-  subsets:  ['latin'],
-  weight:   ['300', '400', '500', '600', '700', '800'],
-  variable: '--font-jakarta',
+const urduFont = Noto_Nastaliq_Urdu({
+  subsets:  ['arabic'],
+  weight:   ['400', '500', '600', '700'],
+  variable: '--font-urdu',
   display:  'swap',
 })
 
 export async function generateMetadata(): Promise<Metadata> {
-  const settings = await client.fetch(
-    `*[_type == "siteSettings"][0]{ siteName, description, favicon }`,
-    {},
-    { next: { revalidate: 3600 } }
-  )
+  try {
+    const settings = await safeFetch(
+      `*[_type == "siteSettings"][0]{ siteName, description, favicon }`,
+      {},
+      { next: { revalidate: 3600 } }
+    )
 
-  const siteName   = settings?.siteName   || 'Dar Ul Quran'
-  const faviconUrl = settings?.favicon ? urlFor(settings.favicon).width(256).height(256).url() : undefined
+    const siteName   = settings?.siteName   || 'Dar Ul Quran'
+    const faviconUrl = settings?.favicon ? urlFor(settings.favicon).width(256).height(256).url() : undefined
 
-  return {
-    title:       { default: siteName, template: `%s | ${siteName}` },
-    description: settings?.description || 'Shia Islamic knowledge, online courses, and services',
-    icons:       faviconUrl ? { icon: faviconUrl, apple: faviconUrl } : undefined,
+    return {
+      title:       { default: siteName, template: `%s | ${siteName}` },
+      description: settings?.description || 'اسلامی علم، آنلائن کورسز اور خدمات',
+      icons:       faviconUrl ? { icon: faviconUrl, apple: faviconUrl } : undefined,
+    }
+  } catch {
+    return {
+      title:       { default: 'Dar Ul Quran', template: '%s | Dar Ul Quran' },
+      description: 'اسلامی علم، آنلائن کورسز اور خدمات',
+    }
   }
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" dir="ltr">
+    <html lang="ur" dir="rtl">
       <body
-        className={`${jakarta.variable} font-sans antialiased`}
+        className={`${urduFont.variable} font-sans antialiased`}
         suppressHydrationWarning
       >
         {children}
