@@ -150,9 +150,12 @@ export const headerNavQuery = `
   *[_type == "navigation" && title == "header"][0]{
     items[]{
       label, href, external,
-      children[]{
+      "children": children[]{
         label, href, external,
-        children[]{ label, href, external }
+        "children": children[]{
+          label, href, external,
+          "children": children[]{ label, href, external }
+        }
       }
     }
   }

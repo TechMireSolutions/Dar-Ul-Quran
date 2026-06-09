@@ -7,6 +7,22 @@ import { urlFor } from '@/sanity/lib/image'
 
 export const revalidate = 300
 
+interface NavNode {
+  label:     string
+  href:      string
+  external?: boolean
+  children?: NavNode[]
+}
+
+function toNavNode(item: any): NavNode {
+  return {
+    label:    item.label ?? '',
+    href:     item.href  || '#',
+    external: !!item.external,
+    children: item.children?.length ? item.children.map(toNavNode) : undefined,
+  }
+}
+
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
   const [settings, headerNav, footerServices] = await Promise.all([
     safeFetch(siteSettingsQuery),
@@ -18,20 +34,24 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
     ? urlFor(settings.logo).width(72).height(72).url()
     : null
 
+  const navTree = headerNav?.items?.length
+    ? headerNav.items.map(toNavNode)
+    : undefined
+
   return (
     <>
       <Header
         darulQuranUrl={settings?.darulQuranUrl}
         siteName={settings?.siteName}
         logoUrl={logoUrl}
-        navItems={headerNav?.items}
+        navItems={navTree}
         searchPlaceholder={settings?.searchPlaceholder}
       />
       <main className="min-h-screen">{children}</main>
       <Footer
         settings={settings}
         logoUrl={logoUrl}
-        navItems={headerNav?.items}
+        navItems={navTree}
         footerServices={footerServices}
       />
       {settings?.whatsapp && <WhatsAppButton number={settings.whatsapp} />}

@@ -1,49 +1,18 @@
 import { defineField, defineType } from 'sanity'
 
-// Level 3 — leaf (no further nesting)
-const level3Fields = [
-  defineField({ name: 'label',    type: 'string' }),
-  defineField({ name: 'href',     type: 'string', placeholder: '/page or https://…' }),
-  defineField({ name: 'external', type: 'boolean', initialValue: false }),
+// Shared fields for every nav item at every level
+const linkFields = [
+  defineField({ name: 'label',    type: 'string',  title: 'Label',           validation: r => r.required() }),
+  defineField({ name: 'href',     type: 'string',  title: 'Link',            placeholder: '/about  or  https://external.com' }),
+  defineField({ name: 'external', type: 'boolean', title: 'Open in new tab', initialValue: false }),
 ]
 
-// Level 2 — can have level-3 children
-const level2Fields = [
-  defineField({ name: 'label',    type: 'string' }),
-  defineField({ name: 'href',     type: 'string', placeholder: '/page or https://…' }),
-  defineField({ name: 'external', type: 'boolean', initialValue: false }),
-  defineField({
-    name: 'children', type: 'array', title: 'Sub-sub-menu Items',
-    of: [{
-      type: 'object',
-      name: 'level3Item',
-      fields: level3Fields,
-      preview: { select: { title: 'label', subtitle: 'href' } },
-    }],
-  }),
-]
-
-// Level 1 — can have level-2 children
-const level1Fields = [
-  defineField({ name: 'label',    type: 'string' }),
-  defineField({ name: 'href',     type: 'string', placeholder: '/page or https://… (leave empty if parent-only)' }),
-  defineField({ name: 'external', type: 'boolean', initialValue: false }),
-  defineField({
-    name: 'children', type: 'array', title: 'Sub-menu Items',
-    of: [{
-      type: 'object',
-      name: 'level2Item',
-      fields: level2Fields,
-      preview: {
-        select: { title: 'label', subtitle: 'href', children: 'children' },
-        prepare({ title, subtitle, children }: any) {
-          const n = children?.length
-          return { title, subtitle: n ? `${subtitle ?? ''}  (${n} sub-items)` : subtitle }
-        },
-      },
-    }],
-  }),
-]
+const linkPreview = {
+  select: { title: 'label', subtitle: 'href' },
+  prepare({ title, subtitle }: any) {
+    return { title: title || '(no label)', subtitle: subtitle || '' }
+  },
+}
 
 export const navigation = defineType({
   name: 'navigation',
@@ -59,19 +28,58 @@ export const navigation = defineType({
         ],
       },
     }),
+
     defineField({
-      name: 'items', type: 'array', title: 'Menu Items',
+      name: 'items',
+      type: 'array',
+      title: 'Menu Items',
+      description: '↕ Drag to reorder  •  Click an item and open "Sub-menu" to add dropdown children',
       of: [{
         type: 'object',
-        name: 'level1Item',
-        fields: level1Fields,
-        preview: {
-          select: { title: 'label', subtitle: 'href', children: 'children' },
-          prepare({ title, subtitle, children }: any) {
-            const n = children?.length
-            return { title, subtitle: n ? `${subtitle ?? ''}  (${n} sub-items)` : subtitle }
-          },
-        },
+        name: 'navItem',
+        fields: [
+          ...linkFields,
+          defineField({
+            name: 'children',
+            type: 'array',
+            title: 'Sub-menu',
+            description: 'Items that appear in the dropdown for this link',
+            of: [{
+              type: 'object',
+              name: 'navSubItem',
+              fields: [
+                ...linkFields,
+                defineField({
+                  name: 'children',
+                  type: 'array',
+                  title: 'Sub-sub-menu',
+                  description: 'Fly-out items for this sub-menu entry',
+                  of: [{
+                    type: 'object',
+                    name: 'navSubSubItem',
+                    fields: [
+                      ...linkFields,
+                      defineField({
+                        name: 'children',
+                        type: 'array',
+                        title: 'Level 4',
+                        of: [{
+                          type: 'object',
+                          name: 'navItemL4',
+                          fields: linkFields,
+                          preview: linkPreview,
+                        }],
+                      }),
+                    ],
+                    preview: linkPreview,
+                  }],
+                }),
+              ],
+              preview: linkPreview,
+            }],
+          }),
+        ],
+        preview: linkPreview,
       }],
     }),
   ],

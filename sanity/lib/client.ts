@@ -1,21 +1,37 @@
 import { createClient } from 'next-sanity'
 
+const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
+const dataset   = process.env.NEXT_PUBLIC_SANITY_DATASET ?? 'production'
+
+if (!projectId) {
+  console.warn('[Sanity] NEXT_PUBLIC_SANITY_PROJECT_ID is not set — data fetching will be skipped.')
+}
+
 export const client = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
-  dataset:   process.env.NEXT_PUBLIC_SANITY_DATASET!,
+  projectId: projectId ?? 'missing',
+  dataset,
   apiVersion: '2024-01-01',
-  useCdn: process.env.NODE_ENV === 'production',
+  useCdn:     process.env.NODE_ENV === 'production',
 })
 
 export async function safeFetch<T = any>(
-  query: string,
-  params?: Record<string, unknown>,
+  query:    string,
+  params?:  Record<string, unknown>,
   options?: Parameters<typeof client.fetch>[2]
 ): Promise<T | null> {
+  if (!projectId) return null   // skip fetch entirely if not configured
+
   try {
-    return await client.fetch<T>(query, params ?? {}, options)
+    return await client.fetch<T>(query, params ?? {}, {
+      next: { revalidate: 300 },
+      ...options,
+    })
   } catch (err) {
-    console.error('[Sanity] fetch failed:', (err as Error).message)
+    const msg = (err as Error).message ?? String(err)
+    // Only log in development — keeps production logs clean
+    if (process.env.NODE_ENV !== 'production') {
+      console.warn('[Sanity] fetch failed:', msg)
+    }
     return null
   }
 }

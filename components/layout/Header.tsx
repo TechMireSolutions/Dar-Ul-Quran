@@ -57,13 +57,22 @@ function DesktopPanelRow({
   node, onClose, depth,
 }: { node: NavNode; onClose: () => void; depth: number }) {
   const [flyOpen, setFlyOpen] = useState(false)
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const pathname = usePathname()
   const isActive = nodeIsActive(node, pathname)
+
+  function enter() {
+    if (closeTimer.current) clearTimeout(closeTimer.current)
+    setFlyOpen(true)
+  }
+  function leave() {
+    closeTimer.current = setTimeout(() => setFlyOpen(false), 120)
+  }
 
   if (!node.children?.length) {
     return (
       <Link
-        href={node.href}
+        href={node.href || '#'}
         target={node.external ? '_blank' : undefined}
         rel={node.external ? 'noopener noreferrer' : undefined}
         onClick={onClose}
@@ -78,22 +87,13 @@ function DesktopPanelRow({
   }
 
   return (
-    <div
-      className="relative"
-      onMouseEnter={() => setFlyOpen(true)}
-      onMouseLeave={() => setFlyOpen(false)}
-    >
-      {/* Row with fly-out trigger */}
+    <div className="relative" onMouseEnter={enter} onMouseLeave={leave}>
+      {/* Row */}
       <div className={`flex items-center justify-between gap-2 px-4 py-2.5 cursor-default
         transition-colors duration-150 hover:bg-dq-50
-        ${isActive ? 'text-dq-700 bg-dq-50/60' : 'text-gray-600 hover:text-dq-700'}`}>
-        {/* If the node has its own href, make it a link */}
+        ${isActive || flyOpen ? 'text-dq-700 bg-dq-50' : 'text-gray-600 hover:text-dq-700'}`}>
         {node.href && node.href !== '#' ? (
-          <Link
-            href={node.href}
-            onClick={onClose}
-            className="flex items-center gap-2 flex-1 text-[13px]"
-          >
+          <Link href={node.href} onClick={onClose} className="flex items-center gap-2 flex-1 text-[13px]">
             <span className="w-1.5 h-1.5 rounded-full bg-dq-300 flex-shrink-0" />
             {node.label}
           </Link>
@@ -103,46 +103,52 @@ function DesktopPanelRow({
             {node.label}
           </span>
         )}
-        {/* Arrow pointing left (RTL: towards the fly-out direction) */}
         <ChevronLeft size={11} strokeWidth={2.5} className="text-dq-400 flex-shrink-0 rtl:rotate-180" />
       </div>
 
-      {/* Fly-out sub-panel */}
+      {/* Fly-out — sits flush (no gap) so mouse can slide across without triggering leave */}
       <div
-        className={`absolute top-0 z-10 min-w-[190px] bg-white border border-gray-100 rounded-2xl
-          shadow-[0_8px_32px_rgba(0,0,0,0.12)] overflow-hidden
-          transition-all duration-200 origin-top-right
-          ${flyOpen
-            ? 'opacity-100 scale-100 pointer-events-auto'
-            : 'opacity-0 scale-95 pointer-events-none'}`}
-        style={{ right: '100%', marginRight: '4px' }}
+        className="absolute top-0 z-20"
+        style={{ right: '100%' }}
+        onMouseEnter={enter}
+        onMouseLeave={leave}
       >
-        <DesktopPanel nodes={node.children} onClose={onClose} depth={depth + 1} />
+        <div
+          className={`min-w-[200px] bg-white border border-gray-100 rounded-2xl
+            shadow-[0_8px_32px_rgba(0,0,0,0.13)]
+            transition-all duration-200 origin-top-right
+            ${flyOpen
+              ? 'opacity-100 scale-100 pointer-events-auto'
+              : 'opacity-0 scale-95 pointer-events-none'}`}
+        >
+          <DesktopPanel nodes={node.children} onClose={onClose} depth={depth + 1} />
+        </div>
       </div>
     </div>
   )
 }
 
-/* ── Top-level desktop nav item (click to open/close) ──────────────────── */
+/* ── Top-level desktop nav item (hover to open) ─────────────────────────── */
 function DesktopNavItem({ node }: { node: NavNode }) {
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const pathname = usePathname()
   const isActive = nodeIsActive(node, pathname)
 
-  useEffect(() => {
-    function onOut(e: MouseEvent) {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
-    }
-    document.addEventListener('mousedown', onOut)
-    return () => document.removeEventListener('mousedown', onOut)
-  }, [])
+  function enter() {
+    if (closeTimer.current) clearTimeout(closeTimer.current)
+    setOpen(true)
+  }
+  function leave() {
+    closeTimer.current = setTimeout(() => setOpen(false), 120)
+  }
 
   // Plain link — no children
   if (!node.children?.length) {
     return (
       <Link
-        href={node.href}
+        href={node.href || '#'}
         target={node.external ? '_blank' : undefined}
         rel={node.external ? 'noopener noreferrer' : undefined}
         className={`link-underline text-[13.5px] font-medium whitespace-nowrap transition-colors duration-150
@@ -154,43 +160,59 @@ function DesktopNavItem({ node }: { node: NavNode }) {
   }
 
   return (
-    <div ref={ref} className="relative">
-      <button
-        onClick={() => setOpen(v => !v)}
-        className={`flex items-center gap-1 text-[13.5px] font-medium whitespace-nowrap transition-colors duration-150
-          ${isActive || open ? 'text-dq-400' : 'text-white/70 hover:text-white'}`}
-      >
-        {node.label}
-        <ChevronDown size={12} strokeWidth={2.5}
-          className={`transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
-      </button>
+    <div ref={ref} className="relative" onMouseEnter={enter} onMouseLeave={leave}>
+      {/* Label — link if it has an href, otherwise just text */}
+      {node.href && node.href !== '#' ? (
+        <Link
+          href={node.href}
+          className={`flex items-center gap-1 text-[13.5px] font-medium whitespace-nowrap transition-colors duration-150
+            ${isActive || open ? 'text-dq-400' : 'text-white/70 hover:text-white'}`}
+        >
+          {node.label}
+          <ChevronDown size={12} strokeWidth={2.5}
+            className={`transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
+        </Link>
+      ) : (
+        <span
+          className={`flex items-center gap-1 text-[13.5px] font-medium whitespace-nowrap cursor-default transition-colors duration-150
+            ${isActive || open ? 'text-dq-400' : 'text-white/70'}`}
+        >
+          {node.label}
+          <ChevronDown size={12} strokeWidth={2.5}
+            className={`transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
+        </span>
+      )}
 
       {/* Dropdown panel */}
       <div
-        className={`absolute top-full mt-2.5 z-50 min-w-[210px] bg-white border border-gray-100
-          rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.13)] overflow-hidden
-          transition-all duration-200 origin-top
-          ${open
-            ? 'opacity-100 scale-y-100 translate-y-0 pointer-events-auto'
-            : 'opacity-0 scale-y-95 -translate-y-1 pointer-events-none'}`}
+        className={`absolute top-full pt-2 z-50`}
         style={{ right: 0 }}
+        onMouseEnter={enter}
+        onMouseLeave={leave}
       >
-        {/* If the parent itself has a valid href, show it as "all" link */}
-        {node.href && node.href !== '#' && (
-          <Link
-            href={node.href}
-            onClick={() => setOpen(false)}
-            className="flex items-center justify-between gap-3 px-4 py-3
-              border-b border-gray-100 text-[13px] font-semibold text-slate-800
-              hover:bg-dq-50 hover:text-dq-700 transition-colors duration-150"
-          >
-            {node.label}
-            <span className="text-[10px] font-medium text-dq-500 bg-dq-50 border border-dq-100 rounded-full px-2 py-0.5 whitespace-nowrap">
-              سب دیکھیں
-            </span>
-          </Link>
-        )}
-        <DesktopPanel nodes={node.children} onClose={() => setOpen(false)} depth={0} />
+        <div
+          className={`min-w-[210px] bg-white border border-gray-100
+            rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.13)]
+            transition-all duration-200 origin-top
+            ${open
+              ? 'opacity-100 scale-y-100 translate-y-0 pointer-events-auto'
+              : 'opacity-0 scale-y-95 -translate-y-1 pointer-events-none'}`}
+        >
+          {node.href && node.href !== '#' && (
+            <Link
+              href={node.href}
+              className="flex items-center justify-between gap-3 px-4 py-3 rounded-t-2xl
+                border-b border-gray-100 text-[13px] font-semibold text-slate-800
+                hover:bg-dq-50 hover:text-dq-700 transition-colors duration-150"
+            >
+              {node.label}
+              <span className="text-[10px] font-medium text-dq-500 bg-dq-50 border border-dq-100 rounded-full px-2 py-0.5 whitespace-nowrap">
+                سب دیکھیں
+              </span>
+            </Link>
+          )}
+          <DesktopPanel nodes={node.children} onClose={() => setOpen(false)} depth={0} />
+        </div>
       </div>
     </div>
   )
@@ -213,7 +235,7 @@ function MobileNavNode({
   if (!node.children?.length) {
     return (
       <Link
-        href={node.href}
+        href={node.href || '#'}
         target={node.external ? '_blank' : undefined}
         rel={node.external ? 'noopener noreferrer' : undefined}
         onClick={onClose}
@@ -259,7 +281,7 @@ function MobileNavNode({
         >
           {node.href && node.href !== '#' && (
             <Link
-              href={node.href}
+              href={node.href || '#'}
               onClick={onClose}
               className="flex items-center gap-1.5 px-3 py-2 text-[13px] font-semibold text-dq-700 hover:bg-dq-50 rounded-lg transition-colors"
             >
