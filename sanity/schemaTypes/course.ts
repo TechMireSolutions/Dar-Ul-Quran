@@ -40,9 +40,6 @@ export const course = defineType({
     defineField({ name: 'featuredImage', type: 'image', title: 'Card / Hero Image',          options: { hotspot: true }, group: 'content' }),
 
     /* ── Enrollment ── */
-    defineField({ name: 'instructor',     type: 'string', title: 'Instructor Name',                                      group: 'content' }),
-    defineField({ name: 'price',          type: 'string', placeholder: 'e.g. PKR 2,000/month or Free',                  group: 'content' }),
-    defineField({ name: 'duration',       type: 'string', placeholder: 'e.g. 3 months',                                  group: 'content' }),
     defineField({ name: 'enrollmentLink', type: 'url',    title: 'Enrollment / Join Link',                               group: 'content' }),
 
     /* ── Rich text body ── */
@@ -122,10 +119,26 @@ export const course = defineType({
       group: 'sections',
     }),
 
-    /* ── Pricing Plans ── */
-    defineField({ name: 'pricingHeading', type: 'string', title: 'Pricing — Section Heading', group: 'sections' }),
+    /* ── Fee Summary (simple) ── */
+    defineField({ name: 'feeSummaryHeading', type: 'string', title: 'Fees — Section Heading (e.g. فیس)', group: 'sections' }),
     defineField({
-      name: 'pricingTables', type: 'array', title: 'Pricing — Tables',
+      name: 'feeSummaryItems', type: 'array', title: 'Fees — Items',
+      description: 'Simple fee rows, e.g. "Daily Madrasa Students" → "Rs 550"',
+      of: [{
+        type: 'object',
+        fields: [
+          defineField({ name: 'label',  type: 'string', title: 'Label (student type or category)' }),
+          defineField({ name: 'amount', type: 'string', title: 'Amount (e.g. Rs 550 / month)' }),
+        ],
+        preview: { select: { title: 'label', subtitle: 'amount' } },
+      }],
+      group: 'sections',
+    }),
+
+    /* ── Pricing Plans (advanced — multi-column table) ── */
+    defineField({ name: 'pricingHeading', type: 'string', title: 'Pricing Table — Section Heading', group: 'sections' }),
+    defineField({
+      name: 'pricingTables', type: 'array', title: 'Pricing — Tables (multi-column)',
       of: [{
         type: 'object',
         fields: [

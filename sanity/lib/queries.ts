@@ -46,6 +46,7 @@ export const courseBySlugDeepQuery = `
     outcomesHeading, outcomes[]{ title, desc },
     whyUsHeading, whyUs[]{ title, desc },
     howItWorksHeading, howItWorks[]{ label, desc },
+    feeSummaryHeading, feeSummaryItems[]{ label, amount },
     pricingHeading,
     pricingTables[]{ label, rows[]{ plan, weeklyFrequency, monthlyClasses, feePerClass, monthlyTotal } },
     ctaHeading, ctaSubtitle, ctaBtn1Label, ctaBtn2Label,
@@ -147,7 +148,13 @@ export const pageBySlugQuery = `
 
 export const headerNavQuery = `
   *[_type == "navigation" && title == "header"][0]{
-    items[]{ label, href, external }
+    items[]{
+      label, href, external,
+      children[]{
+        label, href, external,
+        children[]{ label, href, external }
+      }
+    }
   }
 `
 

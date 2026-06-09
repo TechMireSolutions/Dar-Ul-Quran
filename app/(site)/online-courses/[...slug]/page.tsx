@@ -279,9 +279,51 @@ export default async function CourseCatchAllPage(
             </section>
           )}
 
-          {/* ── 6. PRICING TABLES ────────────────────────────────────────────── */}
+          {/* ── 6a. FEE SUMMARY (simple) ─────────────────────────────────────── */}
+          {course.feeSummaryItems?.length > 0 && (
+            <section className="bg-white py-14 sm:py-20">
+              <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+                {/* Heading */}
+                <div className="text-center mb-10">
+                  <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl mb-4"
+                    style={{ background: 'linear-gradient(135deg, #fdf8e8, #faefc4)', border: '1px solid rgba(212,168,32,0.3)' }}>
+                    <span className="text-2xl leading-none">💰</span>
+                  </div>
+                  <h2 className="font-bold text-[24px] sm:text-[32px] text-slate-900 tracking-[-0.02em]">
+                    {course.feeSummaryHeading || 'فیس'}
+                  </h2>
+                </div>
+
+                {/* Fee rows */}
+                <div className="space-y-3">
+                  {course.feeSummaryItems.map((item: any, i: number) => (
+                    <div
+                      key={i}
+                      className="flex items-center justify-between gap-4 bg-white rounded-2xl border border-gray-100 shadow-sm px-6 py-4
+                        hover:border-dq-100 hover:shadow-[0_4px_16px_rgba(184,144,14,0.08)] transition-all duration-200"
+                    >
+                      <span className="text-[14.5px] text-slate-700 font-medium">{item.label}</span>
+                      <span
+                        className="shrink-0 font-bold text-[15px] px-4 py-1.5 rounded-full"
+                        style={{ background: 'linear-gradient(135deg, #fdf8e8, #faefc4)', color: '#7c5d07', border: '1px solid rgba(212,168,32,0.3)' }}
+                      >
+                        {item.amount}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Enroll nudge */}
+                <p className="text-center text-[12.5px] text-gray-400 mt-6">
+                  داخلے کے لیے ہم سے رابطہ کریں — جگہ محدود ہے۔
+                </p>
+              </div>
+            </section>
+          )}
+
+          {/* ── 6b. PRICING TABLES (multi-column) ────────────────────────────── */}
           {course.pricingTables?.length > 0 && (
-            <section className="bg-white py-16 sm:py-20">
+            <section className="bg-slate-50 py-16 sm:py-20">
               <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-12">
                   <p className="text-[10.5px] font-bold uppercase tracking-[0.18em] text-dq-600 mb-2">

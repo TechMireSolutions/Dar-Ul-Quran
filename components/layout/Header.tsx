@@ -1,21 +1,26 @@
 'use client'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState, useEffect } from 'react'
-import { Search, Menu, X } from 'lucide-react'
+import { useState, useEffect, useRef } from 'react'
+import { Search, Menu, X, ChevronDown, ChevronLeft } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 
-interface NavItem { label: string; href: string; external?: boolean }
+interface NavNode {
+  label:    string
+  href:     string
+  external?: boolean
+  children?: NavNode[]
+}
 
 interface HeaderProps {
   darulQuranUrl?:     string
   siteName?:          string
   logoUrl?:           string | null
-  navItems?:          NavItem[]
+  navItems?:          NavNode[]
   searchPlaceholder?: string
 }
 
-const FALLBACK_NAV: NavItem[] = [
+const FALLBACK_NAV: NavNode[] = [
   { label: 'آنلائن کلاسز', href: '/online-courses' },
   { label: 'خدمات',        href: '/services' },
   { label: 'مضامین',       href: '/articles' },
@@ -23,13 +28,265 @@ const FALLBACK_NAV: NavItem[] = [
   { label: 'ہمارے بارے',   href: '/about' },
 ]
 
-export default function Header({ darulQuranUrl, siteName = 'دار القرآن', logoUrl, navItems, searchPlaceholder = 'مضامین تلاش کریں…' }: HeaderProps) {
-  const [menuOpen,     setMenuOpen]     = useState(false)
-  const [query,        setQuery]        = useState('')
-  const [searchOpen,   setSearchOpen]   = useState(false)
-  const [scrolled,     setScrolled]     = useState(false)
+/* ── helpers ──────────────────────────────────────────────────────────────── */
+function nodeIsActive(node: NavNode, pathname: string): boolean {
+  if (node.href && node.href !== '#' &&
+      (pathname === node.href || (node.href !== '/' && pathname.startsWith(node.href + '/')))) return true
+  return node.children?.some(c => nodeIsActive(c, pathname)) ?? false
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   DESKTOP — recursive fly-out panel
+   depth 0 = first dropdown (opens below nav item)
+   depth 1+ = fly-out panels (open to the side on hover)
+   ══════════════════════════════════════════════════════════════════════════ */
+
+function DesktopPanel({
+  nodes, onClose, depth = 0,
+}: { nodes: NavNode[]; onClose: () => void; depth?: number }) {
+  return (
+    <div className="py-1">
+      {nodes.map(node => (
+        <DesktopPanelRow key={node.label} node={node} onClose={onClose} depth={depth} />
+      ))}
+    </div>
+  )
+}
+
+function DesktopPanelRow({
+  node, onClose, depth,
+}: { node: NavNode; onClose: () => void; depth: number }) {
+  const [flyOpen, setFlyOpen] = useState(false)
   const pathname = usePathname()
-  const router   = useRouter()
+  const isActive = nodeIsActive(node, pathname)
+
+  if (!node.children?.length) {
+    return (
+      <Link
+        href={node.href}
+        target={node.external ? '_blank' : undefined}
+        rel={node.external ? 'noopener noreferrer' : undefined}
+        onClick={onClose}
+        className={`flex items-center gap-2 px-4 py-2.5 text-[13px] transition-colors duration-150
+          hover:bg-dq-50 hover:text-dq-700
+          ${isActive ? 'text-dq-700 bg-dq-50/60' : 'text-gray-600'}`}
+      >
+        <span className="w-1.5 h-1.5 rounded-full bg-dq-200 flex-shrink-0" />
+        {node.label}
+      </Link>
+    )
+  }
+
+  return (
+    <div
+      className="relative"
+      onMouseEnter={() => setFlyOpen(true)}
+      onMouseLeave={() => setFlyOpen(false)}
+    >
+      {/* Row with fly-out trigger */}
+      <div className={`flex items-center justify-between gap-2 px-4 py-2.5 cursor-default
+        transition-colors duration-150 hover:bg-dq-50
+        ${isActive ? 'text-dq-700 bg-dq-50/60' : 'text-gray-600 hover:text-dq-700'}`}>
+        {/* If the node has its own href, make it a link */}
+        {node.href && node.href !== '#' ? (
+          <Link
+            href={node.href}
+            onClick={onClose}
+            className="flex items-center gap-2 flex-1 text-[13px]"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-dq-300 flex-shrink-0" />
+            {node.label}
+          </Link>
+        ) : (
+          <span className="flex items-center gap-2 flex-1 text-[13px]">
+            <span className="w-1.5 h-1.5 rounded-full bg-dq-300 flex-shrink-0" />
+            {node.label}
+          </span>
+        )}
+        {/* Arrow pointing left (RTL: towards the fly-out direction) */}
+        <ChevronLeft size={11} strokeWidth={2.5} className="text-dq-400 flex-shrink-0 rtl:rotate-180" />
+      </div>
+
+      {/* Fly-out sub-panel */}
+      <div
+        className={`absolute top-0 z-10 min-w-[190px] bg-white border border-gray-100 rounded-2xl
+          shadow-[0_8px_32px_rgba(0,0,0,0.12)] overflow-hidden
+          transition-all duration-200 origin-top-right
+          ${flyOpen
+            ? 'opacity-100 scale-100 pointer-events-auto'
+            : 'opacity-0 scale-95 pointer-events-none'}`}
+        style={{ right: '100%', marginRight: '4px' }}
+      >
+        <DesktopPanel nodes={node.children} onClose={onClose} depth={depth + 1} />
+      </div>
+    </div>
+  )
+}
+
+/* ── Top-level desktop nav item (click to open/close) ──────────────────── */
+function DesktopNavItem({ node }: { node: NavNode }) {
+  const [open, setOpen] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+  const pathname = usePathname()
+  const isActive = nodeIsActive(node, pathname)
+
+  useEffect(() => {
+    function onOut(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
+    }
+    document.addEventListener('mousedown', onOut)
+    return () => document.removeEventListener('mousedown', onOut)
+  }, [])
+
+  // Plain link — no children
+  if (!node.children?.length) {
+    return (
+      <Link
+        href={node.href}
+        target={node.external ? '_blank' : undefined}
+        rel={node.external ? 'noopener noreferrer' : undefined}
+        className={`link-underline text-[13.5px] font-medium whitespace-nowrap transition-colors duration-150
+          ${isActive ? 'text-dq-400 active' : 'text-white/70 hover:text-white'}`}
+      >
+        {node.label}
+      </Link>
+    )
+  }
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        onClick={() => setOpen(v => !v)}
+        className={`flex items-center gap-1 text-[13.5px] font-medium whitespace-nowrap transition-colors duration-150
+          ${isActive || open ? 'text-dq-400' : 'text-white/70 hover:text-white'}`}
+      >
+        {node.label}
+        <ChevronDown size={12} strokeWidth={2.5}
+          className={`transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
+      </button>
+
+      {/* Dropdown panel */}
+      <div
+        className={`absolute top-full mt-2.5 z-50 min-w-[210px] bg-white border border-gray-100
+          rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.13)] overflow-hidden
+          transition-all duration-200 origin-top
+          ${open
+            ? 'opacity-100 scale-y-100 translate-y-0 pointer-events-auto'
+            : 'opacity-0 scale-y-95 -translate-y-1 pointer-events-none'}`}
+        style={{ right: 0 }}
+      >
+        {/* If the parent itself has a valid href, show it as "all" link */}
+        {node.href && node.href !== '#' && (
+          <Link
+            href={node.href}
+            onClick={() => setOpen(false)}
+            className="flex items-center justify-between gap-3 px-4 py-3
+              border-b border-gray-100 text-[13px] font-semibold text-slate-800
+              hover:bg-dq-50 hover:text-dq-700 transition-colors duration-150"
+          >
+            {node.label}
+            <span className="text-[10px] font-medium text-dq-500 bg-dq-50 border border-dq-100 rounded-full px-2 py-0.5 whitespace-nowrap">
+              سب دیکھیں
+            </span>
+          </Link>
+        )}
+        <DesktopPanel nodes={node.children} onClose={() => setOpen(false)} depth={0} />
+      </div>
+    </div>
+  )
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   MOBILE — recursive accordion
+   ══════════════════════════════════════════════════════════════════════════ */
+
+function MobileNavNode({
+  node, onClose, depth = 0,
+}: { node: NavNode; onClose: () => void; depth?: number }) {
+  const [open, setOpen] = useState(false)
+  const pathname = usePathname()
+  const isActive = nodeIsActive(node, pathname)
+
+  const indent = depth * 12 // px indent per level
+
+  // Leaf — plain link
+  if (!node.children?.length) {
+    return (
+      <Link
+        href={node.href}
+        target={node.external ? '_blank' : undefined}
+        rel={node.external ? 'noopener noreferrer' : undefined}
+        onClick={onClose}
+        style={{ paddingRight: `${12 + indent}px` }}
+        className={`flex items-center gap-2 py-2.5 pl-3 rounded-xl text-[14px] font-medium transition-colors duration-150 mb-0.5
+          ${isActive ? 'bg-dq-50 text-dq-700' : 'text-gray-700 hover:bg-gray-50 hover:text-slate-900'}`}
+      >
+        {depth > 0 && (
+          <span className="w-1.5 h-1.5 rounded-full bg-dq-300 flex-shrink-0" style={{ marginRight: 2 }} />
+        )}
+        {node.label}
+      </Link>
+    )
+  }
+
+  return (
+    <div className="mb-0.5">
+      {/* Accordion toggle */}
+      <button
+        onClick={() => setOpen(v => !v)}
+        style={{ paddingRight: `${12 + indent}px` }}
+        className={`w-full flex items-center justify-between gap-2 py-2.5 pl-3 rounded-xl text-[14px] font-medium transition-colors duration-150
+          ${isActive || open ? 'bg-dq-50 text-dq-700' : 'text-gray-700 hover:bg-gray-50 hover:text-slate-900'}`}
+      >
+        <span className="flex items-center gap-2">
+          {depth > 0 && (
+            <span className="w-1.5 h-1.5 rounded-full bg-dq-300 flex-shrink-0" />
+          )}
+          {node.label}
+        </span>
+        <ChevronDown
+          size={14} strokeWidth={2}
+          className={`text-gray-400 flex-shrink-0 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+        />
+      </button>
+
+      {/* Children — slide down */}
+      <div className={`overflow-hidden transition-all duration-250 ${open ? 'max-h-[600px]' : 'max-h-0'}`}>
+        {/* "View all" link if parent has its own href */}
+        <div
+          className="mt-0.5 border-s-2 border-dq-100"
+          style={{ marginRight: `${20 + indent}px` }}
+        >
+          {node.href && node.href !== '#' && (
+            <Link
+              href={node.href}
+              onClick={onClose}
+              className="flex items-center gap-1.5 px-3 py-2 text-[13px] font-semibold text-dq-700 hover:bg-dq-50 rounded-lg transition-colors"
+            >
+              {node.label} — سب دیکھیں
+            </Link>
+          )}
+          {node.children.map(child => (
+            <MobileNavNode key={child.label} node={child} onClose={onClose} depth={depth + 1} />
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   MAIN HEADER
+   ══════════════════════════════════════════════════════════════════════════ */
+
+export default function Header({
+  darulQuranUrl, siteName = 'دار القرآن', logoUrl, navItems, searchPlaceholder = 'مضامین تلاش کریں…',
+}: HeaderProps) {
+  const [menuOpen,   setMenuOpen]   = useState(false)
+  const [query,      setQuery]      = useState('')
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [scrolled,   setScrolled]   = useState(false)
+  const router = useRouter()
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 12)
@@ -38,7 +295,7 @@ export default function Header({ darulQuranUrl, siteName = 'دار القرآن'
     return () => window.removeEventListener('scroll', fn)
   }, [])
 
-  const navLinks: NavItem[] = navItems?.length
+  const navLinks: NavNode[] = navItems?.length
     ? navItems
     : [...FALLBACK_NAV, { label: 'دار القرآن', href: darulQuranUrl || '#', external: true }]
 
@@ -64,43 +321,28 @@ export default function Header({ darulQuranUrl, siteName = 'دار القرآن'
       >
         <div className="max-w-7xl mx-auto px-6 lg:px-8 h-[68px] flex items-center gap-8">
 
-          {/* Logo + site name */}
+          {/* Logo */}
           <Link href="/" aria-label={siteName} className="flex-shrink-0 flex items-center gap-3 group">
             <div className="w-[42px] h-[42px] rounded-full overflow-hidden border-2 border-dq-400 flex-shrink-0 transition-transform duration-200 group-hover:scale-105">
               {logoUrl
                 ? <Image src={logoUrl} alt={siteName} width={42} height={42} className="object-cover w-full h-full" />
                 : <div className="w-full h-full bg-gradient-to-br from-dq-100 to-dq-200 flex items-center justify-center text-lg select-none">⛵</div>}
             </div>
-            <span className="font-bold text-[17px] text-white tracking-[-0.02em] hidden md:block">
-              {siteName}
-            </span>
+            <span className="font-bold text-[17px] text-white tracking-[-0.02em] hidden md:block">{siteName}</span>
           </Link>
 
-          {/* Nav */}
+          {/* Desktop nav */}
           <nav className="hidden lg:flex flex-1 items-center justify-center gap-7">
-            {navLinks.map(({ label, href, external }: any) => {
-              const isActive = href !== '#' &&
-                (pathname === href || (href !== '/' && pathname.startsWith(href + '/')))
-              return (
-                <Link
-                  key={label}
-                  href={href}
-                  target={external ? '_blank' : undefined}
-                  rel={external ? 'noopener noreferrer' : undefined}
-                  className={`link-underline text-[13.5px] font-medium whitespace-nowrap transition-colors duration-150
-                    ${isActive ? 'text-dq-400 active' : 'text-white/70 hover:text-white'}`}
-                >
-                  {label}
-                </Link>
-              )
-            })}
+            {navLinks.map(node => (
+              <DesktopNavItem key={node.label} node={node} />
+            ))}
           </nav>
 
-          {/* Search — desktop */}
+          {/* Search */}
           <div className="hidden lg:flex items-center ms-auto">
             {searchOpen ? (
               <form onSubmit={handleSearch}
-                className="flex items-center rounded-full overflow-hidden border border-dq-400 shadow-[0_0_0_3px_rgba(184,144,14,0.15)] animate-scale-in">
+                className="flex items-center rounded-full overflow-hidden border border-dq-400 shadow-[0_0_0_3px_rgba(184,144,14,0.15)]">
                 <input
                   autoFocus
                   type="text"
@@ -134,19 +376,17 @@ export default function Header({ darulQuranUrl, siteName = 'دار القرآن'
           >
             <Menu size={20} />
           </button>
-
         </div>
       </header>
 
-      {/* ── Mobile menu ── */}
+      {/* ── Mobile overlay ── */}
       <div
         onClick={() => setMenuOpen(false)}
-        className={`fixed inset-0 z-[60] bg-dq-950/70 backdrop-blur-sm lg:hidden
-          transition-opacity duration-300
+        className={`fixed inset-0 z-[60] bg-dq-950/70 backdrop-blur-sm lg:hidden transition-opacity duration-300
           ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
       />
 
-      {/* Slide-in panel (from right) */}
+      {/* ── Mobile panel ── */}
       <div className={`fixed top-0 right-0 bottom-0 w-[300px] z-[70] bg-white lg:hidden flex flex-col
         shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]
         ${menuOpen ? 'translate-x-0' : 'translate-x-full'}`}
@@ -159,7 +399,7 @@ export default function Header({ darulQuranUrl, siteName = 'دار القرآن'
                 ? <Image src={logoUrl} alt={siteName} width={40} height={40} className="object-cover w-full h-full" />
                 : <div className="w-full h-full bg-gradient-to-br from-dq-100 to-dq-200 flex items-center justify-center select-none">⛵</div>}
             </div>
-            <span className="font-bold text-[16px] text-slate-900 tracking-[-0.02em] dark:text-white">{siteName}</span>
+            <span className="font-bold text-[16px] text-slate-900 tracking-[-0.02em]">{siteName}</span>
           </Link>
           <button
             onClick={() => setMenuOpen(false)}
@@ -169,30 +409,14 @@ export default function Header({ darulQuranUrl, siteName = 'دار القرآن'
           </button>
         </div>
 
-        {/* Links */}
+        {/* Nav items */}
         <nav className="flex-1 overflow-y-auto px-3 py-3">
-          {navLinks.map(({ label, href, external }: any) => {
-            const isActive = href !== '#' &&
-              (pathname === href || (href !== '/' && pathname.startsWith(href + '/')))
-            return (
-              <Link
-                key={label}
-                href={href}
-                target={external ? '_blank' : undefined}
-                rel={external ? 'noopener noreferrer' : undefined}
-                onClick={() => setMenuOpen(false)}
-                className={`flex items-center px-3 py-3 rounded-xl text-[14.5px] font-medium transition-all duration-150 mb-0.5
-                  ${isActive
-                    ? 'bg-dq-50 text-dq-700'
-                    : 'text-gray-700 hover:bg-gray-50 hover:text-slate-900'}`}
-              >
-                {label}
-              </Link>
-            )
-          })}
+          {navLinks.map(node => (
+            <MobileNavNode key={node.label} node={node} onClose={() => setMenuOpen(false)} depth={0} />
+          ))}
         </nav>
 
-        {/* Mobile search */}
+        {/* Search */}
         <div className="px-5 pb-8 pt-3 border-t border-gray-100 flex-shrink-0">
           <form onSubmit={handleSearch}
             className="flex items-center border border-gray-200 rounded-xl overflow-hidden focus-within:border-dq-500 focus-within:shadow-[0_0_0_3px_rgba(184,144,14,0.12)] transition-all duration-200">
