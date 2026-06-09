@@ -56,10 +56,10 @@ export default function Header({ darulQuranUrl, siteName = 'دار القرآن'
     <>
       {/* ── Desktop header ── */}
       <header
-        className={`sticky top-0 z-50 transition-all duration-300 ${
+        className={`sticky top-0 z-50 transition-all duration-300 bg-dq-900 ${
           scrolled
-            ? 'bg-dq-900/98 backdrop-blur-md shadow-[0_2px_20px_rgba(0,0,0,0.3)] border-b border-transparent'
-            : 'bg-dq-900 border-b border-dq-800'
+            ? 'shadow-[0_2px_20px_rgba(0,0,0,0.4)] border-b border-dq-950'
+            : 'border-b border-dq-800'
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 lg:px-8 h-[68px] flex items-center gap-8">

@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Mail, Phone, MapPin, MessageCircle, Facebook, Youtube, ExternalLink } from 'lucide-react'
+import Reveal from '@/components/ui/Reveal'
 
 interface SiteSettings {
   siteName?: string
@@ -81,73 +82,79 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-6 sm:gap-8 lg:gap-10">
 
           {/* Col 1 — Logo + Brand (full width on mobile) */}
-          <div className="col-span-2 lg:col-span-1">
-            <Link href="/" aria-label={siteName} className="inline-flex items-center gap-2.5 mb-3 group">
-              {logoUrl ? (
-                <Image
-                  src={logoUrl}
-                  alt={siteName}
-                  width={40}
-                  height={40}
-                  className="rounded-full border-2 border-dq-400 object-cover transition-transform duration-200 group-hover:scale-105 sm:w-[52px] sm:h-[52px]"
-                />
-              ) : (
-                <div className="w-10 h-10 sm:w-[52px] sm:h-[52px] rounded-full bg-gradient-to-br from-dq-100 to-dq-200 border-2 border-dq-400 flex items-center justify-center text-xl sm:text-2xl select-none transition-transform duration-200 group-hover:scale-105">
-                  ⛵
-                </div>
-              )}
-              <span className="font-bold text-[16px] sm:text-[18px] text-white tracking-[-0.02em]">{siteName}</span>
-            </Link>
+          <Reveal animation="up" delay={0} className="col-span-2 lg:col-span-1">
+            <div>
+              <Link href="/" aria-label={siteName} className="inline-flex items-center gap-2.5 mb-3 group">
+                {logoUrl ? (
+                  <Image
+                    src={logoUrl}
+                    alt={siteName}
+                    width={40}
+                    height={40}
+                    className="rounded-full border-2 border-dq-400 object-cover transition-transform duration-200 group-hover:scale-105 sm:w-[52px] sm:h-[52px]"
+                  />
+                ) : (
+                  <div className="w-10 h-10 sm:w-[52px] sm:h-[52px] rounded-full bg-gradient-to-br from-dq-100 to-dq-200 border-2 border-dq-400 flex items-center justify-center text-xl sm:text-2xl select-none transition-transform duration-200 group-hover:scale-105">
+                    ⛵
+                  </div>
+                )}
+                <span className="font-bold text-[16px] sm:text-[18px] text-white tracking-[-0.02em]">{siteName}</span>
+              </Link>
 
-            <p className="text-[12px] sm:text-[13px] text-dq-100/70 leading-relaxed mb-3 sm:mb-5 max-w-[280px] line-clamp-2 sm:line-clamp-none">
-              {tagline}
-            </p>
+              <p className="text-[12px] sm:text-[13px] text-dq-100/70 leading-relaxed mb-3 sm:mb-5 max-w-[280px] line-clamp-2 sm:line-clamp-none">
+                {tagline}
+              </p>
 
-            {/* Social + external links */}
-            <div className="flex items-center gap-2 flex-wrap">
-              {settings?.facebook && (
-                <a href={settings.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook"
-                  className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-dq-800 border border-dq-700 flex items-center justify-center text-gray-400 hover:border-dq-400 hover:text-dq-400 transition-all duration-200">
-                  <Facebook size={12} />
-                </a>
-              )}
-              {settings?.youtube && (
-                <a href={settings.youtube} target="_blank" rel="noopener noreferrer" aria-label="YouTube"
-                  className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-dq-800 border border-dq-700 flex items-center justify-center text-gray-400 hover:border-dq-400 hover:text-dq-400 transition-all duration-200">
-                  <Youtube size={12} />
-                </a>
-              )}
-              {settings?.darulQuranUrl && (
-                <a href={settings.darulQuranUrl} target="_blank" rel="noopener noreferrer"
-                  className="flex items-center gap-1 text-[11px] font-medium text-dq-100/60 hover:text-dq-400 bg-dq-800 border border-dq-700 hover:border-dq-400 rounded-lg px-2 py-1 sm:px-2.5 sm:py-1.5 transition-all duration-200">
-                  دار القرآن <ExternalLink size={9} />
-                </a>
-              )}
+              {/* Social + external links */}
+              <div className="flex items-center gap-2 flex-wrap">
+                {settings?.facebook && (
+                  <a href={settings.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook"
+                    className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-dq-800 border border-dq-700 flex items-center justify-center text-gray-400 hover:border-dq-400 hover:text-dq-400 transition-all duration-200">
+                    <Facebook size={12} />
+                  </a>
+                )}
+                {settings?.youtube && (
+                  <a href={settings.youtube} target="_blank" rel="noopener noreferrer" aria-label="YouTube"
+                    className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-dq-800 border border-dq-700 flex items-center justify-center text-gray-400 hover:border-dq-400 hover:text-dq-400 transition-all duration-200">
+                    <Youtube size={12} />
+                  </a>
+                )}
+                {settings?.darulQuranUrl && (
+                  <a href={settings.darulQuranUrl} target="_blank" rel="noopener noreferrer"
+                    className="flex items-center gap-1 text-[11px] font-medium text-dq-100/60 hover:text-dq-400 bg-dq-800 border border-dq-700 hover:border-dq-400 rounded-lg px-2 py-1 sm:px-2.5 sm:py-1.5 transition-all duration-200">
+                    دار القرآن <ExternalLink size={9} />
+                  </a>
+                )}
+              </div>
             </div>
-          </div>
+          </Reveal>
 
           {/* Col 2 — Quick Links */}
-          <div>
-            <ColHeading>فوری روابط</ColHeading>
-            <ul className="space-y-1.5 sm:space-y-2.5">
-              {quickLinks.map(({ label, href }: any) => (
-                <NavLink key={href} href={href}>{label}</NavLink>
-              ))}
-            </ul>
-          </div>
+          <Reveal animation="up" delay={80}>
+            <div>
+              <ColHeading>فوری روابط</ColHeading>
+              <ul className="space-y-1.5 sm:space-y-2.5">
+                {quickLinks.map(({ label, href }: any) => (
+                  <NavLink key={href} href={href}>{label}</NavLink>
+                ))}
+              </ul>
+            </div>
+          </Reveal>
 
           {/* Col 3 — Services */}
-          <div>
-            <ColHeading>خدمات</ColHeading>
-            <ul className="space-y-1.5 sm:space-y-2.5">
-              {services.map(({ label, href }: any) => (
-                <NavLink key={href} href={href}>{label}</NavLink>
-              ))}
-            </ul>
-          </div>
+          <Reveal animation="up" delay={160}>
+            <div>
+              <ColHeading>خدمات</ColHeading>
+              <ul className="space-y-1.5 sm:space-y-2.5">
+                {services.map(({ label, href }: any) => (
+                  <NavLink key={href} href={href}>{label}</NavLink>
+                ))}
+              </ul>
+            </div>
+          </Reveal>
 
           {/* Col 4 — Contact (full width on mobile) */}
-          <div className="col-span-2 lg:col-span-1">
+          <Reveal animation="up" delay={240} className="col-span-2 lg:col-span-1"><div>
             <ColHeading>ہم سے رابطہ</ColHeading>
             <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-x-4 gap-y-2 sm:gap-y-3">
               {settings?.email && (
@@ -205,7 +212,7 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
                 <path d="M2.5 6h7M6.5 3l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </Link>
-          </div>
+          </div></Reveal>
 
         </div>
       </div>

@@ -24,17 +24,17 @@ export default function ContentCard({
   return (
     <div
       className={`group relative flex flex-col rounded-2xl overflow-hidden bg-white
-        transition-all duration-300 ease-out
-        hover:-translate-y-2 hover:shadow-card-hover
+        border transition-all duration-300 ease-out
+        hover:-translate-y-2
         ${active
-          ? 'shadow-[0_2px_16px_rgba(184,144,14,0.14)] border border-dq-200/80'
-          : 'shadow-card border border-gray-100'
+          ? 'shadow-[0_4px_24px_rgba(184,144,14,0.16)] border-dq-200/80 hover:shadow-[0_12px_36px_rgba(184,144,14,0.22)]'
+          : 'shadow-[0_1px_4px_rgba(0,0,0,0.06)] border-gray-100 hover:shadow-[0_12px_36px_rgba(0,0,0,0.1)] hover:border-dq-100'
         }`}
     >
-      {/* Active top accent stripe */}
-      {active && (
-        <div className="absolute top-0 inset-x-0 h-[3px] bg-gradient-to-r from-dq-400 via-dq-500 to-dq-400 z-10" />
-      )}
+      {/* Gold top accent stripe — slides in on hover */}
+      <div className={`absolute top-0 inset-x-0 h-[3px] z-10 transition-transform duration-300 origin-right
+        bg-gradient-to-r from-dq-400 via-dq-500 to-dq-300
+        ${active ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100 group-hover:origin-left'}`} />
 
       {/* Image */}
       <Link href={href} className="block overflow-hidden shrink-0">
@@ -44,22 +44,29 @@ export default function ContentCard({
               src={image}
               alt={title}
               fill
-              className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.06]"
+              className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.07]"
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-dq-50 via-dq-50 to-slate-100">
-              <span className="text-5xl opacity-25 select-none">📖</span>
+              <span className="text-5xl opacity-20 select-none transition-transform duration-300 group-hover:scale-110">📖</span>
             </div>
           )}
-          {/* Hover dim overlay */}
-          <div className="absolute inset-0 bg-slate-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          {/* Hover overlay */}
+          <div className="absolute inset-0 bg-dq-900/15 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          {/* Corner arrow that appears on hover */}
+          <div className="absolute top-3 left-3 w-7 h-7 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center
+            opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0
+            transition-all duration-300 shadow-sm">
+            <ArrowUpRight size={12} strokeWidth={2.5} className="text-dq-700" />
+          </div>
         </div>
       </Link>
 
       {/* Body */}
       <div className="flex flex-col flex-1 px-4 pt-4 pb-5">
         {badge && (
-          <span className="w-fit text-[10px] font-bold uppercase tracking-[0.12em] text-dq-700 bg-dq-50 border border-dq-100/80 rounded-full px-2.5 py-0.5 mb-3">
+          <span className="w-fit text-[10px] font-bold uppercase tracking-[0.12em] text-dq-700 bg-dq-50 border border-dq-100/80 rounded-full px-2.5 py-0.5 mb-3
+            transition-colors duration-200 group-hover:bg-dq-100 group-hover:border-dq-200">
             {badge}
           </span>
         )}
@@ -79,7 +86,10 @@ export default function ContentCard({
         {/* CTA */}
         <Link
           href={href}
-          className="mt-auto inline-flex items-center gap-1 text-[12.5px] font-semibold text-dq-600 hover:text-dq-700 pt-0.5 group/cta"
+          className="mt-auto inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-dq-600
+            pt-0.5 transition-all duration-200 group/cta
+            relative after:absolute after:bottom-0 after:right-0 after:h-px after:w-0
+            after:bg-dq-400 after:transition-all after:duration-300 hover:after:w-full"
         >
           {ctaLabel}
           <ArrowUpRight

@@ -89,6 +89,147 @@
 .animate-delay-500 { animation-delay: 500ms; }
 .animate-delay-600 { animation-delay: 600ms; }
 
+/* ═══════════════════════════════════════════════
+   SCROLL-TRIGGERED REVEAL SYSTEM
+   Add class "rv rv-{type}" to an element.
+   JS (Reveal.tsx) adds "rv-visible" on intersect.
+   ═══════════════════════════════════════════════ */
+
+.rv {
+  will-change: opacity, transform;
+}
+
+/* Fade + slide up */
+.rv-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity  0.65s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.rv-up.rv-visible { opacity: 1; transform: none; }
+
+/* Fade only */
+.rv-fade {
+  opacity: 0;
+  transition: opacity 0.7s ease;
+}
+.rv-fade.rv-visible { opacity: 1; }
+
+/* Scale in */
+.rv-scale {
+  opacity: 0;
+  transform: scale(0.93);
+  transition:
+    opacity  0.6s ease,
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.rv-scale.rv-visible { opacity: 1; transform: scale(1); }
+
+/* Slide from left (in RTL context: slides in from the right/end side) */
+.rv-left {
+  opacity: 0;
+  transform: translateX(-28px);
+  transition:
+    opacity  0.65s ease,
+    transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.rv-left.rv-visible { opacity: 1; transform: none; }
+
+/* Slide from right (in RTL context: slides in from the start) */
+.rv-right {
+  opacity: 0;
+  transform: translateX(28px);
+  transition:
+    opacity  0.65s ease,
+    transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.rv-right.rv-visible { opacity: 1; transform: none; }
+
+/* ═══════════════════════════════════════════════
+   HOVER INTERACTION UTILITIES
+   ═══════════════════════════════════════════════ */
+
+/* Card lift on hover */
+.hover-lift {
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.22s ease;
+}
+.hover-lift:hover { transform: translateY(-4px); }
+
+/* Subtle scale on hover */
+.hover-grow {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hover-grow:hover { transform: scale(1.03); }
+
+/* Image zoom inside a card */
+.img-zoom img {
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.img-zoom:hover img { transform: scale(1.07); }
+
+/* ═══════════════════════════════════════════════
+   KEYFRAME ANIMATIONS
+   ═══════════════════════════════════════════════ */
+
+/* Grow a horizontal line from one side */
+@keyframes growLine {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+.animate-grow-line {
+  transform-origin: right;
+  animation: growLine 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Number counter pop */
+@keyframes countPop {
+  0%   { opacity: 0; transform: translateY(14px) scale(0.92); }
+  70%  { transform: translateY(-2px) scale(1.02); }
+  100% { opacity: 1; transform: none; }
+}
+.animate-count-pop {
+  animation: countPop 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Subtle shimmer on gold elements */
+@keyframes goldShimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+.animate-gold-shimmer {
+  background-size: 200% auto;
+  animation: goldShimmer 3.5s linear infinite;
+}
+
+/* Gentle float */
+@keyframes floatUp {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-6px); }
+}
+.animate-float { animation: floatUp 3.5s ease-in-out infinite; }
+
+/* Ping-like ring for live badge */
+@keyframes pingRing {
+  75%, 100% { transform: scale(2); opacity: 0; }
+}
+.animate-ping-ring { animation: pingRing 1.4s cubic-bezier(0, 0, 0.2, 1) infinite; }
+
+/* Slide in from bottom for toasts / modals */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: none; }
+}
+.animate-slide-up { animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+/* Border pulse on interactive elements */
+@keyframes borderPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(184,144,14,0); }
+  50%       { box-shadow: 0 0 0 4px rgba(184,144,14,0.18); }
+}
+.hover-border-pulse:hover { animation: borderPulse 1.2s ease infinite; }
+
 /* ─── Section reveal (JS adds .is-visible) ─── */
 .reveal {
   opacity: 0;

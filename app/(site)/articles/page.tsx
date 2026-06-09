@@ -3,6 +3,7 @@ import { safeFetch } from '@/sanity/lib/client'
 import { urlFor } from '@/sanity/lib/image'
 import { postsQuery, pageBySlugQuery } from '@/sanity/lib/queries'
 import ContentCard from '@/components/ui/ContentCard'
+import Reveal from '@/components/ui/Reveal'
 
 export const dynamic = 'force-dynamic'
 
@@ -23,18 +24,20 @@ export default async function ArticlesPage() {
   return (
     <div>
       <div className="bg-white border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-          <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-dq-600 mb-3">
-            <span className="w-5 h-px bg-dq-400 inline-block" />
-            {page?.eyebrow || 'علم'}
-          </p>
-          <h1 className="font-bold text-[26px] sm:text-[30px] text-slate-900 tracking-[-0.02em] mb-2">
-            {page?.title || 'مضامین'}
-          </h1>
-          <p className="text-[13.5px] text-gray-500">
-            {page?.subtitle || 'اسلامی علم، خبریں اور مطالعات'}
-          </p>
-        </div>
+        <Reveal animation="up" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+          <div>
+            <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-dq-600 mb-3">
+              <span className="w-5 h-px bg-dq-400 inline-block" />
+              {page?.eyebrow || 'علم'}
+            </p>
+            <h1 className="font-bold text-[26px] sm:text-[30px] text-slate-900 tracking-[-0.02em] mb-2">
+              {page?.title || 'مضامین'}
+            </h1>
+            <p className="text-[13.5px] text-gray-500">
+              {page?.subtitle || 'اسلامی علم، خبریں اور مطالعات'}
+            </p>
+          </div>
+        </Reveal>
       </div>
 
       <div className="py-8 sm:py-12 bg-slate-50/40 min-h-[50vh]">
@@ -43,16 +46,17 @@ export default async function ArticlesPage() {
             <p className="text-center text-gray-400 text-[15px] py-24">ابھی تک کوئی مضمون شائع نہیں ہوا۔</p>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-              {posts.map((post: any) => (
-                <ContentCard
-                  key={post._id}
-                  href={`/articles/${post.slug.current}`}
-                  image={post.mainImage ? urlFor(post.mainImage).width(600).height(450).url() : null}
-                  title={post.title}
-                  description={post.excerpt || null}
-                  badge={post.categories?.[0]?.title || null}
-                  ctaLabel="مزید پڑھیں"
-                />
+              {posts.map((post: any, i: number) => (
+                <Reveal key={post._id} animation="up" delay={i * 70}>
+                  <ContentCard
+                    href={`/articles/${post.slug.current}`}
+                    image={post.mainImage ? urlFor(post.mainImage).width(600).height(450).url() : null}
+                    title={post.title}
+                    description={post.excerpt || null}
+                    badge={post.categories?.[0]?.title || null}
+                    ctaLabel="مزید پڑھیں"
+                  />
+                </Reveal>
               ))}
             </div>
           )}
