@@ -1,0 +1,23 @@
+name: Deploy Darulquran Website
+
+on:
+  push:
+    branches:
+      - main  # Agar aapki branch ka naam main hai toh yahi rehne dein, agar master hai toh master kar dein.
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Hetzner VPS via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /var/www/darulquran_next
+            git pull origin main
+            npm install
+            npm run build
+            pm2 restart darulquran-next

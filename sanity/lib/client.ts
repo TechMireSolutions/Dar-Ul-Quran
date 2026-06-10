@@ -14,15 +14,21 @@ export const client = createClient({
   useCdn:     process.env.NODE_ENV === 'production',
 })
 
+interface FetchOptions {
+  next?:  { revalidate?: number | false; tags?: string[] }
+  cache?: RequestCache
+}
+
 export async function safeFetch<T = any>(
   query:    string,
   params?:  Record<string, unknown>,
-  options?: Parameters<typeof client.fetch>[2]
+  options?: FetchOptions
 ): Promise<T | null> {
   if (!projectId) return null   // skip fetch entirely if not configured
 
   try {
-    return await client.fetch<T>(query, params ?? {}, {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return await (client.fetch as any)(query, params ?? {}, {
       next: { revalidate: 300 },
       ...options,
     })
