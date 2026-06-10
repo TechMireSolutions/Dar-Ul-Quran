@@ -16,27 +16,50 @@
     scroll-behavior: smooth;
     font-family: var(--font-urdu, 'Noto Nastaliq Urdu'), 'Noto Nastaliq Urdu',
                  'Jameel Noori Nastaleeq', system-ui, sans-serif;
+    text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
     @apply text-slate-900 bg-white;
     font-family: var(--font-urdu, 'Noto Nastaliq Urdu'), 'Noto Nastaliq Urdu',
                  'Jameel Noori Nastaleeq', system-ui, sans-serif;
-    font-size: 15px;
-    line-height: 1.9;
+    font-size: 16px;
+    line-height: 1.85;
+    font-weight: 400;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    /* Enable ligatures and contextual alternates — critical for Arabic/Urdu */
+    font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
+    overflow-x: hidden;
   }
 
+  /* ── Heading hierarchy ─────────────────────────────── */
   h1, h2, h3, h4, h5, h6 {
     font-weight: 700;
-    line-height: 1.4;
     letter-spacing: 0;
     text-rendering: optimizeLegibility;
+    text-wrap: balance;
   }
 
-  p { line-height: 1.9; }
+  /* Nastaliq line-heights increase as font-size decreases
+     because the script's tall glyphs need more relative space at smaller sizes */
+  h1 { font-size: 2.5rem;    line-height: 1.25; } /* 40px */
+  h2 { font-size: 2rem;      line-height: 1.3;  } /* 32px */
+  h3 { font-size: 1.625rem;  line-height: 1.35; } /* 26px */
+  h4 { font-size: 1.25rem;   line-height: 1.5;  } /* 20px */
+  h5 { font-size: 1.0625rem; line-height: 1.6;  } /* 17px */
+  h6 { font-size: 0.9375rem; line-height: 1.65; } /* 15px */
+
+  p {
+    line-height: 1.85;
+    text-wrap: pretty;
+  }
+
+  small { font-size: 0.8125rem; line-height: 1.6; } /* 13px */
+
+  strong { font-weight: 700; }
 
   /* Focus ring */
   :focus-visible {
@@ -264,13 +287,17 @@ a:focus-visible {
   border-radius: 6px;
 }
 
-/* ─── Button text: override global Nastaliq line-height so text stays inside ─── */
-a[class*="rounded-full"],
-a[class*="rounded-xl"],
-a[class*="rounded-lg"],
-button[class*="rounded-full"],
-button[class*="rounded-xl"],
-button[class*="rounded-lg"] {
+/* ─── Buttons & pill links: Nastaliq body line-height is too tall for inline elements ─── */
+button,
+input[type="submit"],
+input[type="button"],
+.btn {
+  line-height: 1.4;
+}
+
+/* Link-buttons (Next.js <Link> styled as buttons) */
+a:where([class*="rounded-full"], [class*="rounded-xl"], [class*="rounded-lg"],
+        [class*="px-"], [class*="py-"]):not([class*="block"]):not([class*="flex"]) {
   line-height: 1.4;
 }
 
