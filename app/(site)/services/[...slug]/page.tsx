@@ -154,7 +154,7 @@ export default async function ServiceCatchAllPage(
                   <div className="flex justify-center lg:justify-start order-2 lg:order-1">
                     {whyUsImageUrl ? (
                       <div className="relative w-full max-w-sm aspect-square rounded-2xl overflow-hidden shadow-sm border border-gray-100">
-                        <Image src={whyUsImageUrl} alt={service.whyUsHeading || service.title} fill className="object-cover" />
+                        <Image src={whyUsImageUrl} alt={service.whyUsHeading || service.title} fill sizes="(max-width: 640px) 100vw, 384px" className="object-cover" />
                       </div>
                     ) : (
                       <div className="w-full max-w-sm aspect-square rounded-2xl bg-slate-50 border border-gray-200 flex items-center justify-center">
@@ -256,11 +256,11 @@ export default async function ServiceCatchAllPage(
                     {service.ctaBtn1Label || 'شروع کریں'}
                     <ArrowRight size={14} strokeWidth={2.5} className="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform" />
                   </Link>
-                  <a href={whatsappHref} target="_blank" rel="noopener noreferrer"
+                  <Link href={whatsappHref} target="_blank" rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/15 text-white text-[14px] font-semibold px-8 py-3.5 rounded-full border border-white/20 transition-all duration-200 hover:-translate-y-px">
                     <MessageCircle size={14} />
                     {service.ctaBtn2Label || 'واٹس ایپ کریں'}
-                  </a>
+                  </Link>
                 </div>
               </div>
             </section>

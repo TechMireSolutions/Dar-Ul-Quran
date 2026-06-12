@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { safeFetch } from '@/sanity/lib/client'
 import { siteSettingsQuery, pageBySlugQuery, allCoursesForFormQuery, allServicesForFormQuery } from '@/sanity/lib/queries'
 import { PortableText } from '@portabletext/react'
@@ -80,10 +81,10 @@ export default async function ContactPage() {
                     <div className="min-w-0">
                       <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-gray-400 mb-0.5">{label}</p>
                       {href ? (
-                        <a href={href} target={href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer"
+                        <Link href={href} target={href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer"
                           className="text-[13px] text-slate-700 hover:text-dq-600 transition-colors break-all">
                           {value}
-                        </a>
+                        </Link>
                       ) : (
                         <p className="text-[13px] text-slate-700 whitespace-pre-line">{value}</p>
                       )}
@@ -96,16 +97,16 @@ export default async function ContactPage() {
                 <Reveal animation="up" delay={contactItems.length * 70}>
                   <div className="flex gap-2 pt-1">
                     {settings?.facebook && (
-                      <a href={settings.facebook} target="_blank" rel="noopener noreferrer"
+                      <Link href={settings.facebook} target="_blank" rel="noopener noreferrer"
                         className="flex items-center gap-1.5 text-[12px] font-medium text-gray-500 hover:text-dq-600 bg-white border border-gray-200 rounded-lg px-3 py-2 transition-colors">
                         <Facebook size={13} /> Facebook
-                      </a>
+                      </Link>
                     )}
                     {settings?.youtube && (
-                      <a href={settings.youtube} target="_blank" rel="noopener noreferrer"
+                      <Link href={settings.youtube} target="_blank" rel="noopener noreferrer"
                         className="flex items-center gap-1.5 text-[12px] font-medium text-gray-500 hover:text-dq-600 bg-white border border-gray-200 rounded-lg px-3 py-2 transition-colors">
                         <Youtube size={13} /> YouTube
-                      </a>
+                      </Link>
                     )}
                   </div>
                 </Reveal>

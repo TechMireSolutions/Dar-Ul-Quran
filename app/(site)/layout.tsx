@@ -14,7 +14,14 @@ interface NavNode {
   children?: NavNode[]
 }
 
-function toNavNode(item: any): NavNode {
+interface RawNavItem {
+  label?:    string
+  href?:     string
+  external?: boolean
+  children?: RawNavItem[]
+}
+
+function toNavNode(item: RawNavItem): NavNode {
   return {
     label:    item.label ?? '',
     href:     item.href  || '#',

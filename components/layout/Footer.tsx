@@ -1,6 +1,22 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { Mail, Phone, MapPin, MessageCircle, Facebook, Youtube, ExternalLink } from 'lucide-react'
+import { Mail, Phone, MapPin, MessageCircle, ExternalLink } from 'lucide-react'
+
+function IconFacebook({ size = 12 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M24 12.073C24 5.446 18.627 0 12 0S0 5.446 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047v-2.66c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.971H15.83c-1.491 0-1.956.932-1.956 1.888v2.262h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/>
+    </svg>
+  )
+}
+
+function IconYoutube({ size = 12 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088C19.535 3.6 12 3.6 12 3.6s-7.535 0-9.407.517A3.007 3.007 0 0 0 .505 6.205 31.247 31.247 0 0 0 0 12a31.247 31.247 0 0 0 .505 5.795 3.007 3.007 0 0 0 2.088 2.088C4.465 20.4 12 20.4 12 20.4s7.535 0 9.407-.517a3.007 3.007 0 0 0 2.088-2.088A31.247 31.247 0 0 0 24 12a31.247 31.247 0 0 0-.505-5.795zM9.609 15.601V8.408L15.873 12z"/>
+    </svg>
+  )
+}
 import Reveal from '@/components/ui/Reveal'
 
 interface SiteSettings {
@@ -108,22 +124,22 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
               {/* Social + external links */}
               <div className="flex items-center gap-2 flex-wrap">
                 {settings?.facebook && (
-                  <a href={settings.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook"
+                  <Link href={settings.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook"
                     className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-dq-800 border border-dq-700 flex items-center justify-center text-gray-400 hover:border-dq-400 hover:text-dq-400 transition-all duration-200">
-                    <Facebook size={12} />
-                  </a>
+                    <IconFacebook size={12} />
+                  </Link>
                 )}
                 {settings?.youtube && (
-                  <a href={settings.youtube} target="_blank" rel="noopener noreferrer" aria-label="YouTube"
+                  <Link href={settings.youtube} target="_blank" rel="noopener noreferrer" aria-label="YouTube"
                     className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-dq-800 border border-dq-700 flex items-center justify-center text-gray-400 hover:border-dq-400 hover:text-dq-400 transition-all duration-200">
-                    <Youtube size={12} />
-                  </a>
+                    <IconYoutube size={12} />
+                  </Link>
                 )}
                 {settings?.darulQuranUrl && (
-                  <a href={settings.darulQuranUrl} target="_blank" rel="noopener noreferrer"
+                  <Link href={settings.darulQuranUrl} target="_blank" rel="noopener noreferrer"
                     className="flex items-center gap-1 text-[11px] font-medium text-dq-100/60 hover:text-dq-400 bg-dq-800 border border-dq-700 hover:border-dq-400 rounded-lg px-2 py-1 sm:px-2.5 sm:py-1.5 transition-all duration-200">
                     دار القرآن <ExternalLink size={9} />
-                  </a>
+                  </Link>
                 )}
               </div>
             </div>
@@ -134,7 +150,7 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
             <div>
               <ColHeading>فوری روابط</ColHeading>
               <ul className="space-y-1.5 sm:space-y-2.5">
-                {quickLinks.map(({ label, href }: any) => (
+                {quickLinks.map(({ label, href }) => (
                   <NavLink key={href} href={href}>{label}</NavLink>
                 ))}
               </ul>
@@ -146,7 +162,7 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
             <div>
               <ColHeading>خدمات</ColHeading>
               <ul className="space-y-1.5 sm:space-y-2.5">
-                {services.map(({ label, href }: any) => (
+                {services.map(({ label, href }) => (
                   <NavLink key={href} href={href}>{label}</NavLink>
                 ))}
               </ul>
@@ -159,30 +175,30 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
             <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-x-4 gap-y-2 sm:gap-y-3">
               {settings?.email && (
                 <li>
-                  <a href={`mailto:${settings.email}`}
+                  <Link href={`mailto:${settings.email}`}
                     className="flex items-center gap-2 text-[12px] sm:text-[12.5px] text-dq-100/60 hover:text-dq-400 transition-colors duration-150">
                     <Mail size={12} className="text-dq-400 flex-shrink-0" />
                     <span className="truncate">{settings.email}</span>
-                  </a>
+                  </Link>
                 </li>
               )}
               {settings?.phone && (
                 <li>
-                  <a href={`tel:${settings.phone}`}
+                  <Link href={`tel:${settings.phone}`}
                     className="flex items-center gap-2 text-[12px] sm:text-[12.5px] text-dq-100/60 hover:text-dq-400 transition-colors duration-150">
                     <Phone size={12} className="text-dq-400 flex-shrink-0" />
                     {settings.phone}
-                  </a>
+                  </Link>
                 </li>
               )}
               {settings?.whatsapp && (
                 <li>
-                  <a href={`https://wa.me/${settings.whatsapp.replace(/\D/g, '')}`}
+                  <Link href={`https://wa.me/${settings.whatsapp.replace(/\D/g, '')}`}
                     target="_blank" rel="noopener noreferrer"
                     className="flex items-center gap-2 text-[12px] sm:text-[12.5px] text-dq-100/60 hover:text-dq-400 transition-colors duration-150">
                     <MessageCircle size={12} className="text-dq-400 flex-shrink-0" />
                     WhatsApp: {settings.whatsapp}
-                  </a>
+                  </Link>
                 </li>
               )}
               {settings?.address && (

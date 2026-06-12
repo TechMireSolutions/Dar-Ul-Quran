@@ -43,7 +43,7 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
 
         {post.categories?.length > 0 && (
           <div className="flex flex-wrap gap-2 mb-4 sm:mb-5">
-            {post.categories.map((cat: any) => (
+            {post.categories.map((cat: { _id: string; title: string }) => (
               <span key={cat._id}
                 className="text-[10.5px] font-bold uppercase tracking-[0.1em] bg-dq-50 text-dq-700 border border-dq-100 px-3 py-1 rounded-full">
                 {cat.title}
@@ -76,7 +76,7 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
             <Image
               src={urlFor(post.mainImage).width(900).height(500).url()}
               alt={post.mainImage.alt ?? post.title}
-              fill className="object-cover"
+              fill sizes="(max-width: 768px) 100vw, 800px" className="object-cover"
             />
           </div>
         )}

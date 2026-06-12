@@ -1,6 +1,25 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@config "../tailwind.config.ts";
+
+/* Ensure dynamically-constructed dq-* class names (e.g. from CMS data) are always emitted */
+@source inline("bg-dq-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("text-dq-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("border-dq-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("from-dq-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("to-dq-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("via-dq-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("ring-dq-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("shadow-dq-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("hover:bg-dq-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("hover:text-dq-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("hover:border-dq-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("focus:bg-dq-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("focus:text-dq-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("focus:border-dq-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("active:bg-dq-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("group-hover:bg-dq-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("group-hover:text-dq-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("focus-within:border-dq-{50,100,200,300,400,500,600,700,800,900,950}");
 
 /* ─── Custom Scrollbar ─── */
 ::-webkit-scrollbar          { width: 6px; height: 6px; }

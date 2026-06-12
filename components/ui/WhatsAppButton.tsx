@@ -1,6 +1,8 @@
 'use client'
 import { useState } from 'react'
 
+import Link from 'next/link'
+
 interface WhatsAppButtonProps {
   number: string
 }
@@ -12,7 +14,7 @@ export default function WhatsAppButton({ number }: WhatsAppButtonProps) {
   const href   = `https://wa.me/${clean}?text=${encodeURIComponent('Assalamu Alaikum, I have an inquiry about your services.')}`
 
   return (
-    <a
+    <Link
       href={href}
       target="_blank"
       rel="noopener noreferrer"
@@ -51,6 +53,6 @@ export default function WhatsAppButton({ number }: WhatsAppButtonProps) {
       >
         WhatsApp
       </span>
-    </a>
+    </Link>
   )
 }

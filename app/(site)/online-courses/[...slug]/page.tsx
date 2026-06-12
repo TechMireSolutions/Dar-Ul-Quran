@@ -159,7 +159,7 @@ export default async function CourseCatchAllPage(
               )}
 
               <div className="flex flex-wrap justify-center gap-3">
-                <a
+                <Link
                   href={enrollHref}
                   target={course.enrollmentLink ? '_blank' : undefined}
                   rel={course.enrollmentLink ? 'noopener noreferrer' : undefined}
@@ -167,7 +167,7 @@ export default async function CourseCatchAllPage(
                 >
                   {course.heroCtaLabel || 'ابھی داخلہ لیں'}
                   <ArrowRight size={14} strokeWidth={2.5} className="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform" />
-                </a>
+                </Link>
               </div>
             </div>
           </section>
@@ -391,7 +391,7 @@ export default async function CourseCatchAllPage(
                   <p className="text-[15px] text-slate-400 mb-8 leading-relaxed">{course.ctaSubtitle}</p>
                 )}
                 <div className="flex flex-wrap justify-center gap-3 mb-8">
-                  <a
+                  <Link
                     href={enrollHref}
                     target={course.enrollmentLink ? '_blank' : undefined}
                     rel={course.enrollmentLink ? 'noopener noreferrer' : undefined}
@@ -399,8 +399,8 @@ export default async function CourseCatchAllPage(
                   >
                     {course.ctaBtn1Label || 'ابھی شامل ہوں'}
                     <ArrowRight size={14} strokeWidth={2.5} className="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform" />
-                  </a>
-                  <a
+                  </Link>
+                  <Link
                     href={whatsappHref}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -408,7 +408,7 @@ export default async function CourseCatchAllPage(
                   >
                     <MessageCircle size={14} />
                     {course.ctaBtn2Label || 'واٹس ایپ کریں'}
-                  </a>
+                  </Link>
                 </div>
                 {(site?.email || site?.phone) && (
                   <div className="flex flex-wrap justify-center gap-6 text-[13px] text-slate-500">

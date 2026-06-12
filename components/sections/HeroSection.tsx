@@ -40,7 +40,7 @@ export default function HeroSection({
     return () => clearTimeout(id)
   }, [])
 
-  function a(delay: number, dist = 22): React.CSSProperties {
+  function animStyle(delay: number, dist = 22): React.CSSProperties {
     return {
       opacity:    show ? 1 : 0,
       transform:  show ? 'none' : `translateY(${dist}px)`,
@@ -84,7 +84,7 @@ export default function HeroSection({
         style={{ opacity: show ? 1 : 0, transition: 'opacity 1.3s ease 150ms' }}
       >
         {heroImage ? (
-          <Image src={heroImage} alt="Hero" fill priority className="object-cover object-center" />
+          <Image src={heroImage} alt="Hero" fill priority sizes="(max-width: 768px) 100vw, 58vw" className="object-cover object-center" />
         ) : (
           <div className="w-full h-full"
             style={{ background: 'linear-gradient(135deg, #f0d89a 0%, #fdf3d0 60%, #fff 100%)' }} />
@@ -112,7 +112,7 @@ export default function HeroSection({
         <div className="w-full md:max-w-[500px]">
 
           {/* Enrollment badge */}
-          <div style={a(0)} className="mb-5">
+          <div style={animStyle(0)} className="mb-5">
             <span
               className="inline-flex items-center gap-2 rounded-full px-4 py-1.5"
               style={{ background: 'rgba(209,250,229,0.7)', border: '1px solid rgba(52,211,153,0.35)' }}
@@ -124,10 +124,10 @@ export default function HeroSection({
             </span>
           </div>
 
-          {/* Subtitle / Bismillah */}
+          {/* Subtitle */}
           <p
             dir="rtl"
-            style={{ ...a(80), color: 'rgba(184,144,14,0.8)', lineHeight: 1.5 }}
+            style={{ ...animStyle(80), color: 'rgba(184,144,14,0.8)', lineHeight: 1.5 }}
             className="text-[12.5px] font-medium mb-4 tracking-wide"
           >
             {subtitle}
@@ -139,7 +139,7 @@ export default function HeroSection({
               <span
                 key={i}
                 style={{
-                  ...a(130 + i * 80),
+                  ...animStyle(130 + i * 80),
                   display: 'block',
                   fontSize: 'clamp(38px, 5.8vw, 68px)',
                   fontWeight: 800,
@@ -163,7 +163,7 @@ export default function HeroSection({
           </h1>
 
           {/* Gold decorative divider */}
-          <div style={a(310)} className="flex items-center gap-2 mb-5">
+          <div style={animStyle(310)} className="flex items-center gap-2 mb-5">
             <span
               className="h-[2px] w-16 rounded-full flex-shrink-0"
               style={{ background: 'linear-gradient(to right, #d4a820, rgba(212,168,32,0))' }}
@@ -180,14 +180,14 @@ export default function HeroSection({
 
           {/* Description */}
           <p
-            style={{ ...a(380), lineHeight: 1.9 }}
+            style={{ ...animStyle(380), lineHeight: 1.9 }}
             className="text-[14px] sm:text-[14.5px] text-gray-600 mb-8 max-w-[430px]"
           >
             {description}
           </p>
 
           {/* CTAs */}
-          <div style={a(460)} className="flex items-center gap-3 flex-wrap">
+          <div style={animStyle(460)} className="flex items-center gap-3 flex-wrap">
             <Link
               href={cta1Link}
               className="group inline-flex items-center gap-2 text-white font-bold text-[13.5px] rounded-full transition-all duration-200 hover:-translate-y-0.5"
@@ -223,7 +223,7 @@ export default function HeroSection({
           {/* Stats */}
           <div
             style={{
-              ...a(560),
+              ...animStyle(560),
               borderTop:  '1px solid rgba(212,168,32,0.22)',
               marginTop:  '2.5rem',
               paddingTop: '1.75rem',
