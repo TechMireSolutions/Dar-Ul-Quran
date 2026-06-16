@@ -94,7 +94,7 @@ export default function CarouselSection({
                 onClick={() => scrollBy('left')}
                 disabled={!canLeft}
                 aria-label="پچھلا"
-                className={`w-9 h-9 rounded-full border-2 flex items-center justify-center
+                className={`w-12 h-12 rounded-full border-2 flex items-center justify-center
                   transition-all duration-200
                   ${canLeft
                     ? 'border-gray-200 text-gray-500 hover:border-dq-500 hover:text-dq-600 hover:bg-dq-50'
@@ -106,7 +106,7 @@ export default function CarouselSection({
                 onClick={() => scrollBy('right')}
                 disabled={!canRight}
                 aria-label="اگلا"
-                className={`w-9 h-9 rounded-full border-2 flex items-center justify-center
+                className={`w-12 h-12 rounded-full border-2 flex items-center justify-center
                   transition-all duration-200
                   ${canRight
                     ? 'border-gray-200 text-gray-500 hover:border-dq-500 hover:text-dq-600 hover:bg-dq-50'
@@ -118,7 +118,7 @@ export default function CarouselSection({
 
             <Link
               href={viewAllHref}
-              className="group inline-flex items-center gap-1.5 text-[13px] font-semibold text-dq-600 hover:text-dq-700 transition-colors whitespace-nowrap"
+              className="group inline-flex items-center gap-1.5 text-[13px] font-semibold text-dq-600 hover:text-dq-700 transition-colors whitespace-nowrap py-2"
             >
               {viewAllLabel}
               <ArrowRight

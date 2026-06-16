@@ -44,6 +44,7 @@ export default function ContentCard({
               src={image}
               alt={title}
               fill
+              loading="lazy"
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.07]"
             />
@@ -88,7 +89,7 @@ export default function ContentCard({
         <Link
           href={href}
           className="mt-auto inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-dq-600
-            pt-0.5 transition-all duration-200 group/cta
+            py-2 transition-all duration-200 group/cta
             relative after:absolute after:bottom-0 after:right-0 after:h-px after:w-0
             after:bg-dq-400 after:transition-all after:duration-300 hover:after:w-full"
         >

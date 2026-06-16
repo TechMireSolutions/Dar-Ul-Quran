@@ -192,7 +192,7 @@ export default function HeroSection({
               href={cta1Link}
               className="group inline-flex items-center gap-2 text-white font-bold text-[13.5px] rounded-full transition-all duration-200 hover:-translate-y-0.5"
               style={{
-                padding:    '12px 28px',
+                padding:    '14px 28px',
                 background: 'linear-gradient(135deg, #c49a18 0%, #9a7509 100%)',
                 boxShadow:  '0 4px 22px rgba(184,144,14,0.45), inset 0 1px 0 rgba(255,255,255,0.18)',
                 lineHeight: 1.3,
@@ -209,7 +209,7 @@ export default function HeroSection({
               href={cta2Link}
               className="inline-flex items-center font-semibold text-[13.5px] rounded-full transition-all duration-200 hover:-translate-y-0.5"
               style={{
-                padding:    '11px 26px',
+                padding:    '14px 26px',
                 color:      '#7c5d07',
                 border:     '1.5px solid rgba(212,168,32,0.45)',
                 background: 'rgba(253,250,242,0.9)',
