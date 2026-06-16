@@ -75,53 +75,53 @@ export default function ContactForm({ submitLabel, courses, services }: Props) {
     >
       {status === 'success' && (
         <div className="bg-green-50 border border-green-200 text-green-700 text-[13px] rounded-lg px-4 py-3">
-          Your message has been sent successfully. We will get back to you soon.
+          آپ کا پیغام کامیابی سے بھیج دیا گیا۔ ہم جلد آپ سے رابطہ کریں گے۔
         </div>
       )}
       {status === 'error' && (
         <div className="bg-red-50 border border-red-200 text-red-700 text-[13px] rounded-lg px-4 py-3">
-          Something went wrong. Please try again or contact us directly.
+          کچھ غلط ہو گیا۔ براہ کرم دوبارہ کوشش کریں یا براہ راست ہم سے رابطہ کریں۔
         </div>
       )}
 
-      {/* First Name + Last Name */}
+      {/* پہلا نام + آخری نام */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <Label required>First Name</Label>
-          <input type="text" name="firstName" required placeholder="First name" className={inputCls} />
+          <Label required>پہلا نام</Label>
+          <input type="text" name="firstName" required placeholder="پہلا نام" className={inputCls} />
         </div>
         <div>
-          <Label>Last Name</Label>
-          <input type="text" name="lastName" placeholder="Last name (optional)" className={inputCls} />
+          <Label>آخری نام</Label>
+          <input type="text" name="lastName" placeholder="آخری نام (اختیاری)" className={inputCls} />
         </div>
       </div>
 
-      {/* Purpose */}
+      {/* مقصد */}
       <div>
-        <Label required>Purpose</Label>
+        <Label required>مقصد</Label>
         <select
           value={purpose}
           onChange={e => { setPurpose(e.target.value as Purpose); setAppliedFor('') }}
           className={inputCls}
         >
-          <option value="general">General Inquiry</option>
-          {courses.length  > 0 && <option value="course">Enroll in a Course</option>}
-          {services.length > 0 && <option value="service">Request a Service</option>}
-          <option value="other">Other</option>
+          <option value="general">عام پوچھ گچھ</option>
+          {courses.length  > 0 && <option value="course">کورس میں داخلہ</option>}
+          {services.length > 0 && <option value="service">خدمت کی درخواست</option>}
+          <option value="other">دیگر</option>
         </select>
       </div>
 
-      {/* Course dropdown */}
+      {/* کورس dropdown */}
       {purpose === 'course' && courses.length > 0 && (
         <div>
-          <Label required>Select Course</Label>
+          <Label required>کورس منتخب کریں</Label>
           <select
             required
             value={appliedFor}
             onChange={e => setAppliedFor(e.target.value)}
             className={inputCls}
           >
-            <option value="" disabled>— Choose a course —</option>
+            <option value="" disabled>— کورس منتخب کریں —</option>
             {courses.map(c => (
               <option key={c._id} value={optionLabel(c)}>{optionLabel(c)}</option>
             ))}
@@ -129,17 +129,17 @@ export default function ContactForm({ submitLabel, courses, services }: Props) {
         </div>
       )}
 
-      {/* Service dropdown */}
+      {/* خدمت dropdown */}
       {purpose === 'service' && services.length > 0 && (
         <div>
-          <Label required>Select Service</Label>
+          <Label required>خدمت منتخب کریں</Label>
           <select
             required
             value={appliedFor}
             onChange={e => setAppliedFor(e.target.value)}
             className={inputCls}
           >
-            <option value="" disabled>— Choose a service —</option>
+            <option value="" disabled>— خدمت منتخب کریں —</option>
             {services.map(s => (
               <option key={s._id} value={optionLabel(s)}>{optionLabel(s)}</option>
             ))}
@@ -147,41 +147,41 @@ export default function ContactForm({ submitLabel, courses, services }: Props) {
         </div>
       )}
 
-      {/* Email + Phone */}
+      {/* ای میل + فون */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <Label required>Email</Label>
+          <Label required>ای میل</Label>
           <input type="email" name="email" required placeholder="your@email.com" className={inputCls} />
         </div>
         <div>
-          <Label required>Phone Number</Label>
+          <Label required>فون نمبر</Label>
           <input type="tel" name="phone" required placeholder="+92 300 0000000" className={inputCls} />
         </div>
       </div>
 
-      {/* Country + City */}
+      {/* ملک + شہر */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <Label required>Country</Label>
-          <input type="text" name="country" required placeholder="e.g. Pakistan" className={inputCls} />
+          <Label required>ملک</Label>
+          <input type="text" name="country" required placeholder="مثلاً: پاکستان" className={inputCls} />
         </div>
         <div>
-          <Label required>City</Label>
-          <input type="text" name="city" required placeholder="e.g. Karachi" className={inputCls} />
+          <Label required>شہر</Label>
+          <input type="text" name="city" required placeholder="مثلاً: کراچی" className={inputCls} />
         </div>
       </div>
 
-      {/* Message */}
+      {/* پیغام */}
       <div>
-        <Label required>Message</Label>
+        <Label required>پیغام</Label>
         <textarea
           name="message"
           rows={5}
           required
           placeholder={
-            purpose === 'course'  ? 'Tell us about yourself, your level, preferred schedule...' :
-            purpose === 'service' ? 'Describe what you need and any relevant details...' :
-            'Write your message here...'
+            purpose === 'course'  ? 'اپنے بارے میں، تعلیمی سطح اور مناسب وقت بتائیں...' :
+            purpose === 'service' ? 'اپنی ضرورت اور متعلقہ تفصیل بیان کریں...' :
+            'یہاں اپنا پیغام لکھیں...'
           }
           className={`${inputCls} resize-none`}
         />
@@ -196,7 +196,7 @@ export default function ContactForm({ submitLabel, courses, services }: Props) {
           shadow-[0_4px_14px_rgba(184,144,14,0.28)] hover:shadow-[0_6px_20px_rgba(184,144,14,0.4)]
           transition-all duration-200 hover:-translate-y-px"
       >
-        {status === 'loading' ? 'Sending...' : submitLabel}
+        {status === 'loading' ? 'بھیجا جا رہا ہے...' : submitLabel}
       </button>
     </form>
   )

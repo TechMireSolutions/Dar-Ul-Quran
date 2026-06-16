@@ -41,18 +41,24 @@ export async function generateMetadata(): Promise<Metadata> {
       title:       { default: siteName, template: `%s | ${siteName}` },
       description: settings?.description || 'اسلامی علم، آنلائن کورسز اور خدمات',
       icons:       faviconUrl ? { icon: faviconUrl, apple: faviconUrl } : undefined,
+      verification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+        ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
+        : undefined,
     }
   } catch {
     return {
       title:       { default: 'دار القرآن', template: '%s | دار القرآن' },
       description: 'اسلامی علم، آنلائن کورسز اور خدمات',
+      verification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+        ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
+        : undefined,
     }
   }
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ur" dir="rtl" className={urduFont.variable}>
+    <html lang="ur" dir="rtl" className={urduFont.variable} data-scroll-behavior="smooth">
       <head>
         {/* Eliminate DNS + TLS handshake latency before next/font requests the woff2 */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />

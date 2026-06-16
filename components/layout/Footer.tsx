@@ -197,7 +197,7 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
                     target="_blank" rel="noopener noreferrer"
                     className="flex items-center gap-2 text-[12px] sm:text-[12.5px] text-dq-100/60 hover:text-dq-400 transition-colors duration-150">
                     <MessageCircle size={12} className="text-dq-400 flex-shrink-0" />
-                    WhatsApp: {settings.whatsapp}
+                    واٹس ایپ: {settings.whatsapp}
                   </Link>
                 </li>
               )}

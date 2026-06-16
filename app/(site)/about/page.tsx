@@ -65,8 +65,7 @@ export default async function AboutPage() {
             <div className="space-y-6 sm:space-y-8">
               <Reveal animation="up">
                 <p className="text-[14.5px] text-gray-600 leading-[1.8]">
-                  <strong className="text-slate-900">{siteName}</strong> is a dedicated platform for the promotion of
-                  Islamic knowledge rooted in the teachings of the Holy Quran and the Ahlul Bayt (A.S.). Our name —
+                  <strong className="text-slate-900">{siteName}</strong> اسلامی علم کے فروغ کا ایک خصوصی پلیٹ فارم ہے جو قرآن مجید اور اہل بیت (ع) کی تعلیمات پر مبنی ہے۔ ہمارا نام —
                   جس کے معنی <em>&ldquo;گھرِ قرآن&rdquo;</em> — قرآن کو تعلیم اور مستند اسلامی مواد کی بنیاد بنانے کے ہمارے مشن کی عکاسی کرتا ہے۔
                 </p>
               </Reveal>
@@ -87,10 +86,9 @@ export default async function AboutPage() {
 
               <Reveal animation="up" delay={80}>
                 <div className="bg-slate-50 rounded-xl p-4 sm:p-6 border border-gray-100">
-                  <h3 className="font-semibold text-slate-900 mb-2 text-[15px]">Dar Ul Quran</h3>
+                  <h3 className="font-semibold text-slate-900 mb-2 text-[15px]">دار القرآن</h3>
                   <p className="text-[13.5px] text-gray-600 leading-relaxed">
-                    We are affiliated with <strong className="text-slate-800">Dar Ul Quran</strong>, our dedicated
-                    Quranic institute providing structured Quran education programs for students of all ages.
+                    ہم <strong className="text-slate-800">دار القرآن</strong> سے وابستہ ہیں، جو ہمارا خصوصی قرآنی ادارہ ہے اور ہر عمر کے طلبہ کے لیے منظم قرآنی تعلیمی پروگرام فراہم کرتا ہے۔
                   </p>
                 </div>
               </Reveal>

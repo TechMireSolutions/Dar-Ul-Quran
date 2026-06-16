@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { safeFetch } from '@/sanity/lib/client'
 import { siteSettingsQuery, pageBySlugQuery, allCoursesForFormQuery, allServicesForFormQuery } from '@/sanity/lib/queries'
 import { PortableText } from '@portabletext/react'
-import { Mail, Phone, MessageCircle, MapPin, Facebook, Youtube } from 'lucide-react'
+import { Mail, Phone, MessageCircle, MapPin, Globe, Play } from 'lucide-react'
 import ContactForm from './ContactForm'
 import Reveal from '@/components/ui/Reveal'
 
@@ -26,10 +26,10 @@ export default async function ContactPage() {
   ])
 
   const contactItems = [
-    settings?.email    && { Icon: Mail,          label: 'Email',    value: settings.email,    href: `mailto:${settings.email}` },
-    settings?.phone    && { Icon: Phone,         label: 'Phone',    value: settings.phone,    href: `tel:${settings.phone}` },
-    settings?.whatsapp && { Icon: MessageCircle, label: 'WhatsApp', value: settings.whatsapp, href: `https://wa.me/${settings.whatsapp.replace(/\D/g, '')}` },
-    settings?.address  && { Icon: MapPin,        label: 'Address',  value: settings.address,  href: null },
+    settings?.email    && { Icon: Mail,          label: 'ای میل',   value: settings.email,    href: `mailto:${settings.email}` },
+    settings?.phone    && { Icon: Phone,         label: 'فون',      value: settings.phone,    href: `tel:${settings.phone}` },
+    settings?.whatsapp && { Icon: MessageCircle, label: 'واٹس ایپ', value: settings.whatsapp, href: `https://wa.me/${settings.whatsapp.replace(/\D/g, '')}` },
+    settings?.address  && { Icon: MapPin,        label: 'پتہ',      value: settings.address,  href: null },
   ].filter(Boolean) as { Icon: any; label: string; value: string; href: string | null }[]
 
   const subjects: string[] = settings?.contactFormSubjects?.length
@@ -99,13 +99,13 @@ export default async function ContactPage() {
                     {settings?.facebook && (
                       <Link href={settings.facebook} target="_blank" rel="noopener noreferrer"
                         className="flex items-center gap-1.5 text-[12px] font-medium text-gray-500 hover:text-dq-600 bg-white border border-gray-200 rounded-lg px-3 py-2 transition-colors">
-                        <Facebook size={13} /> Facebook
+                        <Globe size={13} /> فیس بک
                       </Link>
                     )}
                     {settings?.youtube && (
                       <Link href={settings.youtube} target="_blank" rel="noopener noreferrer"
                         className="flex items-center gap-1.5 text-[12px] font-medium text-gray-500 hover:text-dq-600 bg-white border border-gray-200 rounded-lg px-3 py-2 transition-colors">
-                        <Youtube size={13} /> YouTube
+                        <Play size={13} /> یوٹیوب
                       </Link>
                     )}
                   </div>
