@@ -56,6 +56,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ur" dir="rtl" className={urduFont.variable} data-scroll-behavior="smooth">
       <head>
+        <meta name="google-site-verification" content="HlwG4YjRAkH3E4L7nQg1wNUk4Qy8b8LCSd9ccfxgZto" />
         {/* Eliminate DNS + TLS handshake latency before next/font requests the woff2 */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
