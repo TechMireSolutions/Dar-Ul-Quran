@@ -1,42 +1,23 @@
-name: Deploy Darulquran to Hetzner
+name: Deploy Darulquran Website
 
 on:
   push:
     branches:
-      - main # Kyunki developer isi branch par push kar raha hai
+      - main  # Agar aapki branch ka naam main hai toh yahi rehne dein, agar master hai toh master kar dein.
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1.0.3
+      - name: Deploy to Hetzner VPS via SSH
+        uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.SERVER_IP }}
+          host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
           script: |
-            # 1. Sahi Darulquran folder ke andar jana (Rasta verify karlein)
-            cd /var/www/darulquran-next
-
-            # 2. Server par agar koi local file phasee ho toh saaf karke force pull karna
-            git reset --hard HEAD
+            cd /var/www/darulquran_next
             git pull origin main
-
-            # 3. Node.js aur NVM environment ko sahi se load karna
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-
-            # 4. Dependencies install karke fresh build banana
             npm install
             npm run build
-
-            # 5. Sahi PM2 process ko restart dena
             pm2 restart darulquran-next
-
-            echo "🚀 Darulquran Successfully Updated on VPS!"
