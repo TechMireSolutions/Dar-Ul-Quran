@@ -170,7 +170,7 @@ export default async function HomePage() {
       {/* ── Online Courses Carousel ── */}
       {courseItems.length > 0 && (
         <CarouselSection
-          eyebrow="Education"
+          eyebrow="تعلیم"
           title={hp?.coursesHeading    || 'آنلائن کورسز'}
           subtitle={hp?.coursesSubheading || 'اہل علماء سے سیکھیں — قرآن، فقہ، اخلاق اور مزید'}
           items={courseItems}
@@ -183,7 +183,7 @@ export default async function HomePage() {
       {/* ── Services Carousel ── */}
       {serviceItems.length > 0 && (
         <CarouselSection
-          eyebrow="What we offer"
+          eyebrow="ہماری خدمات"
           title={hp?.servicesHeading    || 'ہماری خدمات'}
           subtitle={hp?.servicesSubheading || 'اخلاص اور توجہ کے ساتھ ادا کی گئی مذہبی خدمات'}
           items={serviceItems}
