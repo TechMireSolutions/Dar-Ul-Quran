@@ -38,10 +38,12 @@ export default function CarouselSection({
   const [canRight, setCanRight] = useState(false)
 
   const sync = useCallback(() => {
-    const el = trackRef.current
-    if (!el) return
-    setCanLeft(el.scrollLeft > 4)
-    setCanRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4)
+    requestAnimationFrame(() => {
+      const el = trackRef.current
+      if (!el) return
+      setCanLeft(el.scrollLeft > 4)
+      setCanRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4)
+    })
   }, [])
 
   useEffect(() => {
