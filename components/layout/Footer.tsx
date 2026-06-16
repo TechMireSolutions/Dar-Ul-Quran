@@ -124,13 +124,13 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
               {/* Social + external links */}
               <div className="flex items-center gap-2 flex-wrap">
                 {settings?.facebook && (
-                  <Link href={settings.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook"
+                  <Link href={settings.facebook} target="_blank" rel="noopener noreferrer" aria-label="فیس بک"
                     className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-dq-800 border border-dq-700 flex items-center justify-center text-gray-400 hover:border-dq-400 hover:text-dq-400 transition-all duration-200">
                     <IconFacebook size={12} />
                   </Link>
                 )}
                 {settings?.youtube && (
-                  <Link href={settings.youtube} target="_blank" rel="noopener noreferrer" aria-label="YouTube"
+                  <Link href={settings.youtube} target="_blank" rel="noopener noreferrer" aria-label="یوٹیوب"
                     className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-dq-800 border border-dq-700 flex items-center justify-center text-gray-400 hover:border-dq-400 hover:text-dq-400 transition-all duration-200">
                     <IconYoutube size={12} />
                   </Link>

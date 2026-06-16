@@ -22,7 +22,7 @@ export default async function AboutPage() {
     safeFetch(siteSettingsQuery),
   ])
 
-  const siteName = settings?.siteName || 'Dar Ul Quran'
+  const siteName = settings?.siteName || 'دار القرآن'
 
   const features = [
     { Icon: BookOpen, title: 'تعلیم',    desc: 'اہل علماء سے قرآن، فقہ، اخلاق اور تاریخ کے آنلائن کورسز' },

@@ -11,14 +11,14 @@ export default function WhatsAppButton({ number }: WhatsAppButtonProps) {
   const [hovered, setHovered] = useState(false)
 
   const clean  = number.replace(/\D/g, '')
-  const href   = `https://wa.me/${clean}?text=${encodeURIComponent('Assalamu Alaikum, I have an inquiry about your services.')}`
+  const href   = `https://wa.me/${clean}?text=${encodeURIComponent('السلام علیکم، میں آپ کی خدمات کے بارے میں پوچھنا چاہتا ہوں۔')}`
 
   return (
     <Link
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Chat on WhatsApp"
+      aria-label="واٹس ایپ پر چیٹ کریں"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       className="fixed bottom-5 right-5 z-50 flex items-center
@@ -51,7 +51,7 @@ export default function WhatsAppButton({ number }: WhatsAppButtonProps) {
         className="text-[13.5px] font-semibold whitespace-nowrap transition-all duration-200"
         style={{ opacity: hovered ? 1 : 0, width: hovered ? 'auto' : 0, overflow: 'hidden' }}
       >
-        WhatsApp
+        واٹس ایپ
       </span>
     </Link>
   )

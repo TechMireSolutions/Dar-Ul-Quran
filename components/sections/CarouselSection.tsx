@@ -91,7 +91,7 @@ export default function CarouselSection({
               <button
                 onClick={() => scrollBy('left')}
                 disabled={!canLeft}
-                aria-label="Previous"
+                aria-label="پچھلا"
                 className={`w-9 h-9 rounded-full border-2 flex items-center justify-center
                   transition-all duration-200
                   ${canLeft
@@ -103,7 +103,7 @@ export default function CarouselSection({
               <button
                 onClick={() => scrollBy('right')}
                 disabled={!canRight}
-                aria-label="Next"
+                aria-label="اگلا"
                 className={`w-9 h-9 rounded-full border-2 flex items-center justify-center
                   transition-all duration-200
                   ${canRight

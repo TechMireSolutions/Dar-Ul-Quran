@@ -84,7 +84,7 @@ export default function HeroSection({
         style={{ opacity: show ? 1 : 0, transition: 'opacity 1.3s ease 150ms' }}
       >
         {heroImage ? (
-          <Image src={heroImage} alt="Hero" fill priority sizes="(max-width: 768px) 100vw, 58vw" className="object-cover object-center" />
+          <Image src={heroImage} alt="دار القرآن" fill priority sizes="(max-width: 768px) 100vw, 58vw" className="object-cover object-center" />
         ) : (
           <div className="w-full h-full"
             style={{ background: 'linear-gradient(135deg, #f0d89a 0%, #fdf3d0 60%, #fff 100%)' }} />

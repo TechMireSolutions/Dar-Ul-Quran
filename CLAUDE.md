@@ -102,6 +102,45 @@ sanity/
 
 ---
 
+## Urdu-First Frontend Rule
+
+**EVERY user-visible string on this website MUST be written in Urdu.** No exceptions for UI copy — the audience is Urdu-speaking Shia Muslim families globally.
+
+### What MUST be in Urdu
+| Location | Examples |
+|----------|---------|
+| JSX text nodes | `<p>متن</p>`, `<h1>عنوان</h1>`, `<span>لیبل</span>` |
+| Eyebrow / section labels | `eyebrow="تعلیم"` not `eyebrow="Education"` |
+| CTA / button labels | `ctaLabel="مزید جانیں"` not `ctaLabel="Learn More"` |
+| Form labels & placeholders | `placeholder="آپ کا نام"` not `placeholder="Your name"` |
+| Fallback / default strings | `\|\| 'اسلامی تعلیم'` not `\|\| 'Islamic Education'` |
+| Success / error messages | Form feedback strings |
+| Dropdown `<option>` values | All select options |
+| `alt` text on images | Must describe the image in Urdu |
+| `aria-label` on interactive elements | Screen-reader labels in Urdu |
+| Footer / navigation labels | All nav link text |
+| Badge text | `badge="نئی"` not `badge="New"` |
+
+### Allowed English (technical exceptions only)
+- `className`, `href`, `src`, `type`, `id`, `rel`, `target`, `name` — HTML/CSS attribute values
+- Import paths, module names, TypeScript type annotations
+- GROQ query strings inside `` ` `` template literals in `queries.ts`
+- `openGraph.locale` fields (`en_US`, `ur_PK`), JSON-LD schema property values
+- SEO `keywords` arrays — bilingual OK to capture English + Urdu search intent
+- `/llms.txt` route — intentionally English for AI engine consumption
+- Google Search Console verification token
+- Sanity Studio schema field `name` values (internal identifiers)
+- `console.error` messages in catch blocks
+
+### Enforcement
+```bash
+npm run check:urdu   # scan app/ + components/ for English user-facing text
+```
+Run this before every commit. CI will fail if violations exist.
+If `check:urdu` reports a false positive (a legitimate technical string), add a `// urdu-ok` comment on that line to suppress it.
+
+---
+
 ## Component Patterns
 
 ### Reveal (scroll animation)
@@ -171,6 +210,7 @@ Never commit `.env.local`. Never log env values.
 - Do not use `console.log` in committed code — use `console.error` for catch blocks only.
 - Do not write raw CSS animations — add keyframes to `globals.css` and expose via Tailwind config.
 - Do not abbreviate Arabic/Urdu strings in code — use the full string as a constant.
+- **Do not write English user-facing text in JSX or prop values.** Every eyebrow, button label, placeholder, fallback string, and form message must be in Urdu. Run `npm run check:urdu` to verify.
 
 ---
 

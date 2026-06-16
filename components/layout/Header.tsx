@@ -374,7 +374,7 @@ export default function Header({
                   placeholder={searchPlaceholder}
                   className="px-4 py-2 text-[13px] outline-none w-[180px] text-slate-700 placeholder:text-gray-400 bg-white"
                 />
-                <button type="submit" aria-label="Search"
+                <button type="submit" aria-label="تلاش"
                   className="bg-dq-500 hover:bg-dq-600 transition-colors px-3 py-2 flex items-center self-stretch">
                   <Search size={13} className="text-white" strokeWidth={2.5} />
                 </button>
@@ -382,7 +382,7 @@ export default function Header({
             ) : (
               <button
                 onClick={() => setSearchOpen(true)}
-                aria-label="Open search"
+                aria-label="تلاش کھولیں"
                 className="w-9 h-9 rounded-full border border-dq-700 flex items-center justify-center text-white/60 hover:border-dq-400 hover:text-dq-400 transition-all duration-200"
               >
                 <Search size={15} strokeWidth={2} />
@@ -394,7 +394,7 @@ export default function Header({
           <button
             className="lg:hidden ms-auto w-9 h-9 flex items-center justify-center rounded-full text-white/70 hover:bg-dq-800 transition-colors"
             onClick={() => setMenuOpen(true)}
-            aria-label="Open menu"
+            aria-label="مینو کھولیں"
           >
             <Menu size={20} />
           </button>
