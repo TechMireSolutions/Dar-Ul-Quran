@@ -10,8 +10,11 @@ import {
   testimonialsQuery,
 } from '@/sanity/lib/queries'
 import HeroSection from '@/components/sections/HeroSection'
-import CarouselSection, { CarouselItem } from '@/components/sections/CarouselSection'
+import type { CarouselItem } from '@/components/sections/CarouselSection'
+import nextDynamic from 'next/dynamic'
 import ContentCard from '@/components/ui/ContentCard'
+
+const CarouselSection = nextDynamic(() => import('@/components/sections/CarouselSection'))
 import Reveal from '@/components/ui/Reveal'
 
 export const dynamic = 'force-dynamic'

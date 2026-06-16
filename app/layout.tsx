@@ -11,10 +11,10 @@ const urduFont = Noto_Nastaliq_Urdu({
   variable:  '--font-urdu',
   // 'block' prevents the catastrophic CLS that 'swap' causes for Nastaliq:
   // Noto Nastaliq has ~70% taller vertical metrics than any Latin fallback,
-  // so a swap triggers a full-page reflow. 'block' holds paint for ≤100ms
-  // then switches — combined with preload:true the font is almost always
-  // ready before the block period expires on any connection faster than 2G.
-  display:   'block',
+  // so a swap triggers a full-page reflow. 'optional' gives the font 100ms
+  // to load. If it doesn't load in time, it uses fallback and DOES NOT swap,
+  // preventing CLS. It will be used on the next page load once cached.
+  display:   'optional',
   preload:   true,
   // Automatic fallback metric adjustment targets cap-height, but Nastaliq's
   // CLS source is ascent/descent — disable it and handle via globals.css.
