@@ -41,17 +41,13 @@ export async function generateMetadata(): Promise<Metadata> {
       title:       { default: siteName, template: `%s | ${siteName}` },
       description: settings?.description || 'اسلامی علم، آنلائن کورسز اور خدمات',
       icons:       faviconUrl ? { icon: faviconUrl, apple: faviconUrl } : undefined,
-      verification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
-        ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
-        : undefined,
+      verification: { google: 'HlwG4YjRAkH3E4L7nQg1wNUk4Qy8b8LCSd9ccfxgZto' },
     }
   } catch {
     return {
       title:       { default: 'دار القرآن', template: '%s | دار القرآن' },
       description: 'اسلامی علم، آنلائن کورسز اور خدمات',
-      verification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
-        ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
-        : undefined,
+      verification: { google: 'HlwG4YjRAkH3E4L7nQg1wNUk4Qy8b8LCSd9ccfxgZto' },
     }
   }
 }
