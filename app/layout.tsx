@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Noto_Nastaliq_Urdu } from 'next/font/google'
 import { safeFetch } from '@/sanity/lib/client'
+import { siteSettingsQuery } from '@/sanity/lib/queries'
 import { urlFor } from '@/sanity/lib/image'
 import './globals.css'
 
@@ -28,11 +29,7 @@ const urduFont = Noto_Nastaliq_Urdu({
 
 export async function generateMetadata(): Promise<Metadata> {
   try {
-    const settings = await safeFetch(
-      `*[_type == "siteSettings"][0]{ siteName, description, favicon }`,
-      {},
-      { next: { revalidate: 3600 } }
-    )
+    const settings = await safeFetch(siteSettingsQuery)
 
     const siteName   = settings?.siteName   || 'Dar Ul Quran'
     const faviconUrl = settings?.favicon ? urlFor(settings.favicon).width(256).height(256).url() : undefined
