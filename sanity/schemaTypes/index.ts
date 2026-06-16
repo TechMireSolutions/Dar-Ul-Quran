@@ -9,6 +9,7 @@ import { navigation }         from './navigation'
 import { homepageSettings }   from './homepageSettings'
 import { testimonial }        from './testimonial'
 import { contactSubmission }  from './contactSubmission'
+import { topicCluster }       from './topicCluster'
 
 export const schemaTypes = [
   post,
@@ -22,4 +23,5 @@ export const schemaTypes = [
   homepageSettings,
   testimonial,
   contactSubmission,
+  topicCluster,
 ]

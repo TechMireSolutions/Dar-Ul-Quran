@@ -6,6 +6,8 @@ const config: Config = {
       fontFamily: {
         sans:    ['var(--font-urdu,system-ui)', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
         display: ['var(--font-urdu,system-ui)', 'system-ui', 'sans-serif'],
+        // Explicit urdu class for components that need to override font-sans
+        urdu:    ['var(--font-urdu)', 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', 'Geeza Pro', 'serif'],
       },
 
       fontSize: {
@@ -25,14 +27,18 @@ const config: Config = {
       },
 
       lineHeight: {
-        none:     '1',
-        tight:    '1.25',
-        snug:     '1.375',
-        normal:   '1.5',
-        relaxed:  '1.85',
-        loose:    '2.1',
-        body:     '1.85',
-        heading:  '1.35',
+        none:           '1',
+        tight:          '1.25',
+        snug:           '1.375',
+        normal:         '1.5',
+        relaxed:        '1.85',
+        loose:          '2.1',
+        body:           '1.85',
+        heading:        '1.35',
+        // Nastaliq-specific leading — reserve vertical space before font loads
+        'urdu':         '1.9',
+        'urdu-display': '1.3',
+        'urdu-tight':   '1.6',
       },
 
       colors: {

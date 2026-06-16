@@ -5,9 +5,11 @@ import Image from 'next/image'
 import { ArrowRight, ChevronRight, Check, MessageCircle, Mail, Phone } from 'lucide-react'
 import { safeFetch } from '@/sanity/lib/client'
 import { urlFor } from '@/sanity/lib/image'
-import { courseBySlugDeepQuery, siteSettingsQuery } from '@/sanity/lib/queries'
+import { courseBySlugDeepQuery, courseSchemaQuery, siteSettingsQuery } from '@/sanity/lib/queries'
 import { PortableText } from '@portabletext/react'
 import ContentCard from '@/components/ui/ContentCard'
+import CourseSchema from '@/components/seo/CourseSchema'
+import type { CourseSchemaData } from '@/components/seo/CourseSchema'
 
 export const dynamic = 'force-dynamic'
 
@@ -21,14 +23,71 @@ function getAncestry(course: any): { title: string; slug: string }[] {
   return chain
 }
 
+const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://darulquran.pk'
+
 export async function generateMetadata(
   { params }: { params: Promise<{ slug: string[] }> }
 ): Promise<Metadata> {
   const { slug } = await params
   const course = await safeFetch(courseBySlugDeepQuery, { slug: slug[slug.length - 1] })
+  if (!course) return { title: 'کورس | دار القرآن' }
+
+  const canonicalPath = `/online-courses/${slug.join('/')}`
+  const seoTitle = course.seoTitle || `${course.title} | دار القرآن`
+  const seoDescription =
+    course.seoDescription ||
+    course.excerpt ||
+    `آن لائن ${course.title}${course.subject ? ` — ${course.subject}` : ''}۔ امریکہ میں مقیم شیعہ خاندانوں کے لیے مستند اسلامی تعلیم۔`
+
+  const ogImageUrl = course.featuredImage
+    ? urlFor(course.featuredImage).width(1200).height(630).fit('crop').auto('format').url()
+    : `${BASE}/og-default.jpg`
+
+  const keywords = [
+    course.title,
+    'Online Shia Quran classes',
+    'Shia Quran classes USA',
+    'Online Quran for kids',
+    'Jafari Islamic education online',
+    'Shia Islamic school online USA',
+    ...(course.subject ? [course.subject] : []),
+    'دار القرآن',
+    'آن لائن قرآن کلاسز',
+  ]
+
   return {
-    title: course?.seoTitle || course?.title || 'کورس',
-    description: course?.seoDescription || course?.excerpt,
+    title: seoTitle,
+    description: seoDescription,
+    keywords,
+    ...(course.instructor ? { authors: [{ name: course.instructor }] } : {}),
+
+    alternates: {
+      canonical: `${BASE}${canonicalPath}`,
+    },
+
+    openGraph: {
+      type: 'website',
+      locale: 'en_US',
+      alternateLocale: 'ur_PK',
+      url: `${BASE}${canonicalPath}`,
+      siteName: 'دار القرآن | Dar Ul Quran',
+      title: seoTitle,
+      description: seoDescription,
+      images: [{ url: ogImageUrl, width: 1200, height: 630, alt: course.title }],
+    },
+
+    twitter: {
+      card: 'summary_large_image',
+      title: seoTitle,
+      description: seoDescription,
+      images: [ogImageUrl],
+    },
+
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
+    },
   }
 }
 
@@ -38,9 +97,10 @@ export default async function CourseCatchAllPage(
   const { slug } = await params
   const currentSlug = slug[slug.length - 1]
 
-  const [course, site] = await Promise.all([
+  const [course, site, schemaData] = await Promise.all([
     safeFetch(courseBySlugDeepQuery, { slug: currentSlug }),
     safeFetch(siteSettingsQuery),
+    safeFetch<CourseSchemaData>(courseSchemaQuery, { slug: currentSlug }),
   ])
   if (!course) notFound()
 
@@ -58,6 +118,9 @@ export default async function CourseCatchAllPage(
 
   return (
     <div>
+
+      {/* JSON-LD structured data — hoisted into <head> by Next.js */}
+      {schemaData && <CourseSchema data={schemaData} />}
 
       {/* ── Breadcrumb ─────────────────────────────────────────────────────── */}
       <div className="bg-white border-b border-gray-100">

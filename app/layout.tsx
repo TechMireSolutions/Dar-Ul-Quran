@@ -5,10 +5,25 @@ import { urlFor } from '@/sanity/lib/image'
 import './globals.css'
 
 const urduFont = Noto_Nastaliq_Urdu({
-  subsets:  ['arabic'],
-  weight:   ['400', '500', '600', '700'],
-  variable: '--font-urdu',
-  display:  'swap',
+  subsets:   ['arabic'],
+  weight:    ['400', '500', '600', '700'],
+  variable:  '--font-urdu',
+  // 'block' prevents the catastrophic CLS that 'swap' causes for Nastaliq:
+  // Noto Nastaliq has ~70% taller vertical metrics than any Latin fallback,
+  // so a swap triggers a full-page reflow. 'block' holds paint for ≤100ms
+  // then switches — combined with preload:true the font is almost always
+  // ready before the block period expires on any connection faster than 2G.
+  display:   'block',
+  preload:   true,
+  // Automatic fallback metric adjustment targets cap-height, but Nastaliq's
+  // CLS source is ascent/descent — disable it and handle via globals.css.
+  adjustFontFallback: false,
+  fallback: [
+    'Noto Nastaliq Urdu',      // Android system font — zero network cost
+    'Jameel Noori Nastaleeq',  // Windows Urdu font
+    'Geeza Pro',               // iOS / macOS Arabic fallback
+    'serif',
+  ],
 })
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -37,11 +52,13 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ur" dir="rtl">
-      <body
-        className={`${urduFont.variable} font-sans antialiased`}
-        suppressHydrationWarning
-      >
+    <html lang="ur" dir="rtl" className={urduFont.variable}>
+      <head>
+        {/* Eliminate DNS + TLS handshake latency before next/font requests the woff2 */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </head>
+      <body className="font-sans antialiased" suppressHydrationWarning>
         {children}
       </body>
     </html>
