@@ -118,6 +118,7 @@ export default async function ServiceCatchAllPage(
                 fill
                 className="object-cover opacity-[0.18]"
                 priority
+                fetchPriority="high"
               />
             )}
             <div className="absolute inset-0 bg-gradient-to-b from-dq-900/60 via-transparent to-dq-900/80 pointer-events-none" />

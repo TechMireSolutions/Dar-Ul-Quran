@@ -186,6 +186,7 @@ export default async function CourseCatchAllPage(
                 fill
                 className="object-cover opacity-[0.18]"
                 priority
+                fetchPriority="high"
               />
             )}
             {/* Gradient overlay */}

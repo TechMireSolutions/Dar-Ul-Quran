@@ -14,7 +14,7 @@ const urduFont = Noto_Nastaliq_Urdu({
   // so a swap triggers a full-page reflow. 'block' holds paint for ≤100ms
   // then switches — combined with preload:true the font is almost always
   // ready before the block period expires on any connection faster than 2G.
-  display:   'block',
+  display:   'swap',
   preload:   true,
   // Automatic fallback metric adjustment targets cap-height, but Nastaliq's
   // CLS source is ascent/descent — disable it and handle via globals.css.
@@ -54,9 +54,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="ur" dir="rtl" className={urduFont.variable} data-scroll-behavior="smooth">
       <head>
         <meta name="google-site-verification" content="HlwG4YjRAkH3E4L7nQg1wNUk4Qy8b8LCSd9ccfxgZto" />
-        {/* Eliminate DNS + TLS handshake latency before next/font requests the woff2 */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body className="font-sans antialiased" suppressHydrationWarning>
         {children}
