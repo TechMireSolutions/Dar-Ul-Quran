@@ -1,3 +1,4 @@
+import { preload } from 'react-dom'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { safeFetch } from '@/sanity/lib/client'
@@ -37,8 +38,13 @@ export default async function HomePage() {
   ])
 
   const heroImageUrl = hp?.heroImage
-    ? urlFor(hp.heroImage).width(1400).height(800).url()
+    ? urlFor(hp.heroImage).width(1200).height(700).format('webp').quality(80).url()
     : null
+
+  // Emit <link rel="preload"> for LCP hero image early in HTML <head>
+  if (heroImageUrl) {
+    preload(heroImageUrl, { as: 'image', fetchPriority: 'high' })
+  }
 
   const courseItems: CarouselItem[] = courses.map((c: any) => ({
     id:          c._id,

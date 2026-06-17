@@ -83,7 +83,7 @@ export default function HeroSection({
         className="absolute inset-0 md:inset-auto md:right-0 rtl:md:right-auto rtl:md:left-0 md:top-0 md:h-full md:w-[58%] pointer-events-none select-none"
       >
         {heroImage ? (
-          <Image src={heroImage} alt={title ? `دار القرآن - ${title.replace(/\n/g, ' ')}` : "دار القرآن - اسلامی علم اور کورسز"} fill priority fetchPriority="high" sizes="(max-width: 768px) 100vw, 58vw" className="object-cover object-center" />
+          <Image src={heroImage} alt={title ? `دار القرآن - ${title.replace(/\n/g, ' ')}` : "دار القرآن - اسلامی علم اور کورسز"} fill priority fetchPriority="high" unoptimized sizes="(max-width: 768px) 100vw, 58vw" className="object-cover object-center" />
         ) : (
           <div className="w-full h-full"
             style={{ background: 'linear-gradient(135deg, #f0d89a 0%, #fdf3d0 60%, #fff 100%)' }} />
