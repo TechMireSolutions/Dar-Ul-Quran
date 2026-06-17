@@ -5,11 +5,25 @@ import Image from 'next/image'
 import { ArrowRight, ChevronRight, MessageCircle, Plus, Check } from 'lucide-react'
 import { safeFetch } from '@/sanity/lib/client'
 import { urlFor } from '@/sanity/lib/image'
-import { serviceBySlugDeepQuery, siteSettingsQuery } from '@/sanity/lib/queries'
+import { serviceBySlugDeepQuery, siteSettingsQuery, allServicePathsQuery } from '@/sanity/lib/queries'
 import { PortableText } from '@portabletext/react'
 import ContentCard from '@/components/ui/ContentCard'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 300
+
+export async function generateStaticParams() {
+  const paths = await safeFetch(allServicePathsQuery)
+  if (!paths) return []
+  return (paths as Array<{ slug: string; parent: any }>).map((p) => {
+    const ancestors: string[] = []
+    let parent = p.parent
+    while (parent) {
+      ancestors.unshift(parent.slug)
+      parent = parent.parent
+    }
+    return { slug: [...ancestors, p.slug] }
+  })
+}
 
 function getAncestry(service: any): { title: string; slug: string }[] {
   const chain: { title: string; slug: string }[] = []

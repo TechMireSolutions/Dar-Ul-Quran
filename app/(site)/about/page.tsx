@@ -6,7 +6,7 @@ import { PortableText } from '@portabletext/react'
 import { ArrowRight, BookOpen, Heart, Star } from 'lucide-react'
 import Reveal from '@/components/ui/Reveal'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 300
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await safeFetch(pageBySlugQuery, { slug: 'about' })

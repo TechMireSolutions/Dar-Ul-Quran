@@ -81,7 +81,6 @@ export default function HeroSection({
       {/* Hero image — left panel in RTL */}
       <div
         className="absolute inset-0 md:inset-auto md:right-0 rtl:md:right-auto rtl:md:left-0 md:top-0 md:h-full md:w-[58%] pointer-events-none select-none"
-        style={{ opacity: show ? 1 : 0, transition: 'opacity 1.3s ease 150ms' }}
       >
         {heroImage ? (
           <Image src={heroImage} alt={title ? `دار القرآن - ${title.replace(/\n/g, ' ')}` : "دار القرآن - اسلامی علم اور کورسز"} fill priority fetchPriority="high" sizes="(max-width: 768px) 100vw, 58vw" className="object-cover object-center" />

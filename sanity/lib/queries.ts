@@ -169,7 +169,20 @@ export const footerServicesQuery = `
 
 // ─── Homepage ────────────────────────────────────────────────────────────────
 
-export const homepageSettingsQuery = `*[_type == "homepageSettings"][0]`
+export const homepageSettingsQuery = `
+  *[_type == "homepageSettings"][0] {
+    heroImage, heroArabicText, heroTitle, heroSubtitle,
+    heroCta1Label, heroCta1Link, heroCta2Label, heroCta2Link,
+    aboutEyebrow, aboutHeading, aboutBody1, aboutBody2, aboutPillars,
+    aboutCtaLabel, aboutHadithArabic, aboutHadithTranslation, aboutHadithAttribution,
+    aboutStat1Value, aboutStat1Label, aboutStat2Value, aboutStat2Label,
+    aboutStat3Value, aboutStat3Label, aboutBadgeText, aboutBadgeSubtext,
+    coursesHeading, coursesSubheading, servicesHeading, servicesSubheading,
+    articlesHeading, articlesSubheading,
+    testimonialsEyebrow, testimonialsHeading,
+    donateHeading, donateText, donateQuote, donateQuoteAttribution, donateCtaLabel
+  }
+`
 
 export const testimonialsQuery = `
   *[_type == "testimonial"] | order(order asc) {
@@ -179,7 +192,13 @@ export const testimonialsQuery = `
 
 // ─── Site Settings ───────────────────────────────────────────────────────────
 
-export const siteSettingsQuery = `*[_type == "siteSettings"][0]`
+export const siteSettingsQuery = `
+  *[_type == "siteSettings"][0] {
+    siteName, description, tagline, email, phone, whatsapp,
+    favicon, logo, facebook, instagram, twitter, youtube,
+    darulQuranUrl, searchPlaceholder
+  }
+`
 
 // ─── Contact Form — Courses & Services flat lists ─────────────────────────────
 

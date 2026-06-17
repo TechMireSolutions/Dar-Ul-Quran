@@ -5,7 +5,7 @@ import { topLevelCoursesQuery, pageBySlugQuery } from '@/sanity/lib/queries'
 import ContentCard from '@/components/ui/ContentCard'
 import Reveal from '@/components/ui/Reveal'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 300
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await safeFetch(pageBySlugQuery, { slug: 'online-courses' })

@@ -7,7 +7,7 @@ import './globals.css'
 
 const urduFont = Noto_Nastaliq_Urdu({
   subsets:   ['arabic'],
-  weight:    ['400', '500', '600', '700'],
+  weight:    ['400', '700'],
   variable:  '--font-urdu',
   // 'block' prevents the catastrophic CLS that 'swap' causes for Nastaliq:
   // Noto Nastaliq has ~70% taller vertical metrics than any Latin fallback,

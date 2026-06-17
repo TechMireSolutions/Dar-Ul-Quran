@@ -5,13 +5,27 @@ import Image from 'next/image'
 import { ArrowRight, ChevronRight, Check, MessageCircle, Mail, Phone } from 'lucide-react'
 import { safeFetch } from '@/sanity/lib/client'
 import { urlFor } from '@/sanity/lib/image'
-import { courseBySlugDeepQuery, courseSchemaQuery, siteSettingsQuery } from '@/sanity/lib/queries'
+import { courseBySlugDeepQuery, courseSchemaQuery, siteSettingsQuery, allCoursePathsQuery } from '@/sanity/lib/queries'
 import { PortableText } from '@portabletext/react'
 import ContentCard from '@/components/ui/ContentCard'
 import CourseSchema from '@/components/seo/CourseSchema'
 import type { CourseSchemaData } from '@/components/seo/CourseSchema'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 300
+
+export async function generateStaticParams() {
+  const paths = await safeFetch(allCoursePathsQuery)
+  if (!paths) return []
+  return (paths as Array<{ slug: string; parent: any }>).map((p) => {
+    const ancestors: string[] = []
+    let parent = p.parent
+    while (parent) {
+      ancestors.unshift(parent.slug)
+      parent = parent.parent
+    }
+    return { slug: [...ancestors, p.slug] }
+  })
+}
 
 function getAncestry(course: any): { title: string; slug: string }[] {
   const chain: { title: string; slug: string }[] = []

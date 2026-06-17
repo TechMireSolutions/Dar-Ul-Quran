@@ -14,10 +14,18 @@ import type { CarouselItem } from '@/components/sections/CarouselSection'
 import nextDynamic from 'next/dynamic'
 import ContentCard from '@/components/ui/ContentCard'
 
-const CarouselSection = nextDynamic(() => import('@/components/sections/CarouselSection'))
+const CarouselSection = nextDynamic(() => import('@/components/sections/CarouselSection'), {
+  loading: () => (
+    <div className="py-12 md:py-16 bg-white border-b border-gray-100">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="h-72 rounded-2xl bg-gray-100 animate-pulse" />
+      </div>
+    </div>
+  ),
+})
 import Reveal from '@/components/ui/Reveal'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 300
 
 export default async function HomePage() {
   const [posts, services, courses, hp, testimonials] = await Promise.all([

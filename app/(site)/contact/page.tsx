@@ -7,7 +7,7 @@ import { Mail, Phone, MessageCircle, MapPin, Globe, Play } from 'lucide-react'
 import ContactForm from './ContactForm'
 import Reveal from '@/components/ui/Reveal'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 300
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await safeFetch(pageBySlugQuery, { slug: 'contact' })

@@ -5,10 +5,15 @@ import Link from 'next/link'
 import { ArrowLeft, CalendarDays, User } from 'lucide-react'
 import { safeFetch } from '@/sanity/lib/client'
 import { urlFor } from '@/sanity/lib/image'
-import { postBySlugQuery } from '@/sanity/lib/queries'
+import { postBySlugQuery, postSlugsQuery } from '@/sanity/lib/queries'
 import { PortableText } from '@portabletext/react'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 300
+
+export async function generateStaticParams() {
+  const slugs = await safeFetch(postSlugsQuery)
+  return (slugs ?? []).map((s: { slug: string }) => ({ slug: s.slug }))
+}
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
