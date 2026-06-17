@@ -17,7 +17,7 @@ export default function ContentCard({
   title,
   description,
   href,
-  ctaLabel = 'Book Now',
+  ctaLabel = 'مزید جانیں',
   badge,
   active = false,
 }: ContentCardProps) {
@@ -36,8 +36,8 @@ export default function ContentCard({
         bg-gradient-to-r from-dq-400 via-dq-500 to-dq-300
         ${active ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100 group-hover:origin-left'}`} />
 
-      {/* Image */}
-      <Link href={href} className="block overflow-hidden shrink-0">
+      {/* Image — aria-hidden to avoid duplicate tab stop with the title link below */}
+      <Link href={href} tabIndex={-1} aria-hidden="true" className="block overflow-hidden shrink-0">
         <div className="relative w-full aspect-[3/2] bg-slate-100">
           {image ? (
             <Image

@@ -256,6 +256,7 @@ function MobileNavNode({
       {/* Accordion toggle */}
       <button
         onClick={() => setOpen(v => !v)}
+        aria-expanded={open}
         style={{ paddingRight: `${12 + indent}px` }}
         className={`w-full flex items-center justify-between gap-2 py-2.5 pl-3 rounded-xl text-[14px] font-medium transition-colors duration-150
           ${isActive || open ? 'bg-dq-50 text-dq-700' : 'text-gray-700 hover:bg-gray-50 hover:text-slate-900'}`}
@@ -395,6 +396,8 @@ export default function Header({
             className="lg:hidden ms-auto w-9 h-9 flex items-center justify-center rounded-full text-white/70 hover:bg-dq-800 transition-colors"
             onClick={() => setMenuOpen(true)}
             aria-label="مینو کھولیں"
+            aria-expanded={menuOpen}
+            aria-controls="mobile-nav-panel"
           >
             <Menu size={20} />
           </button>
@@ -409,9 +412,15 @@ export default function Header({
       />
 
       {/* ── Mobile panel ── */}
-      <div className={`fixed top-0 right-0 bottom-0 w-[300px] z-[70] bg-white lg:hidden flex flex-col
-        shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]
-        ${menuOpen ? 'translate-x-0' : 'translate-x-full'}`}
+      <div
+        id="mobile-nav-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-label="مینو"
+        aria-hidden={!menuOpen}
+        className={`fixed top-0 right-0 bottom-0 w-[300px] z-[70] bg-white lg:hidden flex flex-col
+          shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]
+          ${menuOpen ? 'translate-x-0' : 'translate-x-full'}`}
       >
         {/* Panel header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100 flex-shrink-0">
@@ -425,6 +434,7 @@ export default function Header({
           </Link>
           <button
             onClick={() => setMenuOpen(false)}
+            aria-label="مینو بند کریں"
             className="w-8 h-8 flex items-center justify-center rounded-full text-gray-500 hover:bg-gray-100 transition-colors"
           >
             <X size={18} />
@@ -450,6 +460,7 @@ export default function Header({
               className="flex-1 px-4 py-3 text-[14px] outline-none text-slate-700 placeholder:text-gray-400 bg-white"
             />
             <button type="submit"
+              aria-label="تلاش"
               className="bg-dq-500 hover:bg-dq-600 transition-colors px-4 py-3 flex items-center self-stretch">
               <Search size={14} className="text-white" strokeWidth={2.5} />
             </button>

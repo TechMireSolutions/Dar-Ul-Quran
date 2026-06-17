@@ -62,9 +62,9 @@ export default function ContactForm({ submitLabel, courses, services }: Props) {
     placeholder:text-gray-400 bg-white focus:outline-none focus:border-dq-400
     focus:ring-2 focus:ring-dq-400/20 transition-all`
 
-  const Label = ({ children, required: req }: { children: React.ReactNode; required?: boolean }) => (
-    <label className="block text-[12px] font-semibold text-slate-700 mb-1.5">
-      {children}{req && <span className="text-red-500 ml-0.5">*</span>}
+  const Label = ({ children, required: req, htmlFor }: { children: React.ReactNode; required?: boolean; htmlFor: string }) => (
+    <label htmlFor={htmlFor} className="block text-[12px] font-semibold text-slate-700 mb-1.5">
+      {children}{req && <span className="text-red-500 ml-0.5" aria-hidden="true">*</span>}
     </label>
   )
 
@@ -74,12 +74,12 @@ export default function ContactForm({ submitLabel, courses, services }: Props) {
       className="lg:col-span-3 bg-white border border-gray-100 rounded-2xl shadow-sm p-5 sm:p-6 space-y-4"
     >
       {status === 'success' && (
-        <div className="bg-green-50 border border-green-200 text-green-700 text-[13px] rounded-lg px-4 py-3">
+        <div role="alert" className="bg-green-50 border border-green-200 text-green-700 text-[13px] rounded-lg px-4 py-3">
           آپ کا پیغام کامیابی سے بھیج دیا گیا۔ ہم جلد آپ سے رابطہ کریں گے۔
         </div>
       )}
       {status === 'error' && (
-        <div className="bg-red-50 border border-red-200 text-red-700 text-[13px] rounded-lg px-4 py-3">
+        <div role="alert" className="bg-red-50 border border-red-200 text-red-700 text-[13px] rounded-lg px-4 py-3">
           کچھ غلط ہو گیا۔ براہ کرم دوبارہ کوشش کریں یا براہ راست ہم سے رابطہ کریں۔
         </div>
       )}
@@ -87,19 +87,20 @@ export default function ContactForm({ submitLabel, courses, services }: Props) {
       {/* پہلا نام + آخری نام */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <Label required>پہلا نام</Label>
-          <input type="text" name="firstName" required placeholder="پہلا نام" className={inputCls} />
+          <Label required htmlFor="cf-first-name">پہلا نام</Label>
+          <input id="cf-first-name" type="text" name="firstName" required placeholder="پہلا نام" className={inputCls} />
         </div>
         <div>
-          <Label>آخری نام</Label>
-          <input type="text" name="lastName" placeholder="آخری نام (اختیاری)" className={inputCls} />
+          <Label htmlFor="cf-last-name">آخری نام</Label>
+          <input id="cf-last-name" type="text" name="lastName" placeholder="آخری نام (اختیاری)" className={inputCls} />
         </div>
       </div>
 
       {/* مقصد */}
       <div>
-        <Label required>مقصد</Label>
+        <Label required htmlFor="cf-purpose">مقصد</Label>
         <select
+          id="cf-purpose"
           value={purpose}
           onChange={e => { setPurpose(e.target.value as Purpose); setAppliedFor('') }}
           className={inputCls}
@@ -114,8 +115,9 @@ export default function ContactForm({ submitLabel, courses, services }: Props) {
       {/* کورس dropdown */}
       {purpose === 'course' && courses.length > 0 && (
         <div>
-          <Label required>کورس منتخب کریں</Label>
+          <Label required htmlFor="cf-course">کورس منتخب کریں</Label>
           <select
+            id="cf-course"
             required
             value={appliedFor}
             onChange={e => setAppliedFor(e.target.value)}
@@ -132,8 +134,9 @@ export default function ContactForm({ submitLabel, courses, services }: Props) {
       {/* خدمت dropdown */}
       {purpose === 'service' && services.length > 0 && (
         <div>
-          <Label required>خدمت منتخب کریں</Label>
+          <Label required htmlFor="cf-service">خدمت منتخب کریں</Label>
           <select
+            id="cf-service"
             required
             value={appliedFor}
             onChange={e => setAppliedFor(e.target.value)}
@@ -150,31 +153,32 @@ export default function ContactForm({ submitLabel, courses, services }: Props) {
       {/* ای میل + فون */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <Label required>ای میل</Label>
-          <input type="email" name="email" required placeholder="your@email.com" className={inputCls} />
+          <Label required htmlFor="cf-email">ای میل</Label>
+          <input id="cf-email" type="email" name="email" required placeholder="your@email.com" className={inputCls} />
         </div>
         <div>
-          <Label required>فون نمبر</Label>
-          <input type="tel" name="phone" required placeholder="+92 300 0000000" className={inputCls} />
+          <Label required htmlFor="cf-phone">فون نمبر</Label>
+          <input id="cf-phone" type="tel" name="phone" required placeholder="+92 300 0000000" className={inputCls} />
         </div>
       </div>
 
       {/* ملک + شہر */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <Label required>ملک</Label>
-          <input type="text" name="country" required placeholder="مثلاً: پاکستان" className={inputCls} />
+          <Label required htmlFor="cf-country">ملک</Label>
+          <input id="cf-country" type="text" name="country" required placeholder="مثلاً: پاکستان" className={inputCls} />
         </div>
         <div>
-          <Label required>شہر</Label>
-          <input type="text" name="city" required placeholder="مثلاً: کراچی" className={inputCls} />
+          <Label required htmlFor="cf-city">شہر</Label>
+          <input id="cf-city" type="text" name="city" required placeholder="مثلاً: کراچی" className={inputCls} />
         </div>
       </div>
 
       {/* پیغام */}
       <div>
-        <Label required>پیغام</Label>
+        <Label required htmlFor="cf-message">پیغام</Label>
         <textarea
+          id="cf-message"
           name="message"
           rows={5}
           required

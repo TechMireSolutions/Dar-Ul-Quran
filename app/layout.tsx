@@ -55,6 +55,7 @@ export async function generateMetadata(): Promise<Metadata> {
         siteName,
         locale: 'ur_PK',
         type: 'website',
+        images: [{ url: `${baseUrl.origin}/og-default.jpg`, width: 1200, height: 630, alt: siteName }],
       },
       twitter: {
         card: 'summary_large_image',
@@ -75,6 +76,7 @@ export async function generateMetadata(): Promise<Metadata> {
         siteName: 'دار القرآن',
         locale: 'ur_PK',
         type: 'website',
+        images: [{ url: `${baseUrl.origin}/og-default.jpg`, width: 1200, height: 630, alt: 'دار القرآن' }],
       },
       twitter: {
         card: 'summary_large_image',
