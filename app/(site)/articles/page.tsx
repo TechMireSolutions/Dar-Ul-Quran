@@ -97,7 +97,7 @@ export default async function ArticlesPage({
       <div className="py-8 sm:py-12 bg-slate-50/40 min-h-[50vh]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {query && (
-            <p className="text-[13px] text-gray-500 mb-6">
+            <p className="text-[13px] text-gray-500 mb-6" role="status" aria-live="polite">
               {filtered.length > 0
                 ? `”${q}“ کے لیے ${filtered.length} نتائج`
                 : `”${q}“ کے لیے کوئی نتیجہ نہیں ملا`}

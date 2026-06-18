@@ -48,7 +48,7 @@ export default function SanityImage({
   return (
     <Image
       src={src}
-      alt={image.alt ?? ''}
+      alt={image.alt?.trim() ? image.alt : ''}
       width={finalWidth}
       height={finalHeight}
       priority={priority}

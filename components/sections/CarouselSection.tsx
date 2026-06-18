@@ -1,5 +1,5 @@
 'use client'
-import { useRef, useState, useEffect, useCallback } from 'react'
+import { useRef, useState, useEffect, useCallback, useId } from 'react'
 import Link from 'next/link'
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react'
 import ContentCard from '@/components/ui/ContentCard'
@@ -36,6 +36,7 @@ export default function CarouselSection({
   const trackRef = useRef<HTMLDivElement>(null)
   const [canLeft,  setCanLeft]  = useState(false)
   const [canRight, setCanRight] = useState(false)
+  const headingId = useId()
 
   const sync = useCallback(() => {
     requestAnimationFrame(() => {
@@ -71,7 +72,7 @@ export default function CarouselSection({
   const bgClass = bg === 'gray' ? 'bg-slate-50' : 'bg-white'
 
   return (
-    <section className={`py-10 md:py-16 border-b border-gray-100 ${bgClass} cv-auto`}>
+    <section aria-labelledby={headingId} className={`py-10 md:py-16 border-b border-gray-100 ${bgClass} cv-auto`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header row */}
@@ -81,7 +82,7 @@ export default function CarouselSection({
               <span className="w-6 h-px bg-dq-400 inline-block" />
               {eyebrow}
             </p>
-            <h2 className="font-bold text-[27px] text-slate-900 leading-tight tracking-[-0.02em]">{title}</h2>
+            <h2 id={headingId} className="font-bold text-[27px] text-slate-900 leading-tight tracking-[-0.02em]">{title}</h2>
             {subtitle && (
               <p className="text-[13.5px] text-gray-500 mt-1.5 max-w-md">{subtitle}</p>
             )}
@@ -89,11 +90,12 @@ export default function CarouselSection({
 
           <div className="flex items-center gap-3 flex-shrink-0 sm:ml-6">
             {/* Prev / Next */}
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1.5" role="group" aria-label="کاروسل کنٹرول">
               <button
                 onClick={() => scrollBy('left')}
                 disabled={!canLeft}
                 aria-label="پچھلا"
+                aria-disabled={!canLeft}
                 className={`w-12 h-12 rounded-full border-2 flex items-center justify-center
                   transition-all duration-200
                   ${canLeft
@@ -106,6 +108,7 @@ export default function CarouselSection({
                 onClick={() => scrollBy('right')}
                 disabled={!canRight}
                 aria-label="اگلا"
+                aria-disabled={!canRight}
                 className={`w-12 h-12 rounded-full border-2 flex items-center justify-center
                   transition-all duration-200
                   ${canRight
@@ -147,6 +150,8 @@ export default function CarouselSection({
 
           <div
             ref={trackRef}
+            role="region"
+            aria-label={`${title} — سلائیڈر`}
             className="flex gap-6 overflow-x-auto scrollbar-hide pb-2"
             style={{ scrollSnapType: 'x mandatory', WebkitOverflowScrolling: 'touch' }}
           >

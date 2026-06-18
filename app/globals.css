@@ -346,6 +346,13 @@ a:focus-visible {
   border-radius: 6px;
 }
 
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #b8900e;
+  outline-offset: 2px;
+}
+
 /* ─── Buttons & pill links: Nastaliq body line-height is too tall for inline elements ─── */
 button,
 input[type="submit"],

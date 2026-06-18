@@ -55,7 +55,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         navItems={navTree}
         searchPlaceholder={settings?.searchPlaceholder}
       />
-      <main id="main-content" className="min-h-screen">{children}</main>
+      <main id="main-content" aria-label="مرکزی مواد" className="min-h-screen">{children}</main>
       <Footer
         settings={settings}
         logoUrl={logoUrl}

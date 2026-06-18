@@ -39,6 +39,7 @@ export default function HeroSection({
 
   return (
     <section
+      aria-label="صفحۂ اول کا تعارف"
       className="relative w-full overflow-hidden min-h-[400px] md:min-h-[720px]"
       style={{ background: 'linear-gradient(155deg, #fdfbf2 0%, #ffffff 55%, #fdfbf0 100%)' }}
     >

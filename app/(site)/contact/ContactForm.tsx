@@ -21,7 +21,13 @@ const inputCls = `w-full border border-gray-200 rounded-lg px-3.5 py-2.5 text-[1
 function FieldLabel({ children, required: req, htmlFor }: { children: React.ReactNode; required?: boolean; htmlFor: string }) {
   return (
     <label htmlFor={htmlFor} className="block text-[12px] font-semibold text-slate-700 mb-1.5">
-      {children}{req && <span className="text-red-500 ml-0.5" aria-hidden="true">*</span>}
+      {children}
+      {req && (
+        <>
+          <span className="text-red-500 ml-0.5" aria-hidden="true">*</span>
+          <span className="sr-only"> (لازمی)</span>
+        </>
+      )}
     </label>
   )
 }
@@ -73,28 +79,31 @@ export default function ContactForm({ submitLabel, courses, services }: Props) {
   return (
     <form
       onSubmit={handleSubmit}
+      aria-busy={status === 'loading'}
       className="lg:col-span-3 bg-white border border-gray-100 rounded-2xl shadow-sm p-5 sm:p-6 space-y-4"
     >
+      <div aria-live="polite" aria-atomic="true">
       {status === 'success' && (
-        <div role="alert" className="bg-green-50 border border-green-200 text-green-700 text-[13px] rounded-lg px-4 py-3">
+        <div role="status" className="bg-green-50 border border-green-200 text-green-700 text-[13px] rounded-lg px-4 py-3 mb-4">
           آپ کا پیغام کامیابی سے بھیج دیا گیا۔ ہم جلد آپ سے رابطہ کریں گے۔
         </div>
       )}
       {status === 'error' && (
-        <div role="alert" className="bg-red-50 border border-red-200 text-red-700 text-[13px] rounded-lg px-4 py-3">
+        <div role="alert" className="bg-red-50 border border-red-200 text-red-700 text-[13px] rounded-lg px-4 py-3 mb-4">
           کچھ غلط ہو گیا۔ براہ کرم دوبارہ کوشش کریں یا براہ راست ہم سے رابطہ کریں۔
         </div>
       )}
+      </div>
 
       {/* پہلا نام + آخری نام */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <FieldLabel required htmlFor="cf-first-name">پہلا نام</FieldLabel>
-          <input id="cf-first-name" type="text" name="firstName" required placeholder="پہلا نام" className={inputCls} />
+          <input id="cf-first-name" type="text" name="firstName" required autoComplete="given-name" placeholder="پہلا نام" className={inputCls} />
         </div>
         <div>
           <FieldLabel htmlFor="cf-last-name">آخری نام</FieldLabel>
-          <input id="cf-last-name" type="text" name="lastName" placeholder="آخری نام (اختیاری)" className={inputCls} />
+          <input id="cf-last-name" type="text" name="lastName" autoComplete="family-name" placeholder="آخری نام (اختیاری)" className={inputCls} />
         </div>
       </div>
 
@@ -156,11 +165,11 @@ export default function ContactForm({ submitLabel, courses, services }: Props) {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <FieldLabel required htmlFor="cf-email">ای میل</FieldLabel>
-          <input id="cf-email" type="email" name="email" required placeholder="your@email.com" className={inputCls} />
+          <input id="cf-email" type="email" name="email" required autoComplete="email" placeholder="your@email.com" className={inputCls} />
         </div>
         <div>
           <FieldLabel required htmlFor="cf-phone">فون نمبر</FieldLabel>
-          <input id="cf-phone" type="tel" name="phone" required placeholder="+92 300 0000000" className={inputCls} />
+          <input id="cf-phone" type="tel" name="phone" required autoComplete="tel" placeholder="+92 300 0000000" className={inputCls} />
         </div>
       </div>
 
@@ -168,11 +177,11 @@ export default function ContactForm({ submitLabel, courses, services }: Props) {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <FieldLabel required htmlFor="cf-country">ملک</FieldLabel>
-          <input id="cf-country" type="text" name="country" required placeholder="مثلاً: پاکستان" className={inputCls} />
+          <input id="cf-country" type="text" name="country" required autoComplete="country-name" placeholder="مثلاً: پاکستان" className={inputCls} />
         </div>
         <div>
           <FieldLabel required htmlFor="cf-city">شہر</FieldLabel>
-          <input id="cf-city" type="text" name="city" required placeholder="مثلاً: کراچی" className={inputCls} />
+          <input id="cf-city" type="text" name="city" required autoComplete="address-level2" placeholder="مثلاً: کراچی" className={inputCls} />
         </div>
       </div>
 
@@ -197,6 +206,7 @@ export default function ContactForm({ submitLabel, courses, services }: Props) {
       <button
         type="submit"
         disabled={status === 'loading' || ((purpose === 'course' || purpose === 'service') && !appliedFor)}
+        aria-disabled={status === 'loading' || ((purpose === 'course' || purpose === 'service') && !appliedFor)}
         className="w-full bg-dq-600 hover:bg-dq-700 disabled:opacity-60 disabled:cursor-not-allowed
           text-white text-[13.5px] font-semibold py-3 rounded-lg
           shadow-[0_4px_14px_rgba(184,144,14,0.28)] hover:shadow-[0_6px_20px_rgba(184,144,14,0.4)]

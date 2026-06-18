@@ -52,7 +52,7 @@ export default function ContentCard({
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-dq-50 via-dq-50 to-slate-100">
-              <span className="text-5xl opacity-20 select-none transition-transform duration-300 group-hover:scale-110">📖</span>
+              <span className="text-5xl opacity-20 select-none transition-transform duration-300 group-hover:scale-110" aria-hidden="true">📖</span>
             </div>
           )}
           {/* Hover overlay */}

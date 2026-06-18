@@ -151,6 +151,7 @@ function DesktopNavItem({ node }: { node: NavNode }) {
         href={node.href || '#'}
         target={node.external ? '_blank' : undefined}
         rel={node.external ? 'noopener noreferrer' : undefined}
+        {...(node.external ? { 'aria-label': `${node.label} (نئی ونڈو میں کھلتا ہے)` } : {})}
         className={`link-underline text-[13.5px] font-medium whitespace-nowrap transition-colors duration-150
           ${isActive ? 'text-dq-400 active' : 'text-white/70 hover:text-white'}`}
       >
@@ -165,6 +166,8 @@ function DesktopNavItem({ node }: { node: NavNode }) {
       {node.href && node.href !== '#' ? (
         <Link
           href={node.href}
+          aria-haspopup="menu"
+          aria-expanded={open}
           className={`flex items-center gap-1 text-[13.5px] font-medium whitespace-nowrap transition-colors duration-150
             ${isActive || open ? 'text-dq-400' : 'text-white/70 hover:text-white'}`}
         >
@@ -174,6 +177,8 @@ function DesktopNavItem({ node }: { node: NavNode }) {
         </Link>
       ) : (
         <span
+          aria-haspopup="menu"
+          aria-expanded={open}
           className={`flex items-center gap-1 text-[13.5px] font-medium whitespace-nowrap cursor-default transition-colors duration-150
             ${isActive || open ? 'text-dq-400' : 'text-white/70'}`}
         >
@@ -310,6 +315,10 @@ export default function Header({
   const [query,      setQuery]      = useState('')
   const [searchOpen, setSearchOpen] = useState(false)
   const [scrolled,   setScrolled]   = useState(false)
+  const menuButtonRef = useRef<HTMLButtonElement>(null)
+  const panelRef = useRef<HTMLDivElement>(null)
+  const closeButtonRef = useRef<HTMLButtonElement>(null)
+  const wasMenuOpen = useRef(false)
   const router = useRouter()
 
   useEffect(() => {
@@ -325,10 +334,43 @@ export default function Header({
     document.body.style.overflow = 'hidden'
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setMenuOpen(false) }
     window.addEventListener('keydown', onKey)
+    closeButtonRef.current?.focus()
     return () => {
       document.body.style.overflow = prev
       window.removeEventListener('keydown', onKey)
     }
+  }, [menuOpen])
+
+  useEffect(() => {
+    if (!menuOpen || !panelRef.current) return
+    const panel = panelRef.current
+    const focusable = panel.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled])',
+    )
+    const first = focusable[0]
+    const last = focusable[focusable.length - 1]
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab' || focusable.length === 0) return
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault()
+          last?.focus()
+        }
+      } else if (document.activeElement === last) {
+        e.preventDefault()
+        first?.focus()
+      }
+    }
+    panel.addEventListener('keydown', onKeyDown)
+    return () => panel.removeEventListener('keydown', onKeyDown)
+  }, [menuOpen])
+
+  useEffect(() => {
+    if (wasMenuOpen.current && !menuOpen) {
+      menuButtonRef.current?.focus()
+    }
+    wasMenuOpen.current = menuOpen
   }, [menuOpen])
 
   const navLinks: NavNode[] = navItems?.length
@@ -361,14 +403,14 @@ export default function Header({
           <Link href="/" aria-label={siteName} className="flex-shrink-0 flex items-center gap-3 group">
             <div className="w-[42px] h-[42px] rounded-full overflow-hidden border-2 border-dq-400 flex-shrink-0 transition-transform duration-200 group-hover:scale-105">
               {logoUrl
-                ? <Image src={logoUrl} alt={siteName} width={42} height={42} sizes="42px" priority className="object-cover w-full h-full" />
-                : <div className="w-full h-full bg-gradient-to-br from-dq-100 to-dq-200 flex items-center justify-center text-lg select-none">⛵</div>}
+                ? <Image src={logoUrl} alt="" width={42} height={42} sizes="42px" priority className="object-cover w-full h-full" />
+                : <div className="w-full h-full bg-gradient-to-br from-dq-100 to-dq-200 flex items-center justify-center text-lg select-none" aria-hidden="true">⛵</div>}
             </div>
             <span className="font-bold text-[17px] text-white tracking-[-0.02em] hidden md:block">{siteName}</span>
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden lg:flex flex-1 items-center justify-center gap-7">
+          <nav aria-label="مرکزی نیویگیشن" className="hidden lg:flex flex-1 items-center justify-center gap-7">
             {navLinks.map(node => (
               <DesktopNavItem key={node.label} node={node} />
             ))}
@@ -377,11 +419,13 @@ export default function Header({
           {/* Search */}
           <div className="hidden lg:flex items-center ms-auto">
             {searchOpen ? (
-              <form onSubmit={handleSearch}
+              <form onSubmit={handleSearch} role="search" aria-label="مضامین تلاش"
                 className="flex items-center rounded-full overflow-hidden border border-dq-400 shadow-[0_0_0_3px_rgba(184,144,14,0.15)]">
+                <label htmlFor="desktop-search" className="sr-only">مضامین تلاش کریں</label>
                 <input
+                  id="desktop-search"
                   autoFocus
-                  type="text"
+                  type="search"
                   value={query}
                   onChange={e => setQuery(e.target.value)}
                   onBlur={() => { if (!query) setSearchOpen(false) }}
@@ -406,6 +450,7 @@ export default function Header({
 
           {/* Mobile hamburger */}
           <button
+            ref={menuButtonRef}
             className="lg:hidden ms-auto w-11 h-11 flex items-center justify-center rounded-full text-white/70 hover:bg-dq-800 transition-colors"
             onClick={() => setMenuOpen(true)}
             aria-label="مینو کھولیں"
@@ -420,17 +465,20 @@ export default function Header({
       {/* ── Mobile overlay ── */}
       <div
         onClick={() => setMenuOpen(false)}
+        aria-hidden={!menuOpen}
         className={`fixed inset-0 z-[60] bg-dq-950/70 backdrop-blur-sm lg:hidden transition-opacity duration-300
           ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
       />
 
       {/* ── Mobile panel ── */}
       <div
+        ref={panelRef}
         id="mobile-nav-panel"
         role="dialog"
         aria-modal="true"
         aria-label="مینو"
         aria-hidden={!menuOpen}
+        inert={!menuOpen ? true : undefined}
         className={`fixed top-0 right-0 bottom-0 w-[300px] z-[70] bg-white lg:hidden flex flex-col
           shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]
           ${menuOpen ? 'translate-x-0' : 'translate-x-full'}`}
@@ -440,12 +488,13 @@ export default function Header({
           <Link href="/" onClick={() => setMenuOpen(false)} className="flex items-center gap-2.5">
             <div className="w-[40px] h-[40px] rounded-full overflow-hidden border-2 border-dq-400">
               {logoUrl
-                ? <Image src={logoUrl} alt={siteName} width={40} height={40} className="object-cover w-full h-full" />
-                : <div className="w-full h-full bg-gradient-to-br from-dq-100 to-dq-200 flex items-center justify-center select-none">⛵</div>}
+                ? <Image src={logoUrl} alt="" width={40} height={40} className="object-cover w-full h-full" />
+                : <div className="w-full h-full bg-gradient-to-br from-dq-100 to-dq-200 flex items-center justify-center select-none" aria-hidden="true">⛵</div>}
             </div>
             <span className="font-bold text-[16px] text-slate-900 tracking-[-0.02em]">{siteName}</span>
           </Link>
           <button
+            ref={closeButtonRef}
             onClick={() => setMenuOpen(false)}
             aria-label="مینو بند کریں"
             className="w-11 h-11 flex items-center justify-center rounded-full text-gray-500 hover:bg-gray-100 transition-colors"
@@ -455,7 +504,7 @@ export default function Header({
         </div>
 
         {/* Nav items */}
-        <nav className="flex-1 overflow-y-auto px-3 py-3">
+        <nav aria-label="موبائل نیویگیشن" className="flex-1 overflow-y-auto px-3 py-3">
           {navLinks.map(node => (
             <MobileNavNode key={node.label} node={node} onClose={() => setMenuOpen(false)} depth={0} />
           ))}
@@ -463,10 +512,12 @@ export default function Header({
 
         {/* Search */}
         <div className="px-5 pb-8 pt-3 border-t border-gray-100 flex-shrink-0">
-          <form onSubmit={handleSearch}
+          <form onSubmit={handleSearch} role="search" aria-label="مضامین تلاش"
             className="flex items-center border border-gray-200 rounded-xl overflow-hidden focus-within:border-dq-500 focus-within:shadow-[0_0_0_3px_rgba(184,144,14,0.12)] transition-all duration-200">
+            <label htmlFor="mobile-search" className="sr-only">مضامین تلاش کریں</label>
             <input
-              type="text"
+              id="mobile-search"
+              type="search"
               value={query}
               onChange={e => setQuery(e.target.value)}
               placeholder={searchPlaceholder}

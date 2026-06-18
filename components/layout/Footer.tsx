@@ -62,7 +62,7 @@ const FALLBACK_SERVICES: FooterService[] = [
 
 function ColHeading({ children }: { children: React.ReactNode }) {
   return (
-    <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-dq-200/60 mb-2.5 sm:mb-4">
+    <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-2.5 sm:mb-4">
       {children}
     </h3>
   )
@@ -73,7 +73,7 @@ function NavLink({ href, children }: { href: string; children: React.ReactNode }
     <li>
       <Link
         href={href}
-        className="group flex items-center gap-0 text-[12px] sm:text-[13px] text-dq-100/60 hover:text-dq-400 transition-colors duration-150"
+        className="group flex items-center gap-0 text-[12px] sm:text-[13px] text-gray-300 hover:text-dq-400 transition-colors duration-150"
       >
         <span className="inline-block w-0 overflow-hidden group-hover:w-3 transition-all duration-150 text-dq-400 text-[11px] leading-none">
           ›
@@ -104,20 +104,20 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
                 {logoUrl ? (
                   <Image
                     src={logoUrl}
-                    alt={siteName}
+                    alt=""
                     width={40}
                     height={40}
                     className="rounded-full border-2 border-dq-400 object-cover transition-transform duration-200 group-hover:scale-105 sm:w-[52px] sm:h-[52px]"
                   />
                 ) : (
-                  <div className="w-10 h-10 sm:w-[52px] sm:h-[52px] rounded-full bg-gradient-to-br from-dq-100 to-dq-200 border-2 border-dq-400 flex items-center justify-center text-xl sm:text-2xl select-none transition-transform duration-200 group-hover:scale-105">
+                  <div className="w-10 h-10 sm:w-[52px] sm:h-[52px] rounded-full bg-gradient-to-br from-dq-100 to-dq-200 border-2 border-dq-400 flex items-center justify-center text-xl sm:text-2xl select-none transition-transform duration-200 group-hover:scale-105" aria-hidden="true">
                     ⛵
                   </div>
                 )}
                 <span className="font-bold text-[16px] sm:text-[18px] text-white tracking-[-0.02em]">{siteName}</span>
               </Link>
 
-              <p className="text-[12px] sm:text-[13px] text-dq-100/70 leading-relaxed mb-3 sm:mb-5 max-w-[280px] line-clamp-2 sm:line-clamp-none">
+              <p className="text-[12px] sm:text-[13px] text-gray-300 leading-relaxed mb-3 sm:mb-5 max-w-[280px] line-clamp-2 sm:line-clamp-none">
                 {tagline}
               </p>
 
@@ -137,7 +137,8 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
                 )}
                 {settings?.darulQuranUrl && (
                   <Link href={settings.darulQuranUrl} target="_blank" rel="noopener noreferrer"
-                    className="flex items-center gap-1 text-[11px] font-medium text-dq-100/60 hover:text-dq-400 bg-dq-800 border border-dq-700 hover:border-dq-400 rounded-lg px-2 py-1 sm:px-2.5 sm:py-1.5 transition-all duration-200">
+                    aria-label="دار القرآن (نئی ونڈو میں کھلتا ہے)"
+                    className="flex items-center gap-1 text-[11px] font-medium text-gray-300 hover:text-dq-400 bg-dq-800 border border-dq-700 hover:border-dq-400 rounded-lg px-2 py-1 sm:px-2.5 sm:py-1.5 transition-all duration-200">
                     دار القرآن <ExternalLink size={9} />
                   </Link>
                 )}
@@ -147,26 +148,26 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
 
           {/* Col 2 — Quick Links */}
           <Reveal animation="up" delay={80}>
-            <div>
+            <nav aria-label="فوری روابط">
               <ColHeading>فوری روابط</ColHeading>
               <ul className="space-y-1.5 sm:space-y-2.5">
                 {quickLinks.map(({ label, href }) => (
                   <NavLink key={href} href={href}>{label}</NavLink>
                 ))}
               </ul>
-            </div>
+            </nav>
           </Reveal>
 
           {/* Col 3 — Services */}
           <Reveal animation="up" delay={160}>
-            <div>
+            <nav aria-label="خدمات">
               <ColHeading>خدمات</ColHeading>
               <ul className="space-y-1.5 sm:space-y-2.5">
                 {services.map(({ label, href }) => (
                   <NavLink key={href} href={href}>{label}</NavLink>
                 ))}
               </ul>
-            </div>
+            </nav>
           </Reveal>
 
           {/* Col 4 — Contact (full width on mobile) */}
@@ -176,7 +177,7 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
               {settings?.email && (
                 <li>
                   <Link href={`mailto:${settings.email}`}
-                    className="flex items-center gap-2 text-[12px] sm:text-[12.5px] text-dq-100/60 hover:text-dq-400 transition-colors duration-150">
+                    className="flex items-center gap-2 text-[12px] sm:text-[12.5px] text-gray-300 hover:text-dq-400 transition-colors duration-150">
                     <Mail size={12} className="text-dq-400 flex-shrink-0" />
                     <span className="truncate">{settings.email}</span>
                   </Link>
@@ -185,7 +186,7 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
               {settings?.phone && (
                 <li>
                   <Link href={`tel:${settings.phone}`}
-                    className="flex items-center gap-2 text-[12px] sm:text-[12.5px] text-dq-100/60 hover:text-dq-400 transition-colors duration-150">
+                    className="flex items-center gap-2 text-[12px] sm:text-[12.5px] text-gray-300 hover:text-dq-400 transition-colors duration-150">
                     <Phone size={12} className="text-dq-400 flex-shrink-0" />
                     {settings.phone}
                   </Link>
@@ -195,7 +196,7 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
                 <li>
                   <Link href={`https://wa.me/${settings.whatsapp.replace(/\D/g, '')}`}
                     target="_blank" rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-[12px] sm:text-[12.5px] text-dq-100/60 hover:text-dq-400 transition-colors duration-150">
+                    className="flex items-center gap-2 text-[12px] sm:text-[12.5px] text-gray-300 hover:text-dq-400 transition-colors duration-150">
                     <MessageCircle size={12} className="text-dq-400 flex-shrink-0" />
                     واٹس ایپ: {settings.whatsapp}
                   </Link>
@@ -204,13 +205,13 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
               {settings?.address && (
                 <li className="flex items-start gap-2">
                   <MapPin size={12} className="text-dq-400 flex-shrink-0 mt-0.5" />
-                  <p className="text-[12px] sm:text-[12.5px] text-dq-100/60 leading-relaxed whitespace-pre-line">
+                  <p className="text-[12px] sm:text-[12.5px] text-gray-300 leading-relaxed whitespace-pre-line">
                     {settings.address}
                   </p>
                 </li>
               )}
               {!settings?.email && !settings?.phone && !settings?.address && (
-                <li className="text-[12px] text-dq-200/50 italic">
+                <li className="text-[12px] text-gray-400 italic">
                   سنیٹی اسٹوڈیو میں رابطہ کی معلومات شامل کریں
                 </li>
               )}
