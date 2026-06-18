@@ -1,33 +1,24 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { safeFetch } from '@/sanity/lib/client'
-import { siteSettingsQuery, pageBySlugQuery } from '@/sanity/lib/queries'
+import { cmsPageMetadata, fetchCmsPage, resolveSeoDescription, resolveSeoTitle } from '@/lib/cmsPage'
 import { PortableText } from '@portabletext/react'
 import { ArrowRight } from 'lucide-react'
-import { pageMetadata } from '@/lib/seo'
 import WebPageSchema from '@/components/seo/WebPageSchema'
+import PageHeroHeader from '@/components/ui/PageHeroHeader'
 import Reveal from '@/components/ui/Reveal'
 
 export const revalidate = 300
 
 export async function generateMetadata(): Promise<Metadata> {
-  const [page, settings] = await Promise.all([
-    safeFetch(pageBySlugQuery, { slug: 'donate' }),
-    safeFetch(siteSettingsQuery),
-  ])
-  return pageMetadata({
-    title: page?.seoTitle || page?.title || 'عطیہ',
-    description: page?.seoDescription || page?.subtitle,
+  return cmsPageMetadata({
+    slug: 'donate',
     path: '/donate',
-    settings,
+    titleFallback: 'عطیہ',
   })
 }
 
 export default async function DonatePage() {
-  const [settings, page] = await Promise.all([
-    safeFetch(siteSettingsQuery),
-    safeFetch(pageBySlugQuery, { slug: 'donate' }),
-  ])
+  const { page, settings } = await fetchCmsPage('donate')
 
   const causes: { title: string; desc: string }[] = settings?.donateCauses?.length
     ? settings.donateCauses
@@ -38,32 +29,24 @@ export default async function DonatePage() {
         { title: 'دار القرآن معاونت', desc: 'ہمارے قرآنی ادارے میں حصہ ڈالیں' },
       ]
 
-  const pageTitle = page?.seoTitle || page?.title || 'عطیہ'
-  const pageDescription = page?.seoDescription || page?.subtitle
+  const pageTitle = resolveSeoTitle(page, 'عطیہ')
+  const pageDescription = resolveSeoDescription(page)
 
   return (
     <div>
       <WebPageSchema title={pageTitle} description={pageDescription} path="/donate" />
-      <div className="bg-white border-b border-gray-100">
-        <Reveal animation="up" className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 text-center">
-          <div>
-            <p className="text-[20px] sm:text-[22px] text-dq-600 mb-3 leading-none">
-              {settings?.donateArabicVerse || 'بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ'}
-            </p>
-            <p className="flex items-center justify-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-amber-600 mb-3">
-              <span className="w-5 h-px bg-amber-400 inline-block" />
-              {page?.eyebrow || 'عطا کیجیے'}
-              <span className="w-5 h-px bg-amber-400 inline-block" />
-            </p>
-            <h1 className="font-bold text-[26px] sm:text-[30px] text-slate-900 tracking-[-0.02em] mb-3">
-              {page?.title || 'عطیہ'}
-            </h1>
-            <p className="text-[13.5px] text-gray-500 mx-auto leading-relaxed">
-              {page?.subtitle || 'آپ کی سخاوت اہل بیت (ع) کے نور کو زندہ رکھتی ہے۔ ہر عطیہ — چھوٹا یا بڑا — فرق ڈالتا ہے۔'}
-            </p>
-          </div>
-        </Reveal>
-      </div>
+      <PageHeroHeader
+        topContent={
+          <p className="text-[20px] sm:text-[22px] text-dq-600 mb-3 leading-none">
+            {settings?.donateArabicVerse || 'بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ'}
+          </p>
+        }
+        eyebrow={page?.eyebrow || 'عطا کیجیے'}
+        title={page?.title || 'عطیہ'}
+        subtitle={page?.subtitle || 'آپ کی سخاوت اہل بیت (ع) کے نور کو زندہ رکھتی ہے۔ ہر عطیہ — چھوٹا یا بڑا — فرق ڈالتا ہے۔'}
+        maxWidth="5xl"
+        align="center"
+      />
 
       <div className="py-8 sm:py-12 bg-slate-50/40">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">

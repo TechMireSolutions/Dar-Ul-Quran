@@ -3,8 +3,9 @@ import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import { CalendarDays, User } from 'lucide-react'
 import { safeFetch } from '@/sanity/lib/client'
-import { urlFor } from '@/sanity/lib/image'
-import { postBySlugQuery, postSlugsQuery, siteSettingsQuery, topicClusterForPostQuery } from '@/sanity/lib/queries'
+import { urlFor, ogImageUrl } from '@/sanity/lib/image'
+import { postSlugsQuery } from '@/sanity/lib/queries'
+import { getPostBySlug, getSiteSettings, getTopicClusterForPost } from '@/sanity/lib/fetchers'
 import { PortableText } from '@portabletext/react'
 import ArticleSchema from '@/components/seo/ArticleSchema'
 import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
@@ -21,15 +22,10 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
-  const [post, settings] = await Promise.all([
-    safeFetch(postBySlugQuery, { slug }),
-    safeFetch(siteSettingsQuery),
-  ])
+  const [post, settings] = await Promise.all([getPostBySlug(slug), getSiteSettings()])
   const title = post?.seoTitle ?? post?.title ?? 'مضمون'
   const description = post?.seoDescription ?? post?.excerpt
-  const image = post?.mainImage
-    ? urlFor(post.mainImage).width(1200).height(630).fit('crop').auto('format').url()
-    : null
+  const image = post?.mainImage ? ogImageUrl(post.mainImage) : null
 
   return pageMetadata({
     title,
@@ -47,12 +43,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function ArticleDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const post = await safeFetch(postBySlugQuery, { slug })
+  const post = await getPostBySlug(slug)
   if (!post) notFound()
 
   const [settings, cluster] = await Promise.all([
-    safeFetch(siteSettingsQuery),
-    safeFetch(topicClusterForPostQuery, { postId: post._id }),
+    getSiteSettings(),
+    getTopicClusterForPost(post._id),
   ])
 
   const publisherLogoUrl = settings?.logo

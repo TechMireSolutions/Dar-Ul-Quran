@@ -1,33 +1,29 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { safeFetch } from '@/sanity/lib/client'
-import { siteSettingsQuery, pageBySlugQuery, allCoursesForFormQuery, allServicesForFormQuery } from '@/sanity/lib/queries'
+import { allCoursesForFormQuery, allServicesForFormQuery } from '@/sanity/lib/queries'
 import { PortableText } from '@portabletext/react'
 import { Mail, Phone, MessageCircle, MapPin, Globe, Play } from 'lucide-react'
-import { pageMetadata } from '@/lib/seo'
+import { cmsPageMetadata, fetchCmsPage, resolveSeoDescription, resolveSeoTitle } from '@/lib/cmsPage'
+import { whatsappHref } from '@/lib/contact'
 import WebPageSchema from '@/components/seo/WebPageSchema'
+import PageHeroHeader from '@/components/ui/PageHeroHeader'
 import ContactForm from './ContactForm'
 import Reveal from '@/components/ui/Reveal'
 
 export const revalidate = 300
 
 export async function generateMetadata(): Promise<Metadata> {
-  const [page, settings] = await Promise.all([
-    safeFetch(pageBySlugQuery, { slug: 'contact' }),
-    safeFetch(siteSettingsQuery),
-  ])
-  return pageMetadata({
-    title: page?.seoTitle || page?.title || 'رابطہ کریں',
-    description: page?.seoDescription || page?.subtitle,
+  return cmsPageMetadata({
+    slug: 'contact',
     path: '/contact',
-    settings,
+    titleFallback: 'رابطہ کریں',
   })
 }
 
 export default async function ContactPage() {
-  const [settings, page, courses, services] = await Promise.all([
-    safeFetch(siteSettingsQuery),
-    safeFetch(pageBySlugQuery, { slug: 'contact' }),
+  const [{ page, settings }, courses, services] = await Promise.all([
+    fetchCmsPage('contact'),
     safeFetch(allCoursesForFormQuery),
     safeFetch(allServicesForFormQuery),
   ])
@@ -35,7 +31,7 @@ export default async function ContactPage() {
   const contactItems = [
     settings?.email    && { Icon: Mail,          label: 'ای میل',   value: settings.email,    href: `mailto:${settings.email}` },
     settings?.phone    && { Icon: Phone,         label: 'فون',      value: settings.phone,    href: `tel:${settings.phone}` },
-    settings?.whatsapp && { Icon: MessageCircle, label: 'واٹس ایپ', value: settings.whatsapp, href: `https://wa.me/${settings.whatsapp.replace(/\D/g, '')}` },
+    settings?.whatsapp && { Icon: MessageCircle, label: 'واٹس ایپ', value: settings.whatsapp, href: whatsappHref(settings.whatsapp) },
     settings?.address  && { Icon: MapPin,        label: 'پتہ',      value: settings.address,  href: null },
   ].filter(Boolean) as { Icon: any; label: string; value: string; href: string | null }[]
 
@@ -45,28 +41,18 @@ export default async function ContactPage() {
 
   const submitLabel: string = settings?.contactFormSubmitLabel || 'پیغام بھیجیں'
 
-  const pageTitle = page?.seoTitle || page?.title || 'ہم سے رابطہ کریں'
-  const pageDescription = page?.seoDescription || page?.subtitle
+  const pageTitle = resolveSeoTitle(page, 'ہم سے رابطہ کریں')
+  const pageDescription = resolveSeoDescription(page)
 
   return (
     <div>
       <WebPageSchema title={pageTitle} description={pageDescription} path="/contact" />
-      <div className="bg-white border-b border-gray-100">
-        <Reveal animation="up" className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-          <div>
-            <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-dq-600 mb-3">
-              <span className="w-5 h-px bg-dq-400 inline-block" />
-              {page?.eyebrow || 'رابطہ کیجیے'}
-            </p>
-            <h1 className="font-bold text-[26px] sm:text-[30px] text-slate-900 tracking-[-0.02em] mb-2">
-              {page?.title || 'ہم سے رابطہ کریں'}
-            </h1>
-            <p className="text-[13.5px] text-gray-500">
-              {page?.subtitle || 'خدمات، کورسز یا عام پوچھ گچھ کے لیے ہم سے رابطہ کریں'}
-            </p>
-          </div>
-        </Reveal>
-      </div>
+      <PageHeroHeader
+        eyebrow={page?.eyebrow || 'رابطہ کیجیے'}
+        title={page?.title || 'ہم سے رابطہ کریں'}
+        subtitle={page?.subtitle || 'خدمات، کورسز یا عام پوچھ گچھ کے لیے ہم سے رابطہ کریں'}
+        maxWidth="6xl"
+      />
 
       <div className="py-8 sm:py-12 bg-slate-50/40">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">

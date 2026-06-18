@@ -1,14 +1,18 @@
 import type { Metadata } from 'next'
 import { safeFetch } from '@/sanity/lib/client'
-import { urlFor } from '@/sanity/lib/image'
-import { postsQuery, pageBySlugQuery, siteSettingsQuery } from '@/sanity/lib/queries'
-import { pageMetadata } from '@/lib/seo'
+import { cardImageUrl } from '@/sanity/lib/image'
+import { postsQuery } from '@/sanity/lib/queries'
+import { cmsPageMetadata, fetchCmsPage, resolveSeoDescription, resolveSeoTitle } from '@/lib/cmsPage'
 import ContentCard from '@/components/ui/ContentCard'
 import ItemListSchema from '@/components/seo/ItemListSchema'
 import WebPageSchema from '@/components/seo/WebPageSchema'
+import PageHeroHeader from '@/components/ui/PageHeroHeader'
 import Reveal from '@/components/ui/Reveal'
 
 export const revalidate = 300
+
+const PAGE_SLUG = 'articles'
+const PAGE_PATH = '/articles'
 
 export async function generateMetadata({
   searchParams,
@@ -16,18 +20,12 @@ export async function generateMetadata({
   searchParams: Promise<{ q?: string }>
 }): Promise<Metadata> {
   const { q } = await searchParams
-  const hasSearch = Boolean(q?.trim())
-
-  const [page, settings] = await Promise.all([
-    safeFetch(pageBySlugQuery, { slug: 'articles' }),
-    safeFetch(siteSettingsQuery),
-  ])
-  return pageMetadata({
-    title: page?.seoTitle || page?.title || 'مضامین',
-    description: page?.seoDescription || page?.subtitle || 'اسلامی علم، خبریں اور مطالعات',
-    path: '/articles',
-    settings,
-    noIndex: hasSearch,
+  return cmsPageMetadata({
+    slug: PAGE_SLUG,
+    path: PAGE_PATH,
+    titleFallback: 'مضامین',
+    descriptionFallback: 'اسلامی علم، خبریں اور مطالعات',
+    noIndex: Boolean(q?.trim()),
   })
 }
 
@@ -39,9 +37,9 @@ export default async function ArticlesPage({
   const { q } = await searchParams
   const query = q?.trim().toLowerCase() ?? ''
 
-  const [postsRaw, page] = await Promise.all([
+  const [{ page }, postsRaw] = await Promise.all([
+    fetchCmsPage(PAGE_SLUG),
     safeFetch(postsQuery),
-    safeFetch(pageBySlugQuery, { slug: 'articles' }),
   ])
   const posts = postsRaw ?? []
 
@@ -58,55 +56,43 @@ export default async function ArticlesPage({
     url: `/articles/${post.slug.current}`,
   }))
 
+  const title = resolveSeoTitle(page, 'مضامین')
+  const description = resolveSeoDescription(page, 'اسلامی علم، خبریں اور مطالعات')
+
   return (
     <div>
-      <WebPageSchema
-        title={page?.seoTitle || page?.title || 'مضامین'}
-        description={page?.seoDescription || page?.subtitle || 'اسلامی علم، خبریں اور مطالعات'}
-        path="/articles"
-      />
-      <ItemListSchema name="مضامین" path="/articles" items={listItems} />
+      <WebPageSchema title={title} description={description} path={PAGE_PATH} />
+      <ItemListSchema name="مضامین" path={PAGE_PATH} items={listItems} />
 
-      <div className="bg-white border-b border-gray-100">
-        <Reveal animation="up" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-          <div>
-            <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-dq-600 mb-3">
-              <span className="w-5 h-px bg-dq-400 inline-block" />
-              {page?.eyebrow || 'علم'}
-            </p>
-            <h1 className="font-bold text-[26px] sm:text-[30px] text-slate-900 tracking-[-0.02em] mb-2">
-              {page?.title || 'مضامین'}
-            </h1>
-            <p className="text-[13.5px] text-gray-500 mb-5">
-              {page?.subtitle || 'اسلامی علم، خبریں اور مطالعات'}
-            </p>
-
-            <form action="/articles" method="get" role="search" className="max-w-md">
-              <label htmlFor="article-search" className="sr-only">
-                مضامین تلاش کریں
-              </label>
-              <div className="flex gap-2">
-                <input
-                  id="article-search"
-                  name="q"
-                  type="search"
-                  defaultValue={q ?? ''}
-                  placeholder="مضمون تلاش کریں…"
-                  enterKeyHint="search"
-                  autoComplete="off"
-                  className="flex-1 min-h-[44px] px-4 rounded-xl border border-gray-200 text-[14px] text-slate-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-dq-400/40 focus:border-dq-400"
-                />
-                <button
-                  type="submit"
-                  className="min-h-[44px] min-w-[44px] px-4 rounded-xl bg-dq-600 text-white text-[14px] font-semibold hover:bg-dq-700 transition-colors"
-                >
-                  تلاش
-                </button>
-              </div>
-            </form>
+      <PageHeroHeader
+        eyebrow={page?.eyebrow || 'علم'}
+        title={page?.title || 'مضامین'}
+        subtitle={page?.subtitle || 'اسلامی علم، خبریں اور مطالعات'}
+      >
+        <form action={PAGE_PATH} method="get" role="search" className="max-w-md mt-5">
+          <label htmlFor="article-search" className="sr-only">
+            مضامین تلاش کریں
+          </label>
+          <div className="flex gap-2">
+            <input
+              id="article-search"
+              name="q"
+              type="search"
+              defaultValue={q ?? ''}
+              placeholder="مضمون تلاش کریں…"
+              enterKeyHint="search"
+              autoComplete="off"
+              className="flex-1 min-h-[44px] px-4 rounded-xl border border-gray-200 text-[14px] text-slate-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-dq-400/40 focus:border-dq-400"
+            />
+            <button
+              type="submit"
+              className="min-h-[44px] min-w-[44px] px-4 rounded-xl bg-dq-600 text-white text-[14px] font-semibold hover:bg-dq-700 transition-colors"
+            >
+              تلاش
+            </button>
           </div>
-        </Reveal>
-      </div>
+        </form>
+      </PageHeroHeader>
 
       <div className="py-8 sm:py-12 bg-slate-50/40 min-h-[50vh]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -127,7 +113,7 @@ export default async function ArticlesPage({
                 <Reveal key={post._id} animation="up" delay={i * 70}>
                   <ContentCard
                     href={`/articles/${post.slug.current}`}
-                    image={post.mainImage ? urlFor(post.mainImage).width(600).height(450).url() : null}
+                    image={post.mainImage ? cardImageUrl(post.mainImage) : null}
                     title={post.title}
                     description={post.excerpt || null}
                     badge={post.categories?.[0]?.title || null}

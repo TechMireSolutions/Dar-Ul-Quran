@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import { safeFetch } from '@/sanity/lib/client'
 import { llmFeedQuery } from '@/sanity/lib/queries'
+import { coursePath } from '@/lib/paths'
+import { SITE_URL } from '@/lib/seo'
 
 type LLMData = {
   settings: { siteName: string; description: string; whatsapp: string; email: string } | null
@@ -31,7 +33,6 @@ export const revalidate = 3600
 
 export async function GET() {
   const data = await safeFetch<LLMData>(llmFeedQuery)
-  const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://darulquran.pk'
   const s = data?.settings
 
   const md: string[] = [
@@ -68,7 +69,7 @@ export async function GET() {
   if (data?.courses?.length) {
     for (const course of data.courses) {
       md.push(`### ${course.title}`)
-      md.push(`- URL: ${BASE}/online-courses/${course.slug}`)
+      md.push(`- URL: ${SITE_URL}${coursePath(course.slug)}`)
       if (course.subject) md.push(`- Subject Area: ${course.subject}`)
       if (course.duration) md.push(`- Duration: ${course.duration}`)
       if (course.seoDescription) md.push(`- Overview: ${course.seoDescription}`)
@@ -76,12 +77,12 @@ export async function GET() {
       if (course.children?.length) {
         for (const child of course.children) {
           md.push(`  #### ${child.title}`)
-          md.push(`  - URL: ${BASE}/online-courses/${course.slug}/${child.slug}`)
+          md.push(`  - URL: ${SITE_URL}${coursePath(child.slug, course.slug)}`)
           if (child.seoDescription) md.push(`  - Description: ${child.seoDescription}`)
           if (child.grandchildren?.length) {
             for (const gc of child.grandchildren) {
               md.push(
-                `    - [${gc.title}](${BASE}/online-courses/${course.slug}/${child.slug}/${gc.slug})${gc.seoDescription ? `: ${gc.seoDescription}` : ''}`
+                `    - [${gc.title}](${SITE_URL}${coursePath(gc.slug, child.slug, course.slug)})${gc.seoDescription ? `: ${gc.seoDescription}` : ''}`
               )
             }
           }
@@ -97,7 +98,7 @@ export async function GET() {
     for (const a of data.articles) {
       const cats = a.categories?.map((c) => c.title).join(', ') ?? ''
       md.push(
-        `- [${a.title}](${BASE}/articles/${a.slug})${cats ? ` [${cats}]` : ''}${a.excerpt ? ` — ${a.excerpt}` : ''}`
+        `- [${a.title}](${SITE_URL}/articles/${a.slug})${cats ? ` [${cats}]` : ''}${a.excerpt ? ` — ${a.excerpt}` : ''}`
       )
     }
     md.push(``)
@@ -114,17 +115,17 @@ export async function GET() {
 
   md.push(`## Key Pages`)
   md.push(``)
-  md.push(`- [All Courses](${BASE}/online-courses) — Full Shia Quran curriculum catalog`)
-  md.push(`- [Services](${BASE}/services) — Additional Islamic education programs`)
-  md.push(`- [Articles](${BASE}/articles) — Shia Islamic educational resources`)
-  md.push(`- [About](${BASE}/about) — Mission and organizational background`)
-  md.push(`- [Contact & Enrollment](${BASE}/contact) — Book a free trial class`)
-  md.push(`- [Donate](${BASE}/donate) — Support Islamic education for Shia families`)
+  md.push(`- [All Courses](${SITE_URL}/online-courses) — Full Shia Quran curriculum catalog`)
+  md.push(`- [Services](${SITE_URL}/services) — Additional Islamic education programs`)
+  md.push(`- [Articles](${SITE_URL}/articles) — Shia Islamic educational resources`)
+  md.push(`- [About](${SITE_URL}/about) — Mission and organizational background`)
+  md.push(`- [Contact & Enrollment](${SITE_URL}/contact) — Book a free trial class`)
+  md.push(`- [Donate](${SITE_URL}/donate) — Support Islamic education for Shia families`)
   md.push(``)
   md.push(`## Machine-Readable Data`)
   md.push(``)
-  md.push(`- Sitemap: ${BASE}/sitemap.xml`)
-  md.push(`- Robots: ${BASE}/robots.txt`)
+  md.push(`- Sitemap: ${SITE_URL}/sitemap.xml`)
+  md.push(`- Robots: ${SITE_URL}/robots.txt`)
 
   return new NextResponse(md.join('\n'), {
     headers: {

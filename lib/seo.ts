@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
-import { urlFor } from '@/sanity/lib/image'
+import { ogImageUrl, type SanityImageAsset } from '@/sanity/lib/image'
 
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://darulquran.pk'
 
-type SanityImage = Parameters<typeof urlFor>[0]
+type SanityImage = SanityImageAsset
 
 export type SiteSettingsOg = {
   logo?: SanityImage
@@ -13,12 +13,8 @@ export type SiteSettingsOg = {
 
 /** Default Open Graph image from Sanity site settings (logo → favicon). */
 export function defaultOgImage(settings?: SiteSettingsOg): string | undefined {
-  if (settings?.logo) {
-    return urlFor(settings.logo).width(1200).height(630).fit('crop').auto('format').url()
-  }
-  if (settings?.favicon) {
-    return urlFor(settings.favicon).width(1200).height(630).fit('crop').auto('format').url()
-  }
+  if (settings?.logo) return ogImageUrl(settings.logo)
+  if (settings?.favicon) return ogImageUrl(settings.favicon)
   return undefined
 }
 

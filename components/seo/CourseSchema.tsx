@@ -1,4 +1,6 @@
-const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://darulquran.pk'
+import { SITE_URL } from '@/lib/seo'
+import { buildBreadcrumbSchema, buildFaqPageSchema } from '@/lib/schemaHelpers'
+
 const ORG_NAME = 'Dar Ul Quran'
 
 export type CourseSchemaData = {
@@ -28,13 +30,9 @@ function resolveSlugPath(data: CourseSchemaData): string {
   return data.slug ?? ''
 }
 
-function buildCourseUrl(slugPath: string): string {
-  return `${BASE}/online-courses/${slugPath}`
-}
-
 function buildSchemas(data: CourseSchemaData): object[] {
   const slugPath = resolveSlugPath(data)
-  const courseUrl = buildCourseUrl(slugPath)
+  const courseUrl = `${SITE_URL}/online-courses/${slugPath}`
   const description =
     data.seoDescription ??
     data.excerpt ??
@@ -50,9 +48,9 @@ function buildSchemas(data: CourseSchemaData): object[] {
 
     provider: {
       '@type': 'EducationalOrganization',
-      '@id': `${BASE}#organization`,
+      '@id': `${SITE_URL}#organization`,
       name: data.orgName ?? ORG_NAME,
-      url: BASE,
+      url: SITE_URL,
       description:
         'دار القرآن ایک شیعہ اسلامی تعلیمی ادارہ ہے جو مستند جعفری فقہ پر مبنی قرآن و اسلامی تعلیم پاکستان اور عالمی سطح پر پیش کرتا ہے۔',
       address: { '@type': 'PostalAddress', addressCountry: 'PK' },
@@ -63,7 +61,7 @@ function buildSchemas(data: CourseSchemaData): object[] {
         '@type': 'CourseInstance',
         courseMode: 'Online',
         inLanguage: ['ur', 'en'],
-        location: { '@type': 'VirtualLocation', url: BASE },
+        location: { '@type': 'VirtualLocation', url: SITE_URL },
         ...(data.instructor
           ? {
               instructor: {
@@ -101,7 +99,7 @@ function buildSchemas(data: CourseSchemaData): object[] {
             priceCurrency: 'PKR',
             price: String(data.pricingMin),
             availability: 'https://schema.org/InStock',
-            url: `${BASE}/contact`,
+            url: `${SITE_URL}/contact`,
           },
         }
       : {}),
@@ -114,44 +112,19 @@ function buildSchemas(data: CourseSchemaData): object[] {
   const schemas: object[] = [courseSchema]
 
   if (data.faqItems?.length) {
-    schemas.push({
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      '@id': `${courseUrl}#faq`,
-      mainEntity: data.faqItems.map((item) => ({
-        '@type': 'Question',
-        name: item.question,
-        acceptedAnswer: { '@type': 'Answer', text: item.answer },
-      })),
-    })
+    schemas.push(buildFaqPageSchema(courseUrl, data.faqItems))
   }
 
-  const slugParts = slugPath.split('/').filter(Boolean)
-  const breadcrumbItems: object[] = [
-    { '@type': 'ListItem', position: 1, name: 'صفحۂ اول', item: BASE },
-    {
-      '@type': 'ListItem',
-      position: 2,
-      name: 'آن لائن کورسز',
-      item: `${BASE}/online-courses`,
-    },
-  ]
-  slugParts.forEach((part, i) => {
-    const isLast = i === slugParts.length - 1
-    breadcrumbItems.push({
-      '@type': 'ListItem',
-      position: i + 3,
-      name: isLast ? data.title : (data.breadcrumbLabels?.[part] ?? part),
-      item: `${BASE}/online-courses/${slugParts.slice(0, i + 1).join('/')}`,
-    })
-  })
-
-  schemas.push({
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    '@id': `${courseUrl}#breadcrumb`,
-    itemListElement: breadcrumbItems,
-  })
+  schemas.push(
+    buildBreadcrumbSchema({
+      pageUrl: courseUrl,
+      sectionPath: '/online-courses',
+      sectionLabel: 'آن لائن کورسز',
+      slugPath,
+      title: data.title,
+      breadcrumbLabels: data.breadcrumbLabels,
+    }),
+  )
 
   return schemas
 }

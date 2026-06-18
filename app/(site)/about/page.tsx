@@ -1,9 +1,8 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { safeFetch } from '@/sanity/lib/client'
-import { pageBySlugQuery, siteSettingsQuery } from '@/sanity/lib/queries'
-import { pageMetadata } from '@/lib/seo'
+import { cmsPageMetadata, fetchCmsPage, resolveSeoDescription, resolveSeoTitle } from '@/lib/cmsPage'
 import WebPageSchema from '@/components/seo/WebPageSchema'
+import PageHeroHeader from '@/components/ui/PageHeroHeader'
 import { PortableText } from '@portabletext/react'
 import { ArrowRight, BookOpen, Heart, Star } from 'lucide-react'
 import Reveal from '@/components/ui/Reveal'
@@ -11,23 +10,15 @@ import Reveal from '@/components/ui/Reveal'
 export const revalidate = 300
 
 export async function generateMetadata(): Promise<Metadata> {
-  const [page, settings] = await Promise.all([
-    safeFetch(pageBySlugQuery, { slug: 'about' }),
-    safeFetch(siteSettingsQuery),
-  ])
-  return pageMetadata({
-    title: page?.seoTitle || page?.title || 'ہمارے بارے میں',
-    description: page?.seoDescription || page?.subtitle,
+  return cmsPageMetadata({
+    slug: 'about',
     path: '/about',
-    settings,
+    titleFallback: 'ہمارے بارے میں',
   })
 }
 
 export default async function AboutPage() {
-  const [page, settings] = await Promise.all([
-    safeFetch(pageBySlugQuery, { slug: 'about' }),
-    safeFetch(siteSettingsQuery),
-  ])
+  const { page, settings } = await fetchCmsPage('about')
 
   const siteName = settings?.siteName || 'دار القرآن'
 
@@ -37,28 +28,18 @@ export default async function AboutPage() {
     { Icon: Star,     title: 'برادری',   desc: 'مجالس، پروگرامز اور امت کے لیے قابل اعتماد اسلامی مواد' },
   ]
 
-  const pageTitle = page?.seoTitle || page?.title || 'ہمارے بارے میں'
-  const pageDescription = page?.seoDescription || page?.subtitle
+  const pageTitle = resolveSeoTitle(page, 'ہمارے بارے میں')
+  const pageDescription = resolveSeoDescription(page)
 
   return (
     <div>
       <WebPageSchema title={pageTitle} description={pageDescription} path="/about" />
-      <div className="bg-white border-b border-gray-100">
-        <Reveal animation="up" className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-          <div>
-            <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-dq-600 mb-3">
-              <span className="w-5 h-px bg-dq-400 inline-block" />
-              {page?.eyebrow || 'ہماری کہانی'}
-            </p>
-            <h1 className="font-bold text-[26px] sm:text-[30px] text-slate-900 tracking-[-0.02em] mb-2">
-              {page?.title || 'ہمارے بارے میں'}
-            </h1>
-            <p className="text-[13.5px] text-gray-500">
-              {page?.subtitle || 'ہم کون ہیں اور ہمارا مقصد کیا ہے'}
-            </p>
-          </div>
-        </Reveal>
-      </div>
+      <PageHeroHeader
+        eyebrow={page?.eyebrow || 'ہماری کہانی'}
+        title={page?.title || 'ہمارے بارے میں'}
+        subtitle={page?.subtitle || 'ہم کون ہیں اور ہمارا مقصد کیا ہے'}
+        maxWidth="3xl"
+      />
 
       <div className="py-8 sm:py-12 bg-white">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">

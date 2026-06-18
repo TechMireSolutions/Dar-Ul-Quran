@@ -1,4 +1,5 @@
 import { SITE_URL } from '@/lib/seo'
+import { buildBreadcrumbSchema, buildFaqPageSchema } from '@/lib/schemaHelpers'
 
 const ORG_NAME = 'Dar Ul Quran'
 
@@ -14,12 +15,8 @@ export type ServiceSchemaData = {
   breadcrumbLabels?: Record<string, string>
 }
 
-function buildServiceUrl(slugPath: string): string {
-  return `${SITE_URL}/services/${slugPath}`
-}
-
 function buildSchemas(data: ServiceSchemaData): object[] {
-  const serviceUrl = buildServiceUrl(data.slugPath)
+  const serviceUrl = `${SITE_URL}/services/${data.slugPath}`
   const description =
     data.seoDescription ??
     data.excerpt ??
@@ -62,39 +59,19 @@ function buildSchemas(data: ServiceSchemaData): object[] {
   const schemas: object[] = [serviceSchema]
 
   if (data.faqItems?.length) {
-    schemas.push({
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      '@id': `${serviceUrl}#faq`,
-      mainEntity: data.faqItems.map((item) => ({
-        '@type': 'Question',
-        name: item.question,
-        acceptedAnswer: { '@type': 'Answer', text: item.answer },
-      })),
-    })
+    schemas.push(buildFaqPageSchema(serviceUrl, data.faqItems))
   }
 
-  const slugParts = data.slugPath.split('/').filter(Boolean)
-  const breadcrumbItems: object[] = [
-    { '@type': 'ListItem', position: 1, name: 'صفحۂ اول', item: SITE_URL },
-    { '@type': 'ListItem', position: 2, name: 'خدمات', item: `${SITE_URL}/services` },
-  ]
-  slugParts.forEach((part, i) => {
-    const isLast = i === slugParts.length - 1
-    breadcrumbItems.push({
-      '@type': 'ListItem',
-      position: i + 3,
-      name: isLast ? data.title : (data.breadcrumbLabels?.[part] ?? part),
-      item: `${SITE_URL}/services/${slugParts.slice(0, i + 1).join('/')}`,
-    })
-  })
-
-  schemas.push({
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    '@id': `${serviceUrl}#breadcrumb`,
-    itemListElement: breadcrumbItems,
-  })
+  schemas.push(
+    buildBreadcrumbSchema({
+      pageUrl: serviceUrl,
+      sectionPath: '/services',
+      sectionLabel: 'خدمات',
+      slugPath: data.slugPath,
+      title: data.title,
+      breadcrumbLabels: data.breadcrumbLabels,
+    }),
+  )
 
   return schemas
 }

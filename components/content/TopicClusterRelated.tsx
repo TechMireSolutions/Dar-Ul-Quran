@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
-import { pillarPagePath } from '@/lib/topicCluster'
+import { pillarPagePath } from '@/lib/paths'
 
 type RelatedArticle = {
   _id: string
@@ -9,7 +9,13 @@ type RelatedArticle = {
   excerpt?: string
 }
 
-type PillarPage = Parameters<typeof pillarPagePath>[0]
+type PillarPage = {
+  title?: string
+  _type?: string
+  slug?: string
+  parentSlug?: string | null
+  grandparentSlug?: string | null
+}
 
 type TopicClusterRelatedProps = {
   clusterName?: string

@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import { whatsappHref } from '@/lib/contact'
 import Reveal from '@/components/ui/Reveal'
 
 function IconFacebook({ size = 12 }: { size?: number }) {
@@ -237,7 +238,7 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
               )}
               {settings?.whatsapp && (
                 <li>
-                  <Link href={`https://wa.me/${settings.whatsapp.replace(/\D/g, '')}`}
+                  <Link href={whatsappHref(settings.whatsapp)}
                     target="_blank" rel="noopener noreferrer"
                     className="flex items-center gap-2 text-[12px] sm:text-[12.5px] text-gray-300 hover:text-dq-400 transition-colors duration-150">
                     <IconMessageCircle size={12} className="text-dq-400 flex-shrink-0" />

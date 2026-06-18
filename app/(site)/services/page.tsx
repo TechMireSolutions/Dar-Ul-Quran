@@ -1,65 +1,52 @@
 import type { Metadata } from 'next'
 import { safeFetch } from '@/sanity/lib/client'
-import { urlFor } from '@/sanity/lib/image'
-import { topLevelServicesQuery, pageBySlugQuery, siteSettingsQuery } from '@/sanity/lib/queries'
-import { pageMetadata } from '@/lib/seo'
+import { cardImageUrl } from '@/sanity/lib/image'
+import { topLevelServicesQuery } from '@/sanity/lib/queries'
+import { cmsPageMetadata, fetchCmsPage, resolveSeoDescription, resolveSeoTitle } from '@/lib/cmsPage'
 import ContentCard from '@/components/ui/ContentCard'
 import ItemListSchema from '@/components/seo/ItemListSchema'
 import WebPageSchema from '@/components/seo/WebPageSchema'
+import PageHeroHeader from '@/components/ui/PageHeroHeader'
 import Reveal from '@/components/ui/Reveal'
 
 export const revalidate = 300
 
+const PAGE_SLUG = 'services'
+const PAGE_PATH = '/services'
+
 export async function generateMetadata(): Promise<Metadata> {
-  const [page, settings] = await Promise.all([
-    safeFetch(pageBySlugQuery, { slug: 'services' }),
-    safeFetch(siteSettingsQuery),
-  ])
-  return pageMetadata({
-    title: page?.seoTitle || page?.title || 'خدمات',
-    description: page?.seoDescription || page?.subtitle,
-    path: '/services',
-    settings,
+  return cmsPageMetadata({
+    slug: PAGE_SLUG,
+    path: PAGE_PATH,
+    titleFallback: 'خدمات',
   })
 }
 
 export default async function ServicesPage() {
-  const [servicesRaw, page] = await Promise.all([
+  const [{ page }, servicesRaw] = await Promise.all([
+    fetchCmsPage(PAGE_SLUG),
     safeFetch(topLevelServicesQuery),
-    safeFetch(pageBySlugQuery, { slug: 'services' }),
   ])
   const services = servicesRaw ?? []
 
+  const title = resolveSeoTitle(page, 'خدمات')
+  const description = resolveSeoDescription(page)
+
   const listItems = services.map((service: { title: string; slug: { current: string } }) => ({
     name: service.title,
-    url: `/services/${service.slug.current}`,
+    url: `${PAGE_PATH}/${service.slug.current}`,
   }))
 
   return (
     <div>
-      <WebPageSchema
-        title={page?.seoTitle || page?.title || 'خدمات'}
-        description={page?.seoDescription || page?.subtitle}
-        path="/services"
-      />
-      <ItemListSchema name="خدمات" path="/services" items={listItems} />
+      <WebPageSchema title={title} description={description} path={PAGE_PATH} />
+      <ItemListSchema name="خدمات" path={PAGE_PATH} items={listItems} />
 
-      <div className="bg-white border-b border-gray-100">
-        <Reveal animation="up" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-          <div>
-            <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-dq-600 mb-3">
-              <span className="w-5 h-px bg-dq-400 inline-block" />
-              {page?.eyebrow || 'ہم کیا پیش کرتے ہیں'}
-            </p>
-            <h1 className="font-bold text-[26px] sm:text-[30px] text-slate-900 tracking-[-0.02em] mb-2">
-              {page?.title || 'خدمات'}
-            </h1>
-            <p className="text-[13.5px] text-gray-500 max-w-xl leading-relaxed">
-              {page?.subtitle || 'اخلاص کے ساتھ پیش کی گئی مذہبی خدمات — نیابت زیارت، زکوٰۃ، خمس اور مزید۔'}
-            </p>
-          </div>
-        </Reveal>
-      </div>
+      <PageHeroHeader
+        eyebrow={page?.eyebrow || 'ہم کیا پیش کرتے ہیں'}
+        title={page?.title || 'خدمات'}
+        subtitle={page?.subtitle || 'اخلاص کے ساتھ پیش کی گئی مذہبی خدمات — نیابت زیارت، زکوٰۃ، خمس اور مزید۔'}
+      />
 
       <div className="py-8 sm:py-12 bg-slate-50/40 min-h-[50vh]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -70,8 +57,8 @@ export default async function ServicesPage() {
               {services.map((svc: any, i: number) => (
                 <Reveal key={svc._id} animation="up" delay={i * 70}>
                   <ContentCard
-                    href={`/services/${svc.slug.current}`}
-                    image={svc.icon ? urlFor(svc.icon).width(600).height(450).url() : null}
+                    href={`${PAGE_PATH}/${svc.slug.current}`}
+                    image={svc.icon ? cardImageUrl(svc.icon) : null}
                     title={svc.title}
                     description={svc.excerpt || svc.price || null}
                     ctaLabel={svc.childCount > 0 ? 'خدمات دیکھیں' : 'ابھی بک کریں'}

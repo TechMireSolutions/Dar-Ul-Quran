@@ -1,3 +1,40 @@
+// ─── GROQ fragments ──────────────────────────────────────────────────────────
+
+const PARENT_CHAIN_WITH_TITLES = `
+  "parent": parent->{
+    _id, title, "slug": slug.current,
+    "parent": parent->{
+      _id, title, "slug": slug.current,
+      "parent": parent->{
+        _id, title, "slug": slug.current
+      }
+    }
+  }
+`
+
+const PARENT_SLUG_CHAIN = `
+  "parent": parent->{
+    "slug": slug.current,
+    "parent": parent->{
+      "slug": slug.current,
+      "parent": parent->{ "slug": slug.current }
+    }
+  }
+`
+
+const TOPIC_CLUSTER_PILLAR_FIELDS = `
+  clusterName,
+  pillarKeyword,
+  aiContextStatement,
+  "faqItems": faqItems[]{ question, answer },
+  "relatedArticles": supportingArticles[]->{
+    _id,
+    title,
+    "slug": slug.current,
+    excerpt
+  }
+`
+
 // ─── Posts / Articles ────────────────────────────────────────────────────────
 
 export const postsQuery = `
@@ -53,15 +90,7 @@ export const courseBySlugDeepQuery = `
     promiseHeading, promiseBody,
     faqSectionHeading,
 
-    "parent": parent->{
-      _id, title, "slug": slug.current,
-      "parent": parent->{
-        _id, title, "slug": slug.current,
-        "parent": parent->{
-          _id, title, "slug": slug.current
-        }
-      }
-    },
+    ${PARENT_CHAIN_WITH_TITLES},
     "children": *[_type == "course" && references(^._id)] | order(order asc) {
       _id, title, "slug": slug.current, excerpt, featuredImage, price, duration,
       "childCount": count(*[_type == "course" && references(^._id)])
@@ -72,17 +101,9 @@ export const courseBySlugDeepQuery = `
 export const allCoursePathsQuery = `
   *[_type == "course" && defined(slug.current)] {
     "slug": slug.current,
-    "parent": parent->{
-      "slug": slug.current,
-      "parent": parent->{
-        "slug": slug.current,
-        "parent": parent->{ "slug": slug.current }
-      }
-    }
+    ${PARENT_SLUG_CHAIN}
   }
 `
-
-export const courseSlugsQuery = `*[_type == "course" && defined(slug.current)]{ "slug": slug.current }`
 
 // ─── Services ────────────────────────────────────────────────────────────────
 
@@ -106,15 +127,7 @@ export const serviceBySlugDeepQuery = `
     ctaHeading, ctaSubtitle, ctaBtn1Label, ctaBtn2Label,
     faqSectionHeading,
 
-    "parent": parent->{
-      _id, title, "slug": slug.current,
-      "parent": parent->{
-        _id, title, "slug": slug.current,
-        "parent": parent->{
-          _id, title, "slug": slug.current
-        }
-      }
-    },
+    ${PARENT_CHAIN_WITH_TITLES},
     "children": *[_type == "service" && references(^._id)] | order(order asc) {
       _id, title, "slug": slug.current, excerpt, icon, price,
       "childCount": count(*[_type == "service" && references(^._id)])
@@ -125,17 +138,9 @@ export const serviceBySlugDeepQuery = `
 export const allServicePathsQuery = `
   *[_type == "service" && defined(slug.current)] {
     "slug": slug.current,
-    "parent": parent->{
-      "slug": slug.current,
-      "parent": parent->{
-        "slug": slug.current,
-        "parent": parent->{ "slug": slug.current }
-      }
-    }
+    ${PARENT_SLUG_CHAIN}
   }
 `
-
-export const serviceSlugsQuery = `*[_type == "service" && defined(slug.current)]{ "slug": slug.current }`
 
 // ─── Pages ───────────────────────────────────────────────────────────────────
 
@@ -314,32 +319,8 @@ export const topicClusterForPostQuery = `
   }
 `
 
-export const topicClusterForCourseQuery = `
-  *[_type == "topicCluster" && pillarPage._ref == $courseId][0] {
-    clusterName,
-    pillarKeyword,
-    aiContextStatement,
-    "faqItems": faqItems[]{ question, answer },
-    "relatedArticles": supportingArticles[]->{
-      _id,
-      title,
-      "slug": slug.current,
-      excerpt
-    }
-  }
-`
-
-export const topicClusterForServiceQuery = `
-  *[_type == "topicCluster" && pillarPage._ref == $serviceId][0] {
-    clusterName,
-    pillarKeyword,
-    aiContextStatement,
-    "faqItems": faqItems[]{ question, answer },
-    "relatedArticles": supportingArticles[]->{
-      _id,
-      title,
-      "slug": slug.current,
-      excerpt
-    }
+export const topicClusterForPillarQuery = `
+  *[_type == "topicCluster" && pillarPage._ref == $pillarId][0] {
+    ${TOPIC_CLUSTER_PILLAR_FIELDS}
   }
 `

@@ -2,59 +2,47 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowRight, MessageCircle, Plus, Check } from 'lucide-react'
+import { ArrowRight, MessageCircle, Check } from 'lucide-react'
+import { urlFor, ogImageUrl } from '@/sanity/lib/image'
+import { allServicePathsQuery } from '@/sanity/lib/queries'
+import { getServiceBySlug, getSiteSettings, getTopicClusterForPillar } from '@/sanity/lib/fetchers'
 import { safeFetch } from '@/sanity/lib/client'
-import { urlFor } from '@/sanity/lib/image'
-import { serviceBySlugDeepQuery, siteSettingsQuery, allServicePathsQuery, topicClusterForServiceQuery } from '@/sanity/lib/queries'
 import { PortableText } from '@portabletext/react'
 import ContentCard from '@/components/ui/ContentCard'
 import ServiceSchema from '@/components/seo/ServiceSchema'
 import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
 import TopicClusterRelated from '@/components/content/TopicClusterRelated'
+import FaqAccordion from '@/components/content/FaqAccordion'
+import { ancestryFromParent, breadcrumbHref, staticParamsFromPaths } from '@/lib/paths'
+import { whatsappHref } from '@/lib/contact'
 import { mergeFaqItems } from '@/lib/topicCluster'
 import { pageMetadata } from '@/lib/seo'
 
 export const revalidate = 300
 
+const SECTION_PATH = '/services'
+
 export async function generateStaticParams() {
   const paths = await safeFetch(allServicePathsQuery)
-  if (!paths) return []
-  return (paths as Array<{ slug: string; parent: any }>).map((p) => {
-    const ancestors: string[] = []
-    let parent = p.parent
-    while (parent) {
-      ancestors.unshift(parent.slug)
-      parent = parent.parent
-    }
-    return { slug: [...ancestors, p.slug] }
-  })
-}
-
-function getAncestry(service: any): { title: string; slug: string }[] {
-  const chain: { title: string; slug: string }[] = []
-  let cur = service.parent
-  while (cur) {
-    chain.unshift({ title: cur.title, slug: cur.slug })
-    cur = cur.parent
-  }
-  return chain
+  return staticParamsFromPaths(paths)
 }
 
 export async function generateMetadata(
   { params }: { params: Promise<{ slug: string[] }> }
 ): Promise<Metadata> {
   const { slug } = await params
+  const currentSlug = slug[slug.length - 1]
   const [service, settings] = await Promise.all([
-    safeFetch(serviceBySlugDeepQuery, { slug: slug[slug.length - 1] }),
-    safeFetch(siteSettingsQuery),
+    getServiceBySlug(currentSlug),
+    getSiteSettings(),
   ])
-  const canonicalPath = `/services/${slug.join('/')}`
+  const canonicalPath = `${SECTION_PATH}/${slug.join('/')}`
   const title = service?.seoTitle || service?.title || 'خدمت'
   const description = service?.seoDescription || service?.excerpt
   const image = service?.featuredImage
-    ? urlFor(service.featuredImage).width(1200).height(630).fit('crop').auto('format').url()
+    ? ogImageUrl(service.featuredImage)
     : service?.icon
-      ? urlFor(service.icon).width(1200).height(630).fit('crop').auto('format').url()
+      ? ogImageUrl(service.icon)
       : null
 
   return pageMetadata({
@@ -73,22 +61,20 @@ export default async function ServiceCatchAllPage(
   const { slug } = await params
   const currentSlug = slug[slug.length - 1]
 
-  const service = await safeFetch(serviceBySlugDeepQuery, { slug: currentSlug })
+  const service = await getServiceBySlug(currentSlug)
   if (!service) notFound()
 
   const [site, cluster] = await Promise.all([
-    safeFetch(siteSettingsQuery),
-    safeFetch(topicClusterForServiceQuery, { serviceId: service._id }),
+    getSiteSettings(),
+    getTopicClusterForPillar(service._id),
   ])
 
   const hasChildren   = service.children?.length > 0
-  const ancestry      = getAncestry(service)
-  const currentPath   = `/services/${slug.join('/')}`
+  const ancestry      = ancestryFromParent(service)
+  const currentPath   = `${SECTION_PATH}/${slug.join('/')}`
   const heroImageUrl  = service.heroImage  ? urlFor(service.heroImage).width(1600).height(800).url()  : null
   const whyUsImageUrl = service.whyUsImage ? urlFor(service.whyUsImage).width(700).height(700).url()  : null
-  const whatsappHref  = site?.whatsapp
-    ? `https://wa.me/${String(site.whatsapp).replace(/\D/g, '')}`
-    : '/contact'
+  const whatsappLink  = site?.whatsapp ? whatsappHref(String(site.whatsapp)) : '/contact'
 
   return (
     <div>
@@ -109,11 +95,11 @@ export default async function ServiceCatchAllPage(
       {/* ── Breadcrumb ─────────────────────────────────────────────────────── */}
       <BreadcrumbNav
         sectionLabel="خدمات"
-        sectionHref="/services"
+        sectionHref={SECTION_PATH}
         items={[
-          ...ancestry.map(({ title, slug: aSlug }, i) => ({
+          ...ancestry.map(({ title }, i) => ({
             label: title,
-            href: `/services/${ancestry.slice(0, i + 1).map((a) => a.slug).join('/')}`,
+            href: breadcrumbHref(SECTION_PATH, ancestry, i),
           })),
           { label: service.title },
         ]}
@@ -298,7 +284,7 @@ export default async function ServiceCatchAllPage(
                     {service.ctaBtn1Label || 'شروع کریں'}
                     <ArrowRight size={14} strokeWidth={2.5} className="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform" />
                   </Link>
-                  <Link href={whatsappHref} target="_blank" rel="noopener noreferrer"
+                  <Link href={whatsappLink} target="_blank" rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/15 text-white text-[14px] font-semibold px-8 py-3.5 rounded-full border border-white/20 transition-all duration-200 hover:-translate-y-px">
                     <MessageCircle size={14} />
                     {service.ctaBtn2Label || 'واٹس ایپ کریں'}
@@ -320,40 +306,11 @@ export default async function ServiceCatchAllPage(
             </section>
           )}
 
-          {/* ── 6. FAQs ──────────────────────────────────────────────────── */}
-          {service.faq?.length > 0 && (
-            <section className="bg-slate-50 py-16 sm:py-20">
-              <div className="max-w-3xl mx-auto px-4 sm:px-6">
-                <div className="text-center mb-10">
-                  <h2 className="font-bold text-[24px] sm:text-[30px] text-slate-900 tracking-[-0.02em]">
-                    {service.faqSectionHeading || 'اکثر پوچھے گئے سوالات'}
-                  </h2>
-                </div>
-                <div className="space-y-3">
-                  {service.faq.map((item: any, i: number) => (
-                    <details
-                      key={i}
-                      className="group bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm"
-                    >
-                      <summary className="flex items-center justify-between gap-4 px-6 py-5 cursor-pointer list-none font-semibold text-[15px] text-slate-900 hover:text-dq-700 transition-colors">
-                        {item.question}
-                        <Plus
-                          size={16}
-                          strokeWidth={2}
-                          className="shrink-0 text-gray-400 group-open:rotate-45 transition-transform duration-200"
-                        />
-                      </summary>
-                      {item.answer?.length > 0 && (
-                        <div className="px-6 pb-5 pt-1 text-[14px] text-gray-600 leading-relaxed border-t border-gray-50 prose prose-sm max-w-none">
-                          <PortableText value={item.answer} />
-                        </div>
-                      )}
-                    </details>
-                  ))}
-                </div>
-              </div>
-            </section>
-          )}
+          <FaqAccordion
+            heading={service.faqSectionHeading || 'اکثر پوچھے گئے سوالات'}
+            items={service.faq ?? []}
+            icon="plus"
+          />
 
           {cluster && (
             <section className="bg-white pb-12 sm:pb-16">

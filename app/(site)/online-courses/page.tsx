@@ -1,66 +1,57 @@
 import type { Metadata } from 'next'
 import { safeFetch } from '@/sanity/lib/client'
-import { urlFor } from '@/sanity/lib/image'
-import { topLevelCoursesQuery, pageBySlugQuery, siteSettingsQuery } from '@/sanity/lib/queries'
-import { pageMetadata } from '@/lib/seo'
+import { cardImageUrl } from '@/sanity/lib/image'
+import { topLevelCoursesQuery } from '@/sanity/lib/queries'
+import { cmsPageMetadata, fetchCmsPage, resolveSeoDescription, resolveSeoTitle } from '@/lib/cmsPage'
 import ContentCard from '@/components/ui/ContentCard'
 import ItemListSchema from '@/components/seo/ItemListSchema'
 import WebPageSchema from '@/components/seo/WebPageSchema'
+import PageHeroHeader from '@/components/ui/PageHeroHeader'
 import Reveal from '@/components/ui/Reveal'
 
 export const revalidate = 300
 
+const PAGE_SLUG = 'online-courses'
+const PAGE_PATH = '/online-courses'
+
 export async function generateMetadata(): Promise<Metadata> {
-  const [page, settings] = await Promise.all([
-    safeFetch(pageBySlugQuery, { slug: 'online-courses' }),
-    safeFetch(siteSettingsQuery),
-  ])
-  return pageMetadata({
-    title: page?.seoTitle || page?.title || 'آنلائن کورسز',
-    description: page?.seoDescription || page?.subtitle || 'اہل علماء سے قرآن، فقہ، اخلاق اور تاریخ سیکھیں۔',
-    path: '/online-courses',
-    settings,
+  return cmsPageMetadata({
+    slug: PAGE_SLUG,
+    path: PAGE_PATH,
+    titleFallback: 'آنلائن کورسز',
+    descriptionFallback: 'اہل علماء سے قرآن، فقہ، اخلاق اور تاریخ سیکھیں۔',
     keywords: ['آن لائن قرآن کورسز', 'Online Shia Quran classes', 'دار القرآن'],
   })
 }
 
 export default async function CoursesPage() {
-  const [coursesRaw, page] = await Promise.all([
+  const [{ page }, coursesRaw] = await Promise.all([
+    fetchCmsPage(PAGE_SLUG),
     safeFetch(topLevelCoursesQuery),
-    safeFetch(pageBySlugQuery, { slug: 'online-courses' }),
   ])
   const courses = coursesRaw ?? []
 
+  const title = resolveSeoTitle(page, 'آنلائن کورسز')
+  const description = resolveSeoDescription(
+    page,
+    'اہل علماء سے قرآن، فقہ، اخلاق اور تاریخ سیکھیں۔',
+  )
+
   const listItems = courses.map((course: { title: string; slug: { current: string } }) => ({
     name: course.title,
-    url: `/online-courses/${course.slug.current}`,
+    url: `${PAGE_PATH}/${course.slug.current}`,
   }))
 
   return (
     <div>
-      <WebPageSchema
-        title={page?.seoTitle || page?.title || 'آنلائن کورسز'}
-        description={page?.seoDescription || page?.subtitle || 'اہل علماء سے قرآن، فقہ، اخلاق اور تاریخ سیکھیں۔'}
-        path="/online-courses"
-      />
-      <ItemListSchema name="آن لائن کورسز" path="/online-courses" items={listItems} />
+      <WebPageSchema title={title} description={description} path={PAGE_PATH} />
+      <ItemListSchema name="آن لائن کورسز" path={PAGE_PATH} items={listItems} />
 
-      <div className="bg-white border-b border-gray-100">
-        <Reveal animation="up" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-          <div>
-            <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-dq-600 mb-3">
-              <span className="w-5 h-px bg-dq-400 inline-block" />
-              {page?.eyebrow || 'تعلیم'}
-            </p>
-            <h1 className="font-bold text-[26px] sm:text-[30px] text-slate-900 tracking-[-0.02em] mb-2">
-              {page?.title || 'آنلائن کورسز'}
-            </h1>
-            <p className="text-[13.5px] text-gray-500 max-w-xl leading-relaxed">
-              {page?.subtitle || 'اہل علماء سے سیکھیں — قرآن، نہج البلاغہ، فقہ، اخلاق اور تاریخ۔'}
-            </p>
-          </div>
-        </Reveal>
-      </div>
+      <PageHeroHeader
+        eyebrow={page?.eyebrow || 'تعلیم'}
+        title={page?.title || 'آنلائن کورسز'}
+        subtitle={page?.subtitle || 'اہل علماء سے سیکھیں — قرآن، نہج البلاغہ، فقہ، اخلاق اور تاریخ۔'}
+      />
 
       <div className="py-8 sm:py-12 bg-slate-50/40 min-h-[50vh]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -71,8 +62,8 @@ export default async function CoursesPage() {
               {courses.map((course: any, i: number) => (
                 <Reveal key={course._id} animation="up" delay={i * 70}>
                   <ContentCard
-                    href={`/online-courses/${course.slug.current}`}
-                    image={course.featuredImage ? urlFor(course.featuredImage).width(600).height(450).url() : null}
+                    href={`${PAGE_PATH}/${course.slug.current}`}
+                    image={course.featuredImage ? cardImageUrl(course.featuredImage) : null}
                     title={course.title}
                     description={course.excerpt || [course.price, course.duration].filter(Boolean).join(' · ') || null}
                     ctaLabel={course.childCount > 0 ? 'کورسز دیکھیں' : 'ابھی داخلہ لیں'}

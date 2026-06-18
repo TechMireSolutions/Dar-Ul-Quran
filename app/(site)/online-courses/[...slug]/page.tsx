@@ -2,64 +2,54 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowRight, ChevronRight, Check, MessageCircle, Mail, Phone } from 'lucide-react'
+import { ArrowRight, Check, MessageCircle, Mail, Phone } from 'lucide-react'
+import { urlFor, ogImageUrl } from '@/sanity/lib/image'
+import { allCoursePathsQuery } from '@/sanity/lib/queries'
+import {
+  getCourseBySlug,
+  getCourseSchema,
+  getSiteSettings,
+  getTopicClusterForPillar,
+} from '@/sanity/lib/fetchers'
 import { safeFetch } from '@/sanity/lib/client'
-import { urlFor } from '@/sanity/lib/image'
-import { courseBySlugDeepQuery, courseSchemaQuery, siteSettingsQuery, allCoursePathsQuery, topicClusterForCourseQuery } from '@/sanity/lib/queries'
 import { PortableText } from '@portabletext/react'
 import ContentCard from '@/components/ui/ContentCard'
 import CourseSchema from '@/components/seo/CourseSchema'
 import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
 import TopicClusterRelated from '@/components/content/TopicClusterRelated'
-import type { CourseSchemaData } from '@/components/seo/CourseSchema'
+import FaqAccordion from '@/components/content/FaqAccordion'
+import { ancestryFromParent, breadcrumbHref, staticParamsFromPaths } from '@/lib/paths'
+import { whatsappHref } from '@/lib/contact'
 import { mergeFaqItems } from '@/lib/topicCluster'
 import { pageMetadata } from '@/lib/seo'
 
 export const revalidate = 300
 
+const SECTION_PATH = '/online-courses'
+
 export async function generateStaticParams() {
   const paths = await safeFetch(allCoursePathsQuery)
-  if (!paths) return []
-  return (paths as Array<{ slug: string; parent: any }>).map((p) => {
-    const ancestors: string[] = []
-    let parent = p.parent
-    while (parent) {
-      ancestors.unshift(parent.slug)
-      parent = parent.parent
-    }
-    return { slug: [...ancestors, p.slug] }
-  })
-}
-
-function getAncestry(course: any): { title: string; slug: string }[] {
-  const chain: { title: string; slug: string }[] = []
-  let cur = course.parent
-  while (cur) {
-    chain.unshift({ title: cur.title, slug: cur.slug })
-    cur = cur.parent
-  }
-  return chain
+  return staticParamsFromPaths(paths)
 }
 
 export async function generateMetadata(
   { params }: { params: Promise<{ slug: string[] }> }
 ): Promise<Metadata> {
   const { slug } = await params
+  const currentSlug = slug[slug.length - 1]
   const [course, settings] = await Promise.all([
-    safeFetch(courseBySlugDeepQuery, { slug: slug[slug.length - 1] }),
-    safeFetch(siteSettingsQuery),
+    getCourseBySlug(currentSlug),
+    getSiteSettings(),
   ])
   if (!course) return { title: 'کورس | دار القرآن' }
 
-  const canonicalPath = `/online-courses/${slug.join('/')}`
+  const canonicalPath = `${SECTION_PATH}/${slug.join('/')}`
   const title = course.seoTitle || `${course.title} | دار القرآن`
   const description =
     course.seoDescription ||
     course.excerpt ||
     `آن لائن ${course.title}${course.subject ? ` — ${course.subject}` : ''}۔ پاکستان اور دنیا بھر کے شیعہ خاندانوں کے لیے مستند اسلامی تعلیم۔`
-  const image = course.featuredImage
-    ? urlFor(course.featuredImage).width(1200).height(630).fit('crop').auto('format').url()
-    : null
+  const image = course.featuredImage ? ogImageUrl(course.featuredImage) : null
 
   return pageMetadata({
     title,
@@ -89,26 +79,24 @@ export default async function CourseCatchAllPage(
   const { slug } = await params
   const currentSlug = slug[slug.length - 1]
 
-  const course = await safeFetch(courseBySlugDeepQuery, { slug: currentSlug })
+  const course = await getCourseBySlug(currentSlug)
   if (!course) notFound()
 
   const [site, schemaData, cluster] = await Promise.all([
-    safeFetch(siteSettingsQuery),
-    safeFetch<CourseSchemaData>(courseSchemaQuery, { slug: currentSlug }),
-    safeFetch(topicClusterForCourseQuery, { courseId: course._id }),
+    getSiteSettings(),
+    getCourseSchema(currentSlug),
+    getTopicClusterForPillar(course._id),
   ])
 
   const hasChildren = course.children?.length > 0
-  const ancestry    = getAncestry(course)
-  const currentPath = `/online-courses/${slug.join('/')}`
+  const ancestry = ancestryFromParent(course)
+  const currentPath = `${SECTION_PATH}/${slug.join('/')}`
   const heroImageUrl = course.featuredImage
     ? urlFor(course.featuredImage).width(1400).height(700).url()
     : null
 
   const enrollHref   = course.enrollmentLink || '/contact'
-  const whatsappHref = site?.whatsapp
-    ? `https://wa.me/${String(site.whatsapp).replace(/\D/g, '')}`
-    : '/contact'
+  const whatsappLink = site?.whatsapp ? whatsappHref(String(site.whatsapp)) : '/contact'
 
   return (
     <div>
@@ -128,11 +116,11 @@ export default async function CourseCatchAllPage(
       {/* ── Breadcrumb ─────────────────────────────────────────────────────── */}
       <BreadcrumbNav
         sectionLabel="آنلائن کورسز"
-        sectionHref="/online-courses"
+        sectionHref={SECTION_PATH}
         items={[
           ...ancestry.map(({ title, slug: aSlug }, i) => ({
             label: title,
-            href: `/online-courses/${ancestry.slice(0, i + 1).map((a) => a.slug).join('/')}`,
+            href: breadcrumbHref(SECTION_PATH, ancestry, i),
           })),
           { label: course.title },
         ]}
@@ -457,7 +445,7 @@ export default async function CourseCatchAllPage(
                     <ArrowRight size={14} strokeWidth={2.5} className="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform" />
                   </Link>
                   <Link
-                    href={whatsappHref}
+                    href={whatsappLink}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/15 text-white text-[14px] font-semibold px-8 py-3.5 rounded-full border border-white/20 transition-all duration-200 hover:-translate-y-px"
@@ -502,39 +490,10 @@ export default async function CourseCatchAllPage(
             </section>
           )}
 
-          {/* ── 9. FAQs ──────────────────────────────────────────────────────── */}
-          {course.faq?.length > 0 && (
-            <section className="bg-slate-50 py-16 sm:py-20">
-              <div className="max-w-3xl mx-auto px-4 sm:px-6">
-                <div className="text-center mb-10">
-                  <h2 className="font-bold text-[24px] sm:text-[30px] text-slate-900 tracking-[-0.02em]">
-                    {course.faqSectionHeading || 'اکثر پوچھے گئے سوالات'}
-                  </h2>
-                </div>
-                <div className="space-y-3">
-                  {course.faq.map((item: any, i: number) => (
-                    <details
-                      key={i}
-                      className="group bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm"
-                    >
-                      <summary className="flex items-center justify-between gap-4 px-6 py-5 cursor-pointer list-none font-semibold text-[15px] text-slate-900 hover:text-dq-700 transition-colors">
-                        {item.question}
-                        <ChevronRight
-                          size={15}
-                          className="shrink-0 text-gray-400 group-open:rotate-90 transition-transform duration-200"
-                        />
-                      </summary>
-                      {item.answer?.length > 0 && (
-                        <div className="px-6 pb-5 pt-1 text-[14px] text-gray-600 leading-relaxed border-t border-gray-50 prose prose-sm max-w-none">
-                          <PortableText value={item.answer} />
-                        </div>
-                      )}
-                    </details>
-                  ))}
-                </div>
-              </div>
-            </section>
-          )}
+          <FaqAccordion
+            heading={course.faqSectionHeading || 'اکثر پوچھے گئے سوالات'}
+            items={course.faq ?? []}
+          />
 
           {/* ── Extra body content (optional) ────────────────────────────────── */}
           {course.body?.length > 0 && (
