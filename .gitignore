@@ -34,3 +34,6 @@ next-env.d.ts
 # OS
 .DS_Store
 Thumbs.db
+
+# Lighthouse audit exports (keep under docs/audits/ if committed)
+/lighthouse-*.json

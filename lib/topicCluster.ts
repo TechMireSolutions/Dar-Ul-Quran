@@ -1,10 +1,10 @@
-type FaqItem = { question: string; answer: string }
+import type { FaqSchemaItem } from '@/lib/types'
 
 /** Merge cluster FAQs into page FAQs without duplicate questions. */
 export function mergeFaqItems(
-  pageItems: FaqItem[] | undefined,
-  clusterItems: FaqItem[] | undefined,
-): FaqItem[] | undefined {
+  pageItems: FaqSchemaItem[] | undefined,
+  clusterItems: FaqSchemaItem[] | undefined,
+): FaqSchemaItem[] | undefined {
   if (!clusterItems?.length) return pageItems
   if (!pageItems?.length) return clusterItems
 

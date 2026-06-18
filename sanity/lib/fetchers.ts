@@ -10,7 +10,7 @@ import {
   topicClusterForPostQuery,
   topicClusterForPillarQuery,
 } from './queries'
-import type { CourseSchemaData } from '@/components/seo/CourseSchema'
+import type { CourseSchemaData } from '@/lib/types'
 
 export const getSiteSettings = cache(() => safeFetch(siteSettingsQuery))
 

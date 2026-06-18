@@ -5,6 +5,17 @@
 
 Live: https://darulquran.pk · Dev: `npm run dev` (:3001)
 
+## File structure
+
+| Path | Role |
+|------|------|
+| `app/(site)/` | Public pages; `_components/` for route-private UI |
+| `app/studio/` | Embedded Sanity |
+| `components/{layout,ui,sections,content,seo,studio}` | Shared UI |
+| `lib/types/` | Nav + schema DTOs (data layer imports from here) |
+| `sanity/lib/` | GROQ, `safeFetch`, cached `fetchers` |
+| `public/` | Static fallbacks; CMS assets primary |
+
 ## Rules map
 
 | `.mdc` | Topic |

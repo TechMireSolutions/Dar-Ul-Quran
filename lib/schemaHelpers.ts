@@ -1,8 +1,8 @@
 import { SITE_URL } from '@/lib/seo'
 
-type FaqItem = { question: string; answer: string }
+import type { FaqSchemaItem } from '@/lib/types'
 
-export function buildFaqPageSchema(pageUrl: string, faqItems: FaqItem[]) {
+export function buildFaqPageSchema(pageUrl: string, faqItems: FaqSchemaItem[]) {
   return {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',

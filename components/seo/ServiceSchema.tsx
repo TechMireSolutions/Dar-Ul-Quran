@@ -1,19 +1,10 @@
 import { SITE_URL } from '@/lib/seo'
 import { buildBreadcrumbSchema, buildFaqPageSchema } from '@/lib/schemaHelpers'
+import type { ServiceSchemaData } from '@/lib/types'
+
+export type { ServiceSchemaData } from '@/lib/types'
 
 const ORG_NAME = 'Dar Ul Quran'
-
-export type ServiceSchemaData = {
-  title: string
-  seoDescription?: string
-  excerpt?: string
-  slugPath: string
-  price?: string
-  isBookable?: boolean
-  faqItems?: Array<{ question: string; answer: string }>
-  orgName?: string
-  breadcrumbLabels?: Record<string, string>
-}
 
 function buildSchemas(data: ServiceSchemaData): object[] {
   const serviceUrl = `${SITE_URL}/services/${data.slugPath}`

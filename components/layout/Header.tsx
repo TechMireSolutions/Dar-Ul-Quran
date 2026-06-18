@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic'
 import { useState, useEffect, useRef } from 'react'
 import { Search, Menu, ChevronDown, ChevronLeft } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
-import type { NavNode } from './HeaderMobileMenu'
+import type { NavNode } from '@/lib/types'
 
 const HeaderMobileMenu = dynamic(() => import('./HeaderMobileMenu'), { ssr: false })
 

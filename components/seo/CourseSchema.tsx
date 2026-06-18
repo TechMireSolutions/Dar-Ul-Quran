@@ -1,28 +1,10 @@
 import { SITE_URL } from '@/lib/seo'
 import { buildBreadcrumbSchema, buildFaqPageSchema } from '@/lib/schemaHelpers'
+import type { CourseSchemaData } from '@/lib/types'
+
+export type { CourseSchemaData } from '@/lib/types'
 
 const ORG_NAME = 'Dar Ul Quran'
-
-export type CourseSchemaData = {
-  title: string
-  seoTitle?: string
-  seoDescription?: string
-  excerpt?: string
-  subject?: string
-  duration?: string
-  instructor?: string
-  faqItems?: Array<{ question: string; answer: string }>
-  pricingMin?: string
-  /** Full path segments, e.g. "rozana/nazra-rozana" */
-  slugPath: string
-  /** @deprecated use slugPath — kept for query backward compat */
-  slug?: string
-  parentSlug?: string
-  outcomes?: Array<{ title: string }>
-  orgName?: string
-  /** Optional breadcrumb labels keyed by slug segment */
-  breadcrumbLabels?: Record<string, string>
-}
 
 function resolveSlugPath(data: CourseSchemaData): string {
   if (data.slugPath) return data.slugPath

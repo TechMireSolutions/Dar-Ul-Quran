@@ -15,6 +15,26 @@ npm run lint && npm run check:urdu
 
 Env (never commit): `NEXT_PUBLIC_SANITY_*`, `SANITY_API_TOKEN`, `EMAIL_*`, `NEXT_PUBLIC_SITE_URL`
 
-- CMS content only — no hardcoded contacts/nav
+## Layout
+
+```
+app/
+  (site)/          # public routes (no URL segment)
+  studio/          # Sanity CMS
+  api/             # route handlers
+  icon.svg         # favicon fallback
+components/
+  layout/ ui/ sections/ content/ seo/ studio/
+lib/
+  types/           # NavNode, schema DTOs (no UI imports)
+  seo.ts paths.ts cmsPage.ts …
+sanity/
+  schemaTypes/ lib/   # queries.ts, fetchers.ts, client.ts
+public/            # static fallbacks only
+scripts/ deploy/
+```
+
+- Thin `page.tsx` — fetch + compose; route-private UI in `app/**/_components/`
+- Types in `lib/types/`; data layer must not import from `components/`
 - `safeFetch` → Sanity; `revalidate = 300` on CMS routes
 - Brand: `dq-*`; font: `DeferredUrduFont`

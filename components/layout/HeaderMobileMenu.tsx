@@ -6,12 +6,9 @@ import { useState, useEffect, useRef } from 'react'
 import { Search, X, ChevronDown } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 
-export type NavNode = {
-  label:    string
-  href:     string
-  external?: boolean
-  children?: NavNode[]
-}
+import type { NavNode } from '@/lib/types'
+
+export type { NavNode }
 
 function nodeIsActive(node: NavNode, pathname: string): boolean {
   if (node.href && node.href !== '#' &&
