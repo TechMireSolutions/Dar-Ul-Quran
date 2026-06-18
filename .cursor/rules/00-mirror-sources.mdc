@@ -1,0 +1,27 @@
+---
+description: Doc hierarchy and agent behavior (always on)
+alwaysApply: true
+---
+
+# Sources (do not duplicate elsewhere)
+
+| Layer | Path | Role |
+|-------|------|------|
+| Rules | `.cursor/rules/*.mdc` | **Primary** — conventions by glob |
+| Skills | `.cursor/skills/*/SKILL.md` | **Workflows** — step-by-step tasks |
+| Index | `AGENTS.md` | Entry map only |
+| Content SEO | `.antigravityrules` | E-E-A-T, engagement, copy |
+| Urdu table | `CLAUDE.md` § Urdu | Full allow/deny list |
+
+**Sync:** edit `.mdc` or skill first → update `AGENTS.md` / `CLAUDE.md` index lines only.
+
+## Behavior
+
+- Smallest correct diff; match existing patterns
+- Urdu UI only; `npm run check:urdu` after UI changes
+- Commit/push only when user asks; never commit secrets
+- Deploy: `pm2 stop` before build; never `rm -rf .next` while PM2 serves
+
+## Preflight
+
+`preflight` skill → `npm run lint` + `npm run check:urdu` (+ `build` if bundling/deploy)

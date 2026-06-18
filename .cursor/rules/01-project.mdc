@@ -1,0 +1,20 @@
+---
+description: Stack, commands, env, data flow
+alwaysApply: true
+---
+
+# Project
+
+Next.js **16** · React **19** · Sanity **v6** · Tailwind **v4** · RTL Urdu · https://darulquran.pk
+
+```bash
+npm run dev      # :3001, /studio
+npm run build    # prebuild stubs polyfills
+npm run lint && npm run check:urdu
+```
+
+Env (never commit): `NEXT_PUBLIC_SANITY_*`, `SANITY_API_TOKEN`, `EMAIL_*`, `NEXT_PUBLIC_SITE_URL`
+
+- CMS content only — no hardcoded contacts/nav
+- `safeFetch` → Sanity; `revalidate = 300` on CMS routes
+- Brand: `dq-*`; font: `DeferredUrduFont`

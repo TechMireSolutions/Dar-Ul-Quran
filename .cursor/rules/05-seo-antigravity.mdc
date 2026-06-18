@@ -1,0 +1,16 @@
+---
+description: Content SEO — E-E-A-T, engagement, schema intent
+globs: "{app/**/*,components/seo/**/*,lib/seo.ts}"
+alwaysApply: false
+---
+
+# Content SEO (.antigravityrules)
+
+- E-E-A-T: org JSON-LD in root layout; article authors/dates; HTTPS + headers
+- CWV targets: LCP ≤2.5s · INP ≤200ms · CLS ≤0.1 — tactics in `10-mobile` / `11-desktop` rules
+- Schema via `components/seo/*` + `pageMetadata()` — match visible title/description
+- One H1; Urdu `alt`; internal links between pillars/clusters
+- No keyword stuffing, dark patterns, or misleading metadata
+- `llms.txt` + AI bots in `robots.ts` (English OK for llms)
+
+Technical crawl/index/canonical: `09-technical-seo-shared.mdc`

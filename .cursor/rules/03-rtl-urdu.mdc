@@ -1,0 +1,15 @@
+---
+description: RTL and Urdu UI copy
+globs: "**/*.{tsx,jsx,css}"
+alwaysApply: false
+---
+
+# RTL & Urdu
+
+`lang="ur" dir="rtl"` · logical spacing (`ms/me/ps/pe`) · `leading-[1.8]`+ · `rtl:rotate-180` on directional icons
+
+**Urdu required** for all user-visible text. Run `npm run check:urdu`. False positive: `// urdu-ok`
+
+Full allow/deny list: `CLAUDE.md` § Urdu-First Frontend Rule.
+
+`prefers-reduced-motion` in `Reveal` / `globals.css`.

@@ -1,0 +1,19 @@
+---
+description: Technical SEO mobile — CWV and UX
+globs: "{app/layout.tsx,app/manifest.ts,app/(site)/page.tsx,components/sections/HeroSection.tsx,components/layout/HeaderMobileMenu.tsx,components/ui/DeferredUrduFont.tsx}"
+alwaysApply: false
+---
+
+# Technical SEO — mobile
+
+Primary index profile. PSI/Lighthouse **Mobile**.
+
+| Metric | Target | Tactics |
+|--------|--------|---------|
+| LCP | ≤2.5s | `LcpImagePreload`, hero `fetchPriority`, ~828w, deferred font |
+| INP | ≤200ms | lazy `HeaderMobileMenu`, small initial JS |
+| CLS | ≤0.1 | image dimensions, reserved hero |
+
+Touch ≥44px · no horizontal scroll · manifest/viewport/theme_color · content parity with desktop.
+
+`optimize-lcp` skill for hero work.

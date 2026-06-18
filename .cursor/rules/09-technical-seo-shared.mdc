@@ -1,0 +1,17 @@
+---
+description: Technical SEO shared — crawl, index, metadata, schema
+globs: "{app/sitemap.ts,app/robots.ts,app/llms.txt/**/*,lib/seo.ts,components/seo/**/*}"
+alwaysApply: false
+---
+
+# Technical SEO — shared
+
+One responsive URL (mobile-first index). Test **both** Lighthouse mobile + desktop.
+
+- `robots.ts` + `sitemap.ts` + `pageMetadata({ path })` canonical on every page
+- `noIndex`: 404, `?q=` on listings (canonical stays base path)
+- JSON-LD: `WebPageSchema` + type schema; `inLanguage: ur`
+- Server-rendered primary content; no orphan URLs
+
+Device rules: `10-technical-seo-mobile.mdc` · `11-technical-seo-desktop.mdc`  
+Audit: `technical-seo-audit` skill.

@@ -1,0 +1,17 @@
+---
+description: Sanity schema and GROQ
+globs: "{sanity/**/*,app/api/**/*}"
+alwaysApply: false
+---
+
+# Sanity
+
+Schema: `slug` (unique), `order`, inline `seo`, PT `body`, image `alt`, parent `weak: false`
+
+GROQ in `queries.ts` only: draft filter, explicit fields (no top-level `...`), `slug { current }`, `seo { title, description }`
+
+```ts
+const data = await safeFetch<T>(query, { slug }); if (!data) notFound()
+```
+
+Workflow: `add-sanity-query` / `new-sanity-schema` skills.

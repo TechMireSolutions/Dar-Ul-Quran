@@ -1,0 +1,17 @@
+---
+description: Technical SEO desktop — CWV and crawlable nav
+globs: "{components/layout/Header.tsx,components/sections/CarouselSection.tsx,components/layout/Footer.tsx,app/(site)/**/page.tsx}"
+alwaysApply: false
+---
+
+# Technical SEO — desktop
+
+Same URL as mobile. PSI/Lighthouse **Desktop**.
+
+| Metric | Target | Tactics |
+|--------|--------|---------|
+| LCP | ≤2.5s | preload hero; up to 1200w; no mobile-menu JS |
+| INP | ≤200ms | rAF scroll; light flyout handlers |
+| CLS | ≤0.1 | stable sticky header |
+
+Nav links in HTML (`lg:flex`); keyboard dropdowns; breadcrumbs on detail pages; 1440px Urdu overflow check.

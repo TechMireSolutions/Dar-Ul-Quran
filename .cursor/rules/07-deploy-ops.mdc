@@ -1,0 +1,13 @@
+---
+description: Deploy and production ops
+globs: "{.github/**/*,deploy/**/*,ecosystem.config.cjs}"
+alwaysApply: false
+---
+
+# Deploy
+
+Push `main` → GitHub Actions v7. **`deploy` skill** for full steps.
+
+Critical: `pm2 stop darulquran-next` **before** `npm run build`. Verify chunk URL after restart. Apache serves `/_next/static/`.
+
+Never `rm -rf .next` while PM2 is serving.

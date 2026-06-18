@@ -1,0 +1,14 @@
+---
+description: Components and client boundaries
+globs: "components/**/*.{ts,tsx}"
+alwaysApply: false
+---
+
+# Components
+
+- `Reveal`, `ContentCard`, `CarouselSection`, `WhatsAppButtonLazy`, `DeferredUrduFont`
+- `Header` + lazy `HeaderMobileMenu` (`dynamic`, `ssr: false`)
+- Footer: inline SVG in RSC; lucide in client components only
+- `role="menuitem"` only inside dropdown `role="menu"`
+- LCP exception: hero native `<img fetchPriority="high">`
+- Pass Sanity data as props; batch layout reads in rAF

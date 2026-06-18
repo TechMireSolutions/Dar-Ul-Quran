@@ -1,13 +1,14 @@
-# Antigravity SEO Rules 2026
+# Antigravity SEO 2026 — content & trust
 
-When generating web content or code, adhere strictly to these modern SEO best practices:
+Technical crawl/index/CWV: `.cursor/rules/09`–`11` · Audit: `technical-seo-audit` skill
 
-- **Core Web Vitals:** Optimize for LCP < 2.5s, INP < 200ms, CLS ~ 0. Minimize render-blocking JS and utilize SSR/SSG.
-- **E-E-A-T & Trust:** Emphasize Experience, Expertise, Authoritativeness, and Trustworthiness. Ensure clear publisher info and secure connections.
-- **Entity & Schema:** Implement comprehensive JSON-LD structured data (Article, FAQ, Product, etc.). Define entities explicitly for the Knowledge Graph.
-- **Engagement (Navboost):** Optimize above-the-fold content to immediately satisfy intent and prevent pogo-sticking. Use interactive elements.
-- **Topical Clusters:** Maintain robust internal linking. Connect pillar pages with supporting topic clusters.
-- **Semantic HTML & Accessibility:** Maintain strict heading hierarchy (H1 -> H2 -> H3). Use descriptive alt text and ensure full keyboard/screen-reader navigation.
-- **SGE / AI Overviews:** Use concise targeted definitions, tables, and bulleted lists to facilitate AI extraction.
-- **Conversational & Voice:** Target natural language, long-tail queries. Ensure content answers the "who, what, where, when, why, how".
-- **Spam Avoidance:** Do not use dark patterns, intrusive interstitials, or keyword stuffing.
+## For darulquran.pk
+
+- **E-E-A-T:** org JSON-LD, article authors/dates, HTTPS, CMS contact info
+- **CWV:** LCP ≤2.5s · INP ≤200ms · CLS ≤0.1 (mobile-first; test both profiles)
+- **Schema:** `components/seo/*` + `pageMetadata()` — match visible content
+- **Engagement:** clear above-fold intent; no intrusive interstitials
+- **Clusters:** internal links courses ↔ services ↔ articles
+- **SGE:** concise Urdu intros, lists, FAQs; `llms.txt` for AI crawlers
+- **A11y:** one H1, Urdu alt, skip link, 44px targets, `menuitem` in dropdowns only
+- **No spam:** no stuffing, cloaking, or misleading meta
