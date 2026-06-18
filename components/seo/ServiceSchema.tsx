@@ -1,3 +1,4 @@
+import JsonLdScripts from '@/components/seo/JsonLdScripts'
 import { SITE_URL } from '@/lib/seo'
 import { buildBreadcrumbSchema, buildFaqPageSchema } from '@/lib/schemaHelpers'
 import type { ServiceSchemaData } from '@/lib/types'
@@ -71,15 +72,5 @@ type ServiceSchemaProps = { data: ServiceSchemaData }
 
 export default function ServiceSchema({ data }: ServiceSchemaProps) {
   const schemas = buildSchemas(data)
-  return (
-    <>
-      {schemas.map((schema, i) => (
-        <script
-          key={i}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-        />
-      ))}
-    </>
-  )
+  return <JsonLdScripts schemas={schemas} />
 }

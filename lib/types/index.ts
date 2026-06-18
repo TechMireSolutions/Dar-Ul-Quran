@@ -16,4 +16,5 @@ export type {
   SlugPathDoc,
   CourseDetailDoc,
   ServiceDetailDoc,
+  LabelDescItemDoc,
 } from './cms'

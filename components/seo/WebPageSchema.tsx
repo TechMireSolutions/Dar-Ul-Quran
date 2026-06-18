@@ -1,3 +1,4 @@
+import JsonLdScripts from '@/components/seo/JsonLdScripts'
 import { SITE_URL } from '@/lib/seo'
 
 type WebPageSchemaProps = {
@@ -21,10 +22,5 @@ export default function WebPageSchema({ title, description, path }: WebPageSchem
     about: { '@id': `${SITE_URL}#organization` },
   }
 
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-    />
-  )
+  return <JsonLdScripts schemas={schema} />
 }

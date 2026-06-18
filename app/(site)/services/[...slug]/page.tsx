@@ -6,8 +6,8 @@ import ServiceSchema from '@/components/seo/ServiceSchema'
 import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
 import NestedChildListing from '@/components/content/NestedChildListing'
 import ServiceLeafPage from './_components/ServiceLeafPage'
-import { ancestryFromParent, breadcrumbHref, staticParamsFromPaths } from '@/lib/paths'
-import { whatsappHref } from '@/lib/contact'
+import { ancestryFromParent, breadcrumbLabelsFromAncestry, buildBreadcrumbNavItems, staticParamsFromPaths } from '@/lib/paths'
+import { resolveWhatsappLink } from '@/lib/contact'
 import { mergeFaqItems } from '@/lib/topicCluster'
 import { pageMetadata } from '@/lib/seo'
 
@@ -67,7 +67,7 @@ export default async function ServiceCatchAllPage(
   const currentPath = `${SECTION_PATH}/${slug.join('/')}`
   const heroImageUrl = service.heroImage ? urlFor(service.heroImage).width(1600).height(800).url() : null
   const whyUsImageUrl = service.whyUsImage ? urlFor(service.whyUsImage).width(700).height(700).url() : null
-  const whatsappLink = site?.whatsapp ? whatsappHref(String(site.whatsapp)) : '/contact'
+  const whatsappLink = resolveWhatsappLink(site?.whatsapp)
 
   const serviceTitle = service.title ?? 'خدمت'
 
@@ -83,20 +83,14 @@ export default async function ServiceCatchAllPage(
           isBookable: service.isBookable,
           faqItems: mergeFaqItems(service.faqItems, cluster?.faqItems),
           orgName: site?.siteName,
-          breadcrumbLabels: Object.fromEntries(ancestry.map((a) => [a.slug, a.title])),
+          breadcrumbLabels: breadcrumbLabelsFromAncestry(ancestry),
         }}
       />
 
       <BreadcrumbNav
         sectionLabel="خدمات"
         sectionHref={SECTION_PATH}
-        items={[
-          ...ancestry.map(({ title }, i) => ({
-            label: title,
-            href: breadcrumbHref(SECTION_PATH, ancestry, i),
-          })),
-          { label: serviceTitle },
-        ]}
+        items={buildBreadcrumbNavItems(SECTION_PATH, ancestry, serviceTitle)}
       />
 
       {hasChildren ? (

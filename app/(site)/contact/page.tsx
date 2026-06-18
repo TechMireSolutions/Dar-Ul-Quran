@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import type { LucideIcon } from 'lucide-react'
 import { PortableText } from '@portabletext/react'
 import { Mail, Phone, MessageCircle, MapPin, Globe, Play } from 'lucide-react'
 import { cmsPageMetadata, fetchCmsPage, resolveSeoDescription, resolveSeoTitle } from '@/lib/cmsPage'
@@ -11,6 +12,13 @@ import ContactForm from './_components/ContactForm'
 import Reveal from '@/components/ui/Reveal'
 
 export const revalidate = 300
+
+type ContactInfoItem = {
+  Icon: LucideIcon
+  label: string
+  value: string
+  href: string | null
+}
 
 export async function generateMetadata(): Promise<Metadata> {
   return cmsPageMetadata({
@@ -32,7 +40,7 @@ export default async function ContactPage() {
     settings?.phone    && { Icon: Phone,         label: 'فون',      value: settings.phone,    href: `tel:${settings.phone}` },
     settings?.whatsapp && { Icon: MessageCircle, label: 'واٹس ایپ', value: settings.whatsapp, href: whatsappHref(settings.whatsapp) },
     settings?.address  && { Icon: MapPin,        label: 'پتہ',      value: settings.address,  href: null },
-  ].filter(Boolean) as { Icon: any; label: string; value: string; href: string | null }[]
+  ].filter(Boolean) as ContactInfoItem[]
 
   const subjects: string[] = settings?.contactFormSubjects?.length
     ? settings.contactFormSubjects

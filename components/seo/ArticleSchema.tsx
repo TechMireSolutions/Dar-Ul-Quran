@@ -1,3 +1,4 @@
+import JsonLdScripts from '@/components/seo/JsonLdScripts'
 import { urlFor } from '@/sanity/lib/image'
 import { SITE_URL } from '@/lib/seo'
 
@@ -56,15 +57,5 @@ export default function ArticleSchema({ post, slug, publisherLogoUrl }: ArticleS
     },
   ]
 
-  return (
-    <>
-      {schemas.map((schema, i) => (
-        <script
-          key={i}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-        />
-      ))}
-    </>
-  )
+  return <JsonLdScripts schemas={schemas} />
 }

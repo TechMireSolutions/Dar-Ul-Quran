@@ -14,7 +14,7 @@ import { pageMetadata } from '@/lib/seo'
 import WebPageSchema from '@/components/seo/WebPageSchema'
 import LcpImagePreload from '@/components/seo/LcpImagePreload'
 import HeroSection from '@/components/sections/HeroSection'
-import type { CarouselItem } from '@/components/sections/CarouselSection'
+import { coursesToCarouselItems, servicesToCarouselItems } from '@/lib/homepage'
 import nextDynamic from 'next/dynamic'
 import ContentCard from '@/components/ui/ContentCard'
 
@@ -88,27 +88,8 @@ export default async function HomePage() {
     : null
   const heroImageBlur = homepageSettings?.heroImageLqip ?? undefined
 
-  const courseItems: CarouselItem[] = (courses ?? []).map((c: any) => ({
-    id:          c._id,
-    image:       c.featuredImage ? urlFor(c.featuredImage).width(480).height(360).auto('format').quality(75).url() : null,
-    title:       c.title,
-    description: [c.price, c.duration].filter(Boolean).join(' · ') || null,
-    href:        `/online-courses/${c.slug.current}`,
-    badge:       c.subject,
-    ctaLabel:    'ابھی داخلہ لیں',
-  }))
-
-  const serviceItems: CarouselItem[] = (services ?? []).map((s: any) => ({
-    id:          s._id,
-    image:       s.icon ? urlFor(s.icon).width(480).height(360).auto('format').quality(75).url() : null,
-    title:       s.title,
-    description: s.children?.length
-      ? s.children.slice(0, 4).map((c: any) => c.title).join(' · ')
-      : s.price || null,
-    href:        `/services/${s.slug.current}`,
-    badge:       null,
-    ctaLabel:    'ابھی بک کریں',
-  }))
+  const courseItems = coursesToCarouselItems(courses)
+  const serviceItems = servicesToCarouselItems(services)
 
   return (
     <>

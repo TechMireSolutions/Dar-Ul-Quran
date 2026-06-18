@@ -1,3 +1,4 @@
+import JsonLdScripts from '@/components/seo/JsonLdScripts'
 import { SITE_URL } from '@/lib/seo'
 
 type ItemListSchemaProps = {
@@ -26,10 +27,5 @@ export default function ItemListSchema({ name, path, items }: ItemListSchemaProp
     })),
   }
 
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-    />
-  )
+  return <JsonLdScripts schemas={schema} />
 }

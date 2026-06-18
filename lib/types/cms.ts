@@ -142,7 +142,34 @@ export type ServiceListItemDoc = {
   slug?: { current?: string }
   excerpt?: string
   featuredImage?: SanityImageAsset
+  icon?: SanityImageAsset
+  price?: string
   childCount?: number
+  children?: Array<{ title?: string }>
+}
+
+export type TitleDescItemDoc = { title?: string; desc?: string }
+
+export type LabelDescItemDoc = { label?: string; desc?: string }
+
+export type FeeSummaryItemDoc = { label?: string; amount?: string }
+
+export type PricingTableRowDoc = {
+  plan?: string
+  weeklyFrequency?: string
+  monthlyClasses?: string
+  feePerClass?: string
+  monthlyTotal?: string
+}
+
+export type PricingTableDoc = {
+  label?: string
+  rows?: PricingTableRowDoc[]
+}
+
+export type FaqBlockItemDoc = {
+  question: string
+  answer?: unknown
 }
 
 export type ParentSlugNode = { slug: string; parent?: ParentSlugNode | null } | null
@@ -182,21 +209,21 @@ export type CourseDetailDoc = {
   seoDescription?: string
   parent?: AncestryNode | null
   children?: CourseChildDoc[]
-  faq?: unknown
+  faq?: FaqBlockItemDoc[]
   heroSubtitle?: string
   heroCtaLabel?: string
   overviewHeading?: string
-  overviewBody?: PortableTextBlock[]
+  overviewBody?: string
   outcomesHeading?: string
-  outcomes?: Array<{ title?: string; desc?: string }>
+  outcomes?: TitleDescItemDoc[]
   whyUsHeading?: string
-  whyUs?: Array<{ title?: string; desc?: string }>
+  whyUs?: TitleDescItemDoc[]
   howItWorksHeading?: string
-  howItWorks?: Array<{ label?: string; desc?: string }>
+  howItWorks?: LabelDescItemDoc[]
   feeSummaryHeading?: string
-  feeSummaryItems?: Array<{ label?: string; amount?: string }>
+  feeSummaryItems?: FeeSummaryItemDoc[]
   pricingHeading?: string
-  pricingTables?: unknown[]
+  pricingTables?: PricingTableDoc[]
   ctaHeading?: string
   ctaSubtitle?: string
   ctaBtn1Label?: string
@@ -222,10 +249,21 @@ export type ServiceDetailDoc = {
   seoDescription?: string
   parent?: AncestryNode | null
   children?: ServiceChildDoc[]
-  faq?: unknown
+  faq?: FaqBlockItemDoc[]
   faqItems?: FaqSchemaItem[]
   heroImage?: SanityImageAsset
   heroSubtitle?: string
-  heroBody?: PortableTextBlock[]
+  heroBody?: string
   whyUsImage?: SanityImageAsset
+  whyUsHeading?: string
+  whyUs?: TitleDescItemDoc[]
+  commitmentHeading?: string
+  commitment?: TitleDescItemDoc[]
+  howItWorksHeading?: string
+  howItWorks?: LabelDescItemDoc[]
+  ctaHeading?: string
+  ctaSubtitle?: string
+  ctaBtn1Label?: string
+  ctaBtn2Label?: string
+  faqSectionHeading?: string
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { pageMetadata } from '@/lib/seo'
 import { getPageBySlug, getSiteSettings } from '@/sanity/lib/fetchers'
+import type { SiteSettingsDoc, PageDoc } from '@/lib/types'
 
 export type CmsPageDoc = {
   title?: string
@@ -8,6 +9,11 @@ export type CmsPageDoc = {
   subtitle?: string
   seoDescription?: string
   eyebrow?: string
+}
+
+export type SlugListItem = {
+  title?: string
+  slug?: { current?: string }
 }
 
 export function resolveSeoTitle(doc: CmsPageDoc | null | undefined, fallback: string): string {
@@ -21,7 +27,23 @@ export function resolveSeoDescription(
   return doc?.seoDescription || doc?.subtitle || fallback
 }
 
-import type { SiteSettingsDoc, PageDoc } from '@/lib/types'
+/** Type guard for CMS list items with a published slug. */
+export function hasPublishedSlug<T extends SlugListItem>(
+  item: T,
+): item is T & { title: string; slug: { current: string } } {
+  return Boolean(item.title && item.slug?.current)
+}
+
+/** Map slugged list items to ItemListSchema entries. */
+export function toItemListEntries(
+  items: Array<{ title: string; slug: { current: string } }>,
+  basePath: string,
+): { name: string; url: string }[] {
+  return items.map((item) => ({
+    name: item.title,
+    url: `${basePath}/${item.slug.current}`,
+  }))
+}
 
 export async function fetchCmsPage(slug: string): Promise<{
   page: PageDoc | null

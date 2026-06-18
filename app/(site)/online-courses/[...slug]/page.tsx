@@ -12,8 +12,8 @@ import CourseSchema from '@/components/seo/CourseSchema'
 import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
 import NestedChildListing from '@/components/content/NestedChildListing'
 import CourseLeafPage from './_components/CourseLeafPage'
-import { ancestryFromParent, breadcrumbHref, staticParamsFromPaths } from '@/lib/paths'
-import { whatsappHref } from '@/lib/contact'
+import { ancestryFromParent, breadcrumbLabelsFromAncestry, buildBreadcrumbNavItems, staticParamsFromPaths } from '@/lib/paths'
+import { resolveWhatsappLink } from '@/lib/contact'
 import { mergeFaqItems } from '@/lib/topicCluster'
 import { pageMetadata } from '@/lib/seo'
 
@@ -91,7 +91,7 @@ export default async function CourseCatchAllPage(
     : null
 
   const enrollHref = course.enrollmentLink || '/contact'
-  const whatsappLink = site?.whatsapp ? whatsappHref(String(site.whatsapp)) : '/contact'
+  const whatsappLink = resolveWhatsappLink(site?.whatsapp)
 
   const courseTitle = course.title ?? 'کورس'
 
@@ -102,7 +102,7 @@ export default async function CourseCatchAllPage(
           data={{
             ...schemaData,
             slugPath: slug.join('/'),
-            breadcrumbLabels: Object.fromEntries(ancestry.map((a) => [a.slug, a.title])),
+            breadcrumbLabels: breadcrumbLabelsFromAncestry(ancestry),
             faqItems: mergeFaqItems(schemaData.faqItems, cluster?.faqItems),
           }}
         />
@@ -111,13 +111,7 @@ export default async function CourseCatchAllPage(
       <BreadcrumbNav
         sectionLabel="آنلائن کورسز"
         sectionHref={SECTION_PATH}
-        items={[
-          ...ancestry.map(({ title }, i) => ({
-            label: title,
-            href: breadcrumbHref(SECTION_PATH, ancestry, i),
-          })),
-          { label: courseTitle },
-        ]}
+        items={buildBreadcrumbNavItems(SECTION_PATH, ancestry, courseTitle)}
       />
 
       {hasChildren ? (

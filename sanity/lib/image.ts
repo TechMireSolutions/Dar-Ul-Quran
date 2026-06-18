@@ -16,6 +16,10 @@ export function cardImageUrl(source: SanityImageSource): string {
   return urlFor(source).width(600).height(450).url()
 }
 
+export function carouselImageUrl(source: SanityImageSource): string {
+  return urlFor(source).width(480).height(360).auto('format').quality(75).url()
+}
+
 // Typed image shape for use with SanityImage component.
 // Queries must expand asset->{ metadata { lqip, dimensions } } to enable blur placeholder.
 export type SanityImageAsset = {

@@ -27,7 +27,7 @@ export async function safeFetch<T = unknown>(
   if (!projectId) return null   // skip fetch entirely if not configured
 
   try {
-    return await (client.fetch as any)(query, params ?? {}, {
+    return await client.fetch<T>(query, params ?? {}, {
       next: { revalidate: 300 },
       ...options,
     })

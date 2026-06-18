@@ -53,6 +53,30 @@ export function breadcrumbHref(basePath: string, ancestry: { slug: string }[], i
     .join('/')}`
 }
 
+export type BreadcrumbAncestryItem = { title: string; slug: string }
+
+/** Map ancestry slugs to labels for JSON-LD breadcrumb schema. */
+export function breadcrumbLabelsFromAncestry(
+  ancestry: BreadcrumbAncestryItem[],
+): Record<string, string> {
+  return Object.fromEntries(ancestry.map((item) => [item.slug, item.title]))
+}
+
+/** Build BreadcrumbNav items from section path + ancestry + current page title. */
+export function buildBreadcrumbNavItems(
+  sectionPath: string,
+  ancestry: BreadcrumbAncestryItem[],
+  currentTitle: string,
+): Array<{ label: string; href?: string }> {
+  return [
+    ...ancestry.map(({ title }, i) => ({
+      label: title,
+      href: breadcrumbHref(sectionPath, ancestry, i),
+    })),
+    { label: currentTitle },
+  ]
+}
+
 type PillarPage = {
   _type?: string
   slug?: string

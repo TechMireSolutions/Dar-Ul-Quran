@@ -1,12 +1,16 @@
 import type { Metadata } from 'next'
 import { getPosts } from '@/sanity/lib/fetchers'
 import { cardImageUrl } from '@/sanity/lib/image'
-import type { PostListItemDoc } from '@/lib/types'
-import { cmsPageMetadata, fetchCmsPage, resolveSeoDescription, resolveSeoTitle } from '@/lib/cmsPage'
+import {
+  cmsPageMetadata,
+  fetchCmsPage,
+  hasPublishedSlug,
+  resolveSeoDescription,
+  resolveSeoTitle,
+  toItemListEntries,
+} from '@/lib/cmsPage'
 import ContentCard from '@/components/ui/ContentCard'
-import ItemListSchema from '@/components/seo/ItemListSchema'
-import WebPageSchema from '@/components/seo/WebPageSchema'
-import PageHeroHeader from '@/components/ui/PageHeroHeader'
+import ListingIndexShell, { ListingCardGrid, ListingEmptyState } from '@/components/layout/ListingIndexShell'
 import Reveal from '@/components/ui/Reveal'
 
 export const revalidate = 300
@@ -51,28 +55,21 @@ export default async function ArticlesPage({
       )
     : posts
 
-  const listItems = filtered
-    .filter((post): post is PostListItemDoc & { title: string; slug: { current: string } } =>
-      Boolean(post.title && post.slug?.current),
-    )
-    .map((post) => ({
-      name: post.title,
-      url: `/articles/${post.slug.current}`,
-    }))
-
   const title = resolveSeoTitle(page, 'مضامین')
   const description = resolveSeoDescription(page, 'اسلامی علم، خبریں اور مطالعات')
+  const listItems = toItemListEntries(filtered.filter(hasPublishedSlug), PAGE_PATH)
 
   return (
-    <div>
-      <WebPageSchema title={title} description={description} path={PAGE_PATH} />
-      <ItemListSchema name="مضامین" path={PAGE_PATH} items={listItems} />
-
-      <PageHeroHeader
-        eyebrow={page?.eyebrow || 'علم'}
-        title={page?.title || 'مضامین'}
-        subtitle={page?.subtitle || 'اسلامی علم، خبریں اور مطالعات'}
-      >
+    <ListingIndexShell
+      title={title}
+      description={description}
+      path={PAGE_PATH}
+      itemListName="مضامین"
+      listItems={listItems}
+      eyebrow={page?.eyebrow || 'علم'}
+      pageTitle={page?.title || 'مضامین'}
+      pageSubtitle={page?.subtitle || 'اسلامی علم، خبریں اور مطالعات'}
+      heroChildren={
         <form action={PAGE_PATH} method="get" role="search" className="max-w-md mt-5">
           <label htmlFor="article-search" className="sr-only">
             مضامین تلاش کریں
@@ -96,39 +93,35 @@ export default async function ArticlesPage({
             </button>
           </div>
         </form>
-      </PageHeroHeader>
-
-      <div className="py-8 sm:py-12 bg-slate-50/40 min-h-[50vh]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {query && (
-            <p className="text-[13px] text-gray-500 mb-6" role="status" aria-live="polite">
-              {filtered.length > 0
-                ? `”${q}“ کے لیے ${filtered.length} نتائج`
-                : `”${q}“ کے لیے کوئی نتیجہ نہیں ملا`}
-            </p>
-          )}
-          {filtered.length === 0 ? (
-            <p className="text-center text-gray-400 text-[15px] py-24">
-              {query ? 'کوئی مضمون نہیں ملا۔ دوسرا لفظ آزمائیں۔' : 'ابھی تک کوئی مضمون شائع نہیں ہوا۔'}
-            </p>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-              {filtered.map((post, i) => (
-                <Reveal key={post._id} animation="up" delay={i * 70}>
-                  <ContentCard
-                    href={`/articles/${post.slug?.current ?? ''}`}
-                    image={post.mainImage ? cardImageUrl(post.mainImage) : null}
-                    title={post.title ?? ''}
-                    description={post.excerpt || null}
-                    badge={post.categories?.[0]?.title || null}
-                    ctaLabel="مزید پڑھیں"
-                  />
-                </Reveal>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
+      }
+    >
+      {query && (
+        <p className="text-[13px] text-gray-500 mb-6" role="status" aria-live="polite">
+          {filtered.length > 0
+            ? `”${q}“ کے لیے ${filtered.length} نتائج`
+            : `”${q}“ کے لیے کوئی نتیجہ نہیں ملا`}
+        </p>
+      )}
+      {filtered.length === 0 ? (
+        <ListingEmptyState
+          message={query ? 'کوئی مضمون نہیں ملا۔ دوسرا لفظ آزمائیں۔' : 'ابھی تک کوئی مضمون شائع نہیں ہوا۔'}
+        />
+      ) : (
+        <ListingCardGrid>
+          {filtered.map((post, i) => (
+            <Reveal key={post._id} animation="up" delay={i * 70}>
+              <ContentCard
+                href={`/articles/${post.slug?.current ?? ''}`}
+                image={post.mainImage ? cardImageUrl(post.mainImage) : null}
+                title={post.title ?? ''}
+                description={post.excerpt || null}
+                badge={post.categories?.[0]?.title || null}
+                ctaLabel="مزید پڑھیں"
+              />
+            </Reveal>
+          ))}
+        </ListingCardGrid>
+      )}
+    </ListingIndexShell>
   )
 }

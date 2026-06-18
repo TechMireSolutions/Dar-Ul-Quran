@@ -1,12 +1,16 @@
 import type { Metadata } from 'next'
 import { getTopLevelCourses } from '@/sanity/lib/fetchers'
 import { cardImageUrl } from '@/sanity/lib/image'
-import type { CourseListItemDoc } from '@/lib/types'
-import { cmsPageMetadata, fetchCmsPage, resolveSeoDescription, resolveSeoTitle } from '@/lib/cmsPage'
+import {
+  cmsPageMetadata,
+  fetchCmsPage,
+  hasPublishedSlug,
+  resolveSeoDescription,
+  resolveSeoTitle,
+  toItemListEntries,
+} from '@/lib/cmsPage'
 import ContentCard from '@/components/ui/ContentCard'
-import ItemListSchema from '@/components/seo/ItemListSchema'
-import WebPageSchema from '@/components/seo/WebPageSchema'
-import PageHeroHeader from '@/components/ui/PageHeroHeader'
+import ListingIndexShell, { ListingCardGrid, ListingEmptyState } from '@/components/layout/ListingIndexShell'
 import Reveal from '@/components/ui/Reveal'
 
 export const revalidate = 300
@@ -36,48 +40,36 @@ export default async function CoursesPage() {
     page,
     'اہل علماء سے قرآن، فقہ، اخلاق اور تاریخ سیکھیں۔',
   )
-
-  const listItems = courses
-    .filter((course): course is CourseListItemDoc & { title: string; slug: { current: string } } =>
-      Boolean(course.title && course.slug?.current),
-    )
-    .map((course) => ({
-      name: course.title,
-      url: `${PAGE_PATH}/${course.slug.current}`,
-    }))
+  const listItems = toItemListEntries(courses.filter(hasPublishedSlug), PAGE_PATH)
 
   return (
-    <div>
-      <WebPageSchema title={title} description={description} path={PAGE_PATH} />
-      <ItemListSchema name="آن لائن کورسز" path={PAGE_PATH} items={listItems} />
-
-      <PageHeroHeader
-        eyebrow={page?.eyebrow || 'تعلیم'}
-        title={page?.title || 'آنلائن کورسز'}
-        subtitle={page?.subtitle || 'اہل علماء سے سیکھیں — قرآن، نہج البلاغہ، فقہ، اخلاق اور تاریخ۔'}
-      />
-
-      <div className="py-8 sm:py-12 bg-slate-50/40 min-h-[50vh]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {courses.length === 0 ? (
-            <p className="text-center text-gray-400 text-[15px] py-24">کورسز جلد آ رہے ہیں۔</p>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-              {courses.map((course, i) => (
-                <Reveal key={course._id} animation="up" delay={i * 70}>
-                  <ContentCard
-                    href={`${PAGE_PATH}/${course.slug?.current ?? ''}`}
-                    image={course.featuredImage ? cardImageUrl(course.featuredImage) : null}
-                    title={course.title ?? ''}
-                    description={course.excerpt || [course.price, course.duration].filter(Boolean).join(' · ') || null}
-                    ctaLabel={(course.childCount ?? 0) > 0 ? 'کورسز دیکھیں' : 'ابھی داخلہ لیں'}
-                  />
-                </Reveal>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
+    <ListingIndexShell
+      title={title}
+      description={description}
+      path={PAGE_PATH}
+      itemListName="آن لائن کورسز"
+      listItems={listItems}
+      eyebrow={page?.eyebrow || 'تعلیم'}
+      pageTitle={page?.title || 'آنلائن کورسز'}
+      pageSubtitle={page?.subtitle || 'اہل علماء سے سیکھیں — قرآن، نہج البلاغہ، فقہ، اخلاق اور تاریخ۔'}
+    >
+      {courses.length === 0 ? (
+        <ListingEmptyState message="کورسز جلد آ رہے ہیں۔" />
+      ) : (
+        <ListingCardGrid>
+          {courses.map((course, i) => (
+            <Reveal key={course._id} animation="up" delay={i * 70}>
+              <ContentCard
+                href={`${PAGE_PATH}/${course.slug?.current ?? ''}`}
+                image={course.featuredImage ? cardImageUrl(course.featuredImage) : null}
+                title={course.title ?? ''}
+                description={course.excerpt || [course.price, course.duration].filter(Boolean).join(' · ') || null}
+                ctaLabel={(course.childCount ?? 0) > 0 ? 'کورسز دیکھیں' : 'ابھی داخلہ لیں'}
+              />
+            </Reveal>
+          ))}
+        </ListingCardGrid>
+      )}
+    </ListingIndexShell>
   )
 }

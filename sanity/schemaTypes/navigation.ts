@@ -9,7 +9,7 @@ const linkFields = [
 
 const linkPreview = {
   select: { title: 'label', subtitle: 'href' },
-  prepare({ title, subtitle }: any) {
+  prepare({ title, subtitle }: { title?: string; subtitle?: string }) {
     return { title: title || '(no label)', subtitle: subtitle || '' }
   },
 }

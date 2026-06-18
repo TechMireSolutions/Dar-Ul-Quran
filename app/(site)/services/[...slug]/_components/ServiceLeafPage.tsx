@@ -1,13 +1,15 @@
-import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowRight, MessageCircle, Check } from 'lucide-react'
-import { PortableText } from '@portabletext/react'
+import { Check } from 'lucide-react'
 import FaqAccordion from '@/components/content/FaqAccordion'
-import TopicClusterRelated from '@/components/content/TopicClusterRelated'
+import HowItWorksSection from '@/components/content/HowItWorksSection'
+import LeafCtaBanner from '@/components/content/LeafCtaBanner'
+import LeafTopicClusterBlock from '@/components/content/LeafTopicClusterBlock'
+import PortableTextSection from '@/components/content/PortableTextSection'
+import type { ServiceDetailDoc, TopicClusterDoc } from '@/lib/types'
 
 type ServiceLeafPageProps = {
-  service: any
-  cluster: any
+  service: ServiceDetailDoc
+  cluster: TopicClusterDoc | null
   heroImageUrl: string | null
   whyUsImageUrl: string | null
   whatsappLink: string
@@ -20,6 +22,8 @@ export default function ServiceLeafPage({
   whyUsImageUrl,
   whatsappLink,
 }: ServiceLeafPageProps) {
+  const serviceTitle = service.title ?? 'خدمت'
+
   return (
     <div>
 
@@ -28,7 +32,7 @@ export default function ServiceLeafPage({
             {heroImageUrl && (
               <Image
                 src={heroImageUrl}
-                alt={service.title}
+                alt={serviceTitle}
                 fill
                 className="object-cover opacity-[0.18]"
                 priority
@@ -44,7 +48,7 @@ export default function ServiceLeafPage({
                 </span>
               )}
               <h1 className="font-bold text-[36px] sm:text-[50px] text-white tracking-[-0.03em] leading-[1.1] mb-5">
-                {service.title}
+                {serviceTitle}
               </h1>
               {service.heroSubtitle && (
                 <p className="text-[16px] sm:text-[18px] font-semibold text-white/90 mb-4 leading-relaxed">
@@ -60,7 +64,7 @@ export default function ServiceLeafPage({
           </section>
 
           {/* ── 2. WHY USE OUR PLATFORM ──────────────────────────────────── */}
-          {service.whyUs?.length > 0 && (
+          {(service.whyUs?.length ?? 0) > 0 && (
             <section className="bg-white py-16 sm:py-20">
               <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -69,7 +73,7 @@ export default function ServiceLeafPage({
                   <div className="flex justify-center lg:justify-start order-2 lg:order-1">
                     {whyUsImageUrl ? (
                       <div className="relative w-full max-w-sm aspect-square rounded-2xl overflow-hidden shadow-sm border border-gray-100">
-                        <Image src={whyUsImageUrl} alt={service.whyUsHeading || service.title} fill sizes="(max-width: 640px) 100vw, 384px" className="object-cover" />
+                        <Image src={whyUsImageUrl} alt={service.whyUsHeading || serviceTitle} fill sizes="(max-width: 640px) 100vw, 384px" className="object-cover" />
                       </div>
                     ) : (
                       <div className="w-full max-w-sm aspect-square rounded-2xl bg-slate-50 border border-gray-200 flex items-center justify-center">
@@ -84,7 +88,7 @@ export default function ServiceLeafPage({
                       {service.whyUsHeading || 'ہمارا پلیٹ فارم کیوں استعمال کریں؟'}
                     </h2>
                     <ul className="space-y-4">
-                      {service.whyUs.map((item: any, i: number) => (
+                      {service.whyUs!.map((item, i) => (
                         <li key={i} className="flex items-start gap-3">
                           <div className="w-6 h-6 rounded-md bg-dq-50 border border-dq-100 flex items-center justify-center flex-shrink-0 mt-0.5">
                             <Check size={13} className="text-dq-600" strokeWidth={2.5} />
@@ -104,14 +108,14 @@ export default function ServiceLeafPage({
           )}
 
           {/* ── 3. OUR COMMITMENT ────────────────────────────────────────── */}
-          {service.commitment?.length > 0 && (
+          {(service.commitment?.length ?? 0) > 0 && (
             <section className="bg-dq-900 py-16 sm:py-20">
               <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
                 <h2 className="font-bold text-[24px] sm:text-[32px] text-white tracking-[-0.02em] mb-10">
                   {service.commitmentHeading || 'ہمارا عہد'}
                 </h2>
                 <ul className="space-y-5">
-                  {service.commitment.map((item: any, i: number) => (
+                  {service.commitment!.map((item, i) => (
                     <li key={i} className="text-[14.5px] text-slate-300 leading-relaxed">
                       <span className="font-semibold text-white">{item.title}:</span>
                       {item.desc && <span> {item.desc}</span>}
@@ -122,76 +126,22 @@ export default function ServiceLeafPage({
             </section>
           )}
 
-          {/* ── 4. HOW IT WORKS ──────────────────────────────────────────── */}
-          {service.howItWorks?.length > 0 && (
-            <section className="bg-dq-50 py-16 sm:py-20">
-              <div className="max-w-2xl mx-auto px-4 sm:px-6">
-                <div className="text-center mb-12">
-                  <h2 className="font-bold text-[24px] sm:text-[32px] text-slate-900 tracking-[-0.02em]">
-                    {service.howItWorksHeading || 'یہ کیسے کام کرتا ہے'}
-                  </h2>
-                </div>
-                <ol className="space-y-4">
-                  {service.howItWorks.map((step: any, i: number) => (
-                    <li
-                      key={i}
-                      className="flex items-start gap-5 bg-white rounded-2xl px-6 py-5 border border-dq-100 shadow-sm"
-                    >
-                      <span className="shrink-0 w-9 h-9 rounded-full bg-dq-600 text-white text-[13px] font-bold flex items-center justify-center">
-                        {i + 1}
-                      </span>
-                      <div className="pt-0.5">
-                        <span className="font-bold text-slate-900 text-[15px]">{step.label}</span>
-                        {step.desc && (
-                          <span className="text-gray-500 text-[14px]"> — {step.desc}</span>
-                        )}
-                      </div>
-                    </li>
-                  ))}
-                </ol>
-              </div>
-            </section>
-          )}
+          <HowItWorksSection
+            heading={service.howItWorksHeading}
+            steps={service.howItWorks ?? []}
+            maxWidth="2xl"
+          />
 
-          {/* ── 5. CTA BANNER ────────────────────────────────────────────── */}
-          {(service.ctaHeading || service.ctaSubtitle) && (
-            <section className="bg-dq-900 py-16 sm:py-20">
-              <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
-                {service.ctaHeading && (
-                  <h2 className="font-bold text-[26px] sm:text-[34px] text-white tracking-[-0.02em] mb-4">
-                    {service.ctaHeading}
-                  </h2>
-                )}
-                {service.ctaSubtitle && (
-                  <p className="text-[15px] text-slate-400 mb-8 leading-relaxed">{service.ctaSubtitle}</p>
-                )}
-                <div className="flex flex-wrap justify-center gap-3">
-                  <Link href="/contact"
-                    className="group inline-flex items-center gap-2 bg-dq-500 hover:bg-dq-400 text-white font-bold text-[14px] px-8 py-3.5 rounded-full shadow-[0_4px_20px_rgba(184,144,14,0.3)] transition-all duration-200 hover:-translate-y-px">
-                    {service.ctaBtn1Label || 'شروع کریں'}
-                    <ArrowRight size={14} strokeWidth={2.5} className="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform" />
-                  </Link>
-                  <Link href={whatsappLink} target="_blank" rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/15 text-white text-[14px] font-semibold px-8 py-3.5 rounded-full border border-white/20 transition-all duration-200 hover:-translate-y-px">
-                    <MessageCircle size={14} />
-                    {service.ctaBtn2Label || 'واٹس ایپ کریں'}
-                  </Link>
-                </div>
-              </div>
-            </section>
-          )}
+          <LeafCtaBanner
+            heading={service.ctaHeading}
+            subtitle={service.ctaSubtitle}
+            primaryHref="/contact"
+            primaryLabel={service.ctaBtn1Label || 'شروع کریں'}
+            whatsappHref={whatsappLink}
+            whatsappLabel={service.ctaBtn2Label || 'واٹس ایپ کریں'}
+          />
 
-          {/* ── Extra rich text body (optional) ──────────────────────────── */}
-          {service.body?.length > 0 && (
-            <section className="bg-white py-12 sm:py-16">
-              <div className="max-w-3xl mx-auto px-4 sm:px-6
-                prose prose-slate prose-lg max-w-none
-                prose-headings:font-bold prose-headings:tracking-tight
-                prose-a:text-dq-500 prose-a:no-underline hover:prose-a:underline">
-                <PortableText value={service.body} />
-              </div>
-            </section>
-          )}
+          {service.body && <PortableTextSection value={service.body} />}
 
           <FaqAccordion
             heading={service.faqSectionHeading || 'اکثر پوچھے گئے سوالات'}
@@ -199,17 +149,7 @@ export default function ServiceLeafPage({
             icon="plus"
           />
 
-          {cluster && (
-            <section className="bg-white pb-12 sm:pb-16">
-              <div className="max-w-3xl mx-auto px-4 sm:px-6">
-                <TopicClusterRelated
-                  clusterName={cluster.clusterName}
-                  pillarKeyword={cluster.pillarKeyword}
-                  relatedArticles={cluster.relatedArticles}
-                />
-              </div>
-            </section>
-          )}
+          <LeafTopicClusterBlock cluster={cluster} />
 
     </div>
   )
