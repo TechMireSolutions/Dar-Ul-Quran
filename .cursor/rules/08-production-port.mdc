@@ -1,11 +1,13 @@
 ---
-description: Next.js always listens on port 3001 (dev and production VPS)
+description: Production server always runs Next.js on port 3001 (mandatory)
 alwaysApply: true
 ---
 
-# Production runtime — port 3001
+# Production server — port 3001 (mandatory)
 
-Dar Ul Quran runs Next.js on **port 3001**, bound to **0.0.0.0**, in development and on the production VPS. Apache at darulquran.pk proxies to `127.0.0.1:3001`. **Do not use port 3000.**
+The **production VPS** serves Dar Ul Quran via PM2 (`darulquran-next`) on **port 3001**, bound to **0.0.0.0**. Apache at darulquran.pk proxies to `http://127.0.0.1:3001/`.
+
+**This is not configurable in production.** When `NODE_ENV=production`, `deploy/runtime.cjs` always uses port **3001** (ignores `PORT` in `.env`). **Never use port 3000.**
 
 | Layer | File |
 |-------|------|
@@ -17,4 +19,4 @@ Dar Ul Quran runs Next.js on **port 3001**, bound to **0.0.0.0**, in development
 
 When changing the listen port, update **all** rows above plus `.env.example` and the server `.env`. Never hardcode a different port in only one file.
 
-`npm run start` and PM2 must pass `-H 0.0.0.0 -p 3001` (via runtime config), not rely on Next defaults.
+`npm run start` and PM2 must pass `-H 0.0.0.0 -p 3001` via runtime config — not Next.js defaults.

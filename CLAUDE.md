@@ -6,6 +6,7 @@ Next.js 16 · React 19 · Sanity v6 · Tailwind v4 · RTL Urdu · https://darulq
 
 ```bash
 npm run dev    # :3001
+npm run start  # production :3001 (PM2 uses same port — see 08-production-port.mdc)
 npm run build && npm run lint && npm run check:urdu
 ```
 
