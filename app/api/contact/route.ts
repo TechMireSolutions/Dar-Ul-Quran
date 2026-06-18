@@ -1,24 +1,37 @@
-import { createClient } from '@sanity/client'
+import { createClient, type SanityClient } from '@sanity/client'
 import { NextResponse }  from 'next/server'
 import nodemailer        from 'nodemailer'
+import type { Transporter } from 'nodemailer'
 
-const sanity = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
-  dataset:   process.env.NEXT_PUBLIC_SANITY_DATASET!,
-  token:     process.env.SANITY_API_TOKEN!,
-  apiVersion: '2024-01-01',
-  useCdn: false,
-})
+function getSanityClient(): SanityClient {
+  const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
+  const dataset   = process.env.NEXT_PUBLIC_SANITY_DATASET
+  const token     = process.env.SANITY_API_TOKEN
 
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-})
+  if (!projectId || !dataset || !token) {
+    throw new Error('Sanity is not configured')
+  }
+
+  return createClient({
+    projectId,
+    dataset,
+    token,
+    apiVersion: '2025-01-01',
+    useCdn: false,
+  })
+}
+
+function getMailTransporter(): Transporter | null {
+  const { EMAIL_USER, EMAIL_PASS } = process.env
+  if (!EMAIL_USER || !EMAIL_PASS) return null
+
+  return nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false,
+    auth: { user: EMAIL_USER, pass: EMAIL_PASS },
+  })
+}
 
 const purposeLabel: Record<string, string> = {
   general: 'General Inquiry',
@@ -39,7 +52,7 @@ export async function POST(req: Request) {
     const purposeText = purposeLabel[purpose] || purpose || 'General Inquiry'
 
     // 1. Save to Sanity
-    await sanity.create({
+    await getSanityClient().create({
       _type: 'contactSubmission',
       firstName,
       lastName:   lastName   || undefined,
@@ -55,7 +68,8 @@ export async function POST(req: Request) {
     })
 
     // 2. Send email notification
-    if (process.env.EMAIL_USER && process.env.EMAIL_PASS && process.env.EMAIL_TO) {
+    const transporter = getMailTransporter()
+    if (transporter && process.env.EMAIL_TO) {
       await transporter.sendMail({
         from:    `"Dar Ul Quran Contact" <${process.env.EMAIL_USER}>`,
         to:      process.env.EMAIL_TO,

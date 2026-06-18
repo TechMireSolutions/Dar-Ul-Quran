@@ -40,7 +40,7 @@ export default async function HomePage() {
     ? urlFor(hp.heroImage).width(1200).height(700).format('webp').quality(80).url()
     : null
 
-  const courseItems: CarouselItem[] = courses.map((c: any) => ({
+  const courseItems: CarouselItem[] = (courses ?? []).map((c: any) => ({
     id:          c._id,
     image:       c.featuredImage ? urlFor(c.featuredImage).width(600).height(450).url() : null,
     title:       c.title,
@@ -50,7 +50,7 @@ export default async function HomePage() {
     ctaLabel:    'ابھی داخلہ لیں',
   }))
 
-  const serviceItems: CarouselItem[] = services.map((s: any) => ({
+  const serviceItems: CarouselItem[] = (services ?? []).map((s: any) => ({
     id:          s._id,
     image:       s.icon ? urlFor(s.icon).width(600).height(450).url() : null,
     title:       s.title,

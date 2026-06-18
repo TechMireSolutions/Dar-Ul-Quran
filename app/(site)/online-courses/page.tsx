@@ -16,10 +16,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function CoursesPage() {
-  const [courses, page] = await Promise.all([
+  const [coursesRaw, page] = await Promise.all([
     safeFetch(topLevelCoursesQuery),
     safeFetch(pageBySlugQuery, { slug: 'online-courses' }),
   ])
+  const courses = coursesRaw ?? []
 
   return (
     <div>
