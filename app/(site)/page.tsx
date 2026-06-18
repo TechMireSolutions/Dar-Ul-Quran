@@ -54,6 +54,7 @@ export async function generateMetadata(): Promise<Metadata> {
     path: '/',
     image: ogImage,
     imageAlt: title,
+    settings,
     keywords: [
       'دار القرآن',
       'آن لائن قرآن کورسز',

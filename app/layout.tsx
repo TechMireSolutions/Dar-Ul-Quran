@@ -64,6 +64,17 @@ export async function generateMetadata(): Promise<Metadata> {
         card: 'summary_large_image',
         title: siteName,
         description,
+        ...(ogImageUrl ? { images: [ogImageUrl] } : {}),
+      },
+      appleWebApp: {
+        capable: true,
+        statusBarStyle: 'default',
+        title: siteName,
+      },
+      formatDetection: {
+        telephone: true,
+        email: true,
+        address: false,
       },
     }
   } catch {

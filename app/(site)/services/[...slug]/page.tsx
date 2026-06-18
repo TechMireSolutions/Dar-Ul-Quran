@@ -41,7 +41,10 @@ export async function generateMetadata(
   { params }: { params: Promise<{ slug: string[] }> }
 ): Promise<Metadata> {
   const { slug } = await params
-  const service = await safeFetch(serviceBySlugDeepQuery, { slug: slug[slug.length - 1] })
+  const [service, settings] = await Promise.all([
+    safeFetch(serviceBySlugDeepQuery, { slug: slug[slug.length - 1] }),
+    safeFetch(siteSettingsQuery),
+  ])
   const canonicalPath = `/services/${slug.join('/')}`
   const title = service?.seoTitle || service?.title || 'خدمت'
   const description = service?.seoDescription || service?.excerpt
@@ -57,6 +60,7 @@ export async function generateMetadata(
     path: canonicalPath,
     image,
     imageAlt: title,
+    settings,
   })
 }
 
@@ -93,6 +97,7 @@ export default async function ServiceCatchAllPage(
           isBookable: service.isBookable,
           faqItems: service.faqItems,
           orgName: site?.siteName,
+          breadcrumbLabels: Object.fromEntries(ancestry.map((a) => [a.slug, a.title])),
         }}
       />
 

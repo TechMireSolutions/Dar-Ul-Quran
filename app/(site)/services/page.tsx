@@ -1,19 +1,24 @@
 import type { Metadata } from 'next'
 import { safeFetch } from '@/sanity/lib/client'
 import { urlFor } from '@/sanity/lib/image'
-import { topLevelServicesQuery, pageBySlugQuery } from '@/sanity/lib/queries'
+import { topLevelServicesQuery, pageBySlugQuery, siteSettingsQuery } from '@/sanity/lib/queries'
 import { pageMetadata } from '@/lib/seo'
 import ContentCard from '@/components/ui/ContentCard'
+import ItemListSchema from '@/components/seo/ItemListSchema'
 import Reveal from '@/components/ui/Reveal'
 
 export const revalidate = 300
 
 export async function generateMetadata(): Promise<Metadata> {
-  const page = await safeFetch(pageBySlugQuery, { slug: 'services' })
+  const [page, settings] = await Promise.all([
+    safeFetch(pageBySlugQuery, { slug: 'services' }),
+    safeFetch(siteSettingsQuery),
+  ])
   return pageMetadata({
     title: page?.seoTitle || page?.title || 'خدمات',
     description: page?.seoDescription || page?.subtitle,
     path: '/services',
+    settings,
   })
 }
 
@@ -24,8 +29,15 @@ export default async function ServicesPage() {
   ])
   const services = servicesRaw ?? []
 
+  const listItems = services.map((service: { title: string; slug: { current: string } }) => ({
+    name: service.title,
+    url: `/services/${service.slug.current}`,
+  }))
+
   return (
     <div>
+      <ItemListSchema name="خدمات" path="/services" items={listItems} />
+
       <div className="bg-white border-b border-gray-100">
         <Reveal animation="up" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
           <div>

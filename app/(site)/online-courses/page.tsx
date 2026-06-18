@@ -1,19 +1,24 @@
 import type { Metadata } from 'next'
 import { safeFetch } from '@/sanity/lib/client'
 import { urlFor } from '@/sanity/lib/image'
-import { topLevelCoursesQuery, pageBySlugQuery } from '@/sanity/lib/queries'
+import { topLevelCoursesQuery, pageBySlugQuery, siteSettingsQuery } from '@/sanity/lib/queries'
 import { pageMetadata } from '@/lib/seo'
 import ContentCard from '@/components/ui/ContentCard'
+import ItemListSchema from '@/components/seo/ItemListSchema'
 import Reveal from '@/components/ui/Reveal'
 
 export const revalidate = 300
 
 export async function generateMetadata(): Promise<Metadata> {
-  const page = await safeFetch(pageBySlugQuery, { slug: 'online-courses' })
+  const [page, settings] = await Promise.all([
+    safeFetch(pageBySlugQuery, { slug: 'online-courses' }),
+    safeFetch(siteSettingsQuery),
+  ])
   return pageMetadata({
     title: page?.seoTitle || page?.title || 'آنلائن کورسز',
     description: page?.seoDescription || page?.subtitle || 'اہل علماء سے قرآن، فقہ، اخلاق اور تاریخ سیکھیں۔',
     path: '/online-courses',
+    settings,
     keywords: ['آن لائن قرآن کورسز', 'Online Shia Quran classes', 'دار القرآن'],
   })
 }
@@ -25,8 +30,15 @@ export default async function CoursesPage() {
   ])
   const courses = coursesRaw ?? []
 
+  const listItems = courses.map((course: { title: string; slug: { current: string } }) => ({
+    name: course.title,
+    url: `/online-courses/${course.slug.current}`,
+  }))
+
   return (
     <div>
+      <ItemListSchema name="آن لائن کورسز" path="/online-courses" items={listItems} />
+
       <div className="bg-white border-b border-gray-100">
         <Reveal animation="up" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
           <div>

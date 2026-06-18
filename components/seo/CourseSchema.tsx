@@ -11,20 +11,30 @@ export type CourseSchemaData = {
   instructor?: string
   faqItems?: Array<{ question: string; answer: string }>
   pricingMin?: string
-  slug: string
+  /** Full path segments, e.g. "rozana/nazra-rozana" */
+  slugPath: string
+  /** @deprecated use slugPath — kept for query backward compat */
+  slug?: string
   parentSlug?: string
   outcomes?: Array<{ title: string }>
   orgName?: string
+  /** Optional breadcrumb labels keyed by slug segment */
+  breadcrumbLabels?: Record<string, string>
 }
 
-function buildCourseUrl(data: CourseSchemaData): string {
-  return data.parentSlug
-    ? `${BASE}/online-courses/${data.parentSlug}/${data.slug}`
-    : `${BASE}/online-courses/${data.slug}`
+function resolveSlugPath(data: CourseSchemaData): string {
+  if (data.slugPath) return data.slugPath
+  if (data.parentSlug && data.slug) return `${data.parentSlug}/${data.slug}`
+  return data.slug ?? ''
+}
+
+function buildCourseUrl(slugPath: string): string {
+  return `${BASE}/online-courses/${slugPath}`
 }
 
 function buildSchemas(data: CourseSchemaData): object[] {
-  const courseUrl = buildCourseUrl(data)
+  const slugPath = resolveSlugPath(data)
+  const courseUrl = buildCourseUrl(slugPath)
   const description =
     data.seoDescription ??
     data.excerpt ??
@@ -116,27 +126,24 @@ function buildSchemas(data: CourseSchemaData): object[] {
     })
   }
 
+  const slugParts = slugPath.split('/').filter(Boolean)
   const breadcrumbItems: object[] = [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: BASE },
+    { '@type': 'ListItem', position: 1, name: 'صفحۂ اول', item: BASE },
     {
       '@type': 'ListItem',
       position: 2,
-      name: 'Online Courses',
+      name: 'آن لائن کورسز',
       item: `${BASE}/online-courses`,
     },
   ]
-  if (data.parentSlug) {
+  slugParts.forEach((part, i) => {
+    const isLast = i === slugParts.length - 1
     breadcrumbItems.push({
       '@type': 'ListItem',
-      position: 3,
-      item: `${BASE}/online-courses/${data.parentSlug}`,
+      position: i + 3,
+      name: isLast ? data.title : (data.breadcrumbLabels?.[part] ?? part),
+      item: `${BASE}/online-courses/${slugParts.slice(0, i + 1).join('/')}`,
     })
-  }
-  breadcrumbItems.push({
-    '@type': 'ListItem',
-    position: breadcrumbItems.length + 1,
-    name: data.title,
-    item: courseUrl,
   })
 
   schemas.push({

@@ -10,11 +10,15 @@ import Reveal from '@/components/ui/Reveal'
 export const revalidate = 300
 
 export async function generateMetadata(): Promise<Metadata> {
-  const page = await safeFetch(pageBySlugQuery, { slug: 'about' })
+  const [page, settings] = await Promise.all([
+    safeFetch(pageBySlugQuery, { slug: 'about' }),
+    safeFetch(siteSettingsQuery),
+  ])
   return pageMetadata({
     title: page?.seoTitle || page?.title || 'ہمارے بارے میں',
     description: page?.seoDescription || page?.subtitle,
     path: '/about',
+    settings,
   })
 }
 

@@ -236,15 +236,15 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
       {/* ── Bottom bar ── */}
       <div className="border-t border-dq-950 bg-dq-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <p className="text-[11.5px] text-dq-200">
+          <p className="text-[11.5px] text-gray-300">
             &copy; {new Date().getFullYear()} {siteName}۔ تمام حقوق محفوظ ہیں۔
           </p>
           <div className="flex items-center gap-1 text-dq-400">
-            <Link href="/about"   className="px-3 py-2 text-[12px] text-dq-200 hover:text-white transition-colors">ہمارے بارے میں</Link>
+            <Link href="/about"   className="px-3 py-2 text-[12px] text-gray-300 hover:text-white transition-colors">ہمارے بارے میں</Link>
             <span className="text-dq-400">·</span>
-            <Link href="/contact" className="px-3 py-2 text-[12px] text-dq-200 hover:text-white transition-colors">رابطہ</Link>
+            <Link href="/contact" className="px-3 py-2 text-[12px] text-gray-300 hover:text-white transition-colors">رابطہ</Link>
             <span className="text-dq-400">·</span>
-            <Link href="/donate"  className="px-3 py-2 text-[12px] text-dq-200 hover:text-white transition-colors">عطیہ</Link>
+            <Link href="/donate"  className="px-3 py-2 text-[12px] text-gray-300 hover:text-white transition-colors">عطیہ</Link>
           </div>
         </div>
       </div>

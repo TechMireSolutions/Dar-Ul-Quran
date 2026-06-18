@@ -257,6 +257,7 @@ function MobileNavNode({
       <button
         onClick={() => setOpen(v => !v)}
         aria-expanded={open}
+        aria-label={`${node.label} — ذیلی مینو`}
         style={{ paddingRight: `${12 + indent}px` }}
         className={`w-full flex items-center justify-between gap-2 py-2.5 pl-3 rounded-xl text-[14px] font-medium transition-colors duration-150
           ${isActive || open ? 'bg-dq-50 text-dq-700' : 'text-gray-700 hover:bg-gray-50 hover:text-slate-900'}`}
@@ -396,7 +397,7 @@ export default function Header({
               <button
                 onClick={() => setSearchOpen(true)}
                 aria-label="تلاش کھولیں"
-                className="w-9 h-9 rounded-full border border-dq-700 flex items-center justify-center text-white/60 hover:border-dq-400 hover:text-dq-400 transition-all duration-200"
+                className="w-11 h-11 rounded-full border border-dq-700 flex items-center justify-center text-white/60 hover:border-dq-400 hover:text-dq-400 transition-all duration-200"
               >
                 <Search size={15} strokeWidth={2} />
               </button>

@@ -5,11 +5,14 @@ export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://darulquran.
 
 type SanityImage = Parameters<typeof urlFor>[0]
 
-/** Default Open Graph image from Sanity site settings (logo → favicon). */
-export function defaultOgImage(settings?: {
+export type SiteSettingsOg = {
   logo?: SanityImage
   favicon?: SanityImage
-} | null): string | undefined {
+  siteName?: string
+} | null
+
+/** Default Open Graph image from Sanity site settings (logo → favicon). */
+export function defaultOgImage(settings?: SiteSettingsOg): string | undefined {
   if (settings?.logo) {
     return urlFor(settings.logo).width(1200).height(630).fit('crop').auto('format').url()
   }
@@ -17,6 +20,14 @@ export function defaultOgImage(settings?: {
     return urlFor(settings.favicon).width(1200).height(630).fit('crop').auto('format').url()
   }
   return undefined
+}
+
+/** Resolve page OG image: explicit image → site default. */
+export function resolveOgImage(
+  image?: string | null,
+  settings?: SiteSettingsOg,
+): string | undefined {
+  return image ?? defaultOgImage(settings) ?? undefined
 }
 
 type PageMetadataOptions = {
@@ -27,6 +38,21 @@ type PageMetadataOptions = {
   imageAlt?: string
   type?: 'website' | 'article'
   keywords?: string[]
+  /** Pass site settings to auto-fill OG image when `image` is omitted. */
+  settings?: SiteSettingsOg
+  noIndex?: boolean
+}
+
+const DEFAULT_ROBOTS: Metadata['robots'] = {
+  index: true,
+  follow: true,
+  googleBot: {
+    index: true,
+    follow: true,
+    'max-image-preview': 'large',
+    'max-snippet': -1,
+    'max-video-preview': -1,
+  },
 }
 
 /** Per-page metadata with canonical URL, Open Graph, and Twitter cards. */
@@ -38,30 +64,33 @@ export function pageMetadata({
   imageAlt,
   type = 'website',
   keywords,
+  settings,
+  noIndex = false,
 }: PageMetadataOptions): Metadata {
   const url = path === '/' ? SITE_URL : `${SITE_URL}${path}`
+  const ogImage = resolveOgImage(image, settings)
 
   return {
     title,
     ...(description ? { description } : {}),
     ...(keywords?.length ? { keywords } : {}),
     alternates: { canonical: path },
+    robots: noIndex ? { index: false, follow: false } : DEFAULT_ROBOTS,
     openGraph: {
       type,
       locale: 'ur_PK',
-      alternateLocale: 'en_US',
       url,
       title,
       ...(description ? { description } : {}),
-      ...(image
-        ? { images: [{ url: image, width: 1200, height: 630, alt: imageAlt ?? title }] }
+      ...(ogImage
+        ? { images: [{ url: ogImage, width: 1200, height: 630, alt: imageAlt ?? title }] }
         : {}),
     },
     twitter: {
-      card: image ? 'summary_large_image' : 'summary',
+      card: ogImage ? 'summary_large_image' : 'summary',
       title,
       ...(description ? { description } : {}),
-      ...(image ? { images: [image] } : {}),
+      ...(ogImage ? { images: [ogImage] } : {}),
     },
   }
 }

@@ -106,7 +106,7 @@ export async function generateMetadata(
     robots: {
       index: true,
       follow: true,
-      googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
+      googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1 },
     },
   }
 }
@@ -140,7 +140,15 @@ export default async function CourseCatchAllPage(
     <div>
 
       {/* JSON-LD structured data — hoisted into <head> by Next.js */}
-      {schemaData && <CourseSchema data={schemaData} />}
+      {schemaData && (
+        <CourseSchema
+          data={{
+            ...schemaData,
+            slugPath: slug.join('/'),
+            breadcrumbLabels: Object.fromEntries(ancestry.map((a) => [a.slug, a.title])),
+          }}
+        />
+      )}
 
       {/* ── Breadcrumb ─────────────────────────────────────────────────────── */}
       <div className="bg-white border-b border-gray-100">

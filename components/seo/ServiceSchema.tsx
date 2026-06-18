@@ -11,6 +11,7 @@ export type ServiceSchemaData = {
   isBookable?: boolean
   faqItems?: Array<{ question: string; answer: string }>
   orgName?: string
+  breadcrumbLabels?: Record<string, string>
 }
 
 function buildServiceUrl(slugPath: string): string {
@@ -73,23 +74,19 @@ function buildSchemas(data: ServiceSchemaData): object[] {
     })
   }
 
-  const slugParts = data.slugPath.split('/')
+  const slugParts = data.slugPath.split('/').filter(Boolean)
   const breadcrumbItems: object[] = [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
-    { '@type': 'ListItem', position: 2, name: 'Services', item: `${SITE_URL}/services` },
+    { '@type': 'ListItem', position: 1, name: 'صفحۂ اول', item: SITE_URL },
+    { '@type': 'ListItem', position: 2, name: 'خدمات', item: `${SITE_URL}/services` },
   ]
   slugParts.forEach((part, i) => {
+    const isLast = i === slugParts.length - 1
     breadcrumbItems.push({
       '@type': 'ListItem',
       position: i + 3,
+      name: isLast ? data.title : (data.breadcrumbLabels?.[part] ?? part),
       item: `${SITE_URL}/services/${slugParts.slice(0, i + 1).join('/')}`,
     })
-  })
-  breadcrumbItems.push({
-    '@type': 'ListItem',
-    position: breadcrumbItems.length + 1,
-    name: data.title,
-    item: serviceUrl,
   })
 
   schemas.push({

@@ -353,3 +353,38 @@ a:where([class*="rounded-full"], [class*="rounded-xl"], [class*="rounded-lg"],
 @layer base {
   * { min-width: 0; }
 }
+
+/* ─── Screen-reader only (search labels, etc.) ─── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ─── Respect reduced-motion preference (WCAG 2.2, mobile INP) ─── */
+@media (prefers-reduced-motion: reduce) {
+  .rv-up,
+  .rv-fade,
+  .rv-scale,
+  .rv-left,
+  .rv-right {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { ArrowLeft, CalendarDays, User } from 'lucide-react'
 import { safeFetch } from '@/sanity/lib/client'
 import { urlFor } from '@/sanity/lib/image'
-import { postBySlugQuery, postSlugsQuery } from '@/sanity/lib/queries'
+import { postBySlugQuery, postSlugsQuery, siteSettingsQuery } from '@/sanity/lib/queries'
 import { PortableText } from '@portabletext/react'
 import ArticleSchema from '@/components/seo/ArticleSchema'
 import { pageMetadata } from '@/lib/seo'
@@ -19,7 +19,10 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
-  const post = await safeFetch(postBySlugQuery, { slug })
+  const [post, settings] = await Promise.all([
+    safeFetch(postBySlugQuery, { slug }),
+    safeFetch(siteSettingsQuery),
+  ])
   const title = post?.seoTitle ?? post?.title ?? 'مضمون'
   const description = post?.seoDescription ?? post?.excerpt
   const image = post?.mainImage
@@ -33,17 +36,25 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     image,
     imageAlt: post?.mainImage?.alt ?? title,
     type: 'article',
+    settings,
   })
 }
 
 export default async function ArticleDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const post = await safeFetch(postBySlugQuery, { slug })
+  const [post, settings] = await Promise.all([
+    safeFetch(postBySlugQuery, { slug }),
+    safeFetch(siteSettingsQuery),
+  ])
   if (!post) notFound()
+
+  const publisherLogoUrl = settings?.logo
+    ? urlFor(settings.logo).width(512).height(512).url()
+    : undefined
 
   return (
     <div className="min-h-screen bg-white">
-      <ArticleSchema post={post} slug={slug} />
+      <ArticleSchema post={post} slug={slug} publisherLogoUrl={publisherLogoUrl} />
 
       {/* Back nav */}
       <div className="border-b border-gray-100 bg-white sticky top-[68px] z-10">
