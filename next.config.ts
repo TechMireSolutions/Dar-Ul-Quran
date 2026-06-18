@@ -14,7 +14,8 @@ const nextConfig: NextConfig = {
     ],
   },
   experimental: {
-    optimizeCss: true,
+    // App Router: use inlineCss instead of deprecated optimizeCss (critters/Pages Router only)
+    inlineCss: true,
     optimizePackageImports: ['lucide-react', '@portabletext/react'],
   },
 }

@@ -16,10 +16,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function ArticlesPage() {
-  const [posts, page] = await Promise.all([
+  const [postsRaw, page] = await Promise.all([
     safeFetch(postsQuery),
     safeFetch(pageBySlugQuery, { slug: 'articles' }),
   ])
+  const posts = postsRaw ?? []
 
   return (
     <div>

@@ -14,6 +14,18 @@ interface Props {
 type Purpose = 'general' | 'course' | 'service' | 'other'
 type Status  = 'idle' | 'loading' | 'success' | 'error'
 
+const inputCls = `w-full border border-gray-200 rounded-lg px-3.5 py-2.5 text-[13.5px] text-slate-700
+  placeholder:text-gray-400 bg-white focus:outline-none focus:border-dq-400
+  focus:ring-2 focus:ring-dq-400/20 transition-all`
+
+function FieldLabel({ children, required: req, htmlFor }: { children: React.ReactNode; required?: boolean; htmlFor: string }) {
+  return (
+    <label htmlFor={htmlFor} className="block text-[12px] font-semibold text-slate-700 mb-1.5">
+      {children}{req && <span className="text-red-500 ml-0.5" aria-hidden="true">*</span>}
+    </label>
+  )
+}
+
 function optionLabel(o: Option) {
   return o.parentTitle ? `${o.parentTitle} — ${o.title}` : o.title
 }
@@ -58,16 +70,6 @@ export default function ContactForm({ submitLabel, courses, services }: Props) {
     }
   }
 
-  const inputCls = `w-full border border-gray-200 rounded-lg px-3.5 py-2.5 text-[13.5px] text-slate-700
-    placeholder:text-gray-400 bg-white focus:outline-none focus:border-dq-400
-    focus:ring-2 focus:ring-dq-400/20 transition-all`
-
-  const Label = ({ children, required: req, htmlFor }: { children: React.ReactNode; required?: boolean; htmlFor: string }) => (
-    <label htmlFor={htmlFor} className="block text-[12px] font-semibold text-slate-700 mb-1.5">
-      {children}{req && <span className="text-red-500 ml-0.5" aria-hidden="true">*</span>}
-    </label>
-  )
-
   return (
     <form
       onSubmit={handleSubmit}
@@ -87,18 +89,18 @@ export default function ContactForm({ submitLabel, courses, services }: Props) {
       {/* پہلا نام + آخری نام */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <Label required htmlFor="cf-first-name">پہلا نام</Label>
+          <FieldLabel required htmlFor="cf-first-name">پہلا نام</FieldLabel>
           <input id="cf-first-name" type="text" name="firstName" required placeholder="پہلا نام" className={inputCls} />
         </div>
         <div>
-          <Label htmlFor="cf-last-name">آخری نام</Label>
+          <FieldLabel htmlFor="cf-last-name">آخری نام</FieldLabel>
           <input id="cf-last-name" type="text" name="lastName" placeholder="آخری نام (اختیاری)" className={inputCls} />
         </div>
       </div>
 
       {/* مقصد */}
       <div>
-        <Label required htmlFor="cf-purpose">مقصد</Label>
+        <FieldLabel required htmlFor="cf-purpose">مقصد</FieldLabel>
         <select
           id="cf-purpose"
           value={purpose}
@@ -115,7 +117,7 @@ export default function ContactForm({ submitLabel, courses, services }: Props) {
       {/* کورس dropdown */}
       {purpose === 'course' && courses.length > 0 && (
         <div>
-          <Label required htmlFor="cf-course">کورس منتخب کریں</Label>
+          <FieldLabel required htmlFor="cf-course">کورس منتخب کریں</FieldLabel>
           <select
             id="cf-course"
             required
@@ -134,7 +136,7 @@ export default function ContactForm({ submitLabel, courses, services }: Props) {
       {/* خدمت dropdown */}
       {purpose === 'service' && services.length > 0 && (
         <div>
-          <Label required htmlFor="cf-service">خدمت منتخب کریں</Label>
+          <FieldLabel required htmlFor="cf-service">خدمت منتخب کریں</FieldLabel>
           <select
             id="cf-service"
             required
@@ -153,11 +155,11 @@ export default function ContactForm({ submitLabel, courses, services }: Props) {
       {/* ای میل + فون */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <Label required htmlFor="cf-email">ای میل</Label>
+          <FieldLabel required htmlFor="cf-email">ای میل</FieldLabel>
           <input id="cf-email" type="email" name="email" required placeholder="your@email.com" className={inputCls} />
         </div>
         <div>
-          <Label required htmlFor="cf-phone">فون نمبر</Label>
+          <FieldLabel required htmlFor="cf-phone">فون نمبر</FieldLabel>
           <input id="cf-phone" type="tel" name="phone" required placeholder="+92 300 0000000" className={inputCls} />
         </div>
       </div>
@@ -165,18 +167,18 @@ export default function ContactForm({ submitLabel, courses, services }: Props) {
       {/* ملک + شہر */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <Label required htmlFor="cf-country">ملک</Label>
+          <FieldLabel required htmlFor="cf-country">ملک</FieldLabel>
           <input id="cf-country" type="text" name="country" required placeholder="مثلاً: پاکستان" className={inputCls} />
         </div>
         <div>
-          <Label required htmlFor="cf-city">شہر</Label>
+          <FieldLabel required htmlFor="cf-city">شہر</FieldLabel>
           <input id="cf-city" type="text" name="city" required placeholder="مثلاً: کراچی" className={inputCls} />
         </div>
       </div>
 
       {/* پیغام */}
       <div>
-        <Label required htmlFor="cf-message">پیغام</Label>
+        <FieldLabel required htmlFor="cf-message">پیغام</FieldLabel>
         <textarea
           id="cf-message"
           name="message"

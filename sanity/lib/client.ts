@@ -10,7 +10,7 @@ if (!projectId) {
 export const client = createClient({
   projectId: projectId ?? 'missing',
   dataset,
-  apiVersion: '2024-01-01',
+  apiVersion: '2025-01-01',
   useCdn:     process.env.NODE_ENV === 'production',
 })
 
@@ -27,7 +27,6 @@ export async function safeFetch<T = any>(
   if (!projectId) return null   // skip fetch entirely if not configured
 
   try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return await (client.fetch as any)(query, params ?? {}, {
       next: { revalidate: 300 },
       ...options,
