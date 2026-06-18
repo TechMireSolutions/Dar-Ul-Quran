@@ -1,4 +1,4 @@
-# Example nginx reverse proxy for darulquran.pk → Next.js on port 3001
+# Example nginx reverse proxy for darulquran.pk → Next.js (port from deploy/runtime.cjs, default 3001)
 # Place in /etc/nginx/sites-available/darulquran.pk and symlink to sites-enabled
 
 server {

@@ -60,15 +60,16 @@ jobs:
             pm2 start ecosystem.config.cjs --update-env
             pm2 save
 
+            APP_PORT=$(node -e "console.log(require('./deploy/runtime.cjs').PORT)")
             CHUNK_URL_PATH="/_next/static/chunks/$(basename "$SAMPLE_CHUNK")"
             for i in 1 2 3 4 5 6; do
-              if curl -fsS "http://127.0.0.1:3001/" -o /dev/null \
-                && curl -fsS "http://127.0.0.1:3001${CHUNK_URL_PATH}" -o /dev/null; then
+              if curl -fsS "http://127.0.0.1:${APP_PORT}/" -o /dev/null \
+                && curl -fsS "http://127.0.0.1:${APP_PORT}${CHUNK_URL_PATH}" -o /dev/null; then
                 echo "Health check passed: homepage + ${CHUNK_URL_PATH}"
                 break
               fi
               if [ "$i" -eq 6 ]; then
-                echo "ERROR: App or static chunks not responding on http://127.0.0.1:3001"
+                echo "ERROR: App or static chunks not responding on http://127.0.0.1:${APP_PORT}"
                 pm2 logs darulquran-next --lines 40 --nostream || true
                 exit 1
               fi

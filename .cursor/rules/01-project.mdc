@@ -5,11 +5,14 @@ alwaysApply: true
 
 # Project
 
-Next.js **16** · React **19** · Sanity **v6** · Tailwind **v4** · RTL Urdu · https://darulquran.pk
+Next.js **16** · React **19** · Sanity **v6** · Tailwind **v4** · RTL Urdu
+
+Live: https://darulquran.pk · Dev/production Next.js: **port 3001** (`deploy/runtime.cjs`)
 
 ```bash
-npm run dev      # :3001, /studio
+npm run dev      # :3001, /studio — via scripts/run-next.mjs
 npm run build    # prebuild stubs polyfills
+npm run start    # production server :3001
 npm run lint && npm run check:urdu
 ```
 

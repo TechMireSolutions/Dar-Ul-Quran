@@ -2,7 +2,7 @@
 
 ## Project
 
-Next.js 15 App Router + React 19 + Sanity v6 CMS + Tailwind CSS v4.
+Next.js 16 App Router + React 19 + Sanity v6 CMS + Tailwind CSS v4.
 Islamic educational website, fully RTL (Urdu/Arabic), TypeScript strict mode.
 
 ---
@@ -10,12 +10,13 @@ Islamic educational website, fully RTL (Urdu/Arabic), TypeScript strict mode.
 ## Commands
 
 ```bash
-npm run dev     # Dev server → localhost:3000
+npm run dev     # Dev server → localhost:3001 (see deploy/runtime.cjs)
 npm run build   # Production build
+npm run start   # Production server → 0.0.0.0:3001
 npm run lint    # ESLint check
 ```
 
-Studio: http://localhost:3000/studio
+Studio: http://localhost:3001/studio
 
 ---
 

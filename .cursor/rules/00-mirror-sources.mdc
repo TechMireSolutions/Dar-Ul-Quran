@@ -20,7 +20,7 @@ alwaysApply: true
 - Smallest correct diff; match existing patterns
 - Urdu UI only; `npm run check:urdu` after UI changes
 - Commit/push only when user asks; never commit secrets
-- Deploy: `pm2 stop` before build; never `rm -rf .next` while PM2 serves
+- Deploy: `pm2 stop` before build; never `rm -rf .next` while PM2 serves; production port **3001** (`08-production-port.mdc`)
 
 ## Preflight
 

@@ -3,7 +3,7 @@
 **Rules (primary):** `.cursor/rules/*.mdc` · **Workflows:** `.cursor/skills/`  
 **Content SEO:** `.antigravityrules` · **Urdu allowlist:** `CLAUDE.md` § Urdu
 
-Live: https://darulquran.pk · Dev: `npm run dev` (:3001)
+Live: https://darulquran.pk · Dev/production: `npm run dev` / PM2 on **:3001** (`08-production-port.mdc`)
 
 ## File structure
 
@@ -28,6 +28,7 @@ Live: https://darulquran.pk · Dev: `npm run dev` (:3001)
 | `05` | Content SEO (E-E-A-T) |
 | `06` | Components |
 | `07` | Deploy |
+| `08` | Production port 3001 |
 | `09` | Technical SEO shared |
 | `10` | Technical SEO mobile |
 | `11` | Technical SEO desktop |
