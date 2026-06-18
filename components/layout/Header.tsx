@@ -364,22 +364,29 @@ export default function Header({
   const router = useRouter()
 
   useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 12)
+    let raf = 0
+    const fn = () => {
+      cancelAnimationFrame(raf)
+      raf = requestAnimationFrame(() => setScrolled(window.scrollY > 12))
+    }
     window.addEventListener('scroll', fn, { passive: true })
     fn()
-    return () => window.removeEventListener('scroll', fn)
+    return () => {
+      window.removeEventListener('scroll', fn)
+      cancelAnimationFrame(raf)
+    }
   }, [])
 
   useEffect(() => {
     if (!menuOpen) return
-    const prev = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
+    document.body.classList.add('mobile-menu-open')
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setMenuOpen(false) }
     window.addEventListener('keydown', onKey)
-    closeButtonRef.current?.focus()
+    const focusRaf = requestAnimationFrame(() => closeButtonRef.current?.focus())
     return () => {
-      document.body.style.overflow = prev
+      document.body.classList.remove('mobile-menu-open')
       window.removeEventListener('keydown', onKey)
+      cancelAnimationFrame(focusRaf)
     }
   }, [menuOpen])
 
@@ -410,7 +417,7 @@ export default function Header({
 
   useEffect(() => {
     if (wasMenuOpen.current && !menuOpen) {
-      menuButtonRef.current?.focus()
+      requestAnimationFrame(() => menuButtonRef.current?.focus())
     }
     wasMenuOpen.current = menuOpen
   }, [menuOpen])

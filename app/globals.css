@@ -52,6 +52,10 @@
   outline-offset: 2px;
 }
 
+body.mobile-menu-open {
+  overflow: hidden;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;

@@ -24,6 +24,9 @@ interface CarouselSectionProps {
   bg?:           'white' | 'gray'
 }
 
+// lg card width (316px) + gap-6 (24px) — fixed step avoids layout reads in scrollBy()
+const CARD_SCROLL_STEP = 340
+
 export default function CarouselSection({
   eyebrow,
   title,
@@ -36,35 +39,60 @@ export default function CarouselSection({
   const trackRef = useRef<HTMLDivElement>(null)
   const [canLeft,  setCanLeft]  = useState(false)
   const [canRight, setCanRight] = useState(false)
+  const [active,   setActive]   = useState(false)
   const headingId = useId()
+  const measureRaf = useRef(0)
 
-  const sync = useCallback(() => {
-    requestAnimationFrame(() => {
+  const measure = useCallback(() => {
+    cancelAnimationFrame(measureRaf.current)
+    measureRaf.current = requestAnimationFrame(() => {
       const el = trackRef.current
-      if (!el) return
-      setCanLeft(el.scrollLeft > 4)
-      setCanRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4)
+      if (!el || !el.isConnected) return
+      const left = el.scrollLeft
+      const max = el.scrollWidth - el.clientWidth
+      setCanLeft(left > 4)
+      setCanRight(left < max - 4)
     })
   }, [])
 
   useEffect(() => {
-    sync()
     const el = trackRef.current
     if (!el) return
-    el.addEventListener('scroll', sync, { passive: true })
-    window.addEventListener('resize', sync)
-    return () => {
-      el.removeEventListener('scroll', sync)
-      window.removeEventListener('resize', sync)
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          setActive(true)
+          measure()
+        }
+      },
+      { rootMargin: '120px' },
+    )
+    io.observe(el)
+
+    el.addEventListener('scroll', measure, { passive: true })
+
+    let resizeRaf = 0
+    const onResize = () => {
+      cancelAnimationFrame(resizeRaf)
+      resizeRaf = requestAnimationFrame(measure)
     }
-  }, [sync, items])
+    window.addEventListener('resize', onResize, { passive: true })
+
+    return () => {
+      io.disconnect()
+      el.removeEventListener('scroll', measure)
+      window.removeEventListener('resize', onResize)
+      cancelAnimationFrame(measureRaf.current)
+      cancelAnimationFrame(resizeRaf)
+    }
+  }, [measure, items])
 
   function scrollBy(dir: 'left' | 'right') {
-    const el = trackRef.current
-    if (!el) return
-    const card   = el.querySelector('[data-card]') as HTMLElement | null
-    const amount = (card ? card.offsetWidth + 24 : 320)
-    el.scrollBy({ left: dir === 'left' ? -amount : amount, behavior: 'smooth' })
+    trackRef.current?.scrollBy({
+      left: dir === 'left' ? -CARD_SCROLL_STEP : CARD_SCROLL_STEP,
+      behavior: 'smooth',
+    })
   }
 
   if (!items.length) return null
@@ -89,16 +117,16 @@ export default function CarouselSection({
           </div>
 
           <div className="flex items-center gap-3 flex-shrink-0 sm:ml-6">
-            {/* Prev / Next */}
+            {/* Prev / Next — only wire scroll state once carousel is near viewport */}
             <div className="flex items-center gap-1.5" role="group" aria-label="کاروسل کنٹرول">
               <button
                 onClick={() => scrollBy('left')}
-                disabled={!canLeft}
+                disabled={!active || !canLeft}
                 aria-label="پچھلا"
-                aria-disabled={!canLeft}
+                aria-disabled={!active || !canLeft}
                 className={`w-12 h-12 rounded-full border-2 flex items-center justify-center
                   transition-all duration-200
-                  ${canLeft
+                  ${active && canLeft
                     ? 'border-gray-200 text-gray-500 hover:border-dq-500 hover:text-dq-600 hover:bg-dq-50'
                     : 'border-gray-100 text-gray-300 cursor-not-allowed'}`}
               >
@@ -106,12 +134,12 @@ export default function CarouselSection({
               </button>
               <button
                 onClick={() => scrollBy('right')}
-                disabled={!canRight}
+                disabled={!active || !canRight}
                 aria-label="اگلا"
-                aria-disabled={!canRight}
+                aria-disabled={!active || !canRight}
                 className={`w-12 h-12 rounded-full border-2 flex items-center justify-center
                   transition-all duration-200
-                  ${canRight
+                  ${active && canRight
                     ? 'border-gray-200 text-gray-500 hover:border-dq-500 hover:text-dq-600 hover:bg-dq-50'
                     : 'border-gray-100 text-gray-300 cursor-not-allowed'}`}
               >
@@ -139,13 +167,13 @@ export default function CarouselSection({
           <div
             className={`absolute left-0 top-0 bottom-0 w-10 z-10 pointer-events-none
               bg-gradient-to-r ${bg === 'gray' ? 'from-slate-50' : 'from-white'} to-transparent
-              transition-opacity duration-200 ${canLeft ? 'opacity-100' : 'opacity-0'}`}
+              transition-opacity duration-200 ${active && canLeft ? 'opacity-100' : 'opacity-0'}`}
           />
           {/* Right fade */}
           <div
             className={`absolute right-0 top-0 bottom-0 w-10 z-10 pointer-events-none
               bg-gradient-to-l ${bg === 'gray' ? 'from-slate-50' : 'from-white'} to-transparent
-              transition-opacity duration-200 ${canRight ? 'opacity-100' : 'opacity-0'}`}
+              transition-opacity duration-200 ${active && canRight ? 'opacity-100' : 'opacity-0'}`}
           />
 
           <div
@@ -155,7 +183,7 @@ export default function CarouselSection({
             className="flex gap-6 overflow-x-auto scrollbar-hide pb-2"
             style={{ scrollSnapType: 'x mandatory', WebkitOverflowScrolling: 'touch' }}
           >
-            {items.map((item, i) => (
+            {items.map((item) => (
               <div
                 key={item.id}
                 data-card

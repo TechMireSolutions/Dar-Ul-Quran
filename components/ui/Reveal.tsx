@@ -19,16 +19,18 @@ function getSharedObserver(): IntersectionObserver | null {
   if (!sharedObserver) {
     sharedObserver = new IntersectionObserver(
       (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('rv-visible')
-            const meta = observed.get(entry.target)
-            if (meta?.once) sharedObserver?.unobserve(entry.target)
-          } else {
-            const meta = observed.get(entry.target)
-            if (meta && !meta.once) entry.target.classList.remove('rv-visible')
+        requestAnimationFrame(() => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('rv-visible')
+              const meta = observed.get(entry.target)
+              if (meta?.once) sharedObserver?.unobserve(entry.target)
+            } else {
+              const meta = observed.get(entry.target)
+              if (meta && !meta.once) entry.target.classList.remove('rv-visible')
+            }
           }
-        }
+        })
       },
       { threshold: 0.08, rootMargin: '0px 0px -5% 0px' },
     )
