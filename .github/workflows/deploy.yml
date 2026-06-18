@@ -68,4 +68,6 @@ jobs:
             if [ -d /etc/apache2 ] && command -v apache2ctl >/dev/null 2>&1; then
               echo "Applying Apache security headers..."
               sudo bash deploy/apply-apache-security.sh || echo "WARN: Apache security snippet skipped (check sudo / config)."
+              echo "Enabling HTTP/2 on SSL vhost..."
+              sudo bash deploy/enable-http2.sh || echo "WARN: HTTP/2 enable skipped (check SSL vhost / sudo)."
             fi

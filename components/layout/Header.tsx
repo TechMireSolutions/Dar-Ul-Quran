@@ -171,7 +171,6 @@ function DesktopNavItem({ node }: { node: NavNode }) {
     return (
       <Link
         href={node.href || '#'}
-        role="menuitem"
         target={node.external ? '_blank' : undefined}
         rel={node.external ? 'noopener noreferrer' : undefined}
         {...(node.external ? { 'aria-label': `${node.label} (نئی ونڈو میں کھلتا ہے)` } : {})}
@@ -284,7 +283,6 @@ function MobileNavNode({
     return (
       <Link
         href={node.href || '#'}
-        role="menuitem"
         target={node.external ? '_blank' : undefined}
         rel={node.external ? 'noopener noreferrer' : undefined}
         onClick={onClose}
