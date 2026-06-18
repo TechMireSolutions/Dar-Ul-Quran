@@ -4,7 +4,7 @@ module.exports = {
     {
       name: 'darulquran-next',
       script: 'node_modules/next/dist/bin/next',
-      args: 'start -H 0.0.0.0 -p 3001',
+      args: ['start'],
       cwd: __dirname,
       instances: 1,
       exec_mode: 'fork',
