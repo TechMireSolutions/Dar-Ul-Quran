@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { Mail, Phone, MapPin, MessageCircle, ExternalLink } from 'lucide-react'
+import Reveal from '@/components/ui/Reveal'
 
 function IconFacebook({ size = 12 }: { size?: number }) {
   return (
@@ -17,7 +17,50 @@ function IconYoutube({ size = 12 }: { size?: number }) {
     </svg>
   )
 }
-import Reveal from '@/components/ui/Reveal'
+
+function IconMail({ size = 12, className }: { size?: number; className?: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <rect width="20" height="16" x="2" y="4" rx="2" />
+      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+    </svg>
+  )
+}
+
+function IconPhone({ size = 12, className }: { size?: number; className?: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+    </svg>
+  )
+}
+
+function IconMapPin({ size = 12, className }: { size?: number; className?: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+      <circle cx="12" cy="10" r="3" />
+    </svg>
+  )
+}
+
+function IconMessageCircle({ size = 12, className }: { size?: number; className?: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
+    </svg>
+  )
+}
+
+function IconExternalLink({ size = 9 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M15 3h6v6" />
+      <path d="M10 14 21 3" />
+      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+    </svg>
+  )
+}
 
 interface SiteSettings {
   siteName?: string
@@ -139,7 +182,7 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
                   <Link href={settings.darulQuranUrl} target="_blank" rel="noopener noreferrer"
                     aria-label="دار القرآن (نئی ونڈو میں کھلتا ہے)"
                     className="flex items-center gap-1 text-[11px] font-medium text-gray-300 hover:text-dq-400 bg-dq-800 border border-dq-700 hover:border-dq-400 rounded-lg px-2 py-1 sm:px-2.5 sm:py-1.5 transition-all duration-200">
-                    دار القرآن <ExternalLink size={9} />
+                    دار القرآن <IconExternalLink size={9} />
                   </Link>
                 )}
               </div>
@@ -178,7 +221,7 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
                 <li>
                   <Link href={`mailto:${settings.email}`}
                     className="flex items-center gap-2 text-[12px] sm:text-[12.5px] text-gray-300 hover:text-dq-400 transition-colors duration-150">
-                    <Mail size={12} className="text-dq-400 flex-shrink-0" />
+                    <IconMail size={12} className="text-dq-400 flex-shrink-0" />
                     <span className="truncate">{settings.email}</span>
                   </Link>
                 </li>
@@ -187,7 +230,7 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
                 <li>
                   <Link href={`tel:${settings.phone}`}
                     className="flex items-center gap-2 text-[12px] sm:text-[12.5px] text-gray-300 hover:text-dq-400 transition-colors duration-150">
-                    <Phone size={12} className="text-dq-400 flex-shrink-0" />
+                    <IconPhone size={12} className="text-dq-400 flex-shrink-0" />
                     {settings.phone}
                   </Link>
                 </li>
@@ -197,14 +240,14 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
                   <Link href={`https://wa.me/${settings.whatsapp.replace(/\D/g, '')}`}
                     target="_blank" rel="noopener noreferrer"
                     className="flex items-center gap-2 text-[12px] sm:text-[12.5px] text-gray-300 hover:text-dq-400 transition-colors duration-150">
-                    <MessageCircle size={12} className="text-dq-400 flex-shrink-0" />
+                    <IconMessageCircle size={12} className="text-dq-400 flex-shrink-0" />
                     واٹس ایپ: {settings.whatsapp}
                   </Link>
                 </li>
               )}
               {settings?.address && (
                 <li className="flex items-start gap-2">
-                  <MapPin size={12} className="text-dq-400 flex-shrink-0 mt-0.5" />
+                  <IconMapPin size={12} className="text-dq-400 flex-shrink-0 mt-0.5" />
                   <p className="text-[12px] sm:text-[12.5px] text-gray-300 leading-relaxed whitespace-pre-line">
                     {settings.address}
                   </p>
