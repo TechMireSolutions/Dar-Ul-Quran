@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -18,11 +19,16 @@ jobs:
           script: |
             set -e
             cd /var/www/darulquran_next
+
+            # Discard any manual edits on the server (e.g. npm install changing package files)
             git fetch origin main
             git reset --hard origin/main
+
             export NODE_ENV=production
             if [ -f .env ]; then set -a && . ./.env && set +a; fi
             if [ -f .env.local ]; then set -a && . ./.env.local && set +a; fi
+
+            rm -rf node_modules .next
             npm ci
             npm run build
             pm2 startOrRestart ecosystem.config.cjs --update-env
