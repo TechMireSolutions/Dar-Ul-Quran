@@ -74,14 +74,14 @@ export default async function HomePage() {
     safeFetch(testimonialsQuery),
   ])
 
-  // Desktop hero: capped width for faster load. Mobile skips the image (see HeroSection).
+  // Desktop hero: smaller CDN payload. Mobile skips the image (see HeroSection).
   const heroImageUrl = hp?.heroImage
-    ? urlFor(hp.heroImage).width(1200).height(800).fit('crop').auto('format').quality(80).url()
+    ? urlFor(hp.heroImage).width(900).height(600).fit('crop').auto('format').quality(75).url()
     : null
 
   const courseItems: CarouselItem[] = (courses ?? []).map((c: any) => ({
     id:          c._id,
-    image:       c.featuredImage ? urlFor(c.featuredImage).width(600).height(450).url() : null,
+    image:       c.featuredImage ? urlFor(c.featuredImage).width(480).height(360).auto('format').quality(75).url() : null,
     title:       c.title,
     description: [c.price, c.duration].filter(Boolean).join(' · ') || null,
     href:        `/online-courses/${c.slug.current}`,
@@ -91,7 +91,7 @@ export default async function HomePage() {
 
   const serviceItems: CarouselItem[] = (services ?? []).map((s: any) => ({
     id:          s._id,
-    image:       s.icon ? urlFor(s.icon).width(600).height(450).url() : null,
+    image:       s.icon ? urlFor(s.icon).width(480).height(360).auto('format').quality(75).url() : null,
     title:       s.title,
     description: s.children?.length
       ? s.children.slice(0, 4).map((c: any) => c.title).join(' · ')
@@ -116,7 +116,7 @@ export default async function HomePage() {
       />
 
       {/* ── About Us ── */}
-      <section className="relative py-14 md:py-20 bg-white overflow-hidden border-b border-gray-100">
+      <section className="relative py-14 md:py-20 bg-white overflow-hidden border-b border-gray-100 cv-auto">
         <div
           className="absolute inset-0 opacity-30 pointer-events-none"
           style={{ backgroundImage: 'radial-gradient(circle, #dde5ef 1px, transparent 1px)', backgroundSize: '28px 28px' }}
@@ -245,7 +245,7 @@ export default async function HomePage() {
 
       {/* ── Latest Articles ── */}
       {posts?.length > 0 && (
-        <section className="py-10 md:py-16 border-b border-gray-100 bg-white">
+        <section className="py-10 md:py-16 border-b border-gray-100 bg-white cv-auto">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <Reveal animation="up">
               <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-7 sm:mb-10">
@@ -290,7 +290,7 @@ export default async function HomePage() {
 
       {/* ── Testimonials ── */}
       {testimonials?.length > 0 && (
-      <section className="py-12 md:py-16 bg-slate-50 border-b border-gray-100">
+      <section className="py-12 md:py-16 bg-slate-50 border-b border-gray-100 cv-auto">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Reveal animation="up">
             <div className="text-center mb-10">
@@ -334,7 +334,7 @@ export default async function HomePage() {
       )}
 
       {/* ── Donate CTA ── */}
-      <section className="relative overflow-hidden bg-slate-50 border-y border-slate-200 py-10 sm:py-12">
+      <section className="relative overflow-hidden bg-slate-50 border-y border-slate-200 py-10 sm:py-12 cv-auto">
         <div className="absolute inset-0 opacity-40 pointer-events-none"
           style={{ backgroundImage: 'radial-gradient(circle, #cbd5e1 1px, transparent 1px)', backgroundSize: '24px 24px' }}/>
 

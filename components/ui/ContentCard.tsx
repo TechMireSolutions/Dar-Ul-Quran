@@ -45,6 +45,8 @@ export default function ContentCard({
               alt={title}
               fill
               loading="lazy"
+              decoding="async"
+              quality={75}
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.07]"
             />

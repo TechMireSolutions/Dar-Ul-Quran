@@ -21,8 +21,8 @@ const STATS = [
   { value: '10+',  label: 'علماء',  Icon: GraduationCap },
 ]
 
-function animIn(delay: number): React.CSSProperties {
-  return { animation: `heroFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) ${delay}ms both` }
+function heroDelay(ms: number): React.CSSProperties {
+  return { '--hero-delay': `${ms}ms` } as React.CSSProperties
 }
 
 export default function HeroSection({
@@ -39,7 +39,7 @@ export default function HeroSection({
 
   return (
     <section
-      className="relative w-full overflow-hidden min-h-[480px] md:min-h-[720px]"
+      className="relative w-full overflow-hidden min-h-[400px] md:min-h-[720px]"
       style={{ background: 'linear-gradient(155deg, #fdfbf2 0%, #ffffff 55%, #fdfbf0 100%)' }}
     >
 
@@ -76,7 +76,8 @@ export default function HeroSection({
             fill
             priority
             fetchPriority="high"
-            sizes="58vw"
+            sizes="(max-width: 1024px) 50vw, 58vw"
+            quality={75}
             className="object-cover object-center"
           />
         ) : (
@@ -99,11 +100,11 @@ export default function HeroSection({
 
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 lg:px-14 flex flex-col justify-center
-        min-h-[480px] md:min-h-[720px] py-12 md:py-0">
+        min-h-[400px] md:min-h-[720px] py-10 md:py-0">
         <div className="w-full md:max-w-[500px]">
 
           {/* Enrollment badge */}
-          <div style={animIn(0)} className="mb-5">
+          <div style={heroDelay(0)} className="hero-item mb-5">
             <span
               className="inline-flex items-center gap-2 rounded-full px-4 py-1.5"
               style={{ background: 'rgba(209,250,229,0.7)', border: '1px solid rgba(52,211,153,0.35)' }}
@@ -118,8 +119,8 @@ export default function HeroSection({
           {/* Subtitle */}
           <p
             dir="rtl"
-            style={{ ...animIn(80), color: 'rgba(184,144,14,0.8)', lineHeight: 1.5 }}
-            className="text-[12.5px] font-medium mb-4 tracking-wide"
+            style={{ ...heroDelay(80), color: 'rgba(184,144,14,0.8)', lineHeight: 1.5 }}
+            className="hero-item text-[12.5px] font-medium mb-4 tracking-wide"
           >
             {subtitle}
           </p>
@@ -129,8 +130,9 @@ export default function HeroSection({
             {titleLines.map((line, i) => (
               <span
                 key={i}
+                className="hero-item"
                 style={{
-                  ...animIn(130 + i * 80),
+                  ...heroDelay(130 + i * 80),
                   display: 'block',
                   fontSize: 'clamp(32px, 7.5vw, 68px)',
                   fontWeight: 800,
@@ -154,7 +156,7 @@ export default function HeroSection({
           </h1>
 
           {/* Gold decorative divider */}
-          <div style={animIn(310)} className="flex items-center gap-2 mb-5">
+          <div style={heroDelay(310)} className="hero-item flex items-center gap-2 mb-5">
             <span
               className="h-[2px] w-16 rounded-full flex-shrink-0"
               style={{ background: 'linear-gradient(to right, #d4a820, rgba(212,168,32,0))' }}
@@ -171,14 +173,14 @@ export default function HeroSection({
 
           {/* Description */}
           <p
-            style={{ ...animIn(380), lineHeight: 1.9 }}
-            className="text-[14px] sm:text-[14.5px] text-gray-600 mb-8 max-w-[430px]"
+            style={{ ...heroDelay(380), lineHeight: 1.9 }}
+            className="hero-item text-[14px] sm:text-[14.5px] text-gray-600 mb-8 max-w-[430px]"
           >
             {description}
           </p>
 
           {/* CTAs */}
-          <div style={animIn(460)} className="flex items-center gap-3 flex-wrap">
+          <div style={heroDelay(460)} className="hero-item flex items-center gap-3 flex-wrap">
             <Link
               href={cta1Link}
               className="group inline-flex items-center gap-2 text-white font-bold text-[13.5px] rounded-full transition-all duration-200 hover:-translate-y-0.5"
@@ -214,12 +216,12 @@ export default function HeroSection({
           {/* Stats */}
           <div
             style={{
-              ...animIn(560),
+              ...heroDelay(560),
               borderTop:  '1px solid rgba(212,168,32,0.22)',
               marginTop:  '2.5rem',
               paddingTop: '1.75rem',
             }}
-            className="flex items-center flex-wrap gap-y-4"
+            className="hero-item flex items-center flex-wrap gap-y-4"
           >
             {STATS.map(({ value, label, Icon }, i) => (
               <div key={label} className="flex items-center">

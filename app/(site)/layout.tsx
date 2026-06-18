@@ -1,6 +1,6 @@
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
-import WhatsAppButton from '@/components/ui/WhatsAppButton'
+import WhatsAppButton from '@/components/ui/WhatsAppButtonLazy'
 import { safeFetch } from '@/sanity/lib/client'
 import { siteSettingsQuery, headerNavQuery, footerServicesQuery } from '@/sanity/lib/queries'
 import { urlFor } from '@/sanity/lib/image'

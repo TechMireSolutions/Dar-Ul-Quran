@@ -71,7 +71,7 @@ export default function CarouselSection({
   const bgClass = bg === 'gray' ? 'bg-slate-50' : 'bg-white'
 
   return (
-    <section className={`py-10 md:py-16 border-b border-gray-100 ${bgClass}`}>
+    <section className={`py-10 md:py-16 border-b border-gray-100 ${bgClass} cv-auto`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header row */}

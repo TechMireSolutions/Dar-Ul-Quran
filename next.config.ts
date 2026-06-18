@@ -3,9 +3,14 @@ import type { NextConfig } from 'next'
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   transpilePackages: ['sanity', '@sanity/ui', '@sanity/icons'],
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production' ? { exclude: ['error', 'warn'] } : false,
+  },
   images: {
-    minimumCacheTTL: 60 * 60 * 24 * 7, // 1 week
+    minimumCacheTTL: 60 * 60 * 24 * 30, // 30 days
     formats: ['image/avif', 'image/webp'],
+    deviceSizes: [640, 750, 828, 1080, 1200],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256],
     remotePatterns: [
       {
         protocol: 'https',
@@ -14,9 +19,8 @@ const nextConfig: NextConfig = {
     ],
   },
   experimental: {
-    // App Router: use inlineCss instead of deprecated optimizeCss (critters/Pages Router only)
     inlineCss: true,
-    optimizePackageImports: ['lucide-react', '@portabletext/react'],
+    optimizePackageImports: ['lucide-react', '@portabletext/react', '@sanity/client'],
   },
 }
 
