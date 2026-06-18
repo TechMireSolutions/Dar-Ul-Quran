@@ -18,7 +18,8 @@ jobs:
           script: |
             set -e
             cd /var/www/darulquran_next
-            git pull origin main
+            git fetch origin main
+            git reset --hard origin/main
             export NODE_ENV=production
             if [ -f .env ]; then set -a && . ./.env && set +a; fi
             if [ -f .env.local ]; then set -a && . ./.env.local && set +a; fi
