@@ -47,6 +47,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
 
   return (
     <>
+      <a href="#main-content" className="skip-link">مرکزی مواد پر جائیں</a>
       <Header
         darulQuranUrl={settings?.darulQuranUrl}
         siteName={settings?.siteName}
@@ -54,7 +55,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         navItems={navTree}
         searchPlaceholder={settings?.searchPlaceholder}
       />
-      <main className="min-h-screen">{children}</main>
+      <main id="main-content" className="min-h-screen">{children}</main>
       <Footer
         settings={settings}
         logoUrl={logoUrl}

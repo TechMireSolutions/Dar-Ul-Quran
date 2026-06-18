@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import type { Metadata } from 'next'
 import { ArrowRight } from 'lucide-react'
 import { safeFetch } from '@/sanity/lib/client'
 import { urlFor } from '@/sanity/lib/image'
@@ -8,7 +9,9 @@ import {
   topLevelCoursesQuery,
   homepageSettingsQuery,
   testimonialsQuery,
+  siteSettingsQuery,
 } from '@/sanity/lib/queries'
+import { pageMetadata } from '@/lib/seo'
 import HeroSection from '@/components/sections/HeroSection'
 import type { CarouselItem } from '@/components/sections/CarouselSection'
 import nextDynamic from 'next/dynamic'
@@ -27,6 +30,40 @@ import Reveal from '@/components/ui/Reveal'
 
 export const revalidate = 300
 
+export async function generateMetadata(): Promise<Metadata> {
+  const [settings, hp] = await Promise.all([
+    safeFetch(siteSettingsQuery),
+    safeFetch(homepageSettingsQuery),
+  ])
+
+  const title = settings?.siteName || 'دار القرآن'
+  const description =
+    settings?.description ||
+    hp?.heroSubtitle ||
+    'اسلامی علم، آنلائن کورسز اور خدمات — دنیا بھر میں شیعہ خاندانوں کے لیے مستند تعلیم۔'
+
+  const ogImage = hp?.heroImage
+    ? urlFor(hp.heroImage).width(1200).height(630).fit('crop').auto('format').quality(80).url()
+    : settings?.logo
+      ? urlFor(settings.logo).width(1200).height(630).fit('crop').auto('format').url()
+      : null
+
+  return pageMetadata({
+    title,
+    description,
+    path: '/',
+    image: ogImage,
+    imageAlt: title,
+    keywords: [
+      'دار القرآن',
+      'آن لائن قرآن کورسز',
+      'شیعہ اسلامی تعلیم',
+      'Online Quran classes',
+      'Shia Islamic education',
+    ],
+  })
+}
+
 export default async function HomePage() {
   const [posts, services, courses, hp, testimonials] = await Promise.all([
     safeFetch(featuredPostsQuery),
@@ -36,11 +73,9 @@ export default async function HomePage() {
     safeFetch(testimonialsQuery),
   ])
 
-  // No width/height — let Next.js <Image> generate the responsive srcset and
-  // add fetchpriority=high to the preload link. Sanity CDN caps at 2000px so
-  // we don't need to set an explicit dimension here.
+  // Desktop hero: capped width for faster load. Mobile skips the image (see HeroSection).
   const heroImageUrl = hp?.heroImage
-    ? urlFor(hp.heroImage).quality(80).url()
+    ? urlFor(hp.heroImage).width(1200).height(800).fit('crop').auto('format').quality(80).url()
     : null
 
   const courseItems: CarouselItem[] = (courses ?? []).map((c: any) => ({

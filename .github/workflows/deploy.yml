@@ -3,7 +3,7 @@ name: Deploy Darulquran Website
 on:
   push:
     branches:
-      - main  # Agar aapki branch ka naam main hai toh yahi rehne dein, agar master hai toh master kar dein.
+      - main
 
 jobs:
   deploy:
@@ -16,8 +16,13 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            set -e
             cd /var/www/darulquran_next
             git pull origin main
-            npm install
+            export NODE_ENV=production
+            if [ -f .env ]; then set -a && . ./.env && set +a; fi
+            if [ -f .env.local ]; then set -a && . ./.env.local && set +a; fi
+            npm ci
             npm run build
             pm2 startOrRestart ecosystem.config.cjs --update-env
+            pm2 save

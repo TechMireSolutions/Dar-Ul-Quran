@@ -7,6 +7,8 @@ import { safeFetch } from '@/sanity/lib/client'
 import { urlFor } from '@/sanity/lib/image'
 import { postBySlugQuery, postSlugsQuery } from '@/sanity/lib/queries'
 import { PortableText } from '@portabletext/react'
+import ArticleSchema from '@/components/seo/ArticleSchema'
+import { pageMetadata } from '@/lib/seo'
 
 export const revalidate = 300
 
@@ -18,11 +20,20 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
   const post = await safeFetch(postBySlugQuery, { slug })
-  return {
-    title: post?.seoTitle ?? post?.title ?? 'مضمون',
-    description: post?.seoDescription ?? post?.excerpt,
-    openGraph: post?.mainImage ? { images: [urlFor(post.mainImage).width(1200).height(630).url()] } : undefined,
-  }
+  const title = post?.seoTitle ?? post?.title ?? 'مضمون'
+  const description = post?.seoDescription ?? post?.excerpt
+  const image = post?.mainImage
+    ? urlFor(post.mainImage).width(1200).height(630).fit('crop').auto('format').url()
+    : null
+
+  return pageMetadata({
+    title,
+    description,
+    path: `/articles/${slug}`,
+    image,
+    imageAlt: post?.mainImage?.alt ?? title,
+    type: 'article',
+  })
 }
 
 export default async function ArticleDetailPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -32,6 +43,7 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
 
   return (
     <div className="min-h-screen bg-white">
+      <ArticleSchema post={post} slug={slug} />
 
       {/* Back nav */}
       <div className="border-b border-gray-100 bg-white sticky top-[68px] z-10">

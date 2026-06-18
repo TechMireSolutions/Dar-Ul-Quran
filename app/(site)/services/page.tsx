@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { safeFetch } from '@/sanity/lib/client'
 import { urlFor } from '@/sanity/lib/image'
 import { topLevelServicesQuery, pageBySlugQuery } from '@/sanity/lib/queries'
+import { pageMetadata } from '@/lib/seo'
 import ContentCard from '@/components/ui/ContentCard'
 import Reveal from '@/components/ui/Reveal'
 
@@ -9,10 +10,11 @@ export const revalidate = 300
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await safeFetch(pageBySlugQuery, { slug: 'services' })
-  return {
+  return pageMetadata({
     title: page?.seoTitle || page?.title || 'خدمات',
     description: page?.seoDescription || page?.subtitle,
-  }
+    path: '/services',
+  })
 }
 
 export default async function ServicesPage() {

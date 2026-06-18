@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { safeFetch } from '@/sanity/lib/client'
 import { pageBySlugQuery, siteSettingsQuery } from '@/sanity/lib/queries'
+import { pageMetadata } from '@/lib/seo'
 import { PortableText } from '@portabletext/react'
 import { ArrowRight, BookOpen, Heart, Star } from 'lucide-react'
 import Reveal from '@/components/ui/Reveal'
@@ -10,10 +11,11 @@ export const revalidate = 300
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await safeFetch(pageBySlugQuery, { slug: 'about' })
-  return {
+  return pageMetadata({
     title: page?.seoTitle || page?.title || 'ہمارے بارے میں',
     description: page?.seoDescription || page?.subtitle,
-  }
+    path: '/about',
+  })
 }
 
 export default async function AboutPage() {

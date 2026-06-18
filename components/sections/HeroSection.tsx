@@ -39,7 +39,7 @@ export default function HeroSection({
 
   return (
     <section
-      className="relative w-full overflow-hidden min-h-[600px] md:min-h-[720px]"
+      className="relative w-full overflow-hidden min-h-[480px] md:min-h-[720px]"
       style={{ background: 'linear-gradient(155deg, #fdfbf2 0%, #ffffff 55%, #fdfbf0 100%)' }}
     >
 
@@ -65,9 +65,9 @@ export default function HeroSection({
       <div className="absolute top-0 right-0 pointer-events-none opacity-[0.12]"
         style={{ width: 160, height: 160, borderRadius: '0 0 0 100%', border: '1.5px solid #d4a820', transform: 'translate(22%, -22%)' }} />
 
-      {/* Hero image — left panel in RTL */}
+      {/* Hero image — desktop only (hidden on mobile to improve LCP; image was 88% covered anyway) */}
       <div
-        className="absolute inset-0 md:inset-auto md:right-0 rtl:md:right-auto rtl:md:left-0 md:top-0 md:h-full md:w-[58%] pointer-events-none select-none"
+        className="absolute inset-0 hidden md:block md:inset-auto md:right-0 rtl:md:right-auto rtl:md:left-0 md:top-0 md:h-full md:w-[58%] pointer-events-none select-none"
       >
         {heroImage ? (
           <Image
@@ -76,16 +76,13 @@ export default function HeroSection({
             fill
             priority
             fetchPriority="high"
-            sizes="(max-width: 768px) 100vw, 58vw"
+            sizes="58vw"
             className="object-cover object-center"
           />
         ) : (
           <div className="w-full h-full"
             style={{ background: 'linear-gradient(135deg, #f0d89a 0%, #fdf3d0 60%, #fff 100%)' }} />
         )}
-
-        {/* Mobile overlay */}
-        <div className="absolute inset-0 md:hidden" style={{ background: 'rgba(253,251,242,0.88)' }} />
 
         {/* Desktop RTL: fade right edge (content side) to warm-white */}
         <div
@@ -102,7 +99,7 @@ export default function HeroSection({
 
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 lg:px-14 flex flex-col justify-center
-        min-h-[600px] md:min-h-[720px] py-16 md:py-0">
+        min-h-[480px] md:min-h-[720px] py-12 md:py-0">
         <div className="w-full md:max-w-[500px]">
 
           {/* Enrollment badge */}
@@ -135,7 +132,7 @@ export default function HeroSection({
                 style={{
                   ...animIn(130 + i * 80),
                   display: 'block',
-                  fontSize: 'clamp(38px, 5.8vw, 68px)',
+                  fontSize: 'clamp(32px, 7.5vw, 68px)',
                   fontWeight: 800,
                   letterSpacing: '-0.02em',
                 }}

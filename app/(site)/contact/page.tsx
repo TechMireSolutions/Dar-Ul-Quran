@@ -4,6 +4,7 @@ import { safeFetch } from '@/sanity/lib/client'
 import { siteSettingsQuery, pageBySlugQuery, allCoursesForFormQuery, allServicesForFormQuery } from '@/sanity/lib/queries'
 import { PortableText } from '@portabletext/react'
 import { Mail, Phone, MessageCircle, MapPin, Globe, Play } from 'lucide-react'
+import { pageMetadata } from '@/lib/seo'
 import ContactForm from './ContactForm'
 import Reveal from '@/components/ui/Reveal'
 
@@ -11,10 +12,11 @@ export const revalidate = 300
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await safeFetch(pageBySlugQuery, { slug: 'contact' })
-  return {
+  return pageMetadata({
     title: page?.seoTitle || page?.title || 'رابطہ کریں',
     description: page?.seoDescription || page?.subtitle,
-  }
+    path: '/contact',
+  })
 }
 
 export default async function ContactPage() {

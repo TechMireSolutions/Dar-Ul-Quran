@@ -318,6 +318,18 @@ export default function Header({
     return () => window.removeEventListener('scroll', fn)
   }, [])
 
+  useEffect(() => {
+    if (!menuOpen) return
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setMenuOpen(false) }
+    window.addEventListener('keydown', onKey)
+    return () => {
+      document.body.style.overflow = prev
+      window.removeEventListener('keydown', onKey)
+    }
+  }, [menuOpen])
+
   const navLinks: NavNode[] = navItems?.length
     ? navItems
     : [...FALLBACK_NAV, { label: 'دار القرآن', href: darulQuranUrl || '#', external: true }]
@@ -393,7 +405,7 @@ export default function Header({
 
           {/* Mobile hamburger */}
           <button
-            className="lg:hidden ms-auto w-9 h-9 flex items-center justify-center rounded-full text-white/70 hover:bg-dq-800 transition-colors"
+            className="lg:hidden ms-auto w-11 h-11 flex items-center justify-center rounded-full text-white/70 hover:bg-dq-800 transition-colors"
             onClick={() => setMenuOpen(true)}
             aria-label="مینو کھولیں"
             aria-expanded={menuOpen}
@@ -435,7 +447,7 @@ export default function Header({
           <button
             onClick={() => setMenuOpen(false)}
             aria-label="مینو بند کریں"
-            className="w-8 h-8 flex items-center justify-center rounded-full text-gray-500 hover:bg-gray-100 transition-colors"
+            className="w-11 h-11 flex items-center justify-center rounded-full text-gray-500 hover:bg-gray-100 transition-colors"
           >
             <X size={18} />
           </button>

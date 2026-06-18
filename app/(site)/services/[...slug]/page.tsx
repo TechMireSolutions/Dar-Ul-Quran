@@ -8,6 +8,7 @@ import { urlFor } from '@/sanity/lib/image'
 import { serviceBySlugDeepQuery, siteSettingsQuery, allServicePathsQuery } from '@/sanity/lib/queries'
 import { PortableText } from '@portabletext/react'
 import ContentCard from '@/components/ui/ContentCard'
+import { pageMetadata } from '@/lib/seo'
 
 export const revalidate = 300
 
@@ -40,10 +41,22 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const { slug } = await params
   const service = await safeFetch(serviceBySlugDeepQuery, { slug: slug[slug.length - 1] })
-  return {
-    title:       service?.seoTitle       || service?.title || 'خدمت',
-    description: service?.seoDescription || service?.excerpt,
-  }
+  const canonicalPath = `/services/${slug.join('/')}`
+  const title = service?.seoTitle || service?.title || 'خدمت'
+  const description = service?.seoDescription || service?.excerpt
+  const image = service?.featuredImage
+    ? urlFor(service.featuredImage).width(1200).height(630).fit('crop').auto('format').url()
+    : service?.icon
+      ? urlFor(service.icon).width(1200).height(630).fit('crop').auto('format').url()
+      : null
+
+  return pageMetadata({
+    title,
+    description,
+    path: canonicalPath,
+    image,
+    imageAlt: title,
+  })
 }
 
 export default async function ServiceCatchAllPage(

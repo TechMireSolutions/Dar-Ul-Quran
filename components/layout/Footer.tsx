@@ -125,13 +125,13 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
               <div className="flex items-center gap-2 flex-wrap">
                 {settings?.facebook && (
                   <Link href={settings.facebook} target="_blank" rel="noopener noreferrer" aria-label="فیس بک"
-                    className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-dq-800 border border-dq-700 flex items-center justify-center text-gray-400 hover:border-dq-400 hover:text-dq-400 transition-all duration-200">
-                    <IconFacebook size={12} />
+                    className="w-11 h-11 sm:w-10 sm:h-10 rounded-lg bg-dq-800 border border-dq-700 flex items-center justify-center text-gray-300 hover:border-dq-400 hover:text-dq-300 transition-all duration-200">
+                    <IconFacebook size={14} />
                   </Link>
                 )}
                 {settings?.youtube && (
                   <Link href={settings.youtube} target="_blank" rel="noopener noreferrer" aria-label="یوٹیوب"
-                    className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-dq-800 border border-dq-700 flex items-center justify-center text-gray-400 hover:border-dq-400 hover:text-dq-400 transition-all duration-200">
+                    className="w-11 h-11 sm:w-10 sm:h-10 rounded-lg bg-dq-800 border border-dq-700 flex items-center justify-center text-gray-300 hover:border-dq-400 hover:text-dq-300 transition-all duration-200">
                     <IconYoutube size={12} />
                   </Link>
                 )}
@@ -236,15 +236,15 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
       {/* ── Bottom bar ── */}
       <div className="border-t border-dq-950 bg-dq-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <p className="text-[11.5px] text-dq-300">
+          <p className="text-[11.5px] text-dq-200">
             &copy; {new Date().getFullYear()} {siteName}۔ تمام حقوق محفوظ ہیں۔
           </p>
           <div className="flex items-center gap-1 text-dq-400">
-            <Link href="/about"   className="px-2 text-[11.5px] text-dq-300 hover:text-dq-200 transition-colors">ہمارے بارے میں</Link>
-            <span className="text-dq-300">·</span>
-            <Link href="/contact" className="px-2 text-[11.5px] text-dq-300 hover:text-dq-200 transition-colors">رابطہ</Link>
-            <span className="text-dq-300">·</span>
-            <Link href="/donate"  className="px-2 text-[11.5px] text-dq-300 hover:text-dq-200 transition-colors">عطیہ</Link>
+            <Link href="/about"   className="px-3 py-2 text-[12px] text-dq-200 hover:text-white transition-colors">ہمارے بارے میں</Link>
+            <span className="text-dq-400">·</span>
+            <Link href="/contact" className="px-3 py-2 text-[12px] text-dq-200 hover:text-white transition-colors">رابطہ</Link>
+            <span className="text-dq-400">·</span>
+            <Link href="/donate"  className="px-3 py-2 text-[12px] text-dq-200 hover:text-white transition-colors">عطیہ</Link>
           </div>
         </div>
       </div>

@@ -4,16 +4,18 @@ import { safeFetch } from '@/sanity/lib/client'
 import { siteSettingsQuery, pageBySlugQuery } from '@/sanity/lib/queries'
 import { PortableText } from '@portabletext/react'
 import { ArrowRight } from 'lucide-react'
+import { pageMetadata } from '@/lib/seo'
 import Reveal from '@/components/ui/Reveal'
 
 export const revalidate = 300
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await safeFetch(pageBySlugQuery, { slug: 'donate' })
-  return {
+  return pageMetadata({
     title: page?.seoTitle || page?.title || 'عطیہ',
     description: page?.seoDescription || page?.subtitle,
-  }
+    path: '/donate',
+  })
 }
 
 export default async function DonatePage() {

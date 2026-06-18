@@ -3,6 +3,7 @@ import { Noto_Nastaliq_Urdu } from 'next/font/google'
 import { safeFetch } from '@/sanity/lib/client'
 import { siteSettingsQuery } from '@/sanity/lib/queries'
 import { urlFor } from '@/sanity/lib/image'
+import { SITE_URL } from '@/lib/seo'
 import './globals.css'
 
 const urduFont = Noto_Nastaliq_Urdu({
@@ -27,9 +28,10 @@ const urduFont = Noto_Nastaliq_Urdu({
 })
 
 export const viewport: Viewport = {
-  themeColor: '#ffffff',
+  themeColor: '#b8900e',
   width: 'device-width',
   initialScale: 1,
+  viewportFit: 'cover',
 }
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -47,7 +49,6 @@ export async function generateMetadata(): Promise<Metadata> {
       description,
       icons:       faviconUrl ? { icon: faviconUrl, apple: faviconUrl } : undefined,
       verification: { google: 'HlwG4YjRAkH3E4L7nQg1wNUk4Qy8b8LCSd9ccfxgZto' },
-      alternates: { canonical: '/' },
       openGraph: {
         title: siteName,
         description,
@@ -68,7 +69,6 @@ export async function generateMetadata(): Promise<Metadata> {
       title:       { default: 'دار القرآن', template: '%s | دار القرآن' },
       description: 'اسلامی علم، آنلائن کورسز اور خدمات',
       verification: { google: 'HlwG4YjRAkH3E4L7nQg1wNUk4Qy8b8LCSd9ccfxgZto' },
-      alternates: { canonical: '/' },
       openGraph: {
         title: 'دار القرآن',
         description: 'اسلامی علم، آنلائن کورسز اور خدمات',
@@ -87,13 +87,32 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const orgSchema = {
+  const structuredData = {
     '@context': 'https://schema.org',
-    '@type': 'EducationalOrganization',
-    name: 'Dar-Ul-Quran',
-    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://darulquran.pk',
-    logo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://darulquran.pk'}/favicon.ico`,
-    description: 'اسلامی علم، آنلائن کورسز اور خدمات',
+    '@graph': [
+      {
+        '@type': 'EducationalOrganization',
+        '@id': `${SITE_URL}#organization`,
+        name: 'Dar Ul Quran',
+        url: SITE_URL,
+        logo: `${SITE_URL}/favicon.ico`,
+        description: 'اسلامی علم، آنلائن کورسز اور خدمات',
+        inLanguage: 'ur',
+      },
+      {
+        '@type': 'WebSite',
+        '@id': `${SITE_URL}#website`,
+        name: 'Dar Ul Quran',
+        url: SITE_URL,
+        inLanguage: 'ur',
+        publisher: { '@id': `${SITE_URL}#organization` },
+        potentialAction: {
+          '@type': 'SearchAction',
+          target: `${SITE_URL}/articles?q={search_term_string}`,
+          'query-input': 'required name=search_term_string',
+        },
+      },
+    ],
   }
 
   return (
@@ -101,10 +120,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <link rel="preconnect" href="https://cdn.sanity.io" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://cdn.sanity.io" />
-        <meta name="google-site-verification" content="HlwG4YjRAkH3E4L7nQg1wNUk4Qy8b8LCSd9ccfxgZto" />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
       </head>
       <body className="font-sans antialiased" suppressHydrationWarning>
