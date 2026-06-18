@@ -238,7 +238,7 @@ export default function CourseLeafPage({
             <section className="bg-slate-50 py-16 sm:py-20">
               <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-12">
-                  <p className="text-[10.5px] font-bold uppercase tracking-[0.18em] text-dq-600 mb-2">
+                  <p className="text-[10.5px] font-bold uppercase tracking-[0.18em] text-dq-700 mb-2">
                     پلانز
                   </p>
                   <h2 className="font-bold text-[24px] sm:text-[32px] text-slate-900 tracking-[-0.02em]">

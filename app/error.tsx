@@ -16,7 +16,7 @@ export default function Error({
 
   return (
     <div className="min-h-[60vh] flex flex-col items-center justify-center px-4 text-center">
-      <p className="text-[10.5px] font-bold uppercase tracking-[0.18em] text-dq-600 mb-3">خرابی</p>
+      <p className="text-[10.5px] font-bold uppercase tracking-[0.18em] text-dq-700 mb-3">خرابی</p>
       <h1 className="font-bold text-[26px] sm:text-[32px] text-slate-900 mb-3">کچھ غلط ہو گیا</h1>
       <p className="text-[14px] text-gray-500 mb-8 max-w-md">
         صفحہ لوڈ نہیں ہو سکا۔ براہِ کرم دوبارہ کوشش کریں یا صفحۂ اول پر واپس جائیں۔

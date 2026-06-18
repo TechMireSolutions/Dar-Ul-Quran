@@ -76,7 +76,7 @@ export default function ContentCard({
         )}
 
         <h3 className="font-semibold text-slate-900 text-[15px] leading-snug mb-2 line-clamp-2">
-          <Link href={href} className="hover:text-dq-600 transition-colors duration-150">
+          <Link href={href} className="hover:text-dq-700 transition-colors duration-150">
             {title}
           </Link>
         </h3>
@@ -90,7 +90,7 @@ export default function ContentCard({
         {/* CTA */}
         <Link
           href={href}
-          className="mt-auto inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-dq-600
+          className="mt-auto inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-dq-700
             py-2 transition-all duration-200 group/cta
             relative after:absolute after:bottom-0 after:right-0 after:h-px after:w-0
             after:bg-dq-400 after:transition-all after:duration-300 hover:after:w-full"

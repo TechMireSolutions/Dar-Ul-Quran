@@ -141,7 +141,7 @@ export default async function HomePage() {
             {/* Text */}
             <Reveal animation="up">
               <div>
-                <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-dq-600 mb-3">
+                <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-dq-700 mb-3">
                   <span className="w-6 h-px bg-dq-400 inline-block" />
                   {hp?.aboutEyebrow || 'ہم کون ہیں'}
                 </p>
@@ -264,7 +264,7 @@ export default async function HomePage() {
             <Reveal animation="up">
               <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-7 sm:mb-10">
                 <div>
-                  <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-dq-600 mb-2">
+                  <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-dq-700 mb-2">
                     <span className="w-6 h-px bg-dq-400 inline-block" />
                     علم
                   </p>
@@ -277,7 +277,7 @@ export default async function HomePage() {
                 </div>
                 <Link
                   href="/articles"
-                  className="group inline-flex items-center gap-1.5 text-[13px] font-semibold text-dq-600 hover:text-dq-700 transition-colors flex-shrink-0 sm:ml-6 py-2"
+                  className="group inline-flex items-center gap-1.5 text-[13px] font-semibold text-dq-700 hover:text-dq-800 transition-colors flex-shrink-0 sm:ml-6 py-2"
                 >
                   سب دیکھیں
                   <ArrowRight size={13} strokeWidth={2.5} className="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform duration-150" />
@@ -308,7 +308,7 @@ export default async function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Reveal animation="up">
             <div className="text-center mb-10">
-              <p className="flex items-center justify-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-dq-600 mb-3">
+              <p className="flex items-center justify-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-dq-700 mb-3">
                 <span className="w-6 h-px bg-dq-400 inline-block" />
                 {hp?.testimonialsEyebrow || 'برادری'}
                 <span className="w-6 h-px bg-dq-400 inline-block" />

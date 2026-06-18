@@ -37,7 +37,7 @@ export default async function DonatePage() {
       <WebPageSchema title={pageTitle} description={pageDescription} path="/donate" />
       <PageHeroHeader
         topContent={
-          <p className="text-[20px] sm:text-[22px] text-dq-600 mb-3 leading-none">
+          <p className="text-[20px] sm:text-[22px] text-dq-700 mb-3 leading-none">
             {settings?.donateArabicVerse || 'بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ'}
           </p>
         }
@@ -64,7 +64,7 @@ export default async function DonatePage() {
               <Reveal key={i} animation="up" delay={i * 80}>
                 <div className="bg-white border border-gray-100 rounded-xl p-4 sm:p-5 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 h-full">
                   <div className="w-9 h-9 bg-dq-50 border border-dq-100 rounded-xl flex items-center justify-center mb-3">
-                    <span className="text-dq-600 font-bold text-[16px] leading-none">{i + 1}</span>
+                    <span className="text-dq-700 font-bold text-[16px] leading-none">{i + 1}</span>
                   </div>
                   <h3 className="font-semibold text-slate-900 text-[14px] mb-1">{title}</h3>
                   <p className="text-[13px] text-gray-500 leading-relaxed">{desc}</p>

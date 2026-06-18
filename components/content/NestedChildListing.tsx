@@ -39,7 +39,7 @@ export default function NestedChildListing({
 }: NestedChildListingProps) {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-      <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-dq-600 mb-3">
+      <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-dq-700 mb-3">
         <span className="w-5 h-px bg-dq-400 inline-block" />
         {eyebrow}
       </p>

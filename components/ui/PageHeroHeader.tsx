@@ -38,7 +38,7 @@ export default function PageHeroHeader({
         <div>
           {topContent}
           <p
-            className={`flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-dq-600 mb-3 ${
+            className={`flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-dq-700 mb-3 ${
               align === 'center' ? 'justify-center' : ''
             }`}
           >

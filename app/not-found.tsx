@@ -12,7 +12,7 @@ export const metadata: Metadata = pageMetadata({
 export default function NotFound() {
   return (
     <div className="min-h-[60vh] flex flex-col items-center justify-center px-4 text-center">
-      <p className="text-[10.5px] font-bold uppercase tracking-[0.18em] text-dq-600 mb-3">۴۰۴</p>
+      <p className="text-[10.5px] font-bold uppercase tracking-[0.18em] text-dq-700 mb-3">۴۰۴</p>
       <h1 className="font-bold text-[26px] sm:text-[32px] text-slate-900 mb-3">صفحہ نہیں ملا</h1>
       <p className="text-[14px] text-gray-500 mb-8 max-w-md">
         جس صفحے کی آپ تلاش کر رہے ہیں وہ موجود نہیں ہے یا منتقل ہو چکا ہے۔

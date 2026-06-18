@@ -39,7 +39,7 @@ export default function TopicClusterRelated({
 
   return (
     <aside className="mt-12 pt-8 border-t border-gray-100">
-      <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-dq-600 mb-3">
+      <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-dq-700 mb-3">
         <span className="w-5 h-px bg-dq-400 inline-block" />
         {clusterName || pillarKeyword || 'متعلقہ موضوعات'}
       </p>
@@ -53,7 +53,7 @@ export default function TopicClusterRelated({
           <ArrowRight
             size={14}
             strokeWidth={2.5}
-            className="shrink-0 text-dq-600 rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform"
+            className="shrink-0 text-dq-700 rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform"
           />
         </Link>
       )}
