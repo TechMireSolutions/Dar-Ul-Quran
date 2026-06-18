@@ -1,6 +1,7 @@
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import WhatsAppButton from '@/components/ui/WhatsAppButtonLazy'
+import DeferredUrduFont from '@/components/ui/DeferredUrduFont'
 import { safeFetch } from '@/sanity/lib/client'
 import { siteSettingsQuery, headerNavQuery, footerServicesQuery } from '@/sanity/lib/queries'
 import { urlFor } from '@/sanity/lib/image'
@@ -63,6 +64,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         footerServices={footerServices}
       />
       {settings?.whatsapp && <WhatsAppButton number={settings.whatsapp} />}
+      <DeferredUrduFont />
     </>
   )
 }

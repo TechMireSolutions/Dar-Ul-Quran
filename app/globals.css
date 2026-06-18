@@ -55,16 +55,14 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    font-family: var(--font-urdu, 'Noto Nastaliq Urdu'), 'Noto Nastaliq Urdu',
-                 'Jameel Noori Nastaleeq', system-ui, sans-serif;
+    font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', 'Geeza Pro', system-ui, serif;
     text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
   }
 
   body {
     @apply text-slate-900 bg-white;
-    font-family: var(--font-urdu, 'Noto Nastaliq Urdu'), 'Noto Nastaliq Urdu',
-                 'Jameel Noori Nastaleeq', system-ui, sans-serif;
+    font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', 'Geeza Pro', system-ui, serif;
     font-size: 16px;
     line-height: 1.85;
     font-weight: 400;

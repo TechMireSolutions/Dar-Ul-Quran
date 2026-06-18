@@ -445,7 +445,7 @@ export default function Header({
           <Link href="/" aria-label={siteName} className="flex-shrink-0 flex items-center gap-3 group">
             <div className="w-[42px] h-[42px] rounded-full overflow-hidden border-2 border-dq-400 flex-shrink-0 transition-transform duration-200 group-hover:scale-105">
               {logoUrl
-                ? <Image src={logoUrl} alt="" width={42} height={42} sizes="42px" priority className="object-cover w-full h-full" />
+                ? <Image src={logoUrl} alt="" width={42} height={42} sizes="42px" className="object-cover w-full h-full" />
                 : <div className="w-full h-full bg-gradient-to-br from-dq-100 to-dq-200 flex items-center justify-center text-lg select-none" aria-hidden="true">⛵</div>}
             </div>
             <span className="font-bold text-[17px] text-white tracking-[-0.02em] hidden md:block">{siteName}</span>

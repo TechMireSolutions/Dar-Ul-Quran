@@ -1,31 +1,9 @@
 import type { Metadata, Viewport } from 'next'
-import { Noto_Nastaliq_Urdu } from 'next/font/google'
 import { safeFetch } from '@/sanity/lib/client'
 import { siteSettingsQuery } from '@/sanity/lib/queries'
 import { urlFor } from '@/sanity/lib/image'
 import { SITE_URL, defaultOgImage } from '@/lib/seo'
 import './globals.css'
-
-const urduFont = Noto_Nastaliq_Urdu({
-  subsets:   ['arabic'],
-  weight:    ['400', '700'],
-  variable:  '--font-urdu',
-  // 'optional' never causes CLS — font only shows if loaded within ~100ms.
-  // 'preload: false' removes the <link rel="preload"> that competed with the
-  // LCP hero image for bandwidth (Lighthouse reported 125ms waste from this).
-  // The font will be downloaded lazily and used once cached on the next visit.
-  display:   'optional',
-  preload:   false,
-  // Automatic fallback metric adjustment targets cap-height, but Nastaliq's
-  // CLS source is ascent/descent — disable it and handle via globals.css.
-  adjustFontFallback: false,
-  fallback: [
-    'Noto Nastaliq Urdu',      // Android system font — zero network cost
-    'Jameel Noori Nastaleeq',  // Windows Urdu font
-    'Geeza Pro',               // iOS / macOS Arabic fallback
-    'serif',
-  ],
-})
 
 export const viewport: Viewport = {
   themeColor: '#b8900e',
@@ -143,10 +121,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   }
 
   return (
-    <html lang="ur" dir="rtl" className={urduFont.variable} data-scroll-behavior="smooth">
+    <html lang="ur" dir="rtl" data-scroll-behavior="smooth">
       <head>
         <link rel="preconnect" href="https://cdn.sanity.io" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://cdn.sanity.io" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}

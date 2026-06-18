@@ -4,10 +4,10 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans:    ['var(--font-urdu,system-ui)', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
-        display: ['var(--font-urdu,system-ui)', 'system-ui', 'sans-serif'],
+        sans:    ['Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', 'Geeza Pro', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+        display: ['Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', 'system-ui', 'sans-serif'],
         // Explicit urdu class for components that need to override font-sans
-        urdu:    ['var(--font-urdu)', 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', 'Geeza Pro', 'serif'],
+        urdu:    ['Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', 'Geeza Pro', 'serif'],
       },
 
       fontSize: {

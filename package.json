@@ -39,11 +39,10 @@
     "typescript": "^6.0.3"
   },
   "browserslist": [
-    "chrome >= 93",
-    "edge >= 93",
-    "firefox >= 92",
-    "safari >= 15.4",
-    "ios_saf >= 15.4",
-    "opera >= 79"
+    "chrome >= 111",
+    "edge >= 111",
+    "firefox >= 111",
+    "safari >= 16.4",
+    "ios_saf >= 16.4"
   ]
 }

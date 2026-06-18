@@ -13,6 +13,7 @@ import {
 } from '@/sanity/lib/queries'
 import { pageMetadata } from '@/lib/seo'
 import WebPageSchema from '@/components/seo/WebPageSchema'
+import LcpImagePreload from '@/components/seo/LcpImagePreload'
 import HeroSection from '@/components/sections/HeroSection'
 import type { CarouselItem } from '@/components/sections/CarouselSection'
 import nextDynamic from 'next/dynamic'
@@ -82,9 +83,9 @@ export default async function HomePage() {
     hp?.heroSubtitle ||
     'اسلامی علم، آنلائن کورسز اور خدمات — دنیا بھر میں شیعہ خاندانوں کے لیے مستند تعلیم۔'
 
-  // Desktop hero: smaller CDN payload. Mobile skips the image (see HeroSection).
+  // Direct Sanity CDN URL — preloaded in <head>, rendered via native <img> (no optimizer hop).
   const heroImageUrl = hp?.heroImage
-    ? urlFor(hp.heroImage).width(900).height(600).fit('crop').auto('format').quality(75).url()
+    ? urlFor(hp.heroImage).width(828).height(552).fit('crop').auto('format').quality(70).url()
     : null
   const heroImageBlur = hp?.heroImageLqip ?? undefined
 
@@ -112,6 +113,7 @@ export default async function HomePage() {
 
   return (
     <>
+      {heroImageUrl && <LcpImagePreload href={heroImageUrl} />}
       <WebPageSchema title={homeTitle} description={homeDescription} path="/" />
 
       {/* ── Hero ── */}

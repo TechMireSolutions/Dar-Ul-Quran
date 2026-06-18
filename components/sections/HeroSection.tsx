@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight, Users, BookOpen, GraduationCap } from 'lucide-react'
 
@@ -73,17 +72,17 @@ export default function HeroSection({
         className="absolute inset-0 hidden md:block md:inset-auto md:right-0 rtl:md:right-auto rtl:md:left-0 md:top-0 md:h-full md:w-[58%] pointer-events-none select-none"
       >
         {heroImage ? (
-          <Image
+          // Native img + direct CDN URL — avoids /_next/image optimizer hop for LCP.
+          // eslint-disable-next-line @next/next/no-img-element -- intentional LCP optimization
+          <img
             src={heroImage}
             alt={title ? `دار القرآن - ${title.replace(/\n/g, ' ')}` : 'دار القرآن - اسلامی علم اور کورسز'}
-            fill
-            priority
             fetchPriority="high"
-            sizes="(max-width: 1024px) 50vw, 58vw"
-            quality={75}
-            placeholder={heroImageBlur ? 'blur' : 'empty'}
-            blurDataURL={heroImageBlur}
-            className="object-cover object-center"
+            decoding="async"
+            width={828}
+            height={552}
+            className="absolute inset-0 w-full h-full object-cover object-center"
+            style={heroImageBlur ? { backgroundImage: `url(${heroImageBlur})`, backgroundSize: 'cover' } : undefined}
           />
         ) : (
           <div className="w-full h-full"
