@@ -19,7 +19,7 @@ jobs:
           command_timeout: 30m
           script: |
             set -e
-            echo "=== Dar Ul Quran deploy script v6 $(date -u +%Y-%m-%dT%H:%M:%SZ) ==="
+            echo "=== Dar Ul Quran deploy script v7 $(date -u +%Y-%m-%dT%H:%M:%SZ) ==="
             cd /var/www/darulquran_next
 
             git checkout -- . 2>/dev/null || true
@@ -37,7 +37,10 @@ jobs:
             fi
             echo "Node: $(node -v)"
 
-            rm -rf node_modules .next
+            # Stop app BEFORE touching .next — prevents 500s on /_next/static/chunks during rebuild.
+            pm2 stop darulquran-next 2>/dev/null || true
+
+            rm -rf node_modules
             npm ci --include=dev
             npm run build
 
@@ -46,28 +49,38 @@ jobs:
               exit 1
             fi
 
+            SAMPLE_CHUNK=$(find .next/static/chunks -maxdepth 1 -name '*.js' -type f | head -1)
+            if [ -z "$SAMPLE_CHUNK" ]; then
+              echo "ERROR: No JS chunks in .next/static/chunks"
+              exit 1
+            fi
+            echo "Build chunks OK: $(basename "$SAMPLE_CHUNK")"
+
             pm2 delete darulquran-next 2>/dev/null || true
             pm2 start ecosystem.config.cjs --update-env
             pm2 save
 
+            CHUNK_URL_PATH="/_next/static/chunks/$(basename "$SAMPLE_CHUNK")"
             for i in 1 2 3 4 5 6; do
-              if curl -fsS http://127.0.0.1:3001/ -o /dev/null; then
-                echo "Health check passed: http://127.0.0.1:3001"
+              if curl -fsS "http://127.0.0.1:3001/" -o /dev/null \
+                && curl -fsS "http://127.0.0.1:3001${CHUNK_URL_PATH}" -o /dev/null; then
+                echo "Health check passed: homepage + ${CHUNK_URL_PATH}"
                 break
               fi
               if [ "$i" -eq 6 ]; then
-                echo "ERROR: App not responding on http://127.0.0.1:3001"
+                echo "ERROR: App or static chunks not responding on http://127.0.0.1:3001"
                 pm2 logs darulquran-next --lines 40 --nostream || true
                 exit 1
               fi
               echo "Waiting for app to start (attempt $i/6)..."
               sleep 5
             done
-            echo "If public site returns 503, update Apache proxy to port 3001 (see deploy/apache.conf.example)"
 
             if [ -d /etc/apache2 ] && command -v apache2ctl >/dev/null 2>&1; then
               echo "Applying Apache security headers..."
-              sudo bash deploy/apply-apache-security.sh || echo "WARN: Apache security snippet skipped (check sudo / config)."
+              sudo bash deploy/apply-apache-security.sh || echo "WARN: Apache security snippet skipped."
+              echo "Configuring Apache static asset serving..."
+              sudo bash deploy/apply-apache-static.sh || echo "WARN: Apache static config skipped."
               echo "Enabling HTTP/2 on SSL vhost..."
-              sudo bash deploy/enable-http2.sh || echo "WARN: HTTP/2 enable skipped (check SSL vhost / sudo)."
+              sudo bash deploy/enable-http2.sh || echo "WARN: HTTP/2 enable skipped."
             fi
