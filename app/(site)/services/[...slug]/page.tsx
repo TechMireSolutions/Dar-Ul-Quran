@@ -5,11 +5,13 @@ import Image from 'next/image'
 import { ArrowRight, MessageCircle, Plus, Check } from 'lucide-react'
 import { safeFetch } from '@/sanity/lib/client'
 import { urlFor } from '@/sanity/lib/image'
-import { serviceBySlugDeepQuery, siteSettingsQuery, allServicePathsQuery } from '@/sanity/lib/queries'
+import { serviceBySlugDeepQuery, siteSettingsQuery, allServicePathsQuery, topicClusterForServiceQuery } from '@/sanity/lib/queries'
 import { PortableText } from '@portabletext/react'
 import ContentCard from '@/components/ui/ContentCard'
 import ServiceSchema from '@/components/seo/ServiceSchema'
 import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
+import TopicClusterRelated from '@/components/content/TopicClusterRelated'
+import { mergeFaqItems } from '@/lib/topicCluster'
 import { pageMetadata } from '@/lib/seo'
 
 export const revalidate = 300
@@ -71,11 +73,13 @@ export default async function ServiceCatchAllPage(
   const { slug } = await params
   const currentSlug = slug[slug.length - 1]
 
-  const [service, site] = await Promise.all([
-    safeFetch(serviceBySlugDeepQuery, { slug: currentSlug }),
-    safeFetch(siteSettingsQuery),
-  ])
+  const service = await safeFetch(serviceBySlugDeepQuery, { slug: currentSlug })
   if (!service) notFound()
+
+  const [site, cluster] = await Promise.all([
+    safeFetch(siteSettingsQuery),
+    safeFetch(topicClusterForServiceQuery, { serviceId: service._id }),
+  ])
 
   const hasChildren   = service.children?.length > 0
   const ancestry      = getAncestry(service)
@@ -96,7 +100,7 @@ export default async function ServiceCatchAllPage(
           slugPath: slug.join('/'),
           price: service.price,
           isBookable: service.isBookable,
-          faqItems: service.faqItems,
+          faqItems: mergeFaqItems(service.faqItems, cluster?.faqItems),
           orgName: site?.siteName,
           breadcrumbLabels: Object.fromEntries(ancestry.map((a) => [a.slug, a.title])),
         }}
@@ -347,6 +351,18 @@ export default async function ServiceCatchAllPage(
                     </details>
                   ))}
                 </div>
+              </div>
+            </section>
+          )}
+
+          {cluster && (
+            <section className="bg-white pb-12 sm:pb-16">
+              <div className="max-w-3xl mx-auto px-4 sm:px-6">
+                <TopicClusterRelated
+                  clusterName={cluster.clusterName}
+                  pillarKeyword={cluster.pillarKeyword}
+                  relatedArticles={cluster.relatedArticles}
+                />
               </div>
             </section>
           )}

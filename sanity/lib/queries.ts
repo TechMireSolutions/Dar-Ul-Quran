@@ -236,3 +236,110 @@ export const courseSchemaQuery = `
     "orgName": *[_type == "siteSettings"][0].siteName
   }
 `
+
+// ─── Sitemap / LLM feeds ─────────────────────────────────────────────────────
+
+export const sitemapQuery = `{
+  "courses": *[_type == "course"] | order(order asc) {
+    "slug": slug.current,
+    "parentSlug": parent->slug.current,
+    "grandparentSlug": parent->parent->slug.current,
+    _updatedAt,
+    "hasChildren": count(*[_type == "course" && parent._ref == ^._id]) > 0
+  },
+  "articles": *[_type == "post"] | order(publishedAt desc) {
+    "slug": slug.current,
+    _updatedAt
+  },
+  "services": *[_type == "service"] | order(order asc) {
+    "slug": slug.current,
+    "parentSlug": parent->slug.current,
+    _updatedAt,
+    "hasChildren": count(*[_type == "service" && parent._ref == ^._id]) > 0
+  }
+}`
+
+export const llmFeedQuery = `{
+  "settings": *[_type == "siteSettings"][0] {
+    siteName, description, whatsapp, email
+  },
+  "courses": *[_type == "course" && !defined(parent)] | order(order asc) {
+    title,
+    "slug": slug.current,
+    subject,
+    duration,
+    seoDescription,
+    "children": *[_type == "course" && parent._ref == ^._id] | order(order asc) {
+      title,
+      "slug": slug.current,
+      subject,
+      seoDescription,
+      "grandchildren": *[_type == "course" && parent._ref == ^._id] | order(order asc) {
+        title,
+        "slug": slug.current,
+        seoDescription
+      }
+    }
+  },
+  "articles": *[_type == "post"] | order(publishedAt desc) [0..14] {
+    title,
+    "slug": slug.current,
+    excerpt,
+    "categories": categories[]->{ title }
+  },
+  "testimonials": *[_type == "testimonial"] | order(order asc) [0..4] {
+    name, quote
+  }
+}`
+
+// ─── Topic clusters (SEO pillar strategy) ────────────────────────────────────
+
+export const topicClusterForPostQuery = `
+  *[_type == "topicCluster" && $postId in supportingArticles[]._ref][0] {
+    clusterName,
+    pillarKeyword,
+    "pillarPage": pillarPage->{
+      _type,
+      title,
+      "slug": slug.current,
+      "parentSlug": parent->slug.current,
+      "grandparentSlug": parent->parent->slug.current
+    },
+    "relatedArticles": supportingArticles[]->{
+      _id,
+      title,
+      "slug": slug.current,
+      excerpt
+    }
+  }
+`
+
+export const topicClusterForCourseQuery = `
+  *[_type == "topicCluster" && pillarPage._ref == $courseId][0] {
+    clusterName,
+    pillarKeyword,
+    aiContextStatement,
+    "faqItems": faqItems[]{ question, answer },
+    "relatedArticles": supportingArticles[]->{
+      _id,
+      title,
+      "slug": slug.current,
+      excerpt
+    }
+  }
+`
+
+export const topicClusterForServiceQuery = `
+  *[_type == "topicCluster" && pillarPage._ref == $serviceId][0] {
+    clusterName,
+    pillarKeyword,
+    aiContextStatement,
+    "faqItems": faqItems[]{ question, answer },
+    "relatedArticles": supportingArticles[]->{
+      _id,
+      title,
+      "slug": slug.current,
+      excerpt
+    }
+  }
+`

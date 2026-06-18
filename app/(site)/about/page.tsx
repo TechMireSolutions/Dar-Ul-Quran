@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { safeFetch } from '@/sanity/lib/client'
 import { pageBySlugQuery, siteSettingsQuery } from '@/sanity/lib/queries'
 import { pageMetadata } from '@/lib/seo'
+import WebPageSchema from '@/components/seo/WebPageSchema'
 import { PortableText } from '@portabletext/react'
 import { ArrowRight, BookOpen, Heart, Star } from 'lucide-react'
 import Reveal from '@/components/ui/Reveal'
@@ -36,8 +37,12 @@ export default async function AboutPage() {
     { Icon: Star,     title: 'برادری',   desc: 'مجالس، پروگرامز اور امت کے لیے قابل اعتماد اسلامی مواد' },
   ]
 
+  const pageTitle = page?.seoTitle || page?.title || 'ہمارے بارے میں'
+  const pageDescription = page?.seoDescription || page?.subtitle
+
   return (
     <div>
+      <WebPageSchema title={pageTitle} description={pageDescription} path="/about" />
       <div className="bg-white border-b border-gray-100">
         <Reveal animation="up" className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
           <div>

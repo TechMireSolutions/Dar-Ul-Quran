@@ -1,38 +1,6 @@
 import { NextResponse } from 'next/server'
 import { safeFetch } from '@/sanity/lib/client'
-
-const LLM_QUERY = `{
-  "settings": *[_type == "siteSettings"][0] {
-    siteName, description, whatsapp, email
-  },
-  "courses": *[_type == "course" && !defined(parent)] | order(order asc) {
-    title,
-    "slug": slug.current,
-    subject,
-    duration,
-    seoDescription,
-    "children": *[_type == "course" && parent._ref == ^._id] | order(order asc) {
-      title,
-      "slug": slug.current,
-      subject,
-      seoDescription,
-      "grandchildren": *[_type == "course" && parent._ref == ^._id] | order(order asc) {
-        title,
-        "slug": slug.current,
-        seoDescription
-      }
-    }
-  },
-  "articles": *[_type == "post"] | order(publishedAt desc) [0..14] {
-    title,
-    "slug": slug.current,
-    excerpt,
-    "categories": categories[]->{ title }
-  },
-  "testimonials": *[_type == "testimonial"] | order(order asc) [0..4] {
-    name, quote
-  }
-}`
+import { llmFeedQuery } from '@/sanity/lib/queries'
 
 type LLMData = {
   settings: { siteName: string; description: string; whatsapp: string; email: string } | null
@@ -62,7 +30,7 @@ type LLMData = {
 export const revalidate = 3600
 
 export async function GET() {
-  const data = await safeFetch<LLMData>(LLM_QUERY)
+  const data = await safeFetch<LLMData>(llmFeedQuery)
   const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://darulquran.pk'
   const s = data?.settings
 

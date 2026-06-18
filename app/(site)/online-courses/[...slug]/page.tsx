@@ -5,13 +5,15 @@ import Image from 'next/image'
 import { ArrowRight, ChevronRight, Check, MessageCircle, Mail, Phone } from 'lucide-react'
 import { safeFetch } from '@/sanity/lib/client'
 import { urlFor } from '@/sanity/lib/image'
-import { courseBySlugDeepQuery, courseSchemaQuery, siteSettingsQuery, allCoursePathsQuery } from '@/sanity/lib/queries'
+import { courseBySlugDeepQuery, courseSchemaQuery, siteSettingsQuery, allCoursePathsQuery, topicClusterForCourseQuery } from '@/sanity/lib/queries'
 import { PortableText } from '@portabletext/react'
 import ContentCard from '@/components/ui/ContentCard'
 import CourseSchema from '@/components/seo/CourseSchema'
 import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
+import TopicClusterRelated from '@/components/content/TopicClusterRelated'
 import type { CourseSchemaData } from '@/components/seo/CourseSchema'
-import { defaultOgImage } from '@/lib/seo'
+import { mergeFaqItems } from '@/lib/topicCluster'
+import { pageMetadata } from '@/lib/seo'
 
 export const revalidate = 300
 
@@ -39,77 +41,46 @@ function getAncestry(course: any): { title: string; slug: string }[] {
   return chain
 }
 
-const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://darulquran.pk'
-
 export async function generateMetadata(
   { params }: { params: Promise<{ slug: string[] }> }
 ): Promise<Metadata> {
   const { slug } = await params
-  const [course, site] = await Promise.all([
+  const [course, settings] = await Promise.all([
     safeFetch(courseBySlugDeepQuery, { slug: slug[slug.length - 1] }),
     safeFetch(siteSettingsQuery),
   ])
   if (!course) return { title: 'کورس | دار القرآن' }
 
   const canonicalPath = `/online-courses/${slug.join('/')}`
-  const seoTitle = course.seoTitle || `${course.title} | دار القرآن`
-  const seoDescription =
+  const title = course.seoTitle || `${course.title} | دار القرآن`
+  const description =
     course.seoDescription ||
     course.excerpt ||
     `آن لائن ${course.title}${course.subject ? ` — ${course.subject}` : ''}۔ پاکستان اور دنیا بھر کے شیعہ خاندانوں کے لیے مستند اسلامی تعلیم۔`
-
-  const ogImageUrl = course.featuredImage
+  const image = course.featuredImage
     ? urlFor(course.featuredImage).width(1200).height(630).fit('crop').auto('format').url()
-    : defaultOgImage(site)
+    : null
 
-  const keywords = [
-    course.title,
-    'Online Shia Quran classes',
-    'Shia Quran classes Pakistan',
-    'Online Quran for kids',
-    'Jafari Islamic education online',
-    'Shia Islamic school online',
-    ...(course.subject ? [course.subject] : []),
-    'دار القرآن',
-    'آن لائن قرآن کلاسز',
-  ]
-
-  return {
-    title: seoTitle,
-    description: seoDescription,
-    keywords,
-    ...(course.instructor ? { authors: [{ name: course.instructor }] } : {}),
-
-    alternates: {
-      canonical: `${BASE}${canonicalPath}`,
-    },
-
-    openGraph: {
-      type: 'website',
-      locale: 'ur_PK',
-      alternateLocale: 'en_US',
-      url: `${BASE}${canonicalPath}`,
-      siteName: 'دار القرآن | Dar Ul Quran',
-      title: seoTitle,
-      description: seoDescription,
-      ...(ogImageUrl
-        ? { images: [{ url: ogImageUrl, width: 1200, height: 630, alt: course.title }] }
-        : {}),
-    },
-
-    twitter: {
-      card: ogImageUrl ? 'summary_large_image' : 'summary',
-      title: seoTitle,
-      description: seoDescription,
-      ...(ogImageUrl ? { images: [ogImageUrl] } : {}),
-    },
-
-    robots: {
-      index: true,
-      follow: true,
-      googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1 },
-    },
-  }
+  return pageMetadata({
+    title,
+    description,
+    path: canonicalPath,
+    image,
+    imageAlt: course.title,
+    keywords: [
+      course.title,
+      'Online Shia Quran classes',
+      'Shia Quran classes Pakistan',
+      'Online Quran for kids',
+      'Jafari Islamic education online',
+      'Shia Islamic school online',
+      ...(course.subject ? [course.subject] : []),
+      'دار القرآن',
+      'آن لائن قرآن کلاسز',
+    ],
+    settings,
+    authors: course.instructor ? [course.instructor] : undefined,
+  })
 }
 
 export default async function CourseCatchAllPage(
@@ -118,12 +89,14 @@ export default async function CourseCatchAllPage(
   const { slug } = await params
   const currentSlug = slug[slug.length - 1]
 
-  const [course, site, schemaData] = await Promise.all([
-    safeFetch(courseBySlugDeepQuery, { slug: currentSlug }),
+  const course = await safeFetch(courseBySlugDeepQuery, { slug: currentSlug })
+  if (!course) notFound()
+
+  const [site, schemaData, cluster] = await Promise.all([
     safeFetch(siteSettingsQuery),
     safeFetch<CourseSchemaData>(courseSchemaQuery, { slug: currentSlug }),
+    safeFetch(topicClusterForCourseQuery, { courseId: course._id }),
   ])
-  if (!course) notFound()
 
   const hasChildren = course.children?.length > 0
   const ancestry    = getAncestry(course)
@@ -147,6 +120,7 @@ export default async function CourseCatchAllPage(
             ...schemaData,
             slugPath: slug.join('/'),
             breadcrumbLabels: Object.fromEntries(ancestry.map((a) => [a.slug, a.title])),
+            faqItems: mergeFaqItems(schemaData.faqItems, cluster?.faqItems),
           }}
         />
       )}
@@ -570,6 +544,18 @@ export default async function CourseCatchAllPage(
                 prose-headings:font-bold prose-headings:tracking-tight
                 prose-a:text-dq-500 prose-a:no-underline hover:prose-a:underline">
                 <PortableText value={course.body} />
+              </div>
+            </section>
+          )}
+
+          {cluster && (
+            <section className="bg-white pb-12 sm:pb-16">
+              <div className="max-w-3xl mx-auto px-4 sm:px-6">
+                <TopicClusterRelated
+                  clusterName={cluster.clusterName}
+                  pillarKeyword={cluster.pillarKeyword}
+                  relatedArticles={cluster.relatedArticles}
+                />
               </div>
             </section>
           )}

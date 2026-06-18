@@ -1,27 +1,8 @@
 import type { MetadataRoute } from 'next'
 import { safeFetch } from '@/sanity/lib/client'
+import { sitemapQuery } from '@/sanity/lib/queries'
 
 const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://darulquran.pk'
-
-const SITEMAP_QUERY = `{
-  "courses": *[_type == "course"] | order(order asc) {
-    "slug": slug.current,
-    "parentSlug": parent->slug.current,
-    "grandparentSlug": parent->parent->slug.current,
-    _updatedAt,
-    "hasChildren": count(*[_type == "course" && parent._ref == ^._id]) > 0
-  },
-  "articles": *[_type == "post"] | order(publishedAt desc) {
-    "slug": slug.current,
-    _updatedAt
-  },
-  "services": *[_type == "service"] | order(order asc) {
-    "slug": slug.current,
-    "parentSlug": parent->slug.current,
-    _updatedAt,
-    "hasChildren": count(*[_type == "service" && parent._ref == ^._id]) > 0
-  }
-}`
 
 type SitemapData = {
   courses: Array<{
@@ -53,7 +34,7 @@ function serviceUrl(s: SitemapData['services'][number]): string {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const data = await safeFetch<SitemapData>(SITEMAP_QUERY)
+  const data = await safeFetch<SitemapData>(sitemapQuery)
   const now = new Date()
 
   const staticPages: MetadataRoute.Sitemap = [

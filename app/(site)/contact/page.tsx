@@ -5,6 +5,7 @@ import { siteSettingsQuery, pageBySlugQuery, allCoursesForFormQuery, allServices
 import { PortableText } from '@portabletext/react'
 import { Mail, Phone, MessageCircle, MapPin, Globe, Play } from 'lucide-react'
 import { pageMetadata } from '@/lib/seo'
+import WebPageSchema from '@/components/seo/WebPageSchema'
 import ContactForm from './ContactForm'
 import Reveal from '@/components/ui/Reveal'
 
@@ -44,8 +45,12 @@ export default async function ContactPage() {
 
   const submitLabel: string = settings?.contactFormSubmitLabel || 'پیغام بھیجیں'
 
+  const pageTitle = page?.seoTitle || page?.title || 'ہم سے رابطہ کریں'
+  const pageDescription = page?.seoDescription || page?.subtitle
+
   return (
     <div>
+      <WebPageSchema title={pageTitle} description={pageDescription} path="/contact" />
       <div className="bg-white border-b border-gray-100">
         <Reveal animation="up" className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
           <div>

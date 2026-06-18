@@ -4,11 +4,12 @@ import Image from 'next/image'
 import { CalendarDays, User } from 'lucide-react'
 import { safeFetch } from '@/sanity/lib/client'
 import { urlFor } from '@/sanity/lib/image'
-import { postBySlugQuery, postSlugsQuery, siteSettingsQuery } from '@/sanity/lib/queries'
+import { postBySlugQuery, postSlugsQuery, siteSettingsQuery, topicClusterForPostQuery } from '@/sanity/lib/queries'
 import { PortableText } from '@portabletext/react'
 import ArticleSchema from '@/components/seo/ArticleSchema'
 import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
 import WebPageSchema from '@/components/seo/WebPageSchema'
+import TopicClusterRelated from '@/components/content/TopicClusterRelated'
 import { pageMetadata } from '@/lib/seo'
 
 export const revalidate = 300
@@ -46,11 +47,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function ArticleDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const [post, settings] = await Promise.all([
-    safeFetch(postBySlugQuery, { slug }),
-    safeFetch(siteSettingsQuery),
-  ])
+  const post = await safeFetch(postBySlugQuery, { slug })
   if (!post) notFound()
+
+  const [settings, cluster] = await Promise.all([
+    safeFetch(siteSettingsQuery),
+    safeFetch(topicClusterForPostQuery, { postId: post._id }),
+  ])
 
   const publisherLogoUrl = settings?.logo
     ? urlFor(settings.logo).width(512).height(512).url()
@@ -124,6 +127,14 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
             <PortableText value={post.body} />
           </div>
         )}
+
+        <TopicClusterRelated
+          clusterName={cluster?.clusterName}
+          pillarKeyword={cluster?.pillarKeyword}
+          pillarPage={cluster?.pillarPage}
+          relatedArticles={cluster?.relatedArticles}
+          currentSlug={slug}
+        />
 
       </article>
     </div>

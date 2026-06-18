@@ -10,7 +10,14 @@ import Reveal from '@/components/ui/Reveal'
 
 export const revalidate = 300
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string }>
+}): Promise<Metadata> {
+  const { q } = await searchParams
+  const hasSearch = Boolean(q?.trim())
+
   const [page, settings] = await Promise.all([
     safeFetch(pageBySlugQuery, { slug: 'articles' }),
     safeFetch(siteSettingsQuery),
@@ -20,6 +27,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description: page?.seoDescription || page?.subtitle || 'اسلامی علم، خبریں اور مطالعات',
     path: '/articles',
     settings,
+    noIndex: hasSearch,
   })
 }
 

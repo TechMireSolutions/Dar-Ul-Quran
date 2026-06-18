@@ -5,6 +5,7 @@ import { siteSettingsQuery, pageBySlugQuery } from '@/sanity/lib/queries'
 import { PortableText } from '@portabletext/react'
 import { ArrowRight } from 'lucide-react'
 import { pageMetadata } from '@/lib/seo'
+import WebPageSchema from '@/components/seo/WebPageSchema'
 import Reveal from '@/components/ui/Reveal'
 
 export const revalidate = 300
@@ -37,8 +38,12 @@ export default async function DonatePage() {
         { title: 'دار القرآن معاونت', desc: 'ہمارے قرآنی ادارے میں حصہ ڈالیں' },
       ]
 
+  const pageTitle = page?.seoTitle || page?.title || 'عطیہ'
+  const pageDescription = page?.seoDescription || page?.subtitle
+
   return (
     <div>
+      <WebPageSchema title={pageTitle} description={pageDescription} path="/donate" />
       <div className="bg-white border-b border-gray-100">
         <Reveal animation="up" className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 text-center">
           <div>
