@@ -2,7 +2,7 @@ import Image from 'next/image'
 import { urlFor } from '@/sanity/lib/image'
 import type { SanityImageAsset } from '@/sanity/lib/image'
 
-type Props = {
+type SanityImageProps = {
   image: SanityImageAsset | null | undefined
   /** Target render width in px — drives CDN URL generation and srcset */
   width: number
@@ -27,7 +27,7 @@ export default function SanityImage({
   className,
   sizes = '(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw',
   quality = 85,
-}: Props) {
+}: SanityImageProps) {
   if (!image?.asset) return null
 
   const lqip = image.asset.metadata?.lqip

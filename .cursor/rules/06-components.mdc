@@ -8,6 +8,7 @@ alwaysApply: false
 
 - `layout/` · `ui/` · `sections/` · `content/` · `seo/` · `studio/`
 - Route-private UI: `app/(site)/**/_components/` (not imported elsewhere)
+  - e.g. `contact/_components/ContactForm.tsx`
 - Shared listing grids: `content/NestedChildListing`
 - `Header` + lazy `HeaderMobileMenu` (`dynamic`, `ssr: false`)
 - Footer: inline SVG in RSC; lucide in client components only

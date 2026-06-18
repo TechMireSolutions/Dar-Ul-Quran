@@ -67,7 +67,9 @@ function buildSchemas(data: ServiceSchemaData): object[] {
   return schemas
 }
 
-export default function ServiceSchema({ data }: { data: ServiceSchemaData }) {
+type ServiceSchemaProps = { data: ServiceSchemaData }
+
+export default function ServiceSchema({ data }: ServiceSchemaProps) {
   const schemas = buildSchemas(data)
   return (
     <>

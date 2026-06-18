@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
-import { safeFetch } from '@/sanity/lib/client'
+import { getTopLevelCourses } from '@/sanity/lib/fetchers'
 import { cardImageUrl } from '@/sanity/lib/image'
-import { topLevelCoursesQuery } from '@/sanity/lib/queries'
+import type { CourseListItemDoc } from '@/lib/types'
 import { cmsPageMetadata, fetchCmsPage, resolveSeoDescription, resolveSeoTitle } from '@/lib/cmsPage'
 import ContentCard from '@/components/ui/ContentCard'
 import ItemListSchema from '@/components/seo/ItemListSchema'
@@ -27,7 +27,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function CoursesPage() {
   const [{ page }, coursesRaw] = await Promise.all([
     fetchCmsPage(PAGE_SLUG),
-    safeFetch(topLevelCoursesQuery),
+    getTopLevelCourses(),
   ])
   const courses = coursesRaw ?? []
 
@@ -37,10 +37,14 @@ export default async function CoursesPage() {
     'اہل علماء سے قرآن، فقہ، اخلاق اور تاریخ سیکھیں۔',
   )
 
-  const listItems = courses.map((course: { title: string; slug: { current: string } }) => ({
-    name: course.title,
-    url: `${PAGE_PATH}/${course.slug.current}`,
-  }))
+  const listItems = courses
+    .filter((course): course is CourseListItemDoc & { title: string; slug: { current: string } } =>
+      Boolean(course.title && course.slug?.current),
+    )
+    .map((course) => ({
+      name: course.title,
+      url: `${PAGE_PATH}/${course.slug.current}`,
+    }))
 
   return (
     <div>
@@ -59,14 +63,14 @@ export default async function CoursesPage() {
             <p className="text-center text-gray-400 text-[15px] py-24">کورسز جلد آ رہے ہیں۔</p>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-              {courses.map((course: any, i: number) => (
+              {courses.map((course, i) => (
                 <Reveal key={course._id} animation="up" delay={i * 70}>
                   <ContentCard
-                    href={`${PAGE_PATH}/${course.slug.current}`}
+                    href={`${PAGE_PATH}/${course.slug?.current ?? ''}`}
                     image={course.featuredImage ? cardImageUrl(course.featuredImage) : null}
-                    title={course.title}
+                    title={course.title ?? ''}
                     description={course.excerpt || [course.price, course.duration].filter(Boolean).join(' · ') || null}
-                    ctaLabel={course.childCount > 0 ? 'کورسز دیکھیں' : 'ابھی داخلہ لیں'}
+                    ctaLabel={(course.childCount ?? 0) > 0 ? 'کورسز دیکھیں' : 'ابھی داخلہ لیں'}
                   />
                 </Reveal>
               ))}

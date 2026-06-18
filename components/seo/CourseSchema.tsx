@@ -111,7 +111,9 @@ function buildSchemas(data: CourseSchemaData): object[] {
   return schemas
 }
 
-export default function CourseSchema({ data }: { data: CourseSchemaData }) {
+type CourseSchemaProps = { data: CourseSchemaData }
+
+export default function CourseSchema({ data }: CourseSchemaProps) {
   const schemas = buildSchemas(data)
   return (
     <>

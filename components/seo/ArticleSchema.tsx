@@ -2,7 +2,7 @@ import { urlFor } from '@/sanity/lib/image'
 import { SITE_URL } from '@/lib/seo'
 
 type ArticlePost = {
-  title: string
+  title?: string
   excerpt?: string
   publishedAt?: string
   _updatedAt?: string
@@ -24,7 +24,7 @@ export default function ArticleSchema({ post, slug, publisherLogoUrl }: ArticleS
       '@context': 'https://schema.org',
       '@type': 'Article',
       '@id': `${articleUrl}#article`,
-      headline: post.title,
+      headline: post.title ?? '',
       description: post.excerpt,
       url: articleUrl,
       mainEntityOfPage: { '@type': 'WebPage', '@id': articleUrl },

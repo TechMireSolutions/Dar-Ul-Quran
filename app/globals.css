@@ -313,19 +313,6 @@ body.mobile-menu-open {
   50%       { box-shadow: 0 0 0 4px rgba(184,144,14,0.18); }
 }
 .hover-border-pulse:hover { animation: borderPulse 1.2s ease infinite; }
-
-/* ─── Section reveal (JS adds .is-visible) ─── */
-.reveal {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.65s cubic-bezier(0.16,1,0.3,1),
-              transform 0.7s cubic-bezier(0.16,1,0.3,1);
-}
-.reveal.is-visible {
-  opacity: 1;
-  transform: none;
-}
-
 /* ─── Gradient text utilities ─── */
 .text-gradient-cyan {
   background: linear-gradient(135deg, #b8900e 0%, #d4a820 100%);

@@ -1,14 +1,13 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { urlFor, ogImageUrl } from '@/sanity/lib/image'
-import { allCoursePathsQuery } from '@/sanity/lib/queries'
 import {
   getCourseBySlug,
   getCourseSchema,
   getSiteSettings,
   getTopicClusterForPillar,
+  getAllCoursePaths,
 } from '@/sanity/lib/fetchers'
-import { safeFetch } from '@/sanity/lib/client'
 import CourseSchema from '@/components/seo/CourseSchema'
 import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
 import NestedChildListing from '@/components/content/NestedChildListing'
@@ -23,7 +22,7 @@ export const revalidate = 300
 const SECTION_PATH = '/online-courses'
 
 export async function generateStaticParams() {
-  const paths = await safeFetch(allCoursePathsQuery)
+  const paths = await getAllCoursePaths()
   return staticParamsFromPaths(paths)
 }
 
@@ -38,12 +37,13 @@ export async function generateMetadata(
   ])
   if (!course) return { title: 'کورس | دار القرآن' }
 
+  const courseTitle = course.title ?? 'کورس'
   const canonicalPath = `${SECTION_PATH}/${slug.join('/')}`
-  const title = course.seoTitle || `${course.title} | دار القرآن`
+  const title = course.seoTitle || `${courseTitle} | دار القرآن`
   const description =
     course.seoDescription ||
     course.excerpt ||
-    `آن لائن ${course.title}${course.subject ? ` — ${course.subject}` : ''}۔ پاکستان اور دنیا بھر کے شیعہ خاندانوں کے لیے مستند اسلامی تعلیم۔`
+    `آن لائن ${courseTitle}${course.subject ? ` — ${course.subject}` : ''}۔ پاکستان اور دنیا بھر کے شیعہ خاندانوں کے لیے مستند اسلامی تعلیم۔`
   const image = course.featuredImage ? ogImageUrl(course.featuredImage) : null
 
   return pageMetadata({
@@ -51,9 +51,9 @@ export async function generateMetadata(
     description,
     path: canonicalPath,
     image,
-    imageAlt: course.title,
+    imageAlt: courseTitle,
     keywords: [
-      course.title,
+      courseTitle,
       'Online Shia Quran classes',
       'Shia Quran classes Pakistan',
       'Online Quran for kids',
@@ -83,7 +83,7 @@ export default async function CourseCatchAllPage(
     getTopicClusterForPillar(course._id),
   ])
 
-  const hasChildren = course.children?.length > 0
+  const hasChildren = (course.children?.length ?? 0) > 0
   const ancestry = ancestryFromParent(course)
   const currentPath = `${SECTION_PATH}/${slug.join('/')}`
   const heroImageUrl = course.featuredImage
@@ -92,6 +92,8 @@ export default async function CourseCatchAllPage(
 
   const enrollHref = course.enrollmentLink || '/contact'
   const whatsappLink = site?.whatsapp ? whatsappHref(String(site.whatsapp)) : '/contact'
+
+  const courseTitle = course.title ?? 'کورس'
 
   return (
     <div>
@@ -114,17 +116,17 @@ export default async function CourseCatchAllPage(
             label: title,
             href: breadcrumbHref(SECTION_PATH, ancestry, i),
           })),
-          { label: course.title },
+          { label: courseTitle },
         ]}
       />
 
       {hasChildren ? (
         <NestedChildListing
           eyebrow="کورسز"
-          title={course.title}
+          title={courseTitle}
           excerpt={course.excerpt}
           basePath={currentPath}
-          items={course.children}
+          items={course.children ?? []}
           imageField="featuredImage"
           parentCtaLabel="کورسز دیکھیں"
           leafCtaLabel="ابھی داخلہ لیں"

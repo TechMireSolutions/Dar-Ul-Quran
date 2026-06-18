@@ -9,7 +9,7 @@ import type { NavNode } from '@/lib/types'
 
 const HeaderMobileMenu = dynamic(() => import('./HeaderMobileMenu'), { ssr: false })
 
-interface HeaderProps {
+type HeaderProps = {
   darulQuranUrl?:     string
   siteName?:          string
   logoUrl?:           string | null

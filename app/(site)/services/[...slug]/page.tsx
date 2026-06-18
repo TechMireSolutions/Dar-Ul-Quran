@@ -1,9 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { urlFor, ogImageUrl } from '@/sanity/lib/image'
-import { allServicePathsQuery } from '@/sanity/lib/queries'
-import { getServiceBySlug, getSiteSettings, getTopicClusterForPillar } from '@/sanity/lib/fetchers'
-import { safeFetch } from '@/sanity/lib/client'
+import { getServiceBySlug, getSiteSettings, getTopicClusterForPillar, getAllServicePaths } from '@/sanity/lib/fetchers'
 import ServiceSchema from '@/components/seo/ServiceSchema'
 import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
 import NestedChildListing from '@/components/content/NestedChildListing'
@@ -18,7 +16,7 @@ export const revalidate = 300
 const SECTION_PATH = '/services'
 
 export async function generateStaticParams() {
-  const paths = await safeFetch(allServicePathsQuery)
+  const paths = await getAllServicePaths()
   return staticParamsFromPaths(paths)
 }
 
@@ -64,18 +62,20 @@ export default async function ServiceCatchAllPage(
     getTopicClusterForPillar(service._id),
   ])
 
-  const hasChildren = service.children?.length > 0
+  const hasChildren = (service.children?.length ?? 0) > 0
   const ancestry = ancestryFromParent(service)
   const currentPath = `${SECTION_PATH}/${slug.join('/')}`
   const heroImageUrl = service.heroImage ? urlFor(service.heroImage).width(1600).height(800).url() : null
   const whyUsImageUrl = service.whyUsImage ? urlFor(service.whyUsImage).width(700).height(700).url() : null
   const whatsappLink = site?.whatsapp ? whatsappHref(String(site.whatsapp)) : '/contact'
 
+  const serviceTitle = service.title ?? 'خدمت'
+
   return (
     <div>
       <ServiceSchema
         data={{
-          title: service.title,
+          title: serviceTitle,
           seoDescription: service.seoDescription,
           excerpt: service.excerpt,
           slugPath: slug.join('/'),
@@ -95,17 +95,17 @@ export default async function ServiceCatchAllPage(
             label: title,
             href: breadcrumbHref(SECTION_PATH, ancestry, i),
           })),
-          { label: service.title },
+          { label: serviceTitle },
         ]}
       />
 
       {hasChildren ? (
         <NestedChildListing
           eyebrow="خدمات"
-          title={service.title}
+          title={serviceTitle}
           excerpt={service.excerpt}
           basePath={currentPath}
-          items={service.children}
+          items={service.children ?? []}
           imageField="icon"
           parentCtaLabel="خدمات دیکھیں"
           leafCtaLabel="مزید جانیں"

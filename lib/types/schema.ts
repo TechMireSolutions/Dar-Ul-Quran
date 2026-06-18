@@ -31,3 +31,27 @@ export type ServiceSchemaData = {
   orgName?: string
   breadcrumbLabels?: Record<string, string>
 }
+
+export type TopicClusterPillarPage = {
+  title?: string
+  _type?: string
+  slug?: string
+  parentSlug?: string | null
+  grandparentSlug?: string | null
+}
+
+export type TopicClusterRelatedArticle = {
+  _id: string
+  title: string
+  slug: string
+  excerpt?: string
+}
+
+export type TopicClusterDoc = {
+  clusterName?: string
+  pillarKeyword?: string
+  aiContextStatement?: string
+  faqItems?: FaqSchemaItem[]
+  pillarPage?: TopicClusterPillarPage | null
+  relatedArticles?: TopicClusterRelatedArticle[]
+}

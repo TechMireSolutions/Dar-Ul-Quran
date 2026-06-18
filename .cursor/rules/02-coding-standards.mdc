@@ -14,3 +14,40 @@ alwaysApply: false
 - GROQ only in `sanity/lib/queries.ts` via `safeFetch`
 - No Sanity/nodemailer in client components
 - Tailwind v4: `dq-*`, `ms/me`, `bg-black/50`, no CSS-in-JS
+
+# Naming protocol
+
+## Files
+- Components: `PascalCase.tsx`; default export matches filename
+- `lib/`, `sanity/lib/`: `camelCase.ts`
+- App routes: kebab-case segments; route-private UI in `app/**/_components/`
+- Next.js special files: `page.tsx`, `layout.tsx`, `route.ts`, `error.tsx`
+
+## TypeScript
+- Props: `type ComponentNameProps = { ... }` — never bare `Props`
+- Domain types: `type` in `lib/types/`; PascalCase nouns
+- Prefer `type` over `interface`; reuse shared types (`NavNode`, not local duplicates)
+- No `any`; use `unknown` + narrowing
+
+## Functions
+- `get*` — cached Sanity fetchers (`sanity/lib/fetchers.ts`)
+- `safeFetch` — low-level GROQ with null fallback
+- `fetch*` — multi-source page orchestration (e.g. `fetchCmsPage`)
+- `resolve*` — SEO/path fallbacks; `build*` — JSON-LD, nav trees
+- `handle*` — client event handlers only
+
+## GROQ (`queries.ts`)
+- Private fragments: `SCREAMING_SNAKE`
+- Exports: `camelCase` + `Query` suffix (`postsQuery`, `courseBySlugDeepQuery`)
+
+## Constants
+- `SCREAMING_SNAKE` for module config (`PAGE_SLUG`, `SITE_URL`)
+- Reuse `SITE_URL` from `lib/seo` — do not duplicate
+
+## Abbreviations (allowlist)
+- OK when domain-clear: `dq`, `cms`, `og`, `llm`, `nav`, `faq`, `seo`
+- Spell out opaque names: `homepageSettings`, not `hp`
+
+## CSS
+- Tailwind utilities first; brand via `dq-*`
+- Custom globals: kebab-case (`.skip-link`); Reveal uses `.rv-*`

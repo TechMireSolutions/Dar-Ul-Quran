@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
-import { safeFetch } from '@/sanity/lib/client'
+import { getPosts } from '@/sanity/lib/fetchers'
 import { cardImageUrl } from '@/sanity/lib/image'
-import { postsQuery } from '@/sanity/lib/queries'
+import type { PostListItemDoc } from '@/lib/types'
 import { cmsPageMetadata, fetchCmsPage, resolveSeoDescription, resolveSeoTitle } from '@/lib/cmsPage'
 import ContentCard from '@/components/ui/ContentCard'
 import ItemListSchema from '@/components/seo/ItemListSchema'
@@ -39,22 +39,26 @@ export default async function ArticlesPage({
 
   const [{ page }, postsRaw] = await Promise.all([
     fetchCmsPage(PAGE_SLUG),
-    safeFetch(postsQuery),
+    getPosts(),
   ])
   const posts = postsRaw ?? []
 
   const filtered = query
     ? posts.filter(
-        (post: { title?: string; excerpt?: string }) =>
+        (post) =>
           post.title?.toLowerCase().includes(query) ||
           post.excerpt?.toLowerCase().includes(query),
       )
     : posts
 
-  const listItems = filtered.map((post: { title: string; slug: { current: string } }) => ({
-    name: post.title,
-    url: `/articles/${post.slug.current}`,
-  }))
+  const listItems = filtered
+    .filter((post): post is PostListItemDoc & { title: string; slug: { current: string } } =>
+      Boolean(post.title && post.slug?.current),
+    )
+    .map((post) => ({
+      name: post.title,
+      url: `/articles/${post.slug.current}`,
+    }))
 
   const title = resolveSeoTitle(page, 'مضامین')
   const description = resolveSeoDescription(page, 'اسلامی علم، خبریں اور مطالعات')
@@ -109,12 +113,12 @@ export default async function ArticlesPage({
             </p>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-              {filtered.map((post: any, i: number) => (
+              {filtered.map((post, i) => (
                 <Reveal key={post._id} animation="up" delay={i * 70}>
                   <ContentCard
-                    href={`/articles/${post.slug.current}`}
+                    href={`/articles/${post.slug?.current ?? ''}`}
                     image={post.mainImage ? cardImageUrl(post.mainImage) : null}
-                    title={post.title}
+                    title={post.title ?? ''}
                     description={post.excerpt || null}
                     badge={post.categories?.[0]?.title || null}
                     ctaLabel="مزید پڑھیں"

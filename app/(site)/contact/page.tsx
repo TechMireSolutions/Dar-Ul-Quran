@@ -1,14 +1,13 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { safeFetch } from '@/sanity/lib/client'
-import { allCoursesForFormQuery, allServicesForFormQuery } from '@/sanity/lib/queries'
 import { PortableText } from '@portabletext/react'
 import { Mail, Phone, MessageCircle, MapPin, Globe, Play } from 'lucide-react'
 import { cmsPageMetadata, fetchCmsPage, resolveSeoDescription, resolveSeoTitle } from '@/lib/cmsPage'
 import { whatsappHref } from '@/lib/contact'
+import { getCoursesForContactForm, getServicesForContactForm } from '@/sanity/lib/fetchers'
 import WebPageSchema from '@/components/seo/WebPageSchema'
 import PageHeroHeader from '@/components/ui/PageHeroHeader'
-import ContactForm from './ContactForm'
+import ContactForm from './_components/ContactForm'
 import Reveal from '@/components/ui/Reveal'
 
 export const revalidate = 300
@@ -24,8 +23,8 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function ContactPage() {
   const [{ page, settings }, courses, services] = await Promise.all([
     fetchCmsPage('contact'),
-    safeFetch(allCoursesForFormQuery),
-    safeFetch(allServicesForFormQuery),
+    getCoursesForContactForm(),
+    getServicesForContactForm(),
   ])
 
   const contactItems = [

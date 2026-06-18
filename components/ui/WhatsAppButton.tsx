@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
 
-interface WhatsAppButtonProps {
+type WhatsAppButtonProps = {
   number: string
 }
 

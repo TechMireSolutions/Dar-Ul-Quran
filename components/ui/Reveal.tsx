@@ -3,7 +3,7 @@ import { useEffect, useRef, type ReactNode } from 'react'
 
 type Animation = 'up' | 'fade' | 'scale' | 'left' | 'right'
 
-interface RevealProps {
+type RevealProps = {
   children: ReactNode
   className?: string
   animation?: Animation
@@ -86,7 +86,7 @@ export default function Reveal({
   )
 }
 
-interface StaggerProps {
+type StaggerProps = {
   children: ReactNode[]
   className?: string
   animation?: Animation

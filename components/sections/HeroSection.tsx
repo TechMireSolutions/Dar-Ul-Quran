@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { ArrowRight, Users, BookOpen, GraduationCap } from 'lucide-react'
 
-interface HeroSectionProps {
+type HeroSectionProps = {
   subtitle?:    string
   title?:       string
   description?: string

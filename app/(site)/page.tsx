@@ -1,16 +1,15 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { ArrowRight } from 'lucide-react'
-import { safeFetch } from '@/sanity/lib/client'
 import { urlFor } from '@/sanity/lib/image'
 import {
-  featuredPostsQuery,
-  topLevelServicesQuery,
-  topLevelCoursesQuery,
-  homepageSettingsQuery,
-  testimonialsQuery,
-  siteSettingsQuery,
-} from '@/sanity/lib/queries'
+  getSiteSettings,
+  getHomepageSettings,
+  getFeaturedPosts,
+  getTopLevelServices,
+  getTopLevelCourses,
+  getTestimonials,
+} from '@/sanity/lib/fetchers'
 import { pageMetadata } from '@/lib/seo'
 import WebPageSchema from '@/components/seo/WebPageSchema'
 import LcpImagePreload from '@/components/seo/LcpImagePreload'
@@ -33,19 +32,19 @@ import Reveal from '@/components/ui/Reveal'
 export const revalidate = 300
 
 export async function generateMetadata(): Promise<Metadata> {
-  const [settings, hp] = await Promise.all([
-    safeFetch(siteSettingsQuery),
-    safeFetch(homepageSettingsQuery),
+  const [settings, homepageSettings] = await Promise.all([
+    getSiteSettings(),
+    getHomepageSettings(),
   ])
 
   const title = settings?.siteName || 'دار القرآن'
   const description =
     settings?.description ||
-    hp?.heroSubtitle ||
+    homepageSettings?.heroSubtitle ||
     'اسلامی علم، آنلائن کورسز اور خدمات — دنیا بھر میں شیعہ خاندانوں کے لیے مستند تعلیم۔'
 
-  const ogImage = hp?.heroImage
-    ? urlFor(hp.heroImage).width(1200).height(630).fit('crop').auto('format').quality(80).url()
+  const ogImage = homepageSettings?.heroImage
+    ? urlFor(homepageSettings.heroImage).width(1200).height(630).fit('crop').auto('format').quality(80).url()
     : settings?.logo
       ? urlFor(settings.logo).width(1200).height(630).fit('crop').auto('format').url()
       : null
@@ -68,26 +67,26 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
-  const [posts, services, courses, hp, testimonials, settings] = await Promise.all([
-    safeFetch(featuredPostsQuery),
-    safeFetch(topLevelServicesQuery),
-    safeFetch(topLevelCoursesQuery),
-    safeFetch(homepageSettingsQuery),
-    safeFetch(testimonialsQuery),
-    safeFetch(siteSettingsQuery),
+  const [posts, services, courses, homepageSettings, testimonials, settings] = await Promise.all([
+    getFeaturedPosts(),
+    getTopLevelServices(),
+    getTopLevelCourses(),
+    getHomepageSettings(),
+    getTestimonials(),
+    getSiteSettings(),
   ])
 
   const homeTitle = settings?.siteName || 'دار القرآن'
   const homeDescription =
     settings?.description ||
-    hp?.heroSubtitle ||
+    homepageSettings?.heroSubtitle ||
     'اسلامی علم، آنلائن کورسز اور خدمات — دنیا بھر میں شیعہ خاندانوں کے لیے مستند تعلیم۔'
 
   // Direct Sanity CDN URL — preloaded in <head>, rendered via native <img> (no optimizer hop).
-  const heroImageUrl = hp?.heroImage
-    ? urlFor(hp.heroImage).width(828).height(552).fit('crop').auto('format').quality(70).url()
+  const heroImageUrl = homepageSettings?.heroImage
+    ? urlFor(homepageSettings.heroImage).width(828).height(552).fit('crop').auto('format').quality(70).url()
     : null
-  const heroImageBlur = hp?.heroImageLqip ?? undefined
+  const heroImageBlur = homepageSettings?.heroImageLqip ?? undefined
 
   const courseItems: CarouselItem[] = (courses ?? []).map((c: any) => ({
     id:          c._id,
@@ -118,15 +117,15 @@ export default async function HomePage() {
 
       {/* ── Hero ── */}
       <HeroSection
-        subtitle={hp?.heroArabicText    || undefined}
-        title={hp?.heroTitle ? hp.heroTitle.replace(/\\n/g, '\n') : undefined}
-        description={hp?.heroSubtitle   || undefined}
+        subtitle={homepageSettings?.heroArabicText    || undefined}
+        title={homepageSettings?.heroTitle ? homepageSettings.heroTitle.replace(/\\n/g, '\n') : undefined}
+        description={homepageSettings?.heroSubtitle   || undefined}
         heroImage={heroImageUrl}
         heroImageBlur={heroImageBlur}
-        cta1Label={hp?.heroCta1Label    || undefined}
-        cta1Link={hp?.heroCta1Link      || undefined}
-        cta2Label={hp?.heroCta2Label    || undefined}
-        cta2Link={hp?.heroCta2Link      || undefined}
+        cta1Label={homepageSettings?.heroCta1Label    || undefined}
+        cta1Link={homepageSettings?.heroCta1Link      || undefined}
+        cta2Label={homepageSettings?.heroCta2Label    || undefined}
+        cta2Link={homepageSettings?.heroCta2Link      || undefined}
       />
 
       {/* ── About Us ── */}
@@ -143,23 +142,23 @@ export default async function HomePage() {
               <div>
                 <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-dq-700 mb-3">
                   <span className="w-6 h-px bg-dq-400 inline-block" />
-                  {hp?.aboutEyebrow || 'ہم کون ہیں'}
+                  {homepageSettings?.aboutEyebrow || 'ہم کون ہیں'}
                 </p>
                 <h2 className="font-bold text-[26px] sm:text-[32px] text-slate-900 leading-tight tracking-[-0.02em] mb-4">
-                  {hp?.aboutHeading || 'دنیا کے ہر کونے میں شیعہ اسلامی علم پہنچانا'}
+                  {homepageSettings?.aboutHeading || 'دنیا کے ہر کونے میں شیعہ اسلامی علم پہنچانا'}
                 </h2>
-                {(hp?.aboutBody1 || true) && (
+                {(homepageSettings?.aboutBody1 || true) && (
                   <p className="text-[14px] text-gray-500 leading-relaxed mb-4">
-                    {hp?.aboutBody1 || 'دار القرآن ایک واحد مقصد کے ساتھ قائم کیا گیا — ہر مسلمان تک مستند شیعہ اسلامی تعلیم اور مذہبی خدمات کی رسائی، چاہے وہ کہیں بھی ہو۔'}
+                    {homepageSettings?.aboutBody1 || 'دار القرآن ایک واحد مقصد کے ساتھ قائم کیا گیا — ہر مسلمان تک مستند شیعہ اسلامی تعلیم اور مذہبی خدمات کی رسائی، چاہے وہ کہیں بھی ہو۔'}
                   </p>
                 )}
-                {(hp?.aboutBody2 || true) && (
+                {(homepageSettings?.aboutBody2 || true) && (
                   <p className="text-[14px] text-gray-500 leading-relaxed mb-7">
-                    {hp?.aboutBody2 || 'اہل علماء کے آنلائن کورسز اور نیابت زیارت و اجارہ جیسی خدمات کے ذریعے ہم دنیا بھر میں ہزاروں خاندانوں کی خدمت کرتے ہیں۔'}
+                    {homepageSettings?.aboutBody2 || 'اہل علماء کے آنلائن کورسز اور نیابت زیارت و اجارہ جیسی خدمات کے ذریعے ہم دنیا بھر میں ہزاروں خاندانوں کی خدمت کرتے ہیں۔'}
                   </p>
                 )}
                 <div className="flex flex-wrap gap-2.5 mb-8">
-                  {(hp?.aboutPillars?.length ? hp.aboutPillars : ['ایمان', 'علم', 'رسائی', 'اخلاص']).map((pillar: string) => (
+                  {(homepageSettings?.aboutPillars?.length ? homepageSettings.aboutPillars : ['ایمان', 'علم', 'رسائی', 'اخلاص']).map((pillar: string) => (
                     <span
                       key={pillar}
                       className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-dq-50 border border-dq-100 text-[12px] font-semibold text-dq-700"
@@ -176,7 +175,7 @@ export default async function HomePage() {
                     shadow-[0_4px_16px_rgba(184,144,14,0.3)] hover:shadow-[0_6px_22px_rgba(184,144,14,0.45)]
                     transition-all duration-200 hover:-translate-y-px"
                 >
-                  {hp?.aboutCtaLabel || 'ہمارے بارے میں جانیں'}
+                  {homepageSettings?.aboutCtaLabel || 'ہمارے بارے میں جانیں'}
                   <ArrowRight size={13} strokeWidth={2.5} className="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform duration-150" />
                 </Link>
               </div>
@@ -191,20 +190,20 @@ export default async function HomePage() {
                     style={{ background: 'radial-gradient(circle, rgba(184,144,14,0.6) 0%, transparent 70%)', transform: 'translate(30%, -30%)' }}
                   />
                   <p className="text-center text-[28px] sm:text-[32px] leading-relaxed text-amber-400 font-light mb-3" dir="rtl">
-                    {hp?.aboutHadithArabic || 'اطلبوا العلم من المهد إلى اللحد'}
+                    {homepageSettings?.aboutHadithArabic || 'اطلبوا العلم من المهد إلى اللحد'}
                   </p>
                   <div className="w-10 h-px bg-amber-400/40 mx-auto mb-3" />
                   <p className="text-center text-[13px] text-gray-400 italic leading-relaxed">
-                    &quot;{hp?.aboutHadithTranslation || 'علم حاصل کرو گہوارے سے لحد تک۔'}&quot;
+                    &quot;{homepageSettings?.aboutHadithTranslation || 'علم حاصل کرو گہوارے سے لحد تک۔'}&quot;
                   </p>
                   <p className="text-center text-[11px] text-amber-500 font-semibold mt-2 tracking-wide">
-                    — {hp?.aboutHadithAttribution || 'حضرت محمد (ص)'}
+                    — {homepageSettings?.aboutHadithAttribution || 'حضرت محمد (ص)'}
                   </p>
                   <div className="grid grid-cols-3 gap-4 mt-8 pt-6 border-t border-white/10">
                     {[
-                      { value: hp?.aboutStat1Value || '500+', label: hp?.aboutStat1Label || 'طلباء' },
-                      { value: hp?.aboutStat2Value || '10+',  label: hp?.aboutStat2Label || 'علماء' },
-                      { value: hp?.aboutStat3Value || '5+',   label: hp?.aboutStat3Label || 'ممالک' },
+                      { value: homepageSettings?.aboutStat1Value || '500+', label: homepageSettings?.aboutStat1Label || 'طلباء' },
+                      { value: homepageSettings?.aboutStat2Value || '10+',  label: homepageSettings?.aboutStat2Label || 'علماء' },
+                      { value: homepageSettings?.aboutStat3Value || '5+',   label: homepageSettings?.aboutStat3Label || 'ممالک' },
                     ].map(s => (
                       <div key={s.label} className="text-center">
                         <p className="text-[22px] font-bold text-white leading-none">{s.value}</p>
@@ -220,8 +219,8 @@ export default async function HomePage() {
                     <span className="text-emerald-600 font-bold text-[16px]">✓</span>
                   </div>
                   <div>
-                    <p className="text-[12px] font-semibold text-slate-800">{hp?.aboutBadgeText || 'اہل علماء'}</p>
-                    <p className="text-[11px] text-gray-400">{hp?.aboutBadgeSubtext || 'تصدیق شدہ و قابل اعتماد'}</p>
+                    <p className="text-[12px] font-semibold text-slate-800">{homepageSettings?.aboutBadgeText || 'اہل علماء'}</p>
+                    <p className="text-[11px] text-gray-400">{homepageSettings?.aboutBadgeSubtext || 'تصدیق شدہ و قابل اعتماد'}</p>
                   </div>
                 </div>
               </div>
@@ -235,8 +234,8 @@ export default async function HomePage() {
       {courseItems.length > 0 && (
         <CarouselSection
           eyebrow="تعلیم"
-          title={hp?.coursesHeading    || 'آنلائن کورسز'}
-          subtitle={hp?.coursesSubheading || 'اہل علماء سے سیکھیں — قرآن، فقہ، اخلاق اور مزید'}
+          title={homepageSettings?.coursesHeading    || 'آنلائن کورسز'}
+          subtitle={homepageSettings?.coursesSubheading || 'اہل علماء سے سیکھیں — قرآن، فقہ، اخلاق اور مزید'}
           items={courseItems}
           viewAllHref="/online-courses"
           viewAllLabel="تمام کورسز"
@@ -248,8 +247,8 @@ export default async function HomePage() {
       {serviceItems.length > 0 && (
         <CarouselSection
           eyebrow="ہماری خدمات"
-          title={hp?.servicesHeading    || 'ہماری خدمات'}
-          subtitle={hp?.servicesSubheading || 'اخلاص اور توجہ کے ساتھ ادا کی گئی مذہبی خدمات'}
+          title={homepageSettings?.servicesHeading    || 'ہماری خدمات'}
+          subtitle={homepageSettings?.servicesSubheading || 'اخلاص اور توجہ کے ساتھ ادا کی گئی مذہبی خدمات'}
           items={serviceItems}
           viewAllHref="/services"
           viewAllLabel="تمام خدمات"
@@ -258,7 +257,7 @@ export default async function HomePage() {
       )}
 
       {/* ── Latest Articles ── */}
-      {posts?.length > 0 && (
+      {(posts?.length ?? 0) > 0 && (
         <section className="py-10 md:py-16 border-b border-gray-100 bg-white cv-auto">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <Reveal animation="up">
@@ -269,10 +268,10 @@ export default async function HomePage() {
                     علم
                   </p>
                   <h2 className="font-bold text-[24px] sm:text-[27px] text-slate-900 leading-tight tracking-[-0.02em]">
-                    {hp?.articlesHeading || 'تازہ ترین مضامین'}
+                    {homepageSettings?.articlesHeading || 'تازہ ترین مضامین'}
                   </h2>
-                  {hp?.articlesSubheading && (
-                    <p className="text-[13px] text-gray-500 mt-1.5">{hp.articlesSubheading}</p>
+                  {homepageSettings?.articlesSubheading && (
+                    <p className="text-[13px] text-gray-500 mt-1.5">{homepageSettings.articlesSubheading}</p>
                   )}
                 </div>
                 <Link
@@ -285,12 +284,12 @@ export default async function HomePage() {
               </div>
             </Reveal>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {posts.slice(0, 3).map((post: any, i: number) => (
+              {(posts ?? []).slice(0, 3).map((post, i) => (
                 <Reveal key={post._id} animation="up" delay={i * 80}>
                   <ContentCard
-                    href={`/articles/${post.slug.current}`}
+                    href={`/articles/${post.slug?.current ?? ''}`}
                     image={post.mainImage ? urlFor(post.mainImage).width(600).height(450).url() : null}
-                    title={post.title}
+                    title={post.title ?? ''}
                     description={post.excerpt || null}
                     badge={post.categories?.[0]?.title || null}
                     ctaLabel="مزید پڑھیں"
@@ -303,23 +302,23 @@ export default async function HomePage() {
       )}
 
       {/* ── Testimonials ── */}
-      {testimonials?.length > 0 && (
+      {(testimonials?.length ?? 0) > 0 && (
       <section className="py-12 md:py-16 bg-slate-50 border-b border-gray-100 cv-auto">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Reveal animation="up">
             <div className="text-center mb-10">
               <p className="flex items-center justify-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-dq-700 mb-3">
                 <span className="w-6 h-px bg-dq-400 inline-block" />
-                {hp?.testimonialsEyebrow || 'برادری'}
+                {homepageSettings?.testimonialsEyebrow || 'برادری'}
                 <span className="w-6 h-px bg-dq-400 inline-block" />
               </p>
               <h2 className="font-bold text-[24px] sm:text-[28px] text-slate-900 leading-tight tracking-[-0.02em]">
-                {hp?.testimonialsHeading || 'ہماری برادری کیا کہتی ہے'}
+                {homepageSettings?.testimonialsHeading || 'ہماری برادری کیا کہتی ہے'}
               </h2>
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {testimonials.map((t: any, i: number) => (
+            {(testimonials ?? []).map((t, i) => (
               <Reveal key={t.name} animation="up" delay={i * 90}>
                 <div className="bg-white rounded-2xl border border-gray-100 shadow-sm px-6 py-6 flex flex-col h-full">
                   <div className="flex gap-0.5 mb-4">
@@ -361,11 +360,11 @@ export default async function HomePage() {
             </div>
 
             <h2 className="font-bold text-[28px] lg:text-[34px] text-slate-900 leading-tight tracking-[-0.02em] mb-3">
-              {hp?.donateHeading || 'ہمارے مشن میں ساتھ دیں'}
+              {homepageSettings?.donateHeading || 'ہمارے مشن میں ساتھ دیں'}
             </h2>
 
             <p className="text-[13.5px] text-gray-500 leading-relaxed mb-6 max-w-sm mx-auto">
-              {hp?.donateText || 'آپ کا صدقہ اور چندہ ہمیں اہل بیت (ع) کی تعلیمات پھیلاتے رہنے میں مدد کرتا ہے'}
+              {homepageSettings?.donateText || 'آپ کا صدقہ اور چندہ ہمیں اہل بیت (ع) کی تعلیمات پھیلاتے رہنے میں مدد کرتا ہے'}
             </p>
 
             <div className="relative max-w-lg mx-auto mb-7 bg-white border border-slate-200 rounded-xl px-6 py-5 shadow-sm">
@@ -373,11 +372,11 @@ export default async function HomePage() {
                 <span className="text-amber-500 text-[15px] font-bold leading-none">&quot;</span>
               </div>
               <p className="text-[13.5px] text-slate-600 italic leading-relaxed">
-                {hp?.donateQuote || 'صدقہ رب کے غضب کو بجھاتا اور بری موت کو دور کرتا ہے۔'}
+                {homepageSettings?.donateQuote || 'صدقہ رب کے غضب کو بجھاتا اور بری موت کو دور کرتا ہے۔'}
               </p>
               <div className="mt-3 flex items-center justify-center gap-2">
                 <span className="w-5 h-px bg-amber-300"/>
-                <cite className="not-italic text-[11px] font-semibold text-amber-600 tracking-wide">{hp?.donateQuoteAttribution || 'امام صادق (ع)'}</cite>
+                <cite className="not-italic text-[11px] font-semibold text-amber-600 tracking-wide">{homepageSettings?.donateQuoteAttribution || 'امام صادق (ع)'}</cite>
                 <span className="w-5 h-px bg-amber-300"/>
               </div>
             </div>
@@ -389,7 +388,7 @@ export default async function HomePage() {
                 shadow-[0_4px_16px_rgba(184,144,14,0.3)] hover:shadow-[0_6px_22px_rgba(184,144,14,0.45)]
                 transition-all duration-200 hover:-translate-y-px"
             >
-              {hp?.donateCtaLabel || 'ابھی عطیہ دیں'}
+              {homepageSettings?.donateCtaLabel || 'ابھی عطیہ دیں'}
               <ArrowRight size={13} strokeWidth={2.5} className="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform duration-150"/>
             </Link>
           </div>

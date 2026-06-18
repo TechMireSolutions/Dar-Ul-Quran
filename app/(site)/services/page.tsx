@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
-import { safeFetch } from '@/sanity/lib/client'
+import { getTopLevelServices } from '@/sanity/lib/fetchers'
 import { cardImageUrl } from '@/sanity/lib/image'
-import { topLevelServicesQuery } from '@/sanity/lib/queries'
+import type { ServiceListItemDoc } from '@/lib/types'
 import { cmsPageMetadata, fetchCmsPage, resolveSeoDescription, resolveSeoTitle } from '@/lib/cmsPage'
 import ContentCard from '@/components/ui/ContentCard'
 import ItemListSchema from '@/components/seo/ItemListSchema'
@@ -25,17 +25,21 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function ServicesPage() {
   const [{ page }, servicesRaw] = await Promise.all([
     fetchCmsPage(PAGE_SLUG),
-    safeFetch(topLevelServicesQuery),
+    getTopLevelServices(),
   ])
   const services = servicesRaw ?? []
 
   const title = resolveSeoTitle(page, 'خدمات')
   const description = resolveSeoDescription(page)
 
-  const listItems = services.map((service: { title: string; slug: { current: string } }) => ({
-    name: service.title,
-    url: `${PAGE_PATH}/${service.slug.current}`,
-  }))
+  const listItems = services
+    .filter((service): service is ServiceListItemDoc & { title: string; slug: { current: string } } =>
+      Boolean(service.title && service.slug?.current),
+    )
+    .map((service) => ({
+      name: service.title,
+      url: `${PAGE_PATH}/${service.slug.current}`,
+    }))
 
   return (
     <div>
@@ -54,14 +58,14 @@ export default async function ServicesPage() {
             <p className="text-center text-gray-400 text-[15px] py-24">خدمات جلد آ رہی ہیں۔</p>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-              {services.map((svc: any, i: number) => (
-                <Reveal key={svc._id} animation="up" delay={i * 70}>
+              {services.map((service, i) => (
+                <Reveal key={service._id} animation="up" delay={i * 70}>
                   <ContentCard
-                    href={`${PAGE_PATH}/${svc.slug.current}`}
-                    image={svc.icon ? cardImageUrl(svc.icon) : null}
-                    title={svc.title}
-                    description={svc.excerpt || svc.price || null}
-                    ctaLabel={svc.childCount > 0 ? 'خدمات دیکھیں' : 'ابھی بک کریں'}
+                    href={`${PAGE_PATH}/${service.slug?.current ?? ''}`}
+                    image={service.featuredImage ? cardImageUrl(service.featuredImage) : null}
+                    title={service.title ?? ''}
+                    description={service.excerpt || null}
+                    ctaLabel={(service.childCount ?? 0) > 0 ? 'خدمات دیکھیں' : 'ابھی بک کریں'}
                   />
                 </Reveal>
               ))}

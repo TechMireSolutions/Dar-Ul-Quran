@@ -14,12 +14,12 @@ export const client = createClient({
   useCdn:     process.env.NODE_ENV === 'production',
 })
 
-interface FetchOptions {
+type FetchOptions = {
   next?:  { revalidate?: number | false; tags?: string[] }
   cache?: RequestCache
 }
 
-export async function safeFetch<T = any>(
+export async function safeFetch<T = unknown>(
   query:    string,
   params?:  Record<string, unknown>,
   options?: FetchOptions

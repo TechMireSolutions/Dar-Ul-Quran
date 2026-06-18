@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { whatsappHref } from '@/lib/contact'
+import type { NavNode, SiteSettingsDoc, FooterServiceDoc } from '@/lib/types'
 import Reveal from '@/components/ui/Reveal'
 
 function IconFacebook({ size = 12 }: { size?: number }) {
@@ -63,29 +64,14 @@ function IconExternalLink({ size = 9 }: { size?: number }) {
   )
 }
 
-interface SiteSettings {
-  siteName?: string
-  tagline?: string
-  email?: string
-  phone?: string
-  address?: string
-  facebook?: string
-  youtube?: string
-  whatsapp?: string
-  darulQuranUrl?: string
-}
-
-interface NavItem     { label: string; href: string; external?: boolean }
-interface FooterService { _id: string; title: string; slug: string }
-
-interface FooterProps {
-  settings?:       SiteSettings
+type FooterProps = {
+  settings?:       SiteSettingsDoc | null
   logoUrl?:        string | null
-  navItems?:       NavItem[]
-  footerServices?: FooterService[]
+  navItems?:       NavNode[]
+  footerServices?: FooterServiceDoc[] | null
 }
 
-const FALLBACK_QUICK_LINKS: NavItem[] = [
+const FALLBACK_QUICK_LINKS: NavNode[] = [
   { label: 'ہوم',              href: '/' },
   { label: 'آنلائن کلاسز',    href: '/online-courses' },
   { label: 'خدمات',           href: '/services' },
@@ -95,7 +81,7 @@ const FALLBACK_QUICK_LINKS: NavItem[] = [
   { label: 'رابطہ',           href: '/contact' },
 ]
 
-const FALLBACK_SERVICES: FooterService[] = [
+const FALLBACK_SERVICES: FooterServiceDoc[] = [
   { _id: '1', title: 'نیابت زیارت', slug: 'niyabat-ziarat' },
   { _id: '2', title: 'زکوٰۃ',       slug: 'zakat' },
   { _id: '3', title: 'خمس',         slug: 'khums' },

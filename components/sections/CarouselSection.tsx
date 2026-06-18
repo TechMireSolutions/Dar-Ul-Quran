@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react'
 import ContentCard from '@/components/ui/ContentCard'
 
-export interface CarouselItem {
+export type CarouselItem = {
   id:           string
   image?:       string | null
   title:        string
@@ -14,7 +14,7 @@ export interface CarouselItem {
   ctaLabel?:    string
 }
 
-interface CarouselSectionProps {
+type CarouselSectionProps = {
   eyebrow:       string
   title:         string
   subtitle?:     string

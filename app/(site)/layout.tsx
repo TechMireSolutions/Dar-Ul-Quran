@@ -2,18 +2,19 @@ import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import WhatsAppButton from '@/components/ui/WhatsAppButtonLazy'
 import DeferredUrduFont from '@/components/ui/DeferredUrduFont'
-import { safeFetch } from '@/sanity/lib/client'
-import { siteSettingsQuery, headerNavQuery, footerServicesQuery } from '@/sanity/lib/queries'
+import { getSiteSettings, getHeaderNav, getFooterServices } from '@/sanity/lib/fetchers'
 import { urlFor } from '@/sanity/lib/image'
 import { buildNavTree } from '@/lib/types'
 
 export const revalidate = 300
 
-export default async function SiteLayout({ children }: { children: React.ReactNode }) {
+type SiteLayoutProps = { children: React.ReactNode }
+
+export default async function SiteLayout({ children }: SiteLayoutProps) {
   const [settings, headerNav, footerServices] = await Promise.all([
-    safeFetch(siteSettingsQuery),
-    safeFetch(headerNavQuery),
-    safeFetch(footerServicesQuery),
+    getSiteSettings(),
+    getHeaderNav(),
+    getFooterServices(),
   ])
 
   const logoUrl = settings?.logo

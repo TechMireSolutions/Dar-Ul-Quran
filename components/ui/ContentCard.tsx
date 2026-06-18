@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 
-interface ContentCardProps {
+type ContentCardProps = {
   image?:       string | null
   title:        string
   description?: string | null

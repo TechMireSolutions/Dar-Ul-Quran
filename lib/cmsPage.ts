@@ -21,7 +21,12 @@ export function resolveSeoDescription(
   return doc?.seoDescription || doc?.subtitle || fallback
 }
 
-export async function fetchCmsPage(slug: string) {
+import type { SiteSettingsDoc, PageDoc } from '@/lib/types'
+
+export async function fetchCmsPage(slug: string): Promise<{
+  page: PageDoc | null
+  settings: SiteSettingsDoc | null
+}> {
   const [page, settings] = await Promise.all([getPageBySlug(slug), getSiteSettings()])
   return { page, settings }
 }

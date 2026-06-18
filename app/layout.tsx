@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { safeFetch } from '@/sanity/lib/client'
-import { siteSettingsQuery } from '@/sanity/lib/queries'
+import { getSiteSettings } from '@/sanity/lib/fetchers'
 import { urlFor } from '@/sanity/lib/image'
 import { SITE_URL, defaultOgImage } from '@/lib/seo'
 import './globals.css'
@@ -15,7 +14,7 @@ export const viewport: Viewport = {
 export async function generateMetadata(): Promise<Metadata> {
   const baseUrl = new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://darulquran.pk')
   try {
-    const settings = await safeFetch(siteSettingsQuery)
+    const settings = await getSiteSettings()
 
     const siteName   = settings?.siteName   || 'Dar Ul Quran'
     const faviconUrl = settings?.favicon ? urlFor(settings.favicon).width(256).height(256).url() : undefined
@@ -78,8 +77,10 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const settings = await safeFetch(siteSettingsQuery)
+type RootLayoutProps = { children: React.ReactNode }
+
+export default async function RootLayout({ children }: RootLayoutProps) {
+  const settings = await getSiteSettings()
   const orgLogoUrl = settings?.logo
     ? urlFor(settings.logo).width(512).height(512).url()
     : settings?.favicon

@@ -1,10 +1,9 @@
 import type { MetadataRoute } from 'next'
-import { safeFetch } from '@/sanity/lib/client'
-import { siteSettingsQuery } from '@/sanity/lib/queries'
+import { getSiteSettings } from '@/sanity/lib/fetchers'
 import { urlFor } from '@/sanity/lib/image'
 
 export default async function manifest(): Promise<MetadataRoute.Manifest> {
-  const settings = await safeFetch(siteSettingsQuery)
+  const settings = await getSiteSettings()
   const source = settings?.logo ?? settings?.favicon
 
   const icons: MetadataRoute.Manifest['icons'] = source

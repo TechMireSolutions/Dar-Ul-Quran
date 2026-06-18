@@ -1,6 +1,5 @@
 import type { MetadataRoute } from 'next'
-
-const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://darulquran.pk'
+import { SITE_URL } from '@/lib/seo'
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -17,7 +16,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/studio/', '/api/'],
       },
     ],
-    sitemap: `${BASE}/sitemap.xml`,
-    host: BASE,
+    sitemap: `${SITE_URL}/sitemap.xml`,
+    host: SITE_URL,
   }
 }

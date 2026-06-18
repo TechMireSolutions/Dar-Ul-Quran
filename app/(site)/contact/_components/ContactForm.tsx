@@ -2,27 +2,27 @@
 
 import { useState } from 'react'
 
-interface Option { _id: string; title: string; parentTitle?: string }
+type ContactFormOption = { _id: string; title: string; parentTitle?: string }
 
-interface Props {
+type ContactFormProps = {
   subjects:    string[]
   submitLabel: string
-  courses:     Option[]
-  services:    Option[]
+  courses:     ContactFormOption[]
+  services:    ContactFormOption[]
 }
 
 type Purpose = 'general' | 'course' | 'service' | 'other'
 type Status  = 'idle' | 'loading' | 'success' | 'error'
 
-const inputCls = `w-full border border-gray-200 rounded-lg px-3.5 py-2.5 text-[13.5px] text-slate-700
+const INPUT_CLASS = `w-full border border-gray-200 rounded-lg px-3.5 py-2.5 text-[13.5px] text-slate-700
   placeholder:text-gray-400 bg-white focus:outline-none focus:border-dq-400
   focus:ring-2 focus:ring-dq-400/20 transition-all`
 
-function FieldLabel({ children, required: req, htmlFor }: { children: React.ReactNode; required?: boolean; htmlFor: string }) {
+function FieldLabel({ children, required, htmlFor }: { children: React.ReactNode; required?: boolean; htmlFor: string }) {
   return (
     <label htmlFor={htmlFor} className="block text-[12px] font-semibold text-slate-700 mb-1.5">
       {children}
-      {req && (
+      {required && (
         <>
           <span className="text-red-500 ml-0.5" aria-hidden="true">*</span>
           <span className="sr-only"> (لازمی)</span>
@@ -32,11 +32,11 @@ function FieldLabel({ children, required: req, htmlFor }: { children: React.Reac
   )
 }
 
-function optionLabel(o: Option) {
-  return o.parentTitle ? `${o.parentTitle} — ${o.title}` : o.title
+function optionLabel(option: ContactFormOption) {
+  return option.parentTitle ? `${option.parentTitle} — ${option.title}` : option.title
 }
 
-export default function ContactForm({ submitLabel, courses, services }: Props) {
+export default function ContactForm({ submitLabel, courses, services }: ContactFormProps) {
   const [purpose,    setPurpose]    = useState<Purpose>('general')
   const [appliedFor, setAppliedFor] = useState('')
   const [status,     setStatus]     = useState<Status>('idle')
@@ -99,11 +99,11 @@ export default function ContactForm({ submitLabel, courses, services }: Props) {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <FieldLabel required htmlFor="cf-first-name">پہلا نام</FieldLabel>
-          <input id="cf-first-name" type="text" name="firstName" required autoComplete="given-name" placeholder="پہلا نام" className={inputCls} />
+          <input id="cf-first-name" type="text" name="firstName" required autoComplete="given-name" placeholder="پہلا نام" className={INPUT_CLASS} />
         </div>
         <div>
           <FieldLabel htmlFor="cf-last-name">آخری نام</FieldLabel>
-          <input id="cf-last-name" type="text" name="lastName" autoComplete="family-name" placeholder="آخری نام (اختیاری)" className={inputCls} />
+          <input id="cf-last-name" type="text" name="lastName" autoComplete="family-name" placeholder="آخری نام (اختیاری)" className={INPUT_CLASS} />
         </div>
       </div>
 
@@ -114,7 +114,7 @@ export default function ContactForm({ submitLabel, courses, services }: Props) {
           id="cf-purpose"
           value={purpose}
           onChange={e => { setPurpose(e.target.value as Purpose); setAppliedFor('') }}
-          className={inputCls}
+          className={INPUT_CLASS}
         >
           <option value="general">عام پوچھ گچھ</option>
           {courses.length  > 0 && <option value="course">کورس میں داخلہ</option>}
@@ -132,11 +132,11 @@ export default function ContactForm({ submitLabel, courses, services }: Props) {
             required
             value={appliedFor}
             onChange={e => setAppliedFor(e.target.value)}
-            className={inputCls}
+            className={INPUT_CLASS}
           >
             <option value="" disabled>— کورس منتخب کریں —</option>
-            {courses.map(c => (
-              <option key={c._id} value={optionLabel(c)}>{optionLabel(c)}</option>
+            {courses.map(course => (
+              <option key={course._id} value={optionLabel(course)}>{optionLabel(course)}</option>
             ))}
           </select>
         </div>
@@ -151,11 +151,11 @@ export default function ContactForm({ submitLabel, courses, services }: Props) {
             required
             value={appliedFor}
             onChange={e => setAppliedFor(e.target.value)}
-            className={inputCls}
+            className={INPUT_CLASS}
           >
             <option value="" disabled>— خدمت منتخب کریں —</option>
-            {services.map(s => (
-              <option key={s._id} value={optionLabel(s)}>{optionLabel(s)}</option>
+            {services.map(service => (
+              <option key={service._id} value={optionLabel(service)}>{optionLabel(service)}</option>
             ))}
           </select>
         </div>
@@ -165,11 +165,11 @@ export default function ContactForm({ submitLabel, courses, services }: Props) {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <FieldLabel required htmlFor="cf-email">ای میل</FieldLabel>
-          <input id="cf-email" type="email" name="email" required autoComplete="email" placeholder="your@email.com" className={inputCls} />
+          <input id="cf-email" type="email" name="email" required autoComplete="email" placeholder="your@email.com" className={INPUT_CLASS} />
         </div>
         <div>
           <FieldLabel required htmlFor="cf-phone">فون نمبر</FieldLabel>
-          <input id="cf-phone" type="tel" name="phone" required autoComplete="tel" placeholder="+92 300 0000000" className={inputCls} />
+          <input id="cf-phone" type="tel" name="phone" required autoComplete="tel" placeholder="+92 300 0000000" className={INPUT_CLASS} />
         </div>
       </div>
 
@@ -177,11 +177,11 @@ export default function ContactForm({ submitLabel, courses, services }: Props) {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <FieldLabel required htmlFor="cf-country">ملک</FieldLabel>
-          <input id="cf-country" type="text" name="country" required autoComplete="country-name" placeholder="مثلاً: پاکستان" className={inputCls} />
+          <input id="cf-country" type="text" name="country" required autoComplete="country-name" placeholder="مثلاً: پاکستان" className={INPUT_CLASS} />
         </div>
         <div>
           <FieldLabel required htmlFor="cf-city">شہر</FieldLabel>
-          <input id="cf-city" type="text" name="city" required autoComplete="address-level2" placeholder="مثلاً: کراچی" className={inputCls} />
+          <input id="cf-city" type="text" name="city" required autoComplete="address-level2" placeholder="مثلاً: کراچی" className={INPUT_CLASS} />
         </div>
       </div>
 
@@ -198,7 +198,7 @@ export default function ContactForm({ submitLabel, courses, services }: Props) {
             purpose === 'service' ? 'اپنی ضرورت اور متعلقہ تفصیل بیان کریں...' :
             'یہاں اپنا پیغام لکھیں...'
           }
-          className={`${inputCls} resize-none`}
+          className={`${INPUT_CLASS} resize-none`}
         />
       </div>
 
