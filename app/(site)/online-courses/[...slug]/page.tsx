@@ -10,6 +10,7 @@ import { PortableText } from '@portabletext/react'
 import ContentCard from '@/components/ui/ContentCard'
 import CourseSchema from '@/components/seo/CourseSchema'
 import type { CourseSchemaData } from '@/components/seo/CourseSchema'
+import { defaultOgImage } from '@/lib/seo'
 
 export const revalidate = 300
 
@@ -43,7 +44,10 @@ export async function generateMetadata(
   { params }: { params: Promise<{ slug: string[] }> }
 ): Promise<Metadata> {
   const { slug } = await params
-  const course = await safeFetch(courseBySlugDeepQuery, { slug: slug[slug.length - 1] })
+  const [course, site] = await Promise.all([
+    safeFetch(courseBySlugDeepQuery, { slug: slug[slug.length - 1] }),
+    safeFetch(siteSettingsQuery),
+  ])
   if (!course) return { title: 'کورس | دار القرآن' }
 
   const canonicalPath = `/online-courses/${slug.join('/')}`
@@ -51,19 +55,19 @@ export async function generateMetadata(
   const seoDescription =
     course.seoDescription ||
     course.excerpt ||
-    `آن لائن ${course.title}${course.subject ? ` — ${course.subject}` : ''}۔ امریکہ میں مقیم شیعہ خاندانوں کے لیے مستند اسلامی تعلیم۔`
+    `آن لائن ${course.title}${course.subject ? ` — ${course.subject}` : ''}۔ پاکستان اور دنیا بھر کے شیعہ خاندانوں کے لیے مستند اسلامی تعلیم۔`
 
   const ogImageUrl = course.featuredImage
     ? urlFor(course.featuredImage).width(1200).height(630).fit('crop').auto('format').url()
-    : `${BASE}/og-default.jpg`
+    : defaultOgImage(site)
 
   const keywords = [
     course.title,
     'Online Shia Quran classes',
-    'Shia Quran classes USA',
+    'Shia Quran classes Pakistan',
     'Online Quran for kids',
     'Jafari Islamic education online',
-    'Shia Islamic school online USA',
+    'Shia Islamic school online',
     ...(course.subject ? [course.subject] : []),
     'دار القرآن',
     'آن لائن قرآن کلاسز',
@@ -81,20 +85,22 @@ export async function generateMetadata(
 
     openGraph: {
       type: 'website',
-      locale: 'en_US',
-      alternateLocale: 'ur_PK',
+      locale: 'ur_PK',
+      alternateLocale: 'en_US',
       url: `${BASE}${canonicalPath}`,
       siteName: 'دار القرآن | Dar Ul Quran',
       title: seoTitle,
       description: seoDescription,
-      images: [{ url: ogImageUrl, width: 1200, height: 630, alt: course.title }],
+      ...(ogImageUrl
+        ? { images: [{ url: ogImageUrl, width: 1200, height: 630, alt: course.title }] }
+        : {}),
     },
 
     twitter: {
-      card: 'summary_large_image',
+      card: ogImageUrl ? 'summary_large_image' : 'summary',
       title: seoTitle,
       description: seoDescription,
-      images: [ogImageUrl],
+      ...(ogImageUrl ? { images: [ogImageUrl] } : {}),
     },
 
     robots: {

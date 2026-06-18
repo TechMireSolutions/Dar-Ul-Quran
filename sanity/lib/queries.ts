@@ -96,6 +96,7 @@ export const topLevelServicesQuery = `
 export const serviceBySlugDeepQuery = `
   *[_type == "service" && slug.current == $slug][0] {
     _id, title, slug, excerpt, body, icon, isBookable, price, faq,
+    "faqItems": faq[]{ question, "answer": pt::text(answer) },
     "seoTitle": seoTitle, "seoDescription": seoDescription,
 
     heroImage, heroSubtitle, heroBody,

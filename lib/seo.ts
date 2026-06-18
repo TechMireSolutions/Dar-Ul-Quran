@@ -1,6 +1,23 @@
 import type { Metadata } from 'next'
+import { urlFor } from '@/sanity/lib/image'
 
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://darulquran.pk'
+
+type SanityImage = Parameters<typeof urlFor>[0]
+
+/** Default Open Graph image from Sanity site settings (logo → favicon). */
+export function defaultOgImage(settings?: {
+  logo?: SanityImage
+  favicon?: SanityImage
+} | null): string | undefined {
+  if (settings?.logo) {
+    return urlFor(settings.logo).width(1200).height(630).fit('crop').auto('format').url()
+  }
+  if (settings?.favicon) {
+    return urlFor(settings.favicon).width(1200).height(630).fit('crop').auto('format').url()
+  }
+  return undefined
+}
 
 type PageMetadataOptions = {
   title: string

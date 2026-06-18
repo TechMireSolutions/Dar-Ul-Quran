@@ -28,7 +28,7 @@ function buildSchemas(data: CourseSchemaData): object[] {
   const description =
     data.seoDescription ??
     data.excerpt ??
-    `${data.title} — authentic Shia Quran and Islamic education, live online for families in the United States.`
+    `${data.title} — مستند شیعہ قرآن و اسلامی تعلیم، آن لائن — پاکستان اور دنیا بھر کے خاندانوں کے لیے۔`
 
   const courseSchema: Record<string, unknown> = {
     '@context': 'https://schema.org',
@@ -44,8 +44,8 @@ function buildSchemas(data: CourseSchemaData): object[] {
       name: data.orgName ?? ORG_NAME,
       url: BASE,
       description:
-        'Dar Ul Quran is a Shia Islamic educational organization providing authentic Jafari-madhab Quran and Islamic studies to families across the United States.',
-      address: { '@type': 'PostalAddress', addressCountry: 'US' },
+        'دار القرآن ایک شیعہ اسلامی تعلیمی ادارہ ہے جو مستند جعفری فقہ پر مبنی قرآن و اسلامی تعلیم پاکستان اور عالمی سطح پر پیش کرتا ہے۔',
+      address: { '@type': 'PostalAddress', addressCountry: 'PK' },
     },
 
     hasCourseInstance: [
@@ -76,7 +76,10 @@ function buildSchemas(data: CourseSchemaData): object[] {
       '@type': 'EducationalAudience',
       audienceType: 'Children and Adults',
       educationalRole: 'student',
-      geographicArea: { '@type': 'Country', name: 'United States' },
+      geographicArea: [
+        { '@type': 'Country', name: 'Pakistan' },
+        { '@type': 'Place', name: 'Worldwide' },
+      ],
     },
 
     isAccessibleForFree: false,
@@ -85,7 +88,7 @@ function buildSchemas(data: CourseSchemaData): object[] {
       ? {
           offers: {
             '@type': 'Offer',
-            priceCurrency: 'USD',
+            priceCurrency: 'PKR',
             price: String(data.pricingMin),
             availability: 'https://schema.org/InStock',
             url: `${BASE}/contact`,

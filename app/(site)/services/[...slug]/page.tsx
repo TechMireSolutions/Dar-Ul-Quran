@@ -8,6 +8,7 @@ import { urlFor } from '@/sanity/lib/image'
 import { serviceBySlugDeepQuery, siteSettingsQuery, allServicePathsQuery } from '@/sanity/lib/queries'
 import { PortableText } from '@portabletext/react'
 import ContentCard from '@/components/ui/ContentCard'
+import ServiceSchema from '@/components/seo/ServiceSchema'
 import { pageMetadata } from '@/lib/seo'
 
 export const revalidate = 300
@@ -82,6 +83,18 @@ export default async function ServiceCatchAllPage(
 
   return (
     <div>
+      <ServiceSchema
+        data={{
+          title: service.title,
+          seoDescription: service.seoDescription,
+          excerpt: service.excerpt,
+          slugPath: slug.join('/'),
+          price: service.price,
+          isBookable: service.isBookable,
+          faqItems: service.faqItems,
+          orgName: site?.siteName,
+        }}
+      />
 
       {/* ── Breadcrumb ─────────────────────────────────────────────────────── */}
       <div className="bg-white border-b border-gray-100">

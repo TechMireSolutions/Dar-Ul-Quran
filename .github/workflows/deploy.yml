@@ -19,7 +19,7 @@ jobs:
           command_timeout: 30m
           script: |
             set -e
-            echo "=== Dar Ul Quran deploy script v4 $(date -u +%Y-%m-%dT%H:%M:%SZ) ==="
+            echo "=== Dar Ul Quran deploy script v5 $(date -u +%Y-%m-%dT%H:%M:%SZ) ==="
             cd /var/www/darulquran_next
 
             git checkout -- . 2>/dev/null || true
@@ -42,3 +42,12 @@ jobs:
             npm run build
             pm2 startOrRestart ecosystem.config.cjs --update-env
             pm2 save
+
+            sleep 5
+            if ! curl -fsS http://127.0.0.1:3001/ -o /dev/null; then
+              echo "ERROR: App not responding on http://127.0.0.1:3001"
+              pm2 logs darulquran-next --lines 40 --nostream || true
+              exit 1
+            fi
+            echo "Health check passed: http://127.0.0.1:3001"
+            echo "If public site returns 503, update Apache proxy to port 3001 (see deploy/apache.conf.example)"

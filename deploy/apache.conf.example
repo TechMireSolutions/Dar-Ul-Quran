@@ -1,0 +1,24 @@
+# Apache reverse proxy for darulquran.pk → Next.js on port 3001
+# Enable modules: sudo a2enmod proxy proxy_http headers rewrite ssl
+# Place in /etc/apache2/sites-available/darulquran.pk.conf
+# sudo a2ensite darulquran.pk && sudo systemctl reload apache2
+
+<VirtualHost *:80>
+    ServerName darulquran.pk
+    ServerAlias www.darulquran.pk
+
+    ProxyPreserveHost On
+    ProxyPass / http://127.0.0.1:3001/
+    ProxyPassReverse / http://127.0.0.1:3001/
+
+    RequestHeader set X-Forwarded-Proto "http"
+    RequestHeader set X-Forwarded-Port "80"
+
+    ErrorLog ${APACHE_LOG_DIR}/darulquran-error.log
+    CustomLog ${APACHE_LOG_DIR}/darulquran-access.log combined
+</VirtualHost>
+
+# After certbot SSL is configured, add a :443 vhost with:
+# ProxyPass / http://127.0.0.1:3001/
+# ProxyPassReverse / http://127.0.0.1:3001/
+# RequestHeader set X-Forwarded-Proto "https"

@@ -3,7 +3,7 @@ import { Noto_Nastaliq_Urdu } from 'next/font/google'
 import { safeFetch } from '@/sanity/lib/client'
 import { siteSettingsQuery } from '@/sanity/lib/queries'
 import { urlFor } from '@/sanity/lib/image'
-import { SITE_URL } from '@/lib/seo'
+import { SITE_URL, defaultOgImage } from '@/lib/seo'
 import './globals.css'
 
 const urduFont = Noto_Nastaliq_Urdu({
@@ -42,6 +42,7 @@ export async function generateMetadata(): Promise<Metadata> {
     const siteName   = settings?.siteName   || 'Dar Ul Quran'
     const faviconUrl = settings?.favicon ? urlFor(settings.favicon).width(256).height(256).url() : undefined
     const description = settings?.description || 'اسلامی علم، آنلائن کورسز اور خدمات'
+    const ogImageUrl = defaultOgImage(settings)
 
     return {
       metadataBase: baseUrl,
@@ -55,7 +56,9 @@ export async function generateMetadata(): Promise<Metadata> {
         siteName,
         locale: 'ur_PK',
         type: 'website',
-        images: [{ url: `${baseUrl.origin}/og-default.jpg`, width: 1200, height: 630, alt: siteName }],
+        ...(ogImageUrl
+          ? { images: [{ url: ogImageUrl, width: 1200, height: 630, alt: siteName }] }
+          : {}),
       },
       twitter: {
         card: 'summary_large_image',
@@ -75,7 +78,6 @@ export async function generateMetadata(): Promise<Metadata> {
         siteName: 'دار القرآن',
         locale: 'ur_PK',
         type: 'website',
-        images: [{ url: `${baseUrl.origin}/og-default.jpg`, width: 1200, height: 630, alt: 'دار القرآن' }],
       },
       twitter: {
         card: 'summary_large_image',
@@ -98,6 +100,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         logo: `${SITE_URL}/favicon.ico`,
         description: 'اسلامی علم، آنلائن کورسز اور خدمات',
         inLanguage: 'ur',
+        address: { '@type': 'PostalAddress', addressCountry: 'PK' },
       },
       {
         '@type': 'WebSite',
