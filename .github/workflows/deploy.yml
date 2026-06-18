@@ -16,20 +16,29 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          command_timeout: 30m
           script: |
             set -e
+            echo "=== Dar Ul Quran deploy script v4 $(date -u +%Y-%m-%dT%H:%M:%SZ) ==="
             cd /var/www/darulquran_next
 
-            # Discard any manual edits on the server (e.g. npm install changing package files)
+            git checkout -- . 2>/dev/null || true
             git fetch origin main
             git reset --hard origin/main
+            echo "HEAD: $(git rev-parse --short HEAD)"
 
-            export NODE_ENV=production
             if [ -f .env ]; then set -a && . ./.env && set +a; fi
             if [ -f .env.local ]; then set -a && . ./.env.local && set +a; fi
+            unset NODE_ENV
+
+            if [ -s "$HOME/.nvm/nvm.sh" ]; then
+              . "$HOME/.nvm/nvm.sh"
+              nvm use 22 2>/dev/null || nvm use node 2>/dev/null || true
+            fi
+            echo "Node: $(node -v)"
 
             rm -rf node_modules .next
-            npm ci
+            npm ci --include=dev
             npm run build
             pm2 startOrRestart ecosystem.config.cjs --update-env
             pm2 save
