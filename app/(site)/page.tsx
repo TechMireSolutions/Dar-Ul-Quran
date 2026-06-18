@@ -36,8 +36,11 @@ export default async function HomePage() {
     safeFetch(testimonialsQuery),
   ])
 
+  // No width/height — let Next.js <Image> generate the responsive srcset and
+  // add fetchpriority=high to the preload link. Sanity CDN caps at 2000px so
+  // we don't need to set an explicit dimension here.
   const heroImageUrl = hp?.heroImage
-    ? urlFor(hp.heroImage).width(1200).height(700).format('webp').quality(80).url()
+    ? urlFor(hp.heroImage).quality(80).url()
     : null
 
   const courseItems: CarouselItem[] = courses.map((c: any) => ({

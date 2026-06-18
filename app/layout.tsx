@@ -9,13 +9,12 @@ const urduFont = Noto_Nastaliq_Urdu({
   subsets:   ['arabic'],
   weight:    ['400', '700'],
   variable:  '--font-urdu',
-  // 'block' prevents the catastrophic CLS that 'swap' causes for Nastaliq:
-  // Noto Nastaliq has ~70% taller vertical metrics than any Latin fallback,
-  // so a swap triggers a full-page reflow. 'optional' gives the font 100ms
-  // to load. If it doesn't load in time, it uses fallback and DOES NOT swap,
-  // preventing CLS. It will be used on the next page load once cached.
+  // 'optional' never causes CLS — font only shows if loaded within ~100ms.
+  // 'preload: false' removes the <link rel="preload"> that competed with the
+  // LCP hero image for bandwidth (Lighthouse reported 125ms waste from this).
+  // The font will be downloaded lazily and used once cached on the next visit.
   display:   'optional',
-  preload:   true,
+  preload:   false,
   // Automatic fallback metric adjustment targets cap-height, but Nastaliq's
   // CLS source is ascent/descent — disable it and handle via globals.css.
   adjustFontFallback: false,
@@ -100,6 +99,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ur" dir="rtl" className={urduFont.variable} data-scroll-behavior="smooth">
       <head>
+        <link rel="preconnect" href="https://cdn.sanity.io" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://cdn.sanity.io" />
         <meta name="google-site-verification" content="HlwG4YjRAkH3E4L7nQg1wNUk4Qy8b8LCSd9ccfxgZto" />
         <script
           type="application/ld+json"
