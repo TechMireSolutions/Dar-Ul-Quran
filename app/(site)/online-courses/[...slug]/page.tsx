@@ -9,6 +9,7 @@ import { courseBySlugDeepQuery, courseSchemaQuery, siteSettingsQuery, allCourseP
 import { PortableText } from '@portabletext/react'
 import ContentCard from '@/components/ui/ContentCard'
 import CourseSchema from '@/components/seo/CourseSchema'
+import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
 import type { CourseSchemaData } from '@/components/seo/CourseSchema'
 import { defaultOgImage } from '@/lib/seo'
 
@@ -151,28 +152,17 @@ export default async function CourseCatchAllPage(
       )}
 
       {/* ── Breadcrumb ─────────────────────────────────────────────────────── */}
-      <div className="bg-white border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-          <nav className="flex items-center flex-wrap gap-1 text-[12.5px] text-gray-400">
-            <Link href="/online-courses" className="hover:text-dq-600 transition-colors font-medium">
-              آنلائن کورسز
-            </Link>
-            {ancestry.map(({ title, slug: aSlug }, i) => {
-              const href = `/online-courses/${ancestry.slice(0, i + 1).map(a => a.slug).join('/')}`
-              return (
-                <span key={aSlug} className="flex items-center gap-1">
-                  <ChevronRight size={12} className="text-gray-300" />
-                  <Link href={href} className="hover:text-dq-600 transition-colors">{title}</Link>
-                </span>
-              )
-            })}
-            <span className="flex items-center gap-1">
-              <ChevronRight size={12} className="text-gray-300" />
-              <span className="text-slate-700 font-medium">{course.title}</span>
-            </span>
-          </nav>
-        </div>
-      </div>
+      <BreadcrumbNav
+        sectionLabel="آنلائن کورسز"
+        sectionHref="/online-courses"
+        items={[
+          ...ancestry.map(({ title, slug: aSlug }, i) => ({
+            label: title,
+            href: `/online-courses/${ancestry.slice(0, i + 1).map((a) => a.slug).join('/')}`,
+          })),
+          { label: course.title },
+        ]}
+      />
 
       {hasChildren ? (
 

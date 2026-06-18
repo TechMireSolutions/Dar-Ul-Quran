@@ -172,7 +172,9 @@ export const footerServicesQuery = `
 
 export const homepageSettingsQuery = `
   *[_type == "homepageSettings"][0] {
-    heroImage, heroArabicText, heroTitle, heroSubtitle,
+    heroImage,
+    "heroImageLqip": heroImage.asset->metadata.lqip,
+    heroArabicText, heroTitle, heroSubtitle,
     heroCta1Label, heroCta1Link, heroCta2Label, heroCta2Link,
     aboutEyebrow, aboutHeading, aboutBody1, aboutBody2, aboutPillars,
     aboutCtaLabel, aboutHadithArabic, aboutHadithTranslation, aboutHadithAttribution,

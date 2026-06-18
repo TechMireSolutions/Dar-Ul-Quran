@@ -7,6 +7,11 @@
     ServerName darulquran.pk
     ServerAlias www.darulquran.pk
 
+    # Redirect HTTP → HTTPS (uncomment after SSL is configured)
+    # RewriteEngine On
+    # RewriteCond %{HTTPS} off
+    # RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
     ProxyPreserveHost On
     ProxyPass / http://127.0.0.1:3001/
     ProxyPassReverse / http://127.0.0.1:3001/
@@ -18,13 +23,36 @@
     CustomLog ${APACHE_LOG_DIR}/darulquran-access.log combined
 </VirtualHost>
 
-# After certbot SSL is configured, add a :443 vhost with:
-#   Protocols h2 http/1.1
-#   ProxyPass / http://127.0.0.1:3001/
-#   ProxyPassReverse / http://127.0.0.1:3001/
-#   RequestHeader set X-Forwarded-Proto "https"
-#
-# Optional: cache immutable Next.js static assets at the proxy layer
-# <LocationMatch "^/_next/static/">
-#     Header set Cache-Control "public, max-age=31536000, immutable"
-# </LocationMatch>
+# HTTPS vhost — enable after certbot (sudo certbot --apache -d darulquran.pk -d www.darulquran.pk)
+<VirtualHost *:443>
+    ServerName darulquran.pk
+    ServerAlias www.darulquran.pk
+
+    SSLEngine on
+    # SSLCertificateFile /etc/letsencrypt/live/darulquran.pk/fullchain.pem
+    # SSLCertificateKeyFile /etc/letsencrypt/live/darulquran.pk/privkey.pem
+
+    Protocols h2 http/1.1
+
+    ProxyPreserveHost On
+    ProxyPass / http://127.0.0.1:3001/
+    ProxyPassReverse / http://127.0.0.1:3001/
+
+    RequestHeader set X-Forwarded-Proto "https"
+    RequestHeader set X-Forwarded-Port "443"
+
+    # Security headers (supplement Next.js headers at the edge)
+    Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+
+    # Long-lived cache for immutable Next.js static assets
+    <LocationMatch "^/_next/static/">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </LocationMatch>
+
+    ErrorLog ${APACHE_LOG_DIR}/darulquran-ssl-error.log
+    CustomLog ${APACHE_LOG_DIR}/darulquran-ssl-access.log combined
+</VirtualHost>

@@ -38,9 +38,12 @@ type PageMetadataOptions = {
   imageAlt?: string
   type?: 'website' | 'article'
   keywords?: string[]
-  /** Pass site settings to auto-fill OG image when `image` is omitted. */
   settings?: SiteSettingsOg
   noIndex?: boolean
+  siteName?: string
+  publishedTime?: string
+  modifiedTime?: string
+  authors?: string[]
 }
 
 const DEFAULT_ROBOTS: Metadata['robots'] = {
@@ -66,14 +69,20 @@ export function pageMetadata({
   keywords,
   settings,
   noIndex = false,
+  siteName,
+  publishedTime,
+  modifiedTime,
+  authors,
 }: PageMetadataOptions): Metadata {
   const url = path === '/' ? SITE_URL : `${SITE_URL}${path}`
   const ogImage = resolveOgImage(image, settings)
+  const resolvedSiteName = siteName ?? settings?.siteName ?? 'Dar Ul Quran'
 
   return {
     title,
     ...(description ? { description } : {}),
     ...(keywords?.length ? { keywords } : {}),
+    ...(authors?.length ? { authors: authors.map((name) => ({ name })) } : {}),
     alternates: { canonical: path },
     robots: noIndex ? { index: false, follow: false } : DEFAULT_ROBOTS,
     openGraph: {
@@ -81,7 +90,11 @@ export function pageMetadata({
       locale: 'ur_PK',
       url,
       title,
+      siteName: resolvedSiteName,
       ...(description ? { description } : {}),
+      ...(type === 'article' && publishedTime ? { publishedTime } : {}),
+      ...(type === 'article' && modifiedTime ? { modifiedTime } : {}),
+      ...(type === 'article' && authors?.length ? { authors } : {}),
       ...(ogImage
         ? { images: [{ url: ogImage, width: 1200, height: 630, alt: imageAlt ?? title }] }
         : {}),

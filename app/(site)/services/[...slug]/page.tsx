@@ -2,13 +2,14 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowRight, ChevronRight, MessageCircle, Plus, Check } from 'lucide-react'
+import { ArrowRight, MessageCircle, Plus, Check } from 'lucide-react'
 import { safeFetch } from '@/sanity/lib/client'
 import { urlFor } from '@/sanity/lib/image'
 import { serviceBySlugDeepQuery, siteSettingsQuery, allServicePathsQuery } from '@/sanity/lib/queries'
 import { PortableText } from '@portabletext/react'
 import ContentCard from '@/components/ui/ContentCard'
 import ServiceSchema from '@/components/seo/ServiceSchema'
+import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
 import { pageMetadata } from '@/lib/seo'
 
 export const revalidate = 300
@@ -102,26 +103,17 @@ export default async function ServiceCatchAllPage(
       />
 
       {/* ── Breadcrumb ─────────────────────────────────────────────────────── */}
-      <div className="bg-white border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-          <nav className="flex items-center flex-wrap gap-1 text-[12.5px] text-gray-400">
-            <Link href="/services" className="hover:text-dq-600 transition-colors font-medium">خدمات</Link>
-            {ancestry.map(({ title, slug: aSlug }, i) => {
-              const href = `/services/${ancestry.slice(0, i + 1).map(a => a.slug).join('/')}`
-              return (
-                <span key={aSlug} className="flex items-center gap-1">
-                  <ChevronRight size={12} className="text-gray-300" />
-                  <Link href={href} className="hover:text-dq-600 transition-colors">{title}</Link>
-                </span>
-              )
-            })}
-            <span className="flex items-center gap-1">
-              <ChevronRight size={12} className="text-gray-300" />
-              <span className="text-slate-700 font-medium">{service.title}</span>
-            </span>
-          </nav>
-        </div>
-      </div>
+      <BreadcrumbNav
+        sectionLabel="خدمات"
+        sectionHref="/services"
+        items={[
+          ...ancestry.map(({ title, slug: aSlug }, i) => ({
+            label: title,
+            href: `/services/${ancestry.slice(0, i + 1).map((a) => a.slug).join('/')}`,
+          })),
+          { label: service.title },
+        ]}
+      />
 
       {hasChildren ? (
 

@@ -7,6 +7,7 @@ interface HeroSectionProps {
   title?:       string
   description?: string
   heroImage?:   string | null
+  heroImageBlur?: string
   cta1Label?:   string
   cta1Link?:    string
   cta2Label?:   string
@@ -30,6 +31,7 @@ export default function HeroSection({
   title,
   description = 'دار القرآن میں ہم ہر شخص کے لیے آسان اور سستی شیعہ اسلامی تعلیم پیش کرتے ہیں، چاہے آپ دنیا میں کہیں بھی ہوں۔',
   heroImage,
+  heroImageBlur,
   cta1Label   = 'کورسز دیکھیں',
   cta1Link    = '/online-courses',
   cta2Label   = 'ہماری خدمات',
@@ -79,6 +81,8 @@ export default function HeroSection({
             fetchPriority="high"
             sizes="(max-width: 1024px) 50vw, 58vw"
             quality={75}
+            placeholder={heroImageBlur ? 'blur' : 'empty'}
+            blurDataURL={heroImageBlur}
             className="object-cover object-center"
           />
         ) : (

@@ -5,6 +5,7 @@ import { postsQuery, pageBySlugQuery, siteSettingsQuery } from '@/sanity/lib/que
 import { pageMetadata } from '@/lib/seo'
 import ContentCard from '@/components/ui/ContentCard'
 import ItemListSchema from '@/components/seo/ItemListSchema'
+import WebPageSchema from '@/components/seo/WebPageSchema'
 import Reveal from '@/components/ui/Reveal'
 
 export const revalidate = 300
@@ -51,6 +52,11 @@ export default async function ArticlesPage({
 
   return (
     <div>
+      <WebPageSchema
+        title={page?.seoTitle || page?.title || 'مضامین'}
+        description={page?.seoDescription || page?.subtitle || 'اسلامی علم، خبریں اور مطالعات'}
+        path="/articles"
+      />
       <ItemListSchema name="مضامین" path="/articles" items={listItems} />
 
       <div className="bg-white border-b border-gray-100">

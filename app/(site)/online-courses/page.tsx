@@ -5,6 +5,7 @@ import { topLevelCoursesQuery, pageBySlugQuery, siteSettingsQuery } from '@/sani
 import { pageMetadata } from '@/lib/seo'
 import ContentCard from '@/components/ui/ContentCard'
 import ItemListSchema from '@/components/seo/ItemListSchema'
+import WebPageSchema from '@/components/seo/WebPageSchema'
 import Reveal from '@/components/ui/Reveal'
 
 export const revalidate = 300
@@ -37,6 +38,11 @@ export default async function CoursesPage() {
 
   return (
     <div>
+      <WebPageSchema
+        title={page?.seoTitle || page?.title || 'آنلائن کورسز'}
+        description={page?.seoDescription || page?.subtitle || 'اہل علماء سے قرآن، فقہ، اخلاق اور تاریخ سیکھیں۔'}
+        path="/online-courses"
+      />
       <ItemListSchema name="آن لائن کورسز" path="/online-courses" items={listItems} />
 
       <div className="bg-white border-b border-gray-100">

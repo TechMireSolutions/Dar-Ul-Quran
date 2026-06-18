@@ -1,13 +1,14 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
-import Link from 'next/link'
-import { ArrowLeft, CalendarDays, User } from 'lucide-react'
+import { CalendarDays, User } from 'lucide-react'
 import { safeFetch } from '@/sanity/lib/client'
 import { urlFor } from '@/sanity/lib/image'
 import { postBySlugQuery, postSlugsQuery, siteSettingsQuery } from '@/sanity/lib/queries'
 import { PortableText } from '@portabletext/react'
 import ArticleSchema from '@/components/seo/ArticleSchema'
+import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
+import WebPageSchema from '@/components/seo/WebPageSchema'
 import { pageMetadata } from '@/lib/seo'
 
 export const revalidate = 300
@@ -37,6 +38,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     imageAlt: post?.mainImage?.alt ?? title,
     type: 'article',
     settings,
+    publishedTime: post?.publishedAt ?? undefined,
+    modifiedTime: post?._updatedAt ?? undefined,
+    authors: post?.author?.name ? [post.author.name] : undefined,
   })
 }
 
@@ -55,17 +59,17 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
   return (
     <div className="min-h-screen bg-white">
       <ArticleSchema post={post} slug={slug} publisherLogoUrl={publisherLogoUrl} />
+      <WebPageSchema
+        title={post.seoTitle ?? post.title}
+        description={post.seoDescription ?? post.excerpt}
+        path={`/articles/${slug}`}
+      />
 
-      {/* Back nav */}
-      <div className="border-b border-gray-100 bg-white sticky top-[68px] z-10">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-          <Link href="/articles"
-            className="inline-flex items-center gap-1.5 text-[13px] font-medium text-gray-500 hover:text-slate-900 transition-colors group">
-            <ArrowLeft size={13} strokeWidth={2} className="rtl:rotate-180 group-hover:-translate-x-0.5 rtl:group-hover:translate-x-0.5 transition-transform" />
-            مضامین پر واپس
-          </Link>
-        </div>
-      </div>
+      <BreadcrumbNav
+        sectionLabel="مضامین"
+        sectionHref="/articles"
+        items={[{ label: post.title }]}
+      />
 
       <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
 

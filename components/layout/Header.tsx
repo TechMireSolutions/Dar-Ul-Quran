@@ -73,6 +73,7 @@ function DesktopPanelRow({
     return (
       <Link
         href={node.href || '#'}
+        role="menuitem"
         target={node.external ? '_blank' : undefined}
         rel={node.external ? 'noopener noreferrer' : undefined}
         onClick={onClose}
@@ -144,11 +145,33 @@ function DesktopNavItem({ node }: { node: NavNode }) {
     closeTimer.current = setTimeout(() => setOpen(false), 120)
   }
 
+  useEffect(() => {
+    if (!open) return
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false) }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [open])
+
+  const menuId = `desktop-menu-${node.label.replace(/\s+/g, '-')}`
+
+  function toggleMenu() {
+    setOpen((v) => !v)
+  }
+
+  function onTriggerKeyDown(e: React.KeyboardEvent) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      toggleMenu()
+    }
+    if (e.key === 'Escape') setOpen(false)
+  }
+
   // Plain link — no children
   if (!node.children?.length) {
     return (
       <Link
         href={node.href || '#'}
+        role="menuitem"
         target={node.external ? '_blank' : undefined}
         rel={node.external ? 'noopener noreferrer' : undefined}
         {...(node.external ? { 'aria-label': `${node.label} (نئی ونڈو میں کھلتا ہے)` } : {})}
@@ -162,30 +185,45 @@ function DesktopNavItem({ node }: { node: NavNode }) {
 
   return (
     <div ref={ref} className="relative" onMouseEnter={enter} onMouseLeave={leave}>
-      {/* Label — link if it has an href, otherwise just text */}
       {node.href && node.href !== '#' ? (
-        <Link
-          href={node.href}
+        <div className="flex items-center gap-0.5">
+          <Link
+            href={node.href}
+            className={`flex items-center gap-1 text-[13.5px] font-medium whitespace-nowrap transition-colors duration-150
+              ${isActive || open ? 'text-dq-400' : 'text-white/70 hover:text-white'}`}
+          >
+            {node.label}
+          </Link>
+          <button
+            type="button"
+            aria-haspopup="menu"
+            aria-expanded={open}
+            aria-controls={menuId}
+            aria-label={`${node.label} — ذیلی مینو`}
+            onClick={toggleMenu}
+            onKeyDown={onTriggerKeyDown}
+            className={`p-1 rounded-md transition-colors duration-150
+              ${isActive || open ? 'text-dq-400' : 'text-white/70 hover:text-white hover:bg-dq-800'}`}
+          >
+            <ChevronDown size={12} strokeWidth={2.5}
+              className={`transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
+          </button>
+        </div>
+      ) : (
+        <button
+          type="button"
           aria-haspopup="menu"
           aria-expanded={open}
+          aria-controls={menuId}
+          onClick={toggleMenu}
+          onKeyDown={onTriggerKeyDown}
           className={`flex items-center gap-1 text-[13.5px] font-medium whitespace-nowrap transition-colors duration-150
             ${isActive || open ? 'text-dq-400' : 'text-white/70 hover:text-white'}`}
         >
           {node.label}
           <ChevronDown size={12} strokeWidth={2.5}
             className={`transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
-        </Link>
-      ) : (
-        <span
-          aria-haspopup="menu"
-          aria-expanded={open}
-          className={`flex items-center gap-1 text-[13.5px] font-medium whitespace-nowrap cursor-default transition-colors duration-150
-            ${isActive || open ? 'text-dq-400' : 'text-white/70'}`}
-        >
-          {node.label}
-          <ChevronDown size={12} strokeWidth={2.5}
-            className={`transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
-        </span>
+        </button>
       )}
 
       {/* Dropdown panel */}
@@ -196,6 +234,10 @@ function DesktopNavItem({ node }: { node: NavNode }) {
         onMouseLeave={leave}
       >
         <div
+          id={menuId}
+          role="menu"
+          aria-label={node.label}
+          aria-hidden={!open}
           className={`min-w-[210px] bg-white border border-gray-100
             rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.13)]
             transition-all duration-200 origin-top
@@ -206,6 +248,7 @@ function DesktopNavItem({ node }: { node: NavNode }) {
           {node.href && node.href !== '#' && (
             <Link
               href={node.href}
+              role="menuitem"
               className="flex items-center justify-between gap-3 px-4 py-3 rounded-t-2xl
                 border-b border-gray-100 text-[13px] font-semibold text-slate-800
                 hover:bg-dq-50 hover:text-dq-700 transition-colors duration-150"
@@ -241,6 +284,7 @@ function MobileNavNode({
     return (
       <Link
         href={node.href || '#'}
+        role="menuitem"
         target={node.external ? '_blank' : undefined}
         rel={node.external ? 'noopener noreferrer' : undefined}
         onClick={onClose}

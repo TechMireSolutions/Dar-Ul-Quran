@@ -48,6 +48,7 @@ export async function generateMetadata(): Promise<Metadata> {
       metadataBase: baseUrl,
       title:       { default: siteName, template: `%s | ${siteName}` },
       description,
+      alternates:  { canonical: '/' },
       icons:       faviconUrl ? { icon: faviconUrl, apple: faviconUrl } : undefined,
       verification: { google: 'HlwG4YjRAkH3E4L7nQg1wNUk4Qy8b8LCSd9ccfxgZto' },
       openGraph: {
@@ -99,30 +100,42 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const settings = await safeFetch(siteSettingsQuery)
+  const orgLogoUrl = settings?.logo
+    ? urlFor(settings.logo).width(512).height(512).url()
+    : settings?.favicon
+      ? urlFor(settings.favicon).width(512).height(512).url()
+      : `${SITE_URL}/favicon.ico`
+
   const structuredData = {
     '@context': 'https://schema.org',
     '@graph': [
       {
         '@type': 'EducationalOrganization',
         '@id': `${SITE_URL}#organization`,
-        name: 'Dar Ul Quran',
+        name: settings?.siteName ?? 'Dar Ul Quran',
         url: SITE_URL,
-        logo: `${SITE_URL}/favicon.ico`,
-        description: 'اسلامی علم، آنلائن کورسز اور خدمات',
+        logo: { '@type': 'ImageObject', url: orgLogoUrl },
+        description: settings?.description ?? 'اسلامی علم، آنلائن کورسز اور خدمات',
         inLanguage: 'ur',
         address: { '@type': 'PostalAddress', addressCountry: 'PK' },
+        ...(settings?.email ? { email: settings.email } : {}),
+        ...(settings?.phone ? { telephone: settings.phone } : {}),
       },
       {
         '@type': 'WebSite',
         '@id': `${SITE_URL}#website`,
-        name: 'Dar Ul Quran',
+        name: settings?.siteName ?? 'Dar Ul Quran',
         url: SITE_URL,
         inLanguage: 'ur',
         publisher: { '@id': `${SITE_URL}#organization` },
         potentialAction: {
           '@type': 'SearchAction',
-          target: `${SITE_URL}/articles?q={search_term_string}`,
+          target: {
+            '@type': 'EntryPoint',
+            urlTemplate: `${SITE_URL}/articles?q={search_term_string}`,
+          },
           'query-input': 'required name=search_term_string',
         },
       },

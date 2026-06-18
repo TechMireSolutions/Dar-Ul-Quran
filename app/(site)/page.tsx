@@ -12,6 +12,7 @@ import {
   siteSettingsQuery,
 } from '@/sanity/lib/queries'
 import { pageMetadata } from '@/lib/seo'
+import WebPageSchema from '@/components/seo/WebPageSchema'
 import HeroSection from '@/components/sections/HeroSection'
 import type { CarouselItem } from '@/components/sections/CarouselSection'
 import nextDynamic from 'next/dynamic'
@@ -66,18 +67,26 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
-  const [posts, services, courses, hp, testimonials] = await Promise.all([
+  const [posts, services, courses, hp, testimonials, settings] = await Promise.all([
     safeFetch(featuredPostsQuery),
     safeFetch(topLevelServicesQuery),
     safeFetch(topLevelCoursesQuery),
     safeFetch(homepageSettingsQuery),
     safeFetch(testimonialsQuery),
+    safeFetch(siteSettingsQuery),
   ])
+
+  const homeTitle = settings?.siteName || 'دار القرآن'
+  const homeDescription =
+    settings?.description ||
+    hp?.heroSubtitle ||
+    'اسلامی علم، آنلائن کورسز اور خدمات — دنیا بھر میں شیعہ خاندانوں کے لیے مستند تعلیم۔'
 
   // Desktop hero: smaller CDN payload. Mobile skips the image (see HeroSection).
   const heroImageUrl = hp?.heroImage
     ? urlFor(hp.heroImage).width(900).height(600).fit('crop').auto('format').quality(75).url()
     : null
+  const heroImageBlur = hp?.heroImageLqip ?? undefined
 
   const courseItems: CarouselItem[] = (courses ?? []).map((c: any) => ({
     id:          c._id,
@@ -103,12 +112,15 @@ export default async function HomePage() {
 
   return (
     <>
+      <WebPageSchema title={homeTitle} description={homeDescription} path="/" />
+
       {/* ── Hero ── */}
       <HeroSection
         subtitle={hp?.heroArabicText    || undefined}
         title={hp?.heroTitle ? hp.heroTitle.replace(/\\n/g, '\n') : undefined}
         description={hp?.heroSubtitle   || undefined}
         heroImage={heroImageUrl}
+        heroImageBlur={heroImageBlur}
         cta1Label={hp?.heroCta1Label    || undefined}
         cta1Link={hp?.heroCta1Link      || undefined}
         cta2Label={hp?.heroCta2Label    || undefined}

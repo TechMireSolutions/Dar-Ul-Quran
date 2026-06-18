@@ -64,3 +64,8 @@ jobs:
               sleep 5
             done
             echo "If public site returns 503, update Apache proxy to port 3001 (see deploy/apache.conf.example)"
+
+            if [ -d /etc/apache2 ] && command -v apache2ctl >/dev/null 2>&1; then
+              echo "Applying Apache security headers..."
+              sudo bash deploy/apply-apache-security.sh || echo "WARN: Apache security snippet skipped (check sudo / config)."
+            fi
