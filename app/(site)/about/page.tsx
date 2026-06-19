@@ -6,7 +6,7 @@ import PageHeroHeader from '@/components/ui/PageHeroHeader'
 import RichTextBody from '@/components/content/RichTextBody'
 import { ArrowRight, BookOpen, Heart, Star } from 'lucide-react'
 import Reveal from '@/components/ui/Reveal'
-import { TW_CTA_ARROW, TW_GOLD_CTA_DARK } from '@/lib/tailwind'
+import { TW_CTA_ARROW, TW_FEATURE_ICON, TW_GOLD_CTA_DARK } from '@/lib/tailwind'
 
 export async function generateMetadata(): Promise<Metadata> {
   return cmsPageMetadata({
@@ -60,7 +60,7 @@ export default async function AboutPage() {
                 {features.map(({ Icon, title, desc }, i) => (
                   <Reveal key={title} animation="up" delay={i * 80}>
                     <div className="bg-slate-50 rounded-xl p-4 sm:p-5 border border-gray-100 h-full">
-                      <div className="w-9 h-9 bg-dq-50 border border-dq-100 rounded-xl flex items-center justify-center mb-3">
+                      <div className={TW_FEATURE_ICON}>
                         <Icon size={15} className="text-dq-600" strokeWidth={1.75} />
                       </div>
                       <h3 className="font-semibold text-slate-900 text-[14px] mb-1">{title}</h3>

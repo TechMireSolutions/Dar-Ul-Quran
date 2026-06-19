@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { ArrowRight, Users, BookOpen, GraduationCap } from 'lucide-react'
-import { TW_CTA_ARROW, TW_TEXT_GRADIENT_GOLD } from '@/lib/tailwind'
+import { TW_CTA_ARROW, TW_CONTAINER, TW_CV_AUTO, TW_EYEBROW, TW_EYEBROW_LINE, TW_HERO_GOLD_CTA, TW_HERO_OUTLINE_CTA, TW_HERO_STAT_ICON, TW_TEXT_GRADIENT_GOLD } from '@/lib/tailwind'
 
 type HeroSectionProps = {
   subtitle?:    string
@@ -49,14 +49,14 @@ export default function HeroSection({
       <div className="absolute inset-0 pointer-events-none bg-dot-grid-gold bg-size-dot-grid-lg opacity-[0.55]" />
 
       {/* Gold radial glow behind content (right in RTL) */}
-      <div className="absolute top-0 right-0 w-1/2 h-full pointer-events-none bg-gold-radial" />
+      <div className="absolute top-0 end-0 w-1/2 h-full pointer-events-none bg-gold-radial" />
 
       {/* Decorative corner arcs */}
-      <div className="absolute top-0 right-0 pointer-events-none opacity-[0.18] size-[260px] rounded-bl-full border-[1.5px] border-dq-400 translate-x-[35%] -translate-y-[35%]" />
-      <div className="absolute top-0 right-0 pointer-events-none opacity-[0.12] size-40 rounded-bl-full border-[1.5px] border-dq-400 translate-x-[22%] -translate-y-[22%]" />
+      <div className="absolute top-0 end-0 pointer-events-none opacity-[0.18] size-[260px] rounded-bl-full border-[1.5px] border-dq-400 translate-x-[35%] -translate-y-[35%]" />
+      <div className="absolute top-0 end-0 pointer-events-none opacity-[0.12] size-40 rounded-bl-full border-[1.5px] border-dq-400 translate-x-[22%] -translate-y-[22%]" />
 
       {/* Hero image — desktop only */}
-      <div className="absolute inset-0 hidden md:block md:inset-auto md:right-0 rtl:md:right-auto rtl:md:left-0 md:top-0 md:h-full md:w-[58%] pointer-events-none select-none">
+      <div className="absolute inset-0 hidden md:block md:inset-auto md:end-0 md:top-0 md:h-full md:w-[58%] pointer-events-none select-none">
         {heroImage ? (
           // eslint-disable-next-line @next/next/no-img-element -- intentional LCP optimization
           <img
@@ -121,7 +121,7 @@ export default function HeroSection({
           {/* Gold decorative divider */}
           <div style={heroDelay(310)} className="hero-item flex items-center gap-2 mb-5">
             <span className="h-0.5 w-16 rounded-full shrink-0 bg-gold-line" />
-            <span className="size-2 rounded-full shrink-0 bg-gradient-to-br from-dq-400 to-dq-600 shadow-[0_0_6px_rgb(212_168_32/0.5)]" />
+            <span className="size-2 rounded-full shrink-0 bg-gradient-to-br from-dq-400 to-dq-600 shadow-gold-dot" />
             <span className="h-px w-8 rounded-full shrink-0 bg-dq-400/30" />
           </div>
 
@@ -135,18 +135,12 @@ export default function HeroSection({
 
           {/* CTAs */}
           <div style={heroDelay(460)} className="hero-item flex items-center gap-3 flex-wrap">
-            <Link
-              href={cta1Link}
-              className="group inline-flex items-center gap-2 text-white font-bold text-[13.5px] rounded-full px-7 py-3.5 leading-snug bg-gold-cta shadow-gold-lg shadow-[inset_0_1px_0_rgb(255_255_255/0.18)] transition-all duration-200 hover:-translate-y-0.5"
-            >
+            <Link href={cta1Link} className={TW_HERO_GOLD_CTA}>
               {cta1Label}
               <ArrowRight size={14} strokeWidth={2.5} className={TW_CTA_ARROW} />
             </Link>
 
-            <Link
-              href={cta2Link}
-              className="inline-flex items-center font-semibold text-[13.5px] rounded-full px-[26px] py-3.5 text-dq-700 border-[1.5px] border-dq-400/45 bg-dq-50/90 leading-snug transition-all duration-200 hover:-translate-y-0.5"
-            >
+            <Link href={cta2Link} className={TW_HERO_OUTLINE_CTA}>
               {cta2Label}
             </Link>
           </div>
@@ -159,7 +153,7 @@ export default function HeroSection({
             {STATS.map(({ value, label, Icon }, i) => (
               <div key={label} className="flex items-center">
                 <div className="flex items-center gap-3">
-                  <div className="size-11 rounded-xl flex items-center justify-center shrink-0 bg-gold-icon border border-dq-400/40 shadow-[0_2px_8px_rgb(184_144_14/0.12)]">
+                  <div className={TW_HERO_STAT_ICON}>
                     <Icon size={17} strokeWidth={1.5} className="text-dq-600" />
                   </div>
                   <div>

@@ -3,6 +3,7 @@ import { ArrowRight } from 'lucide-react'
 import Reveal from '@/components/ui/Reveal'
 import type { HomepageSettingsDoc } from '@/lib/types'
 import {
+  TW_CONTAINER,
   TW_CTA_ARROW,
   TW_CV_AUTO,
   TW_EYEBROW,
@@ -19,7 +20,7 @@ export default function HomeAboutSection({ settings }: HomeAboutSectionProps) {
   return (
     <section className={`relative py-14 md:py-20 bg-white overflow-hidden border-b border-gray-100 ${TW_CV_AUTO}`}>
       <div className="absolute inset-0 opacity-30 pointer-events-none bg-dot-grid bg-size-dot-grid" />
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className={`relative ${TW_CONTAINER}`}>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <Reveal animation="up">
             <div>
@@ -66,7 +67,7 @@ export default function HomeAboutSection({ settings }: HomeAboutSectionProps) {
           <Reveal animation="scale" delay={120}>
             <div className="relative pb-10">
               <div className="bg-dq-900 rounded-3xl p-8 sm:p-10 text-white relative overflow-hidden">
-                <div className="absolute top-0 right-0 size-72 rounded-full pointer-events-none opacity-20 bg-gold-radial-sm translate-x-[30%] -translate-y-[30%]" />
+                <div className="absolute top-0 end-0 size-72 rounded-full pointer-events-none opacity-20 bg-gold-radial-sm translate-x-[30%] -translate-y-[30%]" />
                 <p className="text-center text-[28px] sm:text-[32px] leading-relaxed text-amber-400 font-light mb-3" dir="rtl">
                   {settings?.aboutHadithArabic || 'اطلبوا العلم من المهد إلى اللحد'}
                 </p>
@@ -91,7 +92,7 @@ export default function HomeAboutSection({ settings }: HomeAboutSectionProps) {
                 </div>
               </div>
 
-              <div className="absolute bottom-0 left-6 bg-white border border-gray-200 rounded-2xl px-4 py-3 shadow-lg flex items-center gap-3">
+              <div className="absolute bottom-0 start-6 bg-white border border-gray-200 rounded-2xl px-4 py-3 shadow-lg flex items-center gap-3">
                 <div className="w-9 h-9 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center shrink-0">
                   <span className="text-emerald-600 font-bold text-[16px]">✓</span>
                 </div>

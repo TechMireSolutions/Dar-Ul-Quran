@@ -7,7 +7,7 @@ import LeafCtaBanner from '@/components/content/LeafCtaBanner'
 import LeafTopicClusterBlock from '@/components/content/LeafTopicClusterBlock'
 import PortableTextSection from '@/components/content/PortableTextSection'
 import type { CourseDetailDoc, SiteSettingsDoc, TopicClusterDoc } from '@/lib/types'
-import { TW_CTA_ARROW, TW_EYEBROW, TW_GOLD_CTA, TW_HERO_TITLE, TW_SECTION_TITLE } from '@/lib/tailwind'
+import { TW_CTA_ARROW, TW_EYEBROW, TW_GOLD_CTA, TW_HERO_CHIP_GOLD, TW_HERO_CHIP_MUTED, TW_HERO_TITLE, TW_LEAF_HERO_OVERLAY, TW_SECTION_TITLE } from '@/lib/tailwind'
 
 type CourseLeafPageProps = {
   course: CourseDetailDoc
@@ -44,23 +44,23 @@ export default function CourseLeafPage({
               />
             )}
             {/* Gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-b from-dq-900/60 via-transparent to-dq-900/80 pointer-events-none" />
+            <div className={TW_LEAF_HERO_OVERLAY} />
 
             <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 text-center">
               {/* Eyebrow tags */}
               <div className="flex flex-wrap justify-center gap-2 mb-6">
                 {course.subject && (
-                  <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-dq-400 border border-dq-700/60 rounded-full px-3.5 py-1 bg-dq-950/40">
+                  <span className={TW_HERO_CHIP_GOLD}>
                     {course.subject}
                   </span>
                 )}
                 {course.duration && (
-                  <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-slate-400 border border-slate-700/60 rounded-full px-3.5 py-1 bg-slate-800/40">
+                  <span className={TW_HERO_CHIP_MUTED}>
                     {course.duration}
                   </span>
                 )}
                 {course.instructor && (
-                  <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-slate-400 border border-slate-700/60 rounded-full px-3.5 py-1 bg-slate-800/40">
+                  <span className={TW_HERO_CHIP_MUTED}>
                     {course.instructor}
                   </span>
                 )}

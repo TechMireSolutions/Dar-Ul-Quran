@@ -8,6 +8,7 @@ import { usePathname } from 'next/navigation'
 
 import type { NavNode } from '@/lib/types'
 import { nodeIsActive } from '@/lib/navigation'
+import { TW_MOBILE_NAV_ROW, TW_SEARCH_FORM_MOBILE } from '@/lib/tailwind'
 
 type MobileNavNodeProps = {
   node: NavNode
@@ -30,7 +31,7 @@ function MobileNavNode({ node, onClose, depth = 0 }: MobileNavNodeProps) {
         rel={node.external ? 'noopener noreferrer' : undefined}
         onClick={onClose}
         style={indentStyle}
-        className={`flex items-center gap-2 py-2.5 ps-3 pe-[calc(12px+var(--nav-indent,0px))] rounded-xl text-sm font-medium transition-colors duration-150 mb-0.5
+        className={`${TW_MOBILE_NAV_ROW} mb-0.5
           ${isActive ? 'bg-dq-50 text-dq-700' : 'text-gray-700 hover:bg-gray-50 hover:text-slate-900'}`}
       >
         {depth > 0 && (
@@ -49,7 +50,7 @@ function MobileNavNode({ node, onClose, depth = 0 }: MobileNavNodeProps) {
         aria-expanded={open}
         aria-label={`${node.label} — ذیلی مینو`}
         style={indentStyle}
-        className={`w-full flex items-center justify-between gap-2 py-2.5 ps-3 pe-[calc(12px+var(--nav-indent,0px))] rounded-xl text-sm font-medium transition-colors duration-150
+        className={`${TW_MOBILE_NAV_ROW} w-full justify-between
           ${isActive || open ? 'bg-dq-50 text-dq-700' : 'text-gray-700 hover:bg-gray-50 hover:text-slate-900'}`}
       >
         <span className="flex items-center gap-2">
@@ -204,7 +205,7 @@ export default function HeaderMobileMenu({
 
         <div className="px-5 pb-8 pt-3 border-t border-gray-100 shrink-0">
           <form onSubmit={onSearch} role="search" aria-label="مضامین تلاش"
-            className="flex items-center border border-gray-200 rounded-xl overflow-hidden focus-within:border-dq-500 focus-within:shadow-[0_0_0_3px_rgba(184,144,14,0.12)] transition-all duration-200">
+            className={TW_SEARCH_FORM_MOBILE}>
             <label htmlFor="mobile-search" className="sr-only">مضامین تلاش کریں</label>
             <input
               id="mobile-search"

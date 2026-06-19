@@ -17,6 +17,8 @@ Rule: `06-tailwind.mdc` · Tokens: `tailwind.config.ts` · Shared strings: `lib/
 
 | Pattern | Use |
 |---------|-----|
+| Page container | `TW_CONTAINER` |
+| CMS page shell | `TW_PAGE_BODY` |
 | Section kicker | `TW_EYEBROW` + `TW_EYEBROW_LINE` |
 | Section H2 | `TW_SECTION_TITLE` or `TW_SECTION_TITLE_COMPACT` |
 | Page hero H1 | `TW_PAGE_TITLE` |

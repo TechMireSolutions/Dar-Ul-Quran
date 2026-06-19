@@ -7,6 +7,7 @@ import { Search, Menu, ChevronDown, ChevronLeft } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import type { NavNode } from '@/lib/types'
 import { nodeIsActive } from '@/lib/navigation'
+import { TW_SEARCH_FORM } from '@/lib/tailwind'
 
 const HeaderMobileMenu = dynamic(() => import('./HeaderMobileMenu'), { ssr: false })
 
@@ -323,7 +324,7 @@ export default function Header({
       <header
         className={`sticky top-0 z-50 transition-all duration-300 bg-dq-900 ${
           scrolled
-            ? 'shadow-[0_2px_20px_rgba(0,0,0,0.4)] border-b border-dq-950'
+            ? 'shadow-nav-scrolled border-b border-dq-950'
             : 'border-b border-dq-800'
         }`}
       >
@@ -364,7 +365,7 @@ export default function Header({
           <div className="hidden lg:flex items-center ms-auto">
             {searchOpen ? (
               <form onSubmit={handleSearch} role="search" aria-label="مضامین تلاش"
-                className="flex items-center rounded-full overflow-hidden border border-dq-400 shadow-[0_0_0_3px_rgba(184,144,14,0.15)]">
+                className={TW_SEARCH_FORM}>
                 <label htmlFor="desktop-search" className="sr-only">مضامین تلاش کریں</label>
                 <input
                   id="desktop-search"

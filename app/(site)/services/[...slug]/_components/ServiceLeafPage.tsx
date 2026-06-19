@@ -6,7 +6,7 @@ import LeafCtaBanner from '@/components/content/LeafCtaBanner'
 import LeafTopicClusterBlock from '@/components/content/LeafTopicClusterBlock'
 import PortableTextSection from '@/components/content/PortableTextSection'
 import type { ServiceDetailDoc, TopicClusterDoc } from '@/lib/types'
-import { TW_SECTION_TITLE } from '@/lib/tailwind'
+import { TW_HERO_CHIP_GOLD, TW_HERO_TITLE, TW_LEAF_HERO_OVERLAY, TW_SECTION_TITLE } from '@/lib/tailwind'
 
 type ServiceLeafPageProps = {
   service: ServiceDetailDoc
@@ -40,15 +40,15 @@ export default function ServiceLeafPage({
                 fetchPriority="high"
               />
             )}
-            <div className="absolute inset-0 bg-gradient-to-b from-dq-900/60 via-transparent to-dq-900/80 pointer-events-none" />
+            <div className={TW_LEAF_HERO_OVERLAY} />
 
             <div className="relative max-w-3xl mx-auto px-4 sm:px-6 py-20 sm:py-28 text-center">
               {service.price && (
-                <span className="inline-block text-[11px] font-bold uppercase tracking-[0.15em] text-dq-400 border border-dq-700/60 rounded-full px-3.5 py-1 bg-dq-950/40 mb-6">
+                <span className={`inline-block ${TW_HERO_CHIP_GOLD} mb-6`}>
                   {service.price}
                 </span>
               )}
-              <h1 className="font-bold text-[36px] sm:text-[50px] text-white tracking-[-0.03em] leading-[1.1] mb-5">
+              <h1 className={`${TW_HERO_TITLE} mb-5`}>
                 {serviceTitle}
               </h1>
               {service.heroSubtitle && (

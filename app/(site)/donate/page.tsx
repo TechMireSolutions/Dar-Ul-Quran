@@ -6,7 +6,7 @@ import { ArrowRight } from 'lucide-react'
 import WebPageSchema from '@/components/seo/WebPageSchema'
 import PageHeroHeader from '@/components/ui/PageHeroHeader'
 import Reveal from '@/components/ui/Reveal'
-import { TW_CTA_ARROW, TW_PAYPAL_CTA } from '@/lib/tailwind'
+import { TW_CTA_ARROW, TW_FEATURE_ICON, TW_PAGE_BODY, TW_PAYPAL_CTA } from '@/lib/tailwind'
 
 export const revalidate = 300
 
@@ -49,7 +49,7 @@ export default async function DonatePage() {
         align="center"
       />
 
-      <div className="py-8 sm:py-12 bg-slate-50/40">
+      <div className={TW_PAGE_BODY}>
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
 
           {page?.body && (
@@ -62,7 +62,7 @@ export default async function DonatePage() {
             {causes.map(({ title, desc }, i) => (
               <Reveal key={i} animation="up" delay={i * 80}>
                 <div className="bg-white border border-gray-100 rounded-xl p-4 sm:p-5 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 h-full">
-                  <div className="w-9 h-9 bg-dq-50 border border-dq-100 rounded-xl flex items-center justify-center mb-3">
+                  <div className={TW_FEATURE_ICON}>
                     <span className="text-dq-700 font-bold text-[16px] leading-none">{i + 1}</span>
                   </div>
                   <h3 className="font-semibold text-slate-900 text-[14px] mb-1">{title}</h3>

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { TW_CTA_ARROW, TW_FOOTER_DONATE_CTA } from '@/lib/tailwind'
+import { TW_CONTAINER, TW_CTA_ARROW, TW_FOOTER_DONATE_CTA } from '@/lib/tailwind'
 import Image from 'next/image'
 import { whatsappHref } from '@/lib/contact'
 import type { NavNode, SiteSettingsDoc, FooterServiceDoc } from '@/lib/types'
@@ -125,7 +125,7 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
     <footer className="bg-dq-900 border-t border-dq-800">
 
       {/* ── Main body ── */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 lg:py-12">
+      <div className={`${TW_CONTAINER} py-6 sm:py-10 lg:py-12`}>
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-6 sm:gap-8 lg:gap-10">
 
           {/* Col 1 — Logo + Brand (full width on mobile) */}
@@ -265,7 +265,7 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
 
       {/* ── Bottom bar ── */}
       <div className="border-t border-dq-950 bg-dq-950">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+        <div className={`${TW_CONTAINER} py-4 flex flex-col sm:flex-row items-center justify-between gap-2`}>
           <p className="text-[11.5px] text-gray-300">
             &copy; {new Date().getFullYear()} {siteName}۔ تمام حقوق محفوظ ہیں۔
           </p>

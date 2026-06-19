@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 import WebPageSchema from '@/components/seo/WebPageSchema'
 import ItemListSchema from '@/components/seo/ItemListSchema'
 import PageHeroHeader from '@/components/ui/PageHeroHeader'
+import { TW_CONTAINER, TW_PAGE_BODY } from '@/lib/tailwind'
 
 type ListingIndexShellProps = {
   title: string
@@ -37,8 +38,8 @@ export default function ListingIndexShell({
         {heroChildren}
       </PageHeroHeader>
 
-      <div className="py-8 sm:py-12 bg-slate-50/40 min-h-[50vh]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className={`${TW_PAGE_BODY} min-h-[50vh]`}>
+        <div className={TW_CONTAINER}>
           {children}
         </div>
       </div>

@@ -1,7 +1,7 @@
 import ContentCard from '@/components/ui/ContentCard'
 import { cardImageUrl } from '@/sanity/lib/image'
 import type { SanityImageAsset } from '@/sanity/lib/image'
-import { TW_EYEBROW, TW_EYEBROW_LINE } from '@/lib/tailwind'
+import { TW_CONTAINER, TW_EYEBROW, TW_EYEBROW_LINE, TW_PAGE_TITLE } from '@/lib/tailwind'
 
 type NestedChild = {
   _id: string
@@ -39,13 +39,12 @@ export default function NestedChildListing({
   formatDescription,
 }: NestedChildListingProps) {
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    <div className={`${TW_CONTAINER} py-8 sm:py-12`}>
       <p className={`${TW_EYEBROW} mb-3`}>
         <span className={TW_EYEBROW_LINE} />
-        <span className="w-5 h-px bg-dq-400 inline-block" />
         {eyebrow}
       </p>
-      <h1 className="font-bold text-[30px] text-slate-900 tracking-[-0.02em] mb-2">{title}</h1>
+      <h1 className={`${TW_PAGE_TITLE} mb-2`}>{title}</h1>
       {excerpt && (
         <p className="text-[14px] text-gray-500 mb-10 max-w-2xl leading-relaxed">{excerpt}</p>
       )}

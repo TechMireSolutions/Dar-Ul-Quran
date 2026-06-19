@@ -10,6 +10,7 @@ import WebPageSchema from '@/components/seo/WebPageSchema'
 import PageHeroHeader from '@/components/ui/PageHeroHeader'
 import ContactForm from './_components/ContactForm'
 import Reveal from '@/components/ui/Reveal'
+import { TW_PAGE_BODY } from '@/lib/tailwind'
 
 export const revalidate = 300
 
@@ -61,7 +62,7 @@ export default async function ContactPage() {
         maxWidth="6xl"
       />
 
-      <div className="py-8 sm:py-12 bg-slate-50/40">
+      <div className={TW_PAGE_BODY}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
           {page?.body && (

@@ -12,6 +12,7 @@ import {
 import ContentCard from '@/components/ui/ContentCard'
 import ListingIndexShell, { ListingCardGrid, ListingEmptyState } from '@/components/layout/ListingIndexShell'
 import Reveal from '@/components/ui/Reveal'
+import { TW_BTN_PRIMARY, TW_SEARCH_INPUT } from '@/lib/tailwind'
 
 export const revalidate = 300
 
@@ -83,11 +84,11 @@ export default async function ArticlesPage({
               placeholder="مضمون تلاش کریں…"
               enterKeyHint="search"
               autoComplete="off"
-              className="flex-1 min-h-[44px] px-4 rounded-xl border border-gray-200 text-[14px] text-slate-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-dq-400/40 focus:border-dq-400"
+              className={TW_SEARCH_INPUT}
             />
             <button
               type="submit"
-              className="min-h-[44px] min-w-[44px] px-4 rounded-xl bg-dq-600 text-white text-[14px] font-semibold hover:bg-dq-700 transition-colors"
+              className={`${TW_BTN_PRIMARY} min-w-11`}
             >
               تلاش
             </button>

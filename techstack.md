@@ -242,7 +242,7 @@ Deploy rule: **stop PM2 before rebuilding `.next`** — prevents chunk 404s duri
 
 Shared Tailwind strings: `lib/tailwind.ts` (`TW_*`) — single source, no duplicated class strings.
 
-Key exports: `TW_EYEBROW`, `TW_SECTION_TITLE`, `TW_GOLD_CTA`, `TW_VIEW_ALL_LINK`, `TW_FORM_INPUT`, `TW_FORM_SUBMIT`, `TW_RICH_TEXT_LG` / `TW_RICH_TEXT_SM`, `TW_CV_AUTO`. Portable Text wrapper: `components/content/RichTextBody.tsx`.
+Key exports: `TW_CONTAINER`, `TW_PAGE_BODY`, `TW_EYEBROW`, `TW_SECTION_TITLE`, `TW_GOLD_CTA`, `TW_HERO_GOLD_CTA`, `TW_VIEW_ALL_LINK`, `TW_FORM_INPUT`, `TW_FORM_SUBMIT`, `TW_CARD_LINK`, `TW_RICH_TEXT_LG` / `TW_RICH_TEXT_SM`, `TW_CV_AUTO`. Theme shadows: `shadow-focus-gold`, `shadow-nav-scrolled`, `shadow-gold-dot`, `shadow-gold-icon`, `shadow-inset-highlight`.
 
 Org name fallback: `DEFAULT_SITE_NAME` in `lib/seo.ts` (metadata + JSON-LD).
 

@@ -98,7 +98,13 @@ const config: Config = {
         'gold-lg':    '0 4px 24px rgb(184 144 14 / 0.45)',
         'gold-hover': '0 6px 22px rgb(184 144 14 / 0.45)',
         'gold-subtle': '0 4px 16px rgb(184 144 14 / 0.08)',
+        'gold-dot':   '0 0 6px rgb(212 168 32 / 0.5)',
+        'gold-icon':  '0 2px 8px rgb(184 144 14 / 0.12)',
+        'focus-gold': '0 0 0 3px rgb(184 144 14 / 0.15)',
+        'focus-gold-subtle': '0 0 0 3px rgb(184 144 14 / 0.12)',
+        'inset-highlight': 'inset 0 1px 0 rgb(255 255 255 / 0.18)',
         nav:          '0 8px 32px rgb(0 0 0 / 0.13)',
+        'nav-scrolled': '0 2px 20px rgb(0 0 0 / 0.4)',
       },
 
       backgroundImage: {

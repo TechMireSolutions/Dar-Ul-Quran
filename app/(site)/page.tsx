@@ -18,11 +18,12 @@ import HomeArticlesSection from '@/components/sections/HomeArticlesSection'
 import HomeTestimonialsSection from '@/components/sections/HomeTestimonialsSection'
 import HomeDonateCtaSection from '@/components/sections/HomeDonateCtaSection'
 import nextDynamic from 'next/dynamic'
+import { TW_CONTAINER } from '@/lib/tailwind'
 
 const CarouselSection = nextDynamic(() => import('@/components/sections/CarouselSection'), {
   loading: () => (
     <div className="py-12 md:py-16 bg-white border-b border-gray-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className={TW_CONTAINER}>
         <div className="h-72 rounded-2xl bg-gray-100 animate-pulse" />
       </div>
     </div>

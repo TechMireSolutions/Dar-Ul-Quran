@@ -6,6 +6,7 @@ import Reveal from '@/components/ui/Reveal'
 import type { HomepageSettingsDoc, PostListItemDoc } from '@/lib/types'
 import {
   TW_CTA_ARROW,
+  TW_CONTAINER,
   TW_CV_AUTO,
   TW_EYEBROW,
   TW_EYEBROW_LINE,
@@ -23,7 +24,7 @@ export default function HomeArticlesSection({ posts, settings }: HomeArticlesSec
 
   return (
     <section className={`py-10 md:py-16 border-b border-gray-100 bg-white ${TW_CV_AUTO}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className={TW_CONTAINER}>
         <Reveal animation="up">
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-7 sm:mb-10">
             <div>

@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
+import { TW_BADGE_SM, TW_CARD_LINK, TW_CTA_ARROW } from '@/lib/tailwind'
 
 type ContentCardProps = {
   image?:       string | null
@@ -32,9 +33,9 @@ export default function ContentCard({
         }`}
     >
       {/* Gold top accent stripe — slides in on hover */}
-      <div className={`absolute top-0 inset-x-0 h-[3px] z-10 transition-transform duration-300 origin-right
+      <div className={`absolute top-0 inset-x-0 h-[3px] z-10 transition-transform duration-300 origin-inline-end
         bg-gradient-to-r from-dq-400 via-dq-500 to-dq-300
-        ${active ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100 group-hover:origin-left'}`} />
+        ${active ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100 group-hover:origin-inline-start'}`} />
 
       {/* Image — aria-hidden to avoid duplicate tab stop with the title link below */}
       <Link href={href} tabIndex={-1} aria-hidden="true" className="block overflow-hidden shrink-0">
@@ -58,7 +59,7 @@ export default function ContentCard({
           {/* Hover overlay */}
           <div className="absolute inset-0 bg-dq-900/15 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           {/* Corner arrow that appears on hover */}
-          <div className="absolute top-3 left-3 w-7 h-7 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center
+          <div className="absolute top-3 start-3 w-7 h-7 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center
             opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0
             transition-all duration-300 shadow-sm">
             <ArrowUpRight size={12} strokeWidth={2.5} className="text-dq-700" />
@@ -69,8 +70,7 @@ export default function ContentCard({
       {/* Body */}
       <div className="flex flex-col flex-1 px-4 pt-4 pb-5">
         {badge && (
-          <span className="w-fit text-[10px] font-bold uppercase tracking-[0.12em] text-dq-700 bg-dq-50 border border-dq-100/80 rounded-full px-2.5 py-0.5 mb-3
-            transition-colors duration-200 group-hover:bg-dq-100 group-hover:border-dq-200">
+          <span className={`${TW_BADGE_SM} mb-3`}>
             {badge}
           </span>
         )}
@@ -88,18 +88,12 @@ export default function ContentCard({
         )}
 
         {/* CTA */}
-        <Link
-          href={href}
-          className="mt-auto inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-dq-700
-            py-2 transition-all duration-200 group/cta
-            relative after:absolute after:bottom-0 after:right-0 after:h-px after:w-0
-            after:bg-dq-400 after:transition-all after:duration-300 hover:after:w-full"
-        >
+        <Link href={href} className={TW_CARD_LINK}>
           {ctaLabel}
           <ArrowUpRight
             size={12}
             strokeWidth={2.5}
-            className="transition-transform duration-200 group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5"
+            className={`${TW_CTA_ARROW} group-hover/cta:-translate-y-0.5`}
           />
         </Link>
       </div>

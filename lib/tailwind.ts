@@ -25,6 +25,63 @@ export const TW_ARTICLE_TITLE =
 export const TW_BADGE =
   'text-2xs font-bold uppercase tracking-widest bg-dq-50 text-dq-700 border border-dq-100 px-3 py-1 rounded-full'
 
+/** Compact card category badge */
+export const TW_BADGE_SM =
+  'w-fit text-[10px] font-bold uppercase tracking-[0.12em] text-dq-700 bg-dq-50 border border-dq-100/80 rounded-full px-2.5 py-0.5 transition-colors duration-200 group-hover:bg-dq-100 group-hover:border-dq-200'
+
+/** Page section container */
+export const TW_CONTAINER = 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'
+
+/** CMS page body shell */
+export const TW_PAGE_BODY = 'py-8 sm:py-12 bg-slate-50/40'
+
+/** Icon box on about/donate feature cards */
+export const TW_FEATURE_ICON =
+  'w-9 h-9 bg-dq-50 border border-dq-100 rounded-xl flex items-center justify-center mb-3'
+
+/** Dark leaf hero gradient overlay */
+export const TW_LEAF_HERO_OVERLAY =
+  'absolute inset-0 bg-gradient-to-b from-dq-900/60 via-transparent to-dq-900/80 pointer-events-none'
+
+/** Gold meta chip on dark heroes */
+export const TW_HERO_CHIP_GOLD =
+  'text-[11px] font-bold uppercase tracking-[0.15em] text-dq-400 border border-dq-700/60 rounded-full px-3.5 py-1 bg-dq-950/40'
+
+/** Muted meta chip on dark heroes */
+export const TW_HERO_CHIP_MUTED =
+  'text-[11px] font-bold uppercase tracking-[0.15em] text-slate-400 border border-slate-700/60 rounded-full px-3.5 py-1 bg-slate-800/40'
+
+/** Homepage hero primary CTA (gradient + inset highlight) */
+export const TW_HERO_GOLD_CTA =
+  'group inline-flex items-center gap-2 text-white font-bold text-[13.5px] rounded-full px-7 py-3.5 leading-snug bg-gold-cta shadow-gold-lg shadow-inset-highlight transition-all duration-200 hover:-translate-y-0.5'
+
+/** Homepage hero secondary outline CTA */
+export const TW_HERO_OUTLINE_CTA =
+  'inline-flex items-center font-semibold text-[13.5px] rounded-full px-[26px] py-3.5 text-dq-700 border-[1.5px] border-dq-400/45 bg-dq-50/90 leading-snug transition-all duration-200 hover:-translate-y-0.5'
+
+/** Hero stat icon box */
+export const TW_HERO_STAT_ICON =
+  'size-11 rounded-xl flex items-center justify-center shrink-0 bg-gold-icon border border-dq-400/40 shadow-gold-icon'
+
+/** Search form shell (header + mobile) */
+export const TW_SEARCH_FORM =
+  'flex items-center rounded-full overflow-hidden border border-dq-400 shadow-focus-gold'
+
+export const TW_SEARCH_FORM_MOBILE =
+  'flex items-center border border-gray-200 rounded-xl overflow-hidden focus-within:border-dq-500 focus-within:shadow-focus-gold-subtle transition-all duration-200'
+
+/** Articles index search input */
+export const TW_SEARCH_INPUT =
+  'flex-1 min-h-11 px-4 py-3 text-sm outline-none text-slate-700 placeholder:text-gray-400 bg-white border border-gray-200 rounded-xl focus:border-dq-400 focus:ring-2 focus:ring-dq-400/40 transition-all'
+
+/** Card footer link with underline reveal */
+export const TW_CARD_LINK =
+  'mt-auto inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-dq-700 py-2 transition-all duration-200 group/cta relative after:absolute after:bottom-0 after:end-0 after:h-px after:w-0 after:bg-dq-400 after:transition-all after:duration-300 hover:after:w-full'
+
+/** Mobile nav row base */
+export const TW_MOBILE_NAV_ROW =
+  'flex items-center gap-2 py-2.5 ps-3 pe-[calc(12px+var(--nav-indent,0px))] rounded-xl text-sm font-medium transition-colors duration-150'
+
 /** PayPal donate CTA (brand colors — exception to dq-*) */
 export const TW_PAYPAL_CTA =
   'group inline-flex items-center justify-center gap-2.5 bg-[#0070BA] hover:bg-[#005ea6] text-white text-sm font-bold px-8 py-3 rounded-full shadow-[0_4px_20px_rgb(0_112_186/0.45)] transition-all duration-200 hover:-translate-y-px'

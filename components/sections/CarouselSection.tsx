@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react'
 import ContentCard from '@/components/ui/ContentCard'
 import type { CarouselItem } from '@/lib/types/ui'
-import { TW_CTA_ARROW, TW_CV_AUTO, TW_EYEBROW, TW_EYEBROW_LINE, TW_SCROLLBAR_HIDE, TW_SECTION_TITLE, TW_VIEW_ALL_LINK } from '@/lib/tailwind'
+import { TW_CTA_ARROW, TW_CONTAINER, TW_CV_AUTO, TW_EYEBROW, TW_EYEBROW_LINE, TW_SCROLLBAR_HIDE, TW_SECTION_TITLE, TW_VIEW_ALL_LINK } from '@/lib/tailwind'
 
 type CarouselSectionProps = {
   eyebrow:       string
@@ -93,7 +93,7 @@ export default function CarouselSection({
 
   return (
     <section aria-labelledby={headingId} className={`py-10 md:py-16 border-b border-gray-100 ${bgClass} ${TW_CV_AUTO}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className={TW_CONTAINER}>
 
         {/* Header row */}
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-7 sm:mb-10">
@@ -157,13 +157,12 @@ export default function CarouselSection({
         <div className="relative">
           {/* Left fade */}
           <div
-            className={`absolute left-0 top-0 bottom-0 w-10 z-10 pointer-events-none
+            className={`absolute end-0 top-0 bottom-0 w-10 z-10 pointer-events-none
               bg-gradient-to-r ${bg === 'gray' ? 'from-slate-50' : 'from-white'} to-transparent
               transition-opacity duration-200 ${active && canLeft ? 'opacity-100' : 'opacity-0'}`}
           />
-          {/* Right fade */}
           <div
-            className={`absolute right-0 top-0 bottom-0 w-10 z-10 pointer-events-none
+            className={`absolute start-0 top-0 bottom-0 w-10 z-10 pointer-events-none
               bg-gradient-to-l ${bg === 'gray' ? 'from-slate-50' : 'from-white'} to-transparent
               transition-opacity duration-200 ${active && canRight ? 'opacity-100' : 'opacity-0'}`}
           />

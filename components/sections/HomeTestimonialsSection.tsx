@@ -1,6 +1,6 @@
 import Reveal from '@/components/ui/Reveal'
 import type { HomepageSettingsDoc, TestimonialDoc } from '@/lib/types'
-import { TW_CV_AUTO, TW_EYEBROW, TW_EYEBROW_LINE, TW_SECTION_TITLE_COMPACT } from '@/lib/tailwind'
+import { TW_CONTAINER, TW_CV_AUTO, TW_EYEBROW, TW_EYEBROW_LINE, TW_SECTION_TITLE_COMPACT } from '@/lib/tailwind'
 
 type HomeTestimonialsSectionProps = {
   testimonials: TestimonialDoc[] | null | undefined
@@ -12,7 +12,7 @@ export default function HomeTestimonialsSection({ testimonials, settings }: Home
 
   return (
     <section className={`py-12 md:py-16 bg-slate-50 border-b border-gray-100 ${TW_CV_AUTO}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className={TW_CONTAINER}>
         <Reveal animation="up">
           <div className="text-center mb-10">
             <p className={`${TW_EYEBROW} justify-center mb-3`}>
