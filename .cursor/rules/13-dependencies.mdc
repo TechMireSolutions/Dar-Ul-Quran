@@ -1,0 +1,52 @@
+---
+description: Keep the tech stack and npm dependencies on latest stable versions
+globs: "{package.json,package-lock.json,.github/workflows/*}"
+alwaysApply: false
+---
+
+# Dependencies — latest stable
+
+**Version tables & full dependency list:** `techstack.md` § Dependencies
+
+**Goal:** Every dependency on the **latest stable release** within its supported major line. Skill: `upgrade-deps`.
+
+## Stack targets (keep current)
+
+| Package | Policy |
+|---------|--------|
+| `next` | Latest **16.x** — match `eslint-config-next` major |
+| `react` / `react-dom` | Latest **19.x** paired with Next |
+| `sanity`, `@sanity/*`, `next-sanity` | Latest **v6 / v7 / v13** line — never downgrade to v5 |
+| `tailwindcss`, `@tailwindcss/postcss` | Latest **4.x** |
+| `typescript` | Latest **6.x** |
+| `zod` | Latest **4.x** — API validation |
+| `resend` | Latest — contact email |
+| `vitest` | Latest — unit tests (dev) |
+| `eslint`, `eslint-config-next` | Latest **9.x** until config-next supports ESLint 10 |
+| Node (VPS + local) | `>=22.12.0` per `engines` — prefer latest **22 LTS** |
+
+## Upgrade workflow
+
+```bash
+npm outdated
+npm update                    # minor/patch within semver ranges
+# major bumps: edit package.json ranges, then npm install
+npm run lint && npm run check:urdu && npm run build
+```
+
+1. Read changelogs for `next`, `sanity`, `next-sanity`, Tailwind, ESLint
+2. Never run `npm audit fix --force` if it downgrades Sanity or Next
+3. After bump: fix breaking API changes in one focused PR
+4. Ship only after `preflight` (+ `build`)
+
+## Pinning exceptions (document here if added)
+
+- **ESLint 9.39.4** — ESLint 10 crashes `eslint-config-next@16` (`eslint-plugin-react` uses removed `getFilename()`; verified 2026-06)
+- **`postcss@^8.5.15` override** — pins Next nested PostCSS; see `package.json` `overrides`
+- No other pins unless a upstream blocker is documented in this file
+
+## Agent behavior
+
+- When touching `package.json`, check `npm outdated` and propose latest compatible versions
+- Do not leave stale majors when a safe upgrade path exists
+- Update `01-project.mdc` version line only when stack versions change materially

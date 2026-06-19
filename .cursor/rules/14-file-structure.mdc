@@ -1,0 +1,82 @@
+---
+description: Modern App Router file and folder layout
+globs: "{app/**/*,components/**/*,lib/**/*,sanity/**/*}"
+alwaysApply: false
+---
+
+# File structure
+
+**Goal:** Predictable, colocated, thin routes — no logic sprawl.
+
+## Top-level map
+
+```
+app/
+  (site)/          # Public RTL site — route group, no URL segment
+  studio/          # Sanity Studio only
+  api/             # Route handlers — contact, revalidate (see 17-security)
+  globals.css      # Tailwind entry + minimal global layers
+components/
+  layout/          # Header, Footer, shells
+  ui/              # Primitives (buttons, cards, Reveal, images)
+  sections/        # Full-width homepage/marketing blocks
+  content/         # CMS blocks — RichTextBody, FAQ, listings
+  seo/             # JSON-LD, breadcrumbs, LCP preload
+  studio/          # Studio wrapper only
+lib/
+  types/           # Shared DTOs — one domain per file
+  cache-tags.ts    # CMS revalidation tags
+  contact-schema.ts · rate-limit.ts · turnstile.ts · contact-notify.ts  # contact API
+  *.ts             # Pure helpers (seo, paths, tailwind, cmsPage, navigation, …)
+docs/              # Ops docs (e.g. sanity-webhook.md)
+sanity/
+  schemaTypes/     # One schema file per document type
+  lib/             # client, queries, fetchers, image — no UI imports
+scripts/           # Node maintenance (check-urdu, run-next, stubs)
+deploy/            # VPS/Apache/runtime — not imported by app code
+public/            # Static assets only — no CMS duplicates
+```
+
+## App Router rules
+
+| Pattern | Rule |
+|---------|------|
+| Route groups | `(site)` for public pages; keep URL paths flat |
+| `page.tsx` | Thin orchestrator: fetch → schema → compose sections → `notFound()` |
+| `_components/` | Route-private UI — **never** imported outside that route tree |
+| `[...slug]` | Catch-all for nested CMS trees (courses, services) |
+| `layout.tsx` | Shared chrome only; no heavy data fetching unless layout-wide |
+| `loading.tsx` / `error.tsx` | Add when route has slow CMS or user-facing failure modes |
+| `revalidate` | `300` on CMS-backed public routes |
+
+## Colocation
+
+- New route-specific UI → `app/(site)/<route>/_components/`
+- Reused twice+ across routes → promote to `components/{ui,content,sections}/`
+- New Sanity type → `schemaTypes/<name>.ts` + query + fetcher + type DTO
+
+## Import boundaries (strict)
+
+```
+app/ → components/, lib/, sanity/lib/fetchers
+components/ → lib/, sanity/lib/image (not queries.ts)
+lib/ → lib/ only — never components/
+sanity/lib/ → lib/types — never components/ or app/
+```
+
+## Anti-patterns
+
+- Business logic or GROQ inside `page.tsx` beyond fetch + guard
+- Shared component under `app/` that other routes import
+- `utils/` junk drawer — use named `lib/<domain>.ts` instead
+- Duplicate static JSON when Sanity owns the content
+- New top-level folders without updating `01-project.mdc` layout
+
+## New work checklist
+
+1. Right folder per table above
+2. Data via `get*` fetchers, not inline GROQ
+3. Types in `lib/types/`
+4. SEO components in `components/seo/`
+
+Skills: `new-page` · `new-leaf-route` · `new-component` · `add-fetcher`

@@ -1,5 +1,5 @@
 ---
-description: Technical SEO shared — crawl, index, metadata, schema
+description: Technical SEO — crawl, index, metadata, schema
 globs: "{app/sitemap.ts,app/robots.ts,app/llms.txt/**/*,lib/seo.ts,components/seo/**/*}"
 alwaysApply: false
 ---
@@ -13,5 +13,6 @@ One responsive URL (mobile-first index). Test **both** Lighthouse mobile + deskt
 - JSON-LD: `WebPageSchema` + type schema; `inLanguage: ur`
 - Server-rendered primary content; no orphan URLs
 
-Device rules: `10-technical-seo-mobile.mdc` · `11-technical-seo-desktop.mdc`  
-Audit: `technical-seo-audit` skill.
+Device rules: `09-technical-seo-mobile.mdc` · `10-technical-seo-desktop.mdc`  
+Content layer: `07-content-seo.mdc` · `.antigravityrules`  
+Skill: `technical-seo-audit`

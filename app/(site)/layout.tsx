@@ -4,7 +4,7 @@ import WhatsAppButton from '@/components/ui/WhatsAppButtonLazy'
 import DeferredUrduFont from '@/components/ui/DeferredUrduFont'
 import { getSiteSettings, getHeaderNav, getFooterServices } from '@/sanity/lib/fetchers'
 import { urlFor } from '@/sanity/lib/image'
-import { buildNavTree } from '@/lib/types'
+import { buildNavTree } from '@/lib/navigation'
 
 export const revalidate = 300
 

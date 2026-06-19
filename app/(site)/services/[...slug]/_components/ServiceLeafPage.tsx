@@ -6,6 +6,7 @@ import LeafCtaBanner from '@/components/content/LeafCtaBanner'
 import LeafTopicClusterBlock from '@/components/content/LeafTopicClusterBlock'
 import PortableTextSection from '@/components/content/PortableTextSection'
 import type { ServiceDetailDoc, TopicClusterDoc } from '@/lib/types'
+import { TW_SECTION_TITLE } from '@/lib/tailwind'
 
 type ServiceLeafPageProps = {
   service: ServiceDetailDoc
@@ -84,13 +85,13 @@ export default function ServiceLeafPage({
 
                   {/* Right: features */}
                   <div className="order-1 lg:order-2">
-                    <h2 className="font-bold text-[24px] sm:text-[30px] text-slate-900 tracking-[-0.02em] mb-8">
+                    <h2 className={`${TW_SECTION_TITLE} mb-8`}>
                       {service.whyUsHeading || 'ہمارا پلیٹ فارم کیوں استعمال کریں؟'}
                     </h2>
                     <ul className="space-y-4">
                       {service.whyUs!.map((item, i) => (
                         <li key={i} className="flex items-start gap-3">
-                          <div className="w-6 h-6 rounded-md bg-dq-50 border border-dq-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <div className="w-6 h-6 rounded-md bg-dq-50 border border-dq-100 flex items-center justify-center shrink-0 mt-0.5">
                             <Check size={13} className="text-dq-600" strokeWidth={2.5} />
                           </div>
                           <p className="text-[14.5px] text-slate-700 leading-relaxed">
@@ -111,7 +112,7 @@ export default function ServiceLeafPage({
           {(service.commitment?.length ?? 0) > 0 && (
             <section className="bg-dq-900 py-16 sm:py-20">
               <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
-                <h2 className="font-bold text-[24px] sm:text-[32px] text-white tracking-[-0.02em] mb-10">
+                <h2 className={`${TW_SECTION_TITLE} text-white mb-10`}>
                   {service.commitmentHeading || 'ہمارا عہد'}
                 </h2>
                 <ul className="space-y-5">

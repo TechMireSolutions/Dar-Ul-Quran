@@ -3,16 +3,8 @@ import { useRef, useState, useEffect, useCallback, useId } from 'react'
 import Link from 'next/link'
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react'
 import ContentCard from '@/components/ui/ContentCard'
-
-export type CarouselItem = {
-  id:           string
-  image?:       string | null
-  title:        string
-  description?: string | null
-  href:         string
-  badge?:       string | null
-  ctaLabel?:    string
-}
+import type { CarouselItem } from '@/lib/types/ui'
+import { TW_CTA_ARROW, TW_CV_AUTO, TW_EYEBROW, TW_EYEBROW_LINE, TW_SCROLLBAR_HIDE, TW_SECTION_TITLE, TW_VIEW_ALL_LINK } from '@/lib/tailwind'
 
 type CarouselSectionProps = {
   eyebrow:       string
@@ -100,23 +92,23 @@ export default function CarouselSection({
   const bgClass = bg === 'gray' ? 'bg-slate-50' : 'bg-white'
 
   return (
-    <section aria-labelledby={headingId} className={`py-10 md:py-16 border-b border-gray-100 ${bgClass} cv-auto`}>
+    <section aria-labelledby={headingId} className={`py-10 md:py-16 border-b border-gray-100 ${bgClass} ${TW_CV_AUTO}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header row */}
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-7 sm:mb-10">
           <div>
-            <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-dq-700 mb-2">
-              <span className="w-6 h-px bg-dq-400 inline-block" />
+            <p className={`${TW_EYEBROW} mb-2`}>
+              <span className={`${TW_EYEBROW_LINE} w-6`} />
               {eyebrow}
             </p>
-            <h2 id={headingId} className="font-bold text-[27px] text-slate-900 leading-tight tracking-[-0.02em]">{title}</h2>
+            <h2 id={headingId} className={TW_SECTION_TITLE}>{title}</h2>
             {subtitle && (
               <p className="text-[13.5px] text-gray-500 mt-1.5 max-w-md">{subtitle}</p>
             )}
           </div>
 
-          <div className="flex items-center gap-3 flex-shrink-0 sm:ml-6">
+          <div className="flex items-center gap-3 shrink-0 sm:ms-6">
             {/* Prev / Next — only wire scroll state once carousel is near viewport */}
             <div className="flex items-center gap-1.5" role="group" aria-label="کاروسل کنٹرول">
               <button
@@ -149,13 +141,13 @@ export default function CarouselSection({
 
             <Link
               href={viewAllHref}
-              className="group inline-flex items-center gap-1.5 text-[13px] font-semibold text-dq-700 hover:text-dq-800 transition-colors whitespace-nowrap py-2"
+              className={TW_VIEW_ALL_LINK}
             >
               {viewAllLabel}
               <ArrowRight
                 size={13}
                 strokeWidth={2.5}
-                className="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform duration-150"
+                className={TW_CTA_ARROW}
               />
             </Link>
           </div>
@@ -180,15 +172,13 @@ export default function CarouselSection({
             ref={trackRef}
             role="region"
             aria-label={`${title} — سلائیڈر`}
-            className="flex gap-6 overflow-x-auto scrollbar-hide pb-2"
-            style={{ scrollSnapType: 'x mandatory', WebkitOverflowScrolling: 'touch' }}
+            className={`flex gap-6 overflow-x-auto ${TW_SCROLLBAR_HIDE} pb-2 snap-x snap-mandatory overscroll-x-contain`}
           >
             {items.map((item) => (
               <div
                 key={item.id}
                 data-card
-                className="flex-shrink-0 w-[272px] sm:w-[296px] lg:w-[316px]"
-                style={{ scrollSnapAlign: 'start' }}
+                className="shrink-0 snap-start w-[272px] sm:w-[296px] lg:w-[316px]"
               >
                 <ContentCard
                   image={item.image}

@@ -1,108 +1,11 @@
-# Dar-Ul-Quran — Windsurf AI Rules
+# Dar Ul Quran — Windsurf stub
 
-## Project Identity
+> **Do not duplicate conventions here.** Primary: `.cursor/rules/*.mdc` · Index: `AGENTS.md`
 
-Islamic educational organization website (Pakistan/Urdu-speaking audience). Stack: Next.js 15 App Router + React 19 + Sanity v6 CMS + Tailwind CSS v4 + TypeScript 6. Fully RTL, font: Noto Nastaliq Urdu.
+Stack: [`techstack.md`](techstack.md) · Content SEO: `.antigravityrules` · Urdu: `CLAUDE.md` § Urdu
 
----
+Next.js 16 · React 19 · Sanity v6 · Tailwind v4 · TypeScript strict · RTL Urdu · https://darulquran.pk
 
-## Architecture
-
-```
-app/
-  layout.tsx              Root (RTL HTML lang="ur" dir="rtl")
-  (site)/layout.tsx       Site shell — fetches siteSettings + headerNav from Sanity
-  (site)/page.tsx         Homepage
-  (site)/*/page.tsx       Static section pages
-  (site)/articles/[slug]/ Article detail
-  (site)/online-courses/[...slug]/  Hierarchical course (catch-all)
-  (site)/services/[...slug]/        Hierarchical service (catch-all)
-  api/contact/route.ts    POST: Sanity write + Gmail SMTP
-  studio/[[...tool]]/     Embedded Sanity Studio
-
-components/layout/        Header (4-level recursive nav), Footer
-components/sections/      HeroSection, CarouselSection
-components/ui/            Reveal, ContentCard, WhatsAppButton
-
-sanity/lib/queries.ts     ALL GROQ — never inline in pages
-sanity/lib/client.ts      safeFetch (null-safe)
-sanity/lib/image.ts       urlFor()
-sanity/schemaTypes/       Sanity schema definitions
-```
-
----
-
-## Coding Standards
-
-### TypeScript
-- Strict mode. No `any`. No `@ts-ignore` without reason.
-- `type` over `interface` for component props.
-- Explicit return types on server actions and API route handlers.
-
-### React & Next.js
-- **Server Components first** — `"use client"` only for state, effects, browser APIs.
-- No `getServerSideProps`/`getStaticProps` — App Router patterns only.
-- Data fetching: async Server Components or route handlers. No `useEffect` for data.
-- `<Link>` always, never `<a>`. `<Image>` always, never `<img>`.
-- ISR: `export const revalidate = 300` on pages with CMS content.
-
-### Sanity
-- Zero inline GROQ. All queries exported from `sanity/lib/queries.ts`.
-- Always `safeFetch` — it returns `null` on missing env vars instead of throwing.
-- Field selection must be explicit — never `...` spread entire documents.
-- Every public doc type: `slug { current }`, `seo { title, description }`.
-
-### Tailwind v4
-- PostCSS plugin mode (`@tailwindcss/postcss`) — not CLI mode.
-- Brand colors: `dq-50` through `dq-950` (gold palette). Use `dq-600`/`dq-700` as primary.
-- Spacing: use `ms-*`/`me-*` (logical properties) for RTL-safe inline spacing.
-- Custom keyframes → `app/globals.css`. Expose in `tailwind.config.ts` `extend.animation`.
-- v4 opacity: `bg-black/50` syntax, not `bg-opacity-50`.
-
-### RTL / Urdu
-- Root HTML: `lang="ur" dir="rtl"`. Never override without justification.
-- `rtl:` prefix for directional overrides.
-- Body text: `leading-[1.8]` minimum for Urdu glyph clearance.
-- Display headings: `leading-[1.2]` to `leading-[1.35]`.
-- Font feature: `calt`, `liga` enabled via globals.css for proper ligatures.
-
----
-
-## Prohibited Patterns
-
-| Pattern | Use Instead |
-|---------|------------|
-| `<a href>` | `<Link href>` from next/link |
-| `<img src>` | `<Image>` from next/image |
-| Inline GROQ strings | Export from queries.ts |
-| `any` type | Proper types or `unknown` |
-| `console.log` | Remove or use `console.error` in catch only |
-| Hardcoded contacts | Fetch from Sanity siteSettings |
-| `useEffect` for fetch | Async Server Component |
-| `styled-components` | Tailwind classes only |
-| `bg-opacity-50` | `bg-black/50` (Tailwind v4) |
-
----
-
-## Environment
-
-```env
-NEXT_PUBLIC_SANITY_PROJECT_ID  # Sanity project
-NEXT_PUBLIC_SANITY_DATASET      # Usually: production
-SANITY_API_TOKEN                # Write token for contact form
-EMAIL_USER                      # Gmail sender
-EMAIL_PASS                      # Gmail App Password
-EMAIL_TO                        # Notification recipient
-```
-
-Never log, commit, or expose these values.
-
----
-
-## Key Gotchas
-
-- `[...slug]` params → `string[]`, always join for path reconstruction
-- Sanity image CDN: `cdn.sanity.io` → `next.config.ts` remotePatterns required
-- ISR 300s on layouts → nav CMS changes take up to 5 minutes
-- Noto Nastaliq Urdu has tall ascenders — test all UI with real Urdu text, not Lorem Ipsum
-- RTL flexbox: `flex-row` reverses visually — use `flex-row-reverse` or `rtl:flex-row-reverse` for LTR visual order when needed
+Key paths: `app/(site)/` · `sanity/lib/{queries,fetchers}.ts` · `lib/tailwind.ts` · `components/content/RichTextBody.tsx`  
+API: `/api/contact` · `/api/revalidate` — `17-security.mdc`  
+Ship: `preflight` skill (`lint` + `check:urdu` + `test`)

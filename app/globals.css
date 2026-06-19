@@ -23,12 +23,12 @@
 
 /* ─── Custom Scrollbar ─── */
 ::-webkit-scrollbar          { width: 6px; height: 6px; }
-::-webkit-scrollbar-track    { background: #f1f5f9; }
-::-webkit-scrollbar-thumb    { background: #cbd5e1; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+::-webkit-scrollbar-track    { background: theme(colors.slate.100); }
+::-webkit-scrollbar-thumb    { background: theme(colors.slate.300); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: theme(colors.slate.400); }
 
 /* ─── Text Selection ─── */
-::selection { background: #faefc4; color: #3d3100; }
+::selection { background: theme(colors.dq.100); color: theme(colors.dq.900); }
 
 /* ─── Skip link (keyboard / screen reader) ─── */
 .skip-link {
@@ -38,7 +38,7 @@
   transform: translateX(-50%);
   z-index: 100;
   padding: 0.75rem 1.25rem;
-  background: #b8900e;
+  background: theme(colors.dq.500);
   color: #fff;
   font-size: 0.875rem;
   font-weight: 600;
@@ -106,54 +106,67 @@ body.mobile-menu-open {
 
   /* Focus ring */
   :focus-visible {
-    outline: 2px solid #b8900e;
+    outline: 2px solid theme(colors.dq.500);
     outline-offset: 2px;
     border-radius: 0.25rem;
   }
 }
 
-/* ─── Utility: hide scrollbar ─── */
-.scrollbar-hide {
+/* ─── Tailwind v4 custom utilities ─── */
+@utility scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
-}
-.scrollbar-hide::-webkit-scrollbar { display: none; }
-
-/* ─── Dot-grid background ─── */
-.bg-dot-grid {
-  background-image: radial-gradient(circle, #e2e8f0 1px, transparent 1px);
-  background-size: 28px 28px;
+  &::-webkit-scrollbar { display: none; }
 }
 
-/* ─── Animated underline link ─── */
-.link-underline {
+@utility cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 480px;
+}
+
+@utility link-underline {
   position: relative;
-}
-.link-underline::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  right: 0;
-  width: 0;
-  height: 2px;
-  background: #b8900e;
-  border-radius: 1px;
-  transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.link-underline:hover::after,
-.link-underline.active::after {
-  width: 100%;
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    right: 0;
+    width: 0;
+    height: 2px;
+    background: theme(colors.dq.500);
+    border-radius: 1px;
+    transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  &:hover::after,
+  &.active::after {
+    width: 100%;
+  }
 }
 
-/* ─── Stagger helpers ─── */
-.animate-delay-75  { animation-delay:  75ms; }
-.animate-delay-100 { animation-delay: 100ms; }
-.animate-delay-150 { animation-delay: 150ms; }
-.animate-delay-200 { animation-delay: 200ms; }
-.animate-delay-300 { animation-delay: 300ms; }
-.animate-delay-400 { animation-delay: 400ms; }
-.animate-delay-500 { animation-delay: 500ms; }
-.animate-delay-600 { animation-delay: 600ms; }
+@layer components {
+  /* Pure-Tailwind rich text (replaces @tailwindcss/typography prose-*) */
+  .rich-text {
+    @apply text-gray-700 leading-relaxed;
+  }
+  .rich-text :where(h2, h3, h4) {
+    @apply font-bold text-slate-900 tracking-tight mt-8 mb-4;
+  }
+  .rich-text :where(h2) { @apply text-2xl; }
+  .rich-text :where(h3) { @apply text-xl; }
+  .rich-text :where(h4) { @apply text-lg; }
+  .rich-text :where(p) { @apply mb-4 leading-[1.85]; }
+  .rich-text :where(a) {
+    @apply text-dq-500 no-underline hover:underline;
+  }
+  .rich-text :where(strong) { @apply font-semibold text-slate-900; }
+  .rich-text :where(ul, ol) { @apply my-4 ps-6 space-y-2; }
+  .rich-text :where(li) { @apply text-gray-700; }
+  .rich-text :where(blockquote) {
+    @apply border-s-4 border-dq-400 ps-4 my-6 text-slate-600 not-italic;
+  }
+  .rich-text-lg :where(p) { @apply text-base sm:text-lg; }
+  .rich-text-sm :where(p) { @apply text-sm; }
+}
 
 /* ═══════════════════════════════════════════════
    SCROLL-TRIGGERED REVEAL SYSTEM
@@ -217,71 +230,15 @@ body.mobile-menu-open {
    HOVER INTERACTION UTILITIES
    ═══════════════════════════════════════════════ */
 
-/* Card lift on hover */
-.hover-lift {
-  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.22s ease;
-}
-.hover-lift:hover { transform: translateY(-4px); }
-
-/* Subtle scale on hover */
-.hover-grow {
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.hover-grow:hover { transform: scale(1.03); }
-
 /* Image zoom inside a card */
 .img-zoom img {
-  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  @apply transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)];
 }
-.img-zoom:hover img { transform: scale(1.07); }
+.img-zoom:hover img { @apply scale-[1.07]; }
 
 /* ═══════════════════════════════════════════════
    KEYFRAME ANIMATIONS
    ═══════════════════════════════════════════════ */
-
-/* Grow a horizontal line from one side */
-@keyframes growLine {
-  from { transform: scaleX(0); }
-  to   { transform: scaleX(1); }
-}
-.animate-grow-line {
-  transform-origin: right;
-  animation: growLine 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-/* Number counter pop */
-@keyframes countPop {
-  0%   { opacity: 0; transform: translateY(14px) scale(0.92); }
-  70%  { transform: translateY(-2px) scale(1.02); }
-  100% { opacity: 1; transform: none; }
-}
-.animate-count-pop {
-  animation: countPop 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-/* Subtle shimmer on gold elements */
-@keyframes goldShimmer {
-  0%   { background-position: -200% center; }
-  100% { background-position:  200% center; }
-}
-.animate-gold-shimmer {
-  background-size: 200% auto;
-  animation: goldShimmer 3.5s linear infinite;
-}
-
-/* Gentle float */
-@keyframes floatUp {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(-6px); }
-}
-.animate-float { animation: floatUp 3.5s ease-in-out infinite; }
-
-/* Ping-like ring for live badge */
-@keyframes pingRing {
-  75%, 100% { transform: scale(2); opacity: 0; }
-}
-.animate-ping-ring { animation: pingRing 1.4s cubic-bezier(0, 0, 0.2, 1) infinite; }
 
 /* Hero section CSS-driven fade-up — desktop only (mobile shows instantly for LCP) */
 .hero-item {
@@ -300,37 +257,10 @@ body.mobile-menu-open {
   to   { opacity: 1; transform: none; }
 }
 
-/* Slide in from bottom for toasts / modals */
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: none; }
-}
-.animate-slide-up { animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both; }
-
-/* Border pulse on interactive elements */
-@keyframes borderPulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(184,144,14,0); }
-  50%       { box-shadow: 0 0 0 4px rgba(184,144,14,0.18); }
-}
-.hover-border-pulse:hover { animation: borderPulse 1.2s ease infinite; }
-/* ─── Gradient text utilities ─── */
-.text-gradient-cyan {
-  background: linear-gradient(135deg, #b8900e 0%, #d4a820 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.text-gradient-warm {
-  background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
 /* ─── Focus ring for buttons & links ─── */
 button:focus-visible,
 a:focus-visible {
-  outline: 2px solid #b8900e;
+  outline: 2px solid theme(colors.dq.500);
   outline-offset: 3px;
   border-radius: 6px;
 }
@@ -338,7 +268,7 @@ a:focus-visible {
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: 2px solid #b8900e;
+  outline: 2px solid theme(colors.dq.500);
   outline-offset: 2px;
 }
 
@@ -361,26 +291,7 @@ a:where([class*="rounded-full"], [class*="rounded-xl"], [class*="rounded-lg"],
   * { min-width: 0; }
 }
 
-/* ─── Screen-reader only (search labels, etc.) ─── */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
-}
-
 /* ─── Below-fold rendering (skip layout/paint until near viewport) ─── */
-.cv-auto {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 480px;
-}
-
-/* ─── Mobile: show reveal content immediately (no IO wait) ─── */
 @media (max-width: 767px) {
   .rv-up,
   .rv-fade,

@@ -1,0 +1,38 @@
+---
+description: Deploy and production ops
+globs: "{.github/**/*,deploy/**/*,ecosystem.config.cjs,scripts/run-next.mjs,.env.example}"
+alwaysApply: false
+---
+
+# Deploy
+
+Push `main` → GitHub Actions v7. Skill: `deploy`.
+
+Port/runtime → **`12-production-port.mdc`** (do not duplicate port rules here).
+
+| Step | Command |
+|------|---------|
+| Stop before build | `pm2 stop darulquran-next` |
+| Install & build | `npm ci` → `npm run build` |
+| Start | `pm2 start ecosystem.config.cjs --update-env` |
+| Health | curl `LOCAL_URL` from `deploy/runtime.cjs` + sample chunk |
+
+Critical: stop PM2 **before** touching `.next`. Verify chunk URL after restart. Apache serves `/_next/static/`.
+
+Never `rm -rf .next` while PM2 is serving.
+
+## CI (GitHub Actions)
+
+On PR + `main`: `lint` → `check:urdu` → `test` → `npm audit --audit-level=high` → `build`
+
+Dependabot: `.github/dependabot.yml` (weekly)
+
+## Production env checklist
+
+After deploy, verify VPS `.env` includes (see `.env.example`):
+
+- `REVALIDATE_SECRET` + Sanity webhook (`setup-revalidation` skill)
+- `RESEND_API_KEY` + `EMAIL_TO` (or legacy `EMAIL_*` SMTP)
+- Optional: `UPSTASH_*`, Turnstile keys
+
+Security: **`17-security.mdc`**

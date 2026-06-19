@@ -1,0 +1,69 @@
+---
+description: DRY policy — single source of truth, shared abstractions, no duplication
+globs: "**/*.{ts,tsx,css}"
+alwaysApply: false
+---
+
+# DRY policy
+
+**Goal:** One authoritative definition per concept. Copy-paste is a bug unless extracted intentionally.
+
+## Single source of truth
+
+| Concern | Authority | Do not duplicate |
+|---------|-----------|------------------|
+| GROQ | `sanity/lib/queries.ts` | Inline queries in pages/components |
+| Data access | `sanity/lib/fetchers.ts` (`get*`) | Direct `safeFetch` in routes |
+| CMS types | `lib/types/` | Ad-hoc inline object shapes |
+| SEO metadata | `pageMetadata()` in `lib/seo.ts` | Hand-built `<meta>` tags |
+| Canonical paths | `lib/paths.ts` | String-concat paths in components |
+| Tailwind patterns | `lib/tailwind.ts` (`TW_*`) | Same class string in 2+ files |
+| Theme tokens | `tailwind.config.ts` | Raw hex/spacing repeated in TSX |
+| Rich text styles | `TW_RICH_TEXT_*` + `.rich-text` in `globals.css` | `prose-*` or per-page typography |
+| Site URL / defaults | `lib/seo.ts`, `getSiteSettings()` | Hardcoded domain or phone/email |
+| Runtime port | `deploy/runtime.cjs` | Magic `3001` outside deploy docs |
+| Contact validation | `lib/contact-schema.ts` | Inline checks in API route |
+| Rate limiting | `lib/rate-limit.ts` | Ad-hoc counters in routes |
+| Cache tags | `lib/cache-tags.ts` | Untagged fetches |
+| Nav tree helpers | `lib/navigation.ts` (`buildNavTree`, `nodeIsActive`) | Logic in `lib/types/` |
+| Portable Text wrapper | `components/content/RichTextBody.tsx` | Inline `PortableText` + duplicate `TW_RICH_TEXT_*` |
+| Org name fallback | `DEFAULT_SITE_NAME` in `lib/seo.ts` | Hardcoded `'Dar Ul Quran'` in schemas/layout |
+| Urdu allowlist | `CLAUDE.md` § Urdu | Parallel English-copy rules elsewhere |
+
+## When to extract
+
+| Signal | Action |
+|--------|--------|
+| Same class string **2+** times | Add `TW_*` to `lib/tailwind.ts` |
+| Same GROQ field set **2+** queries | Private `SCREAMING_SNAKE` fragment in `queries.ts` |
+| Same JSX block **2+** routes | Shared component in `components/content/` or `ui/` |
+| Same fallback chain **2+** callers | `resolve*` helper in `lib/` |
+| Same breadcrumb/path logic | Use `lib/paths.ts` helpers |
+
+## When duplication is OK
+
+- Route-specific composition in thin `page.tsx` files (different section order)
+- One-off marketing copy in a single page
+- Schema components that share shape but differ in JSON-LD type (`ArticleSchema` vs `CourseSchema`)
+- `// urdu-ok` suppressed strings — not a pattern to centralize
+
+## Abstraction limits (avoid over-DRY)
+
+- No generic `<Wrapper>` or `<Container>` unless 3+ real use cases exist
+- No premature `lib/utils.ts` — keep helpers next to their domain file
+- No shared component props that require 8+ optional flags — split components instead
+- Do not merge unrelated fetchers; one `get*` per query concern
+
+## Refactor order (when deduplicating)
+
+1. Identify authority file from table above
+2. Move definition there; replace call sites
+3. Delete dead code and unused exports
+4. `npm run lint && npm run check:urdu` (+ `build` if wide refactor)
+
+## Related
+
+- Styling DRY → `06-tailwind.mdc`
+- Naming extracted symbols → `15-naming.mdc`
+- Structure for shared code → `14-file-structure.mdc`
+- Skills: `tailwind-ui`, `add-fetcher`, `add-sanity-query`

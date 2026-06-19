@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import Reveal from '@/components/ui/Reveal'
+import { TW_EYEBROW, TW_EYEBROW_LINE, TW_PAGE_TITLE } from '@/lib/tailwind'
 
 const MAX_WIDTH: Record<string, string> = {
   '3xl': 'max-w-3xl',
@@ -38,15 +39,15 @@ export default function PageHeroHeader({
         <div>
           {topContent}
           <p
-            className={`flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-dq-700 mb-3 ${
+            className={`${TW_EYEBROW} mb-3 ${
               align === 'center' ? 'justify-center' : ''
             }`}
           >
-            <span className="w-5 h-px bg-dq-400 inline-block" />
+            <span className={TW_EYEBROW_LINE} />
             {eyebrow}
-            {align === 'center' && <span className="w-5 h-px bg-dq-400 inline-block" />}
+            {align === 'center' && <span className={TW_EYEBROW_LINE} />}
           </p>
-          <h1 className="font-bold text-[26px] sm:text-[30px] text-slate-900 tracking-[-0.02em] mb-2">
+          <h1 className={`${TW_PAGE_TITLE} mb-2`}>
             {title}
           </h1>
           {subtitle && (

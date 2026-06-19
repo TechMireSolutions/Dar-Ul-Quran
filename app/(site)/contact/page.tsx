@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import type { LucideIcon } from 'lucide-react'
-import { PortableText } from '@portabletext/react'
 import { Mail, Phone, MessageCircle, MapPin, Globe, Play } from 'lucide-react'
+import RichTextBody from '@/components/content/RichTextBody'
 import { cmsPageMetadata, fetchCmsPage, resolveSeoDescription, resolveSeoTitle } from '@/lib/cmsPage'
 import { whatsappHref } from '@/lib/contact'
 import { getCoursesForContactForm, getServicesForContactForm } from '@/sanity/lib/fetchers'
@@ -66,9 +66,7 @@ export default async function ContactPage() {
 
           {page?.body && (
             <Reveal animation="fade">
-              <div className="prose prose-sm max-w-2xl mb-8 text-gray-700">
-                <PortableText value={page.body} />
-              </div>
+              <RichTextBody value={page.body} size="sm" className="max-w-2xl mb-8" />
             </Reveal>
           )}
 
@@ -79,7 +77,7 @@ export default async function ContactPage() {
               {contactItems.map(({ Icon, label, value, href }, i) => (
                 <Reveal key={label} animation="left" delay={i * 70}>
                   <div className="flex items-start gap-3 sm:gap-3.5 bg-white border border-gray-100 rounded-xl px-4 py-3.5 shadow-sm">
-                    <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-dq-50 border border-dq-100 flex items-center justify-center flex-shrink-0">
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-dq-50 border border-dq-100 flex items-center justify-center shrink-0">
                       <Icon size={14} className="text-dq-700" strokeWidth={1.75} />
                     </div>
                     <div className="min-w-0">
@@ -125,10 +123,10 @@ export default async function ContactPage() {
             <Reveal animation="right" delay={100} className="lg:col-span-3">
               <div>
                 <ContactForm
-                  subjects={subjects}
                   submitLabel={submitLabel}
-                  courses={courses  ?? []}
+                  courses={courses ?? []}
                   services={services ?? []}
+                  turnstileSiteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
                 />
               </div>
             </Reveal>

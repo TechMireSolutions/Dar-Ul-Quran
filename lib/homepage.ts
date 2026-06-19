@@ -1,4 +1,4 @@
-import type { CarouselItem } from '@/components/sections/CarouselSection'
+import type { CarouselItem } from '@/lib/types/ui'
 import { carouselImageUrl } from '@/sanity/lib/image'
 import { hasPublishedSlug, toItemListEntries } from '@/lib/cmsPage'
 import type { CourseListItemDoc, ServiceListItemDoc } from '@/lib/types'

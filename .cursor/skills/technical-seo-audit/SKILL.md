@@ -5,7 +5,7 @@ description: Audits technical SEO on mobile and desktop for darulquran.pk. Use f
 
 # Technical SEO audit
 
-Rules: `09-technical-seo-shared` · `10-technical-seo-mobile` · `11-technical-seo-desktop` · `05-seo-antigravity`
+Rules: `08-technical-seo-shared.mdc` · `09-technical-seo-mobile.mdc` · `10-technical-seo-desktop.mdc` · `07-content-seo.mdc` · `.antigravityrules`
 
 **Shared:** canonical · sitemap · JSON-LD · view-source · Rich Results Test  
 **Mobile:** PSI mobile · LCP/INP/CLS · touch targets  

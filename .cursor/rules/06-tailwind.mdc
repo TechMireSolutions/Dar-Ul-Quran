@@ -1,0 +1,38 @@
+---
+description: Pure Tailwind v4 — tokens, TW_* utilities, no CSS-in-JS
+globs: "{**/*.{tsx,ts},app/globals.css,tailwind.config.ts}"
+alwaysApply: false
+---
+
+# Tailwind v4
+
+Entry: `@import "tailwindcss"` + `@config` in `app/globals.css` · tokens in `tailwind.config.ts`.
+
+## Single sources
+
+| Concern | Path |
+|---------|------|
+| Repeated class strings | `lib/tailwind.ts` (`TW_*`) — see also `16-dry.mdc` |
+| Brand, shadows, gradients | `tailwind.config.ts` |
+| Rich text | `rich-text` classes in `globals.css` — **not** `prose-*` |
+| PT wrapper component | `components/content/RichTextBody.tsx` |
+| Scroll/reveal utilities | `@utility` in globals; Reveal `.rv-*` |
+
+## Do
+- Utilities in `className` only — no CSS-in-JS
+- Import `TW_EYEBROW`, `TW_SECTION_TITLE`, `TW_GOLD_CTA`, etc. before duplicating
+- `shrink-0` not `flex-shrink-0` · slash opacity `bg-dq-500/20`
+- Theme shadows: `shadow-gold-*`, `shadow-nav`, `shadow-gold-subtle`
+- RTL spacing → `03-rtl-urdu.mdc` (logical props)
+
+## Don't
+- `@tailwindcss/typography` or `prose-*`
+- Inline `style={{}}` for colors/gradients/shadows  
+  OK: `--hero-delay`, LCP blur, `--nav-indent` CSS vars
+- Raw hex for brand UI · duplicate arbitrary rgba shadows
+- `@apply` except base/rich-text in `globals.css`
+
+## Brand exceptions
+PayPal (`TW_PAYPAL_CTA`), WhatsApp (`TW_WHATSAPP_FLOAT`) only.
+
+Skill: `tailwind-ui` · verify: `preflight` + `rtl-check` after Urdu UI.

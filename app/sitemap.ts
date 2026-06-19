@@ -1,28 +1,10 @@
 import type { MetadataRoute } from 'next'
-import { safeFetch } from '@/sanity/lib/client'
-import { sitemapQuery } from '@/sanity/lib/queries'
+import { getSitemapData } from '@/sanity/lib/fetchers'
 import { coursePath, servicePath } from '@/lib/paths'
 import { SITE_URL } from '@/lib/seo'
 
-type SitemapData = {
-  courses: Array<{
-    slug: string
-    parentSlug?: string
-    grandparentSlug?: string
-    _updatedAt: string
-    hasChildren: boolean
-  }>
-  articles: Array<{ slug: string; _updatedAt: string }>
-  services: Array<{
-    slug: string
-    parentSlug?: string
-    _updatedAt: string
-    hasChildren: boolean
-  }>
-}
-
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const data = await safeFetch<SitemapData>(sitemapQuery)
+  const data = await getSitemapData()
   const now = new Date()
 
   const staticPages: MetadataRoute.Sitemap = [

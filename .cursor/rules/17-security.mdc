@@ -1,0 +1,67 @@
+---
+description: API security, headers, secrets, contact form, and cache revalidation
+globs: "{app/api/**/*,next.config.ts,lib/contact-*.ts,lib/rate-limit.ts,lib/turnstile.ts,lib/cache-tags.ts}"
+alwaysApply: false
+---
+
+# Security
+
+**Goal:** Secure defaults for APIs, headers, and secrets. Skill: `secure-api-route`.  
+Revalidation **auth** → this rule; webhook/path map → `04-sanity.mdc` + `setup-revalidation` skill.
+
+## Environment secrets (never commit)
+
+| Variable | Purpose |
+|----------|---------|
+| `SANITY_API_TOKEN` | Server writes (contact) + privileged fetches |
+| `REVALIDATE_SECRET` | Sanity webhook → `/api/revalidate` |
+| `RESEND_API_KEY` | Contact email (preferred) |
+| `EMAIL_FROM` / `EMAIL_TO` | Resend sender + recipient |
+| `EMAIL_USER` / `EMAIL_PASS` | SMTP fallback only |
+| `UPSTASH_REDIS_REST_*` | Distributed rate limit (optional) |
+| `TURNSTILE_SECRET_KEY` | Server Turnstile verify |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Client widget (public) |
+
+Full list: `.env.example` · rotation: `SECURITY.md`
+
+## Contact API (`/api/contact`)
+
+Authority: `lib/contact-schema.ts` · `lib/rate-limit.ts` · `lib/turnstile.ts` · `lib/contact-notify.ts`
+
+| Layer | Rule |
+|-------|------|
+| Validation | Zod `contactBodySchema` — never trust raw JSON |
+| Rate limit | `rateLimitContact(ip)` — 5 / 15 min |
+| Bot | Honeypot `website` + optional Turnstile |
+| Email | Resend first, nodemailer fallback |
+| Output | Escape HTML in notification emails |
+| Errors | Generic 400/403/429/500 — no stack traces to client |
+
+Client: `ContactForm` + optional `TurnstileField` · Urdu error states.
+
+## Revalidation API (`/api/revalidate`)
+
+- `POST ?secret=REVALIDATE_SECRET` only — reject missing/wrong secret
+- Revalidates `cms` + `cms:<type>` tags (see `lib/cache-tags.ts`)
+- Webhook filter, path map, new `_type` paths → **`04-sanity.mdc`** + `setup-revalidation` skill
+- Setup doc: `docs/sanity-webhook.md`
+
+## HTTP headers (`next.config.ts`)
+
+Site: CSP, XFO, nosniff, Referrer-Policy, Permissions-Policy  
+Studio (`/studio/*`): relaxed CSP with `wss://*.sanity.io`  
+Apache: HSTS + static cache — `deploy/apache-security-snippet.conf`
+
+## API route checklist
+
+1. Zod (or shared schema in `lib/`) for input
+2. Rate limit if public POST
+3. No secrets in responses or logs
+4. Server-only imports — never in `"use client"`
+5. Tests in `lib/*.test.ts` for schemas/helpers
+
+## CI
+
+`npm run test` · `npm audit --audit-level=high` · Dependabot weekly — see **`11-deploy-ops.mdc`**
+
+OSS: `LICENSE` · `SECURITY.md`

@@ -11,4 +11,6 @@ In `sanity/lib/queries.ts`:
 - Name: `itemsQuery` / `itemBySlugQuery`
 - Refs: `field-> { _id, title, slug { current } }`
 
+Then → `add-fetcher` skill in `sanity/lib/fetchers.ts`
+
 Rule: `04-sanity.mdc`

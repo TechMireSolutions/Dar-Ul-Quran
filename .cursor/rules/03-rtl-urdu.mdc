@@ -1,15 +1,25 @@
 ---
-description: RTL and Urdu UI copy
+description: RTL layout and Urdu UI copy
 globs: "**/*.{tsx,jsx,css}"
 alwaysApply: false
 ---
 
 # RTL & Urdu
 
-`lang="ur" dir="rtl"` · logical spacing (`ms/me/ps/pe`) · `leading-[1.8]`+ · `rtl:rotate-180` on directional icons
+Root: `lang="ur" dir="rtl"` on `<html>` — do not override without reason.
 
-**Urdu required** for all user-visible text. Run `npm run check:urdu`. False positive: `// urdu-ok`
+## Layout
+- Logical spacing: `ms-*` / `me-*` / `ps-*` / `pe-*` / `start-*` / `end-*` — **not** `ml-*` / `mr-*`
+- Directional icons: `rtl:rotate-180` on arrows/chevrons in nav
+- Body text: `leading-[1.8]` minimum (Nastaliq glyphs)
+- Touch targets: `TW_TOUCH` (`min-h-11`) from `lib/tailwind.ts`
 
-Full allow/deny list: `CLAUDE.md` § Urdu-First Frontend Rule.
+## Copy
+**All user-visible text in Urdu.** Run `npm run check:urdu`. False positive: `// urdu-ok`
 
-`prefers-reduced-motion` in `Reveal` / `globals.css`.
+Full allow/deny table: `CLAUDE.md` § Urdu-First Frontend Rule.
+
+## Motion
+`prefers-reduced-motion` handled in `Reveal.tsx` and `globals.css`.
+
+Skill: `rtl-check` after nav/layout changes.

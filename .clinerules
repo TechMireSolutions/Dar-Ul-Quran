@@ -1,84 +1,14 @@
-# Dar-Ul-Quran — Cline Rules
+# Dar Ul Quran — Cline stub
 
-## Project
+> **Do not duplicate conventions here.** Primary: `.cursor/rules/*.mdc` · Index: `AGENTS.md`
 
-Next.js 16 App Router + React 19 + Sanity v6 CMS + Tailwind CSS v4.
-Islamic educational website, fully RTL (Urdu/Arabic), TypeScript strict mode.
-
----
-
-## Commands
+Stack: [`techstack.md`](techstack.md) · Env: `.env.example` · Security: `SECURITY.md`
 
 ```bash
-npm run dev     # Dev server → localhost:3001 (see deploy/runtime.cjs)
-npm run build   # Production build
-npm run start   # Production server → 0.0.0.0:3001
-npm run lint    # ESLint check
+npm run dev      # localhost:3001
+npm run build && npm run lint && npm run check:urdu && npm run test
 ```
 
-Studio: http://localhost:3001/studio
+Next.js 16 App Router · Sanity v6 · Tailwind v4 · RTL Urdu · GROQ in `sanity/lib/queries.ts` only · `pageMetadata()` for SEO · port **3001** (`12-production-port.mdc`)
 
----
-
-## Rules
-
-### Server vs Client Components
-- Default: Server Component (no directive needed)
-- Add `"use client"` ONLY for: useState, useEffect, event handlers, browser APIs
-- Never import sanity client or nodemailer in client components
-
-### Data Fetching
-- All GROQ queries → `sanity/lib/queries.ts` (never inline)
-- Always use `safeFetch` from `sanity/lib/client.ts` (null-safe)
-- No `useEffect` for data — use async Server Components
-- ISR: `export const revalidate = 300` on CMS-backed pages
-
-### Navigation & Images
-- `<Link>` from `next/link` — never raw `<a>`
-- `<Image>` from `next/image` — never raw `<img>`
-
-### TypeScript
-- No `any`. No `@ts-ignore` without a comment.
-- `type` keyword for props, not `interface`
-- Strict mode always on
-
-### Tailwind v4
-- PostCSS plugin mode (`@tailwindcss/postcss`)
-- Brand: `dq-600`/`dq-700` (gold) as primary colors
-- Spacing: `ms-*`/`me-*` for RTL-safe inline spacing
-- Opacity: `bg-black/50` syntax (not `bg-opacity-*`)
-- No `styled-components`, `emotion`, or CSS-in-JS
-
-### RTL / Urdu
-- Root: `lang="ur" dir="rtl"` — never override without reason
-- Body text: `leading-[1.8]` minimum
-- Use `rtl:` Tailwind prefix for directional overrides
-
-### CMS Content
-- Never hardcode phone, email, social links — always from Sanity `siteSettings`
-- `seo { title, description }` on every content type query
-- Slug field required on all public document types
-
-### Code Quality
-- No `console.log` in committed code
-- No raw hex for brand colors — use `dq-*` tokens
-- No abbreviations in Urdu/Arabic string constants
-
----
-
-## Key Files
-
-| File | Purpose |
-|------|---------|
-| `sanity/lib/queries.ts` | All GROQ queries |
-| `sanity/lib/client.ts` | Sanity client + safeFetch |
-| `tailwind.config.ts` | Design tokens |
-| `app/globals.css` | Keyframes + base styles |
-| `components/ui/Reveal.tsx` | Scroll animations |
-
----
-
-## Environment Variables
-
-`NEXT_PUBLIC_SANITY_PROJECT_ID`, `NEXT_PUBLIC_SANITY_DATASET`, `SANITY_API_TOKEN`, `EMAIL_USER`, `EMAIL_PASS`, `EMAIL_TO`
-Never commit these. Never log these.
+Skills: `.cursor/skills/` · Urdu: `CLAUDE.md` § Urdu · Ship: `preflight` skill

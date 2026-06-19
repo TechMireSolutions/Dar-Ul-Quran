@@ -1,6 +1,5 @@
-import { PortableText } from '@portabletext/react'
 import type { PortableTextBlock } from '@portabletext/types'
-import { PROSE_LEAF_CLASSES } from '@/lib/prose'
+import RichTextBody from '@/components/content/RichTextBody'
 
 type PortableTextSectionProps = {
   value: PortableTextBlock[]
@@ -11,8 +10,8 @@ export default function PortableTextSection({ value }: PortableTextSectionProps)
 
   return (
     <section className="bg-white py-12 sm:py-16">
-      <div className={`max-w-3xl mx-auto px-4 sm:px-6 ${PROSE_LEAF_CLASSES}`}>
-        <PortableText value={value} />
+      <div className="max-w-3xl mx-auto px-4 sm:px-6">
+        <RichTextBody value={value} />
       </div>
     </section>
   )

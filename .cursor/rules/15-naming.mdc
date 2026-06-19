@@ -1,0 +1,89 @@
+---
+description: Naming conventions for files, folders, symbols, and GROQ
+globs: "**/*.{ts,tsx,js,mjs,cjs}"
+alwaysApply: false
+---
+
+# Naming policy
+
+**Goal:** Names reveal role at a glance — consistent across Cursor, Claude, and Antigravity.
+
+## Folders
+
+| Location | Convention | Example |
+|----------|------------|---------|
+| App routes | `kebab-case` | `online-courses`, `[...slug]` |
+| Route-private | `_components` (underscore prefix) | `contact/_components/` |
+| Component groups | `lowercase` single word | `layout`, `ui`, `sections`, `seo` |
+| `lib/types/` | `camelCase.ts` domain file | `navigation.ts`, `schema.ts` |
+| `sanity/schemaTypes/` | `camelCase.ts` = `_type` name | `homepageSettings.ts` |
+| Scripts | `kebab-case.mjs` | `check-urdu.mjs`, `run-next.mjs` |
+
+No `utils/`, `helpers/`, or `misc/` — name by domain (`paths.ts`, `contact.ts`).
+
+## Files
+
+| Kind | Convention | Export |
+|------|------------|--------|
+| React component | `PascalCase.tsx` | default export **same name** as file |
+| Lib / sanity lib | `camelCase.ts` | named exports |
+| Config | `kebab-case` or framework default | `next.config.ts`, `eslint.config.mjs` |
+| Schema type | `camelCase.ts` | `export const course = defineType(...)` |
+| Route entry | `page.tsx`, `layout.tsx`, `route.ts` | App Router fixed names |
+
+One primary component per file. Co-locate tiny subcomponents in same file only if private and <30 lines.
+
+## TypeScript symbols
+
+| Symbol | Pattern | Example |
+|--------|---------|---------|
+| Props | `type ComponentNameProps` | `type HeroSectionProps` — never bare `Props` |
+| Domain DTOs | `PascalCase` + `Doc` / `Data` suffix | `CourseDetailDoc`, `SiteSettingsDoc` |
+| Props / locals | `camelCase` | `siteSettings`, `breadcrumbItems` |
+| Booleans | `is` / `has` / `should` prefix | `isOpen`, `hasChildren` |
+| React components | `PascalCase` function | `export default function Footer()` |
+| Constants (config) | `SCREAMING_SNAKE` | `SITE_URL`, `REVALIDATE_SECONDS` |
+| Tailwind bundles | `TW_` prefix | `TW_SECTION_TITLE` in `lib/tailwind.ts` |
+| Brand tokens | `dq-` CSS prefix | `dq-gold`, `dq-navy` in Tailwind theme |
+
+Prefer `type` over `interface` unless declaration merging is required.
+
+## Functions & methods
+
+| Prefix | Use | Location |
+|--------|-----|----------|
+| `get*` | Cached Sanity/data readers | `sanity/lib/fetchers.ts` |
+| `safeFetch` | Low-level GROQ with null fallback | `sanity/lib/client.ts` |
+| `fetch*` | Page-level orchestration | `lib/cmsPage.ts` |
+| `resolve*` | Fallback chains (SEO, contact, paths) | `lib/seo.ts`, `lib/contact.ts` |
+| `build*` | Construct structures (nav, JSON-LD items) | `lib/navigation.ts`, `lib/paths.ts` |
+| `nodeIsActive` | Nav active-state check | `lib/navigation.ts` |
+| `handle*` | Client event handlers | `"use client"` components only |
+| `generate*` | Next.js metadata/static APIs | `generateMetadata`, `generateStaticParams` |
+| `urlFor` / `ogImageUrl` | Sanity image builders | `sanity/lib/image.ts` |
+
+No vague names: `data`, `info`, `temp`, `doStuff`. Spell out domain terms.
+
+## GROQ
+
+| Item | Convention | Example |
+|------|------------|---------|
+| Private fragments | `SCREAMING_SNAKE` | `COURSE_FIELDS` |
+| Exported queries | `camelCase` + `Query` suffix | `courseBySlugDeepQuery` |
+| Query params | Match GROQ `$name` | `{ slug }` for `$slug` |
+
+## Sanity schema
+
+- `_type`: camelCase singular — `course`, `siteSettings`, `contactSubmission`
+- Field names: camelCase — `featuredImage`, `seoTitle`
+- Slug field: always `slug` with `{ current }`
+
+## Abbreviations (allowlist only)
+
+OK: `dq`, `cms`, `og`, `llm`, `nav`, `faq`, `seo`, `pt` (Portable Text in comments)
+
+Spell out: `homepageSettings` not `hp`, `testimonial` not `testi`.
+
+## Renames
+
+When renaming for consistency: update imports, fetchers, queries, and types in **one change** — run `preflight`.

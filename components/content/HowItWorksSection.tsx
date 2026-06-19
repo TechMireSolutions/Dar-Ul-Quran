@@ -1,4 +1,5 @@
 import type { LabelDescItemDoc } from '@/lib/types'
+import { TW_SECTION_TITLE } from '@/lib/tailwind'
 
 type HowItWorksSectionProps = {
   heading?: string
@@ -22,7 +23,7 @@ export default function HowItWorksSection({
     <section className="bg-dq-50 py-16 sm:py-20">
       <div className={`${MAX_WIDTH_CLASS[maxWidth]} mx-auto px-4 sm:px-6 lg:px-8`}>
         <div className="text-center mb-12">
-          <h2 className="font-bold text-[24px] sm:text-[32px] text-slate-900 tracking-[-0.02em]">
+          <h2 className={TW_SECTION_TITLE}>
             {heading}
           </h2>
         </div>

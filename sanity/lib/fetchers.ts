@@ -1,5 +1,6 @@
 import { cache } from 'react'
 import { safeFetch } from './client'
+import { cmsTypeTag, courseTag, postTag, serviceTag } from '@/lib/cache-tags'
 import {
   pageBySlugQuery,
   siteSettingsQuery,
@@ -22,6 +23,8 @@ import {
   allCoursePathsQuery,
   allServicePathsQuery,
   postSlugsQuery,
+  sitemapQuery,
+  llmFeedQuery,
 } from './queries'
 import type {
   CourseSchemaData,
@@ -41,6 +44,7 @@ import type {
   CourseDetailDoc,
   ServiceDetailDoc,
 } from '@/lib/types'
+import type { SitemapData, LlmFeedData } from '@/lib/types/feed'
 
 export const getSiteSettings = cache(() => safeFetch<SiteSettingsDoc>(siteSettingsQuery))
 
@@ -77,17 +81,27 @@ export const getServicesForContactForm = cache(() =>
 )
 
 export const getCourseBySlug = cache((slug: string) =>
-  safeFetch<CourseDetailDoc>(courseBySlugDeepQuery, { slug }),
+  safeFetch<CourseDetailDoc>(courseBySlugDeepQuery, { slug }, {
+    tags: [cmsTypeTag('course'), courseTag(slug)],
+  }),
 )
 
 export const getServiceBySlug = cache((slug: string) =>
-  safeFetch<ServiceDetailDoc>(serviceBySlugDeepQuery, { slug }),
+  safeFetch<ServiceDetailDoc>(serviceBySlugDeepQuery, { slug }, {
+    tags: [cmsTypeTag('service'), serviceTag(slug)],
+  }),
 )
 
-export const getPostBySlug = cache((slug: string) => safeFetch<PostDoc>(postBySlugQuery, { slug }))
+export const getPostBySlug = cache((slug: string) =>
+  safeFetch<PostDoc>(postBySlugQuery, { slug }, {
+    tags: [cmsTypeTag('post'), postTag(slug)],
+  }),
+)
 
 export const getCourseSchema = cache((slug: string) =>
-  safeFetch<CourseSchemaData>(courseSchemaQuery, { slug }),
+  safeFetch<CourseSchemaData>(courseSchemaQuery, { slug }, {
+    tags: [cmsTypeTag('course'), courseTag(slug)],
+  }),
 )
 
 export const getTopicClusterForPost = cache(async (postId: string) => {
@@ -104,3 +118,7 @@ export const getAllCoursePaths = cache(() => safeFetch<SlugPathDoc[]>(allCourseP
 export const getAllServicePaths = cache(() => safeFetch<SlugPathDoc[]>(allServicePathsQuery))
 
 export const getPostSlugs = cache(() => safeFetch<Array<{ slug: string }>>(postSlugsQuery))
+
+export const getSitemapData = cache(() => safeFetch<SitemapData>(sitemapQuery))
+
+export const getLlmFeedData = cache(() => safeFetch<LlmFeedData>(llmFeedQuery))

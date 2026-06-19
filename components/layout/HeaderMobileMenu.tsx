@@ -7,22 +7,20 @@ import { Search, X, ChevronDown } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 
 import type { NavNode } from '@/lib/types'
+import { nodeIsActive } from '@/lib/navigation'
 
-export type { NavNode }
-
-function nodeIsActive(node: NavNode, pathname: string): boolean {
-  if (node.href && node.href !== '#' &&
-      (pathname === node.href || (node.href !== '/' && pathname.startsWith(node.href + '/')))) return true
-  return node.children?.some(c => nodeIsActive(c, pathname)) ?? false
+type MobileNavNodeProps = {
+  node: NavNode
+  onClose: () => void
+  depth?: number
 }
 
-function MobileNavNode({
-  node, onClose, depth = 0,
-}: { node: NavNode; onClose: () => void; depth?: number }) {
+function MobileNavNode({ node, onClose, depth = 0 }: MobileNavNodeProps) {
   const [open, setOpen] = useState(false)
   const pathname = usePathname()
   const isActive = nodeIsActive(node, pathname)
   const indent = depth * 12
+  const indentStyle = { '--nav-indent': `${indent}px` } as React.CSSProperties
 
   if (!node.children?.length) {
     return (
@@ -31,12 +29,12 @@ function MobileNavNode({
         target={node.external ? '_blank' : undefined}
         rel={node.external ? 'noopener noreferrer' : undefined}
         onClick={onClose}
-        style={{ paddingRight: `${12 + indent}px` }}
-        className={`flex items-center gap-2 py-2.5 pl-3 rounded-xl text-[14px] font-medium transition-colors duration-150 mb-0.5
+        style={indentStyle}
+        className={`flex items-center gap-2 py-2.5 ps-3 pe-[calc(12px+var(--nav-indent,0px))] rounded-xl text-sm font-medium transition-colors duration-150 mb-0.5
           ${isActive ? 'bg-dq-50 text-dq-700' : 'text-gray-700 hover:bg-gray-50 hover:text-slate-900'}`}
       >
         {depth > 0 && (
-          <span className="w-1.5 h-1.5 rounded-full bg-dq-300 flex-shrink-0" style={{ marginRight: 2 }} />
+          <span className="size-1.5 rounded-full bg-dq-300 shrink-0 me-0.5" />
         )}
         {node.label}
       </Link>
@@ -50,26 +48,26 @@ function MobileNavNode({
         onClick={() => setOpen(v => !v)}
         aria-expanded={open}
         aria-label={`${node.label} — ذیلی مینو`}
-        style={{ paddingRight: `${12 + indent}px` }}
-        className={`w-full flex items-center justify-between gap-2 py-2.5 pl-3 rounded-xl text-[14px] font-medium transition-colors duration-150
+        style={indentStyle}
+        className={`w-full flex items-center justify-between gap-2 py-2.5 ps-3 pe-[calc(12px+var(--nav-indent,0px))] rounded-xl text-sm font-medium transition-colors duration-150
           ${isActive || open ? 'bg-dq-50 text-dq-700' : 'text-gray-700 hover:bg-gray-50 hover:text-slate-900'}`}
       >
         <span className="flex items-center gap-2">
           {depth > 0 && (
-            <span className="w-1.5 h-1.5 rounded-full bg-dq-300 flex-shrink-0" />
+            <span className="w-1.5 h-1.5 rounded-full bg-dq-300 shrink-0" />
           )}
           {node.label}
         </span>
         <ChevronDown
           size={14} strokeWidth={2}
-          className={`text-gray-400 flex-shrink-0 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+          className={`text-gray-400 shrink-0 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
         />
       </button>
 
       <div className={`overflow-hidden transition-all duration-250 ${open ? 'max-h-[600px]' : 'max-h-0'}`}>
         <div
-          className="mt-0.5 border-s-2 border-dq-100"
-          style={{ marginRight: `${20 + indent}px` }}
+          className="mt-0.5 border-s-2 border-dq-100 me-[calc(20px+var(--nav-indent,0px))]"
+          style={indentStyle}
         >
           {node.href && node.href !== '#' && (
             <Link
@@ -174,11 +172,11 @@ export default function HeaderMobileMenu({
         aria-label="مینو"
         aria-hidden={!open}
         inert={!open ? true : undefined}
-        className={`fixed top-0 right-0 bottom-0 w-[300px] z-[70] bg-white lg:hidden flex flex-col
+        className={`fixed top-0 start-0 bottom-0 w-[300px] z-[70] bg-white lg:hidden flex flex-col
           shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]
           ${open ? 'translate-x-0' : 'translate-x-full'}`}
       >
-        <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100 flex-shrink-0">
+        <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100 shrink-0">
           <Link href="/" onClick={onClose} className="flex items-center gap-2.5">
             <div className="w-[40px] h-[40px] rounded-full overflow-hidden border-2 border-dq-400">
               {logoUrl
@@ -204,7 +202,7 @@ export default function HeaderMobileMenu({
           ))}
         </nav>
 
-        <div className="px-5 pb-8 pt-3 border-t border-gray-100 flex-shrink-0">
+        <div className="px-5 pb-8 pt-3 border-t border-gray-100 shrink-0">
           <form onSubmit={onSearch} role="search" aria-label="مضامین تلاش"
             className="flex items-center border border-gray-200 rounded-xl overflow-hidden focus-within:border-dq-500 focus-within:shadow-[0_0_0_3px_rgba(184,144,14,0.12)] transition-all duration-200">
             <label htmlFor="mobile-search" className="sr-only">مضامین تلاش کریں</label>

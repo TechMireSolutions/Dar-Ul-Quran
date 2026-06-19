@@ -4,11 +4,12 @@ import Image from 'next/image'
 import { CalendarDays, User } from 'lucide-react'
 import { getPostBySlug, getSiteSettings, getTopicClusterForPost, getPostSlugs } from '@/sanity/lib/fetchers'
 import { urlFor, ogImageUrl } from '@/sanity/lib/image'
-import { PortableText } from '@portabletext/react'
+import RichTextBody from '@/components/content/RichTextBody'
 import ArticleSchema from '@/components/seo/ArticleSchema'
 import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
 import WebPageSchema from '@/components/seo/WebPageSchema'
 import TopicClusterRelated from '@/components/content/TopicClusterRelated'
+import { TW_ARTICLE_TITLE, TW_BADGE } from '@/lib/tailwind'
 import { pageMetadata } from '@/lib/seo'
 
 export const revalidate = 300
@@ -76,14 +77,14 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
           <div className="flex flex-wrap gap-2 mb-4 sm:mb-5">
             {post.categories!.map((cat) => (
               <span key={cat._id}
-                className="text-[10.5px] font-bold uppercase tracking-[0.1em] bg-dq-50 text-dq-700 border border-dq-100 px-3 py-1 rounded-full">
+                className={TW_BADGE}>
                 {cat.title}
               </span>
             ))}
           </div>
         )}
 
-        <h1 className="font-bold text-[26px] sm:text-[30px] lg:text-[38px] text-slate-900 leading-[1.12] tracking-[-0.02em] mb-4 sm:mb-5">
+        <h1 className={`${TW_ARTICLE_TITLE} mb-4 sm:mb-5`}>
           {pageTitle}
         </h1>
 
@@ -112,17 +113,7 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
           </div>
         )}
 
-        {post.body && (
-          <div className="prose prose-slate prose-base sm:prose-lg max-w-none
-            prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-slate-900
-            prose-p:text-gray-700 prose-p:leading-[1.8]
-            prose-a:text-dq-500 prose-a:no-underline hover:prose-a:underline
-            prose-strong:text-slate-900 prose-strong:font-semibold
-            prose-blockquote:border-l-4 prose-blockquote:border-dq-400 prose-blockquote:text-slate-600 prose-blockquote:not-italic
-            prose-li:text-gray-700">
-            <PortableText value={post.body} />
-          </div>
-        )}
+        {post.body && <RichTextBody value={post.body} />}
 
         <TopicClusterRelated
           clusterName={cluster?.clusterName}

@@ -1,12 +1,14 @@
 import { createClient, type SanityClient } from '@sanity/client'
-import { NextResponse }  from 'next/server'
-import nodemailer        from 'nodemailer'
-import type { Transporter } from 'nodemailer'
+import { NextResponse } from 'next/server'
+import { contactBodySchema } from '@/lib/contact-schema'
+import { sendContactNotification } from '@/lib/contact-notify'
+import { rateLimitContact } from '@/lib/rate-limit'
+import { verifyTurnstileToken } from '@/lib/turnstile'
 
-function getSanityClient(): SanityClient {
+function createSanityClient(): SanityClient {
   const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
-  const dataset   = process.env.NEXT_PUBLIC_SANITY_DATASET
-  const token     = process.env.SANITY_API_TOKEN
+  const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET
+  const token = process.env.SANITY_API_TOKEN
 
   if (!projectId || !dataset || !token) {
     throw new Error('Sanity is not configured')
@@ -21,83 +23,57 @@ function getSanityClient(): SanityClient {
   })
 }
 
-function getMailTransporter(): Transporter | null {
-  const { EMAIL_USER, EMAIL_PASS } = process.env
-  if (!EMAIL_USER || !EMAIL_PASS) return null
-
-  return nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false,
-    auth: { user: EMAIL_USER, pass: EMAIL_PASS },
-  })
-}
-
-const purposeLabel: Record<string, string> = {
-  general: 'General Inquiry',
-  course:  'Course Enrollment',
-  service: 'Service Request',
-  other:   'Other',
+function clientIp(req: Request): string {
+  return (
+    req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+    req.headers.get('x-real-ip') ||
+    'unknown'
+  )
 }
 
 export async function POST(req: Request) {
   try {
-    const { firstName, lastName, email, phone, country, city, purpose, appliedFor, message } = await req.json()
-
-    if (!firstName || !email || !phone || !country || !city || !message) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
+    const ip = clientIp(req)
+    const { success, remaining } = await rateLimitContact(ip)
+    if (!success) {
+      return NextResponse.json(
+        { error: 'Too many requests' },
+        { status: 429, headers: { 'Retry-After': '900', 'X-RateLimit-Remaining': String(remaining) } },
+      )
     }
 
-    const fullName    = [firstName, lastName].filter(Boolean).join(' ')
-    const purposeText = purposeLabel[purpose] || purpose || 'General Inquiry'
+    const json = await req.json()
+    const parsed = contactBodySchema.safeParse(json)
+    if (!parsed.success) {
+      return NextResponse.json({ error: 'Invalid submission' }, { status: 400 })
+    }
 
-    // 1. Save to Sanity
-    await getSanityClient().create({
+    const data = parsed.data
+    if (data.website?.trim()) {
+      return NextResponse.json({ success: true })
+    }
+
+    const turnstileOk = await verifyTurnstileToken(data.turnstileToken, ip)
+    if (!turnstileOk) {
+      return NextResponse.json({ error: 'Bot verification failed' }, { status: 403 })
+    }
+
+    await createSanityClient().create({
       _type: 'contactSubmission',
-      firstName,
-      lastName:   lastName   || undefined,
-      email,
-      phone,
-      country,
-      city,
-      purpose:    purpose    || 'general',
-      appliedFor: appliedFor || undefined,
-      message,
+      firstName: data.firstName,
+      lastName: data.lastName || undefined,
+      email: data.email,
+      phone: data.phone,
+      country: data.country,
+      city: data.city,
+      purpose: data.purpose,
+      appliedFor: data.appliedFor || undefined,
+      message: data.message,
       submittedAt: new Date().toISOString(),
       status: 'new',
     })
 
-    // 2. Send email notification
-    const transporter = getMailTransporter()
-    if (transporter && process.env.EMAIL_TO) {
-      await transporter.sendMail({
-        from:    `"Dar Ul Quran Contact" <${process.env.EMAIL_USER}>`,
-        to:      process.env.EMAIL_TO,
-        subject: `New ${purposeText}${appliedFor ? ` — ${appliedFor}` : ''} from ${fullName}`,
-        html: `
-          <div style="font-family:sans-serif;max-width:560px;margin:0 auto;color:#1e293b">
-            <div style="background:#b8900e;padding:24px 28px;border-radius:10px 10px 0 0">
-              <h2 style="margin:0;color:#fff;font-size:18px">New Contact Form Submission</h2>
-            </div>
-            <div style="background:#f8fafc;padding:24px 28px;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 10px 10px">
-              <table style="width:100%;border-collapse:collapse;font-size:14px">
-                <tr><td style="padding:8px 0;color:#64748b;width:130px">Name</td>      <td style="padding:8px 0;font-weight:600">${fullName}</td></tr>
-                <tr><td style="padding:8px 0;color:#64748b">Email</td>     <td style="padding:8px 0"><a href="mailto:${email}" style="color:#b8900e">${email}</a></td></tr>
-                <tr><td style="padding:8px 0;color:#64748b">Phone</td>     <td style="padding:8px 0">${phone}</td></tr>
-                <tr><td style="padding:8px 0;color:#64748b">Country</td>   <td style="padding:8px 0">${country}</td></tr>
-                <tr><td style="padding:8px 0;color:#64748b">City</td>      <td style="padding:8px 0">${city}</td></tr>
-                <tr><td style="padding:8px 0;color:#64748b">Purpose</td>   <td style="padding:8px 0">${purposeText}</td></tr>
-                ${appliedFor ? `<tr><td style="padding:8px 0;color:#64748b">Applied For</td><td style="padding:8px 0;font-weight:600;color:#b8900e">${appliedFor}</td></tr>` : ''}
-              </table>
-              <div style="margin-top:16px;padding:16px;background:#fff;border:1px solid #e2e8f0;border-radius:8px">
-                <p style="margin:0 0 6px;font-size:12px;color:#64748b;text-transform:uppercase;letter-spacing:.05em">Message</p>
-                <p style="margin:0;font-size:14px;line-height:1.7;white-space:pre-wrap">${message}</p>
-              </div>
-            </div>
-          </div>
-        `,
-      })
-    }
+    await sendContactNotification(data)
 
     return NextResponse.json({ success: true })
   } catch (err) {

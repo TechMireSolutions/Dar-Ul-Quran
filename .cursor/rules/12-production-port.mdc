@@ -1,0 +1,22 @@
+---
+description: Production server always runs Next.js on port 3001 (mandatory)
+alwaysApply: true
+---
+
+# Production port 3001
+
+PM2 app `darulquran-next` listens on **0.0.0.0:3001**. Apache at darulquran.pk → `http://127.0.0.1:3001/`.
+
+**Not configurable in production.** `deploy/runtime.cjs` forces port **3001** when `NODE_ENV=production`. Never use port **3000**.
+
+| Layer | File |
+|-------|------|
+| Source of truth | `deploy/runtime.cjs` |
+| npm dev/start | `scripts/run-next.mjs` |
+| PM2 | `ecosystem.config.cjs` |
+| Reverse proxy | `deploy/apache.conf.example`, `deploy/nginx.conf.example` |
+| CI health check | `.github/workflows/deploy.yml` |
+
+Changing the port requires updating **all** rows plus `.env.example` and server `.env`.
+
+Deploy workflow → `11-deploy-ops.mdc`

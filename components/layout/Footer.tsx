@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { TW_CTA_ARROW, TW_FOOTER_DONATE_CTA } from '@/lib/tailwind'
 import Image from 'next/image'
 import { whatsappHref } from '@/lib/contact'
 import type { NavNode, SiteSettingsDoc, FooterServiceDoc } from '@/lib/types'
@@ -208,7 +209,7 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
                 <li>
                   <Link href={`mailto:${settings.email}`}
                     className="flex items-center gap-2 text-[12px] sm:text-[12.5px] text-gray-300 hover:text-dq-400 transition-colors duration-150">
-                    <IconMail size={12} className="text-dq-400 flex-shrink-0" />
+                    <IconMail size={12} className="text-dq-400 shrink-0" />
                     <span className="truncate">{settings.email}</span>
                   </Link>
                 </li>
@@ -217,7 +218,7 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
                 <li>
                   <Link href={`tel:${settings.phone}`}
                     className="flex items-center gap-2 text-[12px] sm:text-[12.5px] text-gray-300 hover:text-dq-400 transition-colors duration-150">
-                    <IconPhone size={12} className="text-dq-400 flex-shrink-0" />
+                    <IconPhone size={12} className="text-dq-400 shrink-0" />
                     {settings.phone}
                   </Link>
                 </li>
@@ -227,14 +228,14 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
                   <Link href={whatsappHref(settings.whatsapp)}
                     target="_blank" rel="noopener noreferrer"
                     className="flex items-center gap-2 text-[12px] sm:text-[12.5px] text-gray-300 hover:text-dq-400 transition-colors duration-150">
-                    <IconMessageCircle size={12} className="text-dq-400 flex-shrink-0" />
+                    <IconMessageCircle size={12} className="text-dq-400 shrink-0" />
                     واٹس ایپ: {settings.whatsapp}
                   </Link>
                 </li>
               )}
               {settings?.address && (
                 <li className="flex items-start gap-2">
-                  <IconMapPin size={12} className="text-dq-400 flex-shrink-0 mt-0.5" />
+                  <IconMapPin size={12} className="text-dq-400 shrink-0 mt-0.5" />
                   <p className="text-[12px] sm:text-[12.5px] text-gray-300 leading-relaxed whitespace-pre-line">
                     {settings.address}
                   </p>
@@ -249,13 +250,11 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
 
             <Link
               href="/donate"
-              className="group inline-flex items-center gap-1.5 mt-4 px-4 py-2 sm:mt-5 sm:px-5 sm:py-2.5 bg-dq-500 hover:bg-dq-600 text-white text-[12px] font-semibold rounded-full
-                shadow-[0_4px_14px_rgba(184,144,14,0.3)] hover:shadow-[0_6px_20px_rgba(184,144,14,0.42)]
-                transition-all duration-200 hover:-translate-y-px"
+              className={TW_FOOTER_DONATE_CTA}
             >
               ابھی عطیہ دیں
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"
-                className="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform duration-150">
+                className={TW_CTA_ARROW}>
                 <path d="M2.5 6h7M6.5 3l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </Link>

@@ -1,5 +1,7 @@
 import { ChevronRight, Plus } from 'lucide-react'
-import { PortableText } from '@portabletext/react'
+import type { PortableTextBlock } from '@portabletext/types'
+import RichTextBody from '@/components/content/RichTextBody'
+import { TW_SECTION_TITLE } from '@/lib/tailwind'
 
 type FaqItem = {
   question: string
@@ -26,7 +28,7 @@ export default function FaqAccordion({ heading, items, icon = 'chevron' }: FaqAc
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
         {heading && (
           <div className="text-center mb-10">
-            <h2 className="font-bold text-[24px] sm:text-[30px] text-slate-900 tracking-[-0.02em]">
+            <h2 className={TW_SECTION_TITLE}>
               {heading}
             </h2>
           </div>
@@ -42,8 +44,8 @@ export default function FaqAccordion({ heading, items, icon = 'chevron' }: FaqAc
                 <Icon size={icon === 'plus' ? 16 : 15} strokeWidth={icon === 'plus' ? 2 : undefined} className={iconClass} />
               </summary>
               {Array.isArray(item.answer) && item.answer.length > 0 && (
-                <div className="px-6 pb-5 pt-1 text-[14px] text-gray-600 leading-relaxed border-t border-gray-50 prose prose-sm max-w-none">
-                  <PortableText value={item.answer} />
+                <div className="px-6 pb-5 pt-1 text-sm text-gray-600 leading-relaxed border-t border-gray-50">
+                  <RichTextBody value={item.answer as PortableTextBlock[]} size="sm" />
                 </div>
               )}
             </details>

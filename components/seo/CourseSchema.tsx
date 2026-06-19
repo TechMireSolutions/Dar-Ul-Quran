@@ -1,11 +1,9 @@
 import JsonLdScripts from '@/components/seo/JsonLdScripts'
-import { SITE_URL } from '@/lib/seo'
+import { SITE_URL, DEFAULT_SITE_NAME } from '@/lib/seo'
 import { buildBreadcrumbSchema, buildFaqPageSchema } from '@/lib/schemaHelpers'
 import type { CourseSchemaData } from '@/lib/types'
 
 export type { CourseSchemaData } from '@/lib/types'
-
-const ORG_NAME = 'Dar Ul Quran'
 
 function resolveSlugPath(data: CourseSchemaData): string {
   if (data.slugPath) return data.slugPath
@@ -32,7 +30,7 @@ function buildSchemas(data: CourseSchemaData): object[] {
     provider: {
       '@type': 'EducationalOrganization',
       '@id': `${SITE_URL}#organization`,
-      name: data.orgName ?? ORG_NAME,
+      name: data.orgName ?? DEFAULT_SITE_NAME,
       url: SITE_URL,
       description:
         'دار القرآن ایک شیعہ اسلامی تعلیمی ادارہ ہے جو مستند جعفری فقہ پر مبنی قرآن و اسلامی تعلیم پاکستان اور عالمی سطح پر پیش کرتا ہے۔',
@@ -52,7 +50,7 @@ function buildSchemas(data: CourseSchemaData): object[] {
                 name: data.instructor,
                 worksFor: {
                   '@type': 'EducationalOrganization',
-                  name: data.orgName ?? ORG_NAME,
+                  name: data.orgName ?? DEFAULT_SITE_NAME,
                 },
               },
             }

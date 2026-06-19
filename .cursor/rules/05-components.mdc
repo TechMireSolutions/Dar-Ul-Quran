@@ -1,0 +1,29 @@
+---
+description: Component folders and client boundaries
+globs: "components/**/*.{ts,tsx}"
+alwaysApply: false
+---
+
+# Components
+
+## Folders
+`layout/` · `ui/` · `sections/` · `content/` · `seo/` · `studio/`
+
+Route-private UI: `app/(site)/**/_components/` — never imported elsewhere  
+(e.g. `contact/_components/ContactForm.tsx`)
+
+Shared listings: `content/NestedChildListing`  
+Portable Text: `content/RichTextBody` (wraps `TW_RICH_TEXT_*` — not raw `PortableText` in pages)  
+Client forms: `ui/TurnstileField` · route-private `contact/_components/ContactForm`
+
+## Patterns
+- `Header` + lazy `HeaderMobileMenu` (`dynamic`, `ssr: false`)
+- Footer: inline SVG in RSC; lucide in client components only
+- `role="menuitem"` only inside dropdown `role="menu"`
+- LCP exception: hero native `<img fetchPriority="high">`
+- Pass Sanity data as props; batch layout reads in rAF
+
+## Related rules & skills
+- Styling → `06-tailwind.mdc`
+- New component → `new-component` skill
+- RTL → `03-rtl-urdu.mdc`

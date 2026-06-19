@@ -6,6 +6,7 @@ import { useState, useEffect, useRef } from 'react'
 import { Search, Menu, ChevronDown, ChevronLeft } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import type { NavNode } from '@/lib/types'
+import { nodeIsActive } from '@/lib/navigation'
 
 const HeaderMobileMenu = dynamic(() => import('./HeaderMobileMenu'), { ssr: false })
 
@@ -25,22 +26,19 @@ const FALLBACK_NAV: NavNode[] = [
   { label: 'ہمارے بارے',   href: '/about' },
 ]
 
-/* ── helpers ──────────────────────────────────────────────────────────────── */
-function nodeIsActive(node: NavNode, pathname: string): boolean {
-  if (node.href && node.href !== '#' &&
-      (pathname === node.href || (node.href !== '/' && pathname.startsWith(node.href + '/')))) return true
-  return node.children?.some(c => nodeIsActive(c, pathname)) ?? false
+type DesktopPanelProps = {
+  nodes: NavNode[]
+  onClose: () => void
+  depth?: number
 }
 
-/* ══════════════════════════════════════════════════════════════════════════
-   DESKTOP — recursive fly-out panel
-   depth 0 = first dropdown (opens below nav item)
-   depth 1+ = fly-out panels (open to the side on hover)
-   ══════════════════════════════════════════════════════════════════════════ */
+type DesktopPanelRowProps = {
+  node: NavNode
+  onClose: () => void
+  depth: number
+}
 
-function DesktopPanel({
-  nodes, onClose, depth = 0,
-}: { nodes: NavNode[]; onClose: () => void; depth?: number }) {
+function DesktopPanel({ nodes, onClose, depth = 0 }: DesktopPanelProps) {
   return (
     <div className="py-1">
       {nodes.map(node => (
@@ -50,9 +48,7 @@ function DesktopPanel({
   )
 }
 
-function DesktopPanelRow({
-  node, onClose, depth,
-}: { node: NavNode; onClose: () => void; depth: number }) {
+function DesktopPanelRow({ node, onClose, depth }: DesktopPanelRowProps) {
   const [flyOpen, setFlyOpen] = useState(false)
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const pathname = usePathname()
@@ -78,7 +74,7 @@ function DesktopPanelRow({
           hover:bg-dq-50 hover:text-dq-700
           ${isActive ? 'text-dq-700 bg-dq-50/60' : 'text-gray-600'}`}
       >
-        <span className="w-1.5 h-1.5 rounded-full bg-dq-200 flex-shrink-0" />
+        <span className="w-1.5 h-1.5 rounded-full bg-dq-200 shrink-0" />
         {node.label}
       </Link>
     )
@@ -92,28 +88,28 @@ function DesktopPanelRow({
         ${isActive || flyOpen ? 'text-dq-700 bg-dq-50' : 'text-gray-600 hover:text-dq-700'}`}>
         {node.href && node.href !== '#' ? (
           <Link href={node.href} onClick={onClose} className="flex items-center gap-2 flex-1 text-[13px]">
-            <span className="w-1.5 h-1.5 rounded-full bg-dq-300 flex-shrink-0" />
+            <span className="w-1.5 h-1.5 rounded-full bg-dq-300 shrink-0" />
             {node.label}
           </Link>
         ) : (
           <span className="flex items-center gap-2 flex-1 text-[13px]">
-            <span className="w-1.5 h-1.5 rounded-full bg-dq-300 flex-shrink-0" />
+            <span className="w-1.5 h-1.5 rounded-full bg-dq-300 shrink-0" />
             {node.label}
           </span>
         )}
-        <ChevronLeft size={11} strokeWidth={2.5} className="text-dq-400 flex-shrink-0 rtl:rotate-180" />
+        <ChevronLeft size={11} strokeWidth={2.5} className="text-dq-400 shrink-0 rtl:rotate-180" />
       </div>
 
       {/* Fly-out — sits flush (no gap) so mouse can slide across without triggering leave */}
       <div
-        className="absolute top-0 z-20"
-        style={{ right: '100%' }}
+        className="absolute top-0 z-20 end-full"
         onMouseEnter={enter}
         onMouseLeave={leave}
       >
         <div
+          role="menu"
           className={`min-w-[200px] bg-white border border-gray-100 rounded-2xl
-            shadow-[0_8px_32px_rgba(0,0,0,0.13)]
+            shadow-nav
             transition-all duration-200 origin-top-right
             ${flyOpen
               ? 'opacity-100 scale-100 pointer-events-auto'
@@ -224,8 +220,7 @@ function DesktopNavItem({ node }: { node: NavNode }) {
 
       {/* Dropdown panel */}
       <div
-        className={`absolute top-full pt-2 z-50`}
-        style={{ right: 0 }}
+        className="absolute top-full pt-2 z-50 end-0"
         onMouseEnter={enter}
         onMouseLeave={leave}
       >
@@ -235,7 +230,7 @@ function DesktopNavItem({ node }: { node: NavNode }) {
           aria-label={node.label}
           aria-hidden={!open}
           className={`min-w-[210px] bg-white border border-gray-100
-            rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.13)]
+            rounded-2xl shadow-nav
             transition-all duration-200 origin-top
             ${open
               ? 'opacity-100 scale-y-100 translate-y-0 pointer-events-auto'
@@ -332,11 +327,23 @@ export default function Header({
             : 'border-b border-dq-800'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 h-[68px] flex items-center gap-8">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 h-[68px] flex items-center gap-4 lg:gap-8">
+
+          {/* Mobile hamburger — inline-start (right in RTL), same side as drawer */}
+          <button
+            ref={menuButtonRef}
+            className="lg:hidden shrink-0 w-11 h-11 flex items-center justify-center rounded-full text-white/70 hover:bg-dq-800 transition-colors"
+            onClick={openMobileMenu}
+            aria-label="مینو کھولیں"
+            aria-expanded={menuOpen}
+            aria-controls="mobile-nav-panel"
+          >
+            <Menu size={20} />
+          </button>
 
           {/* Logo */}
-          <Link href="/" aria-label={siteName} className="flex-shrink-0 flex items-center gap-3 group">
-            <div className="w-[42px] h-[42px] rounded-full overflow-hidden border-2 border-dq-400 flex-shrink-0 transition-transform duration-200 group-hover:scale-105">
+          <Link href="/" aria-label={siteName} className="shrink-0 flex items-center gap-3 group">
+            <div className="w-[42px] h-[42px] rounded-full overflow-hidden border-2 border-dq-400 shrink-0 transition-transform duration-200 group-hover:scale-105">
               {logoUrl
                 ? <Image src={logoUrl} alt="" width={42} height={42} sizes="42px" className="object-cover w-full h-full" />
                 : <div className="w-full h-full bg-gradient-to-br from-dq-100 to-dq-200 flex items-center justify-center text-lg select-none" aria-hidden="true">⛵</div>}
@@ -350,6 +357,8 @@ export default function Header({
               <DesktopNavItem key={node.label} node={node} />
             ))}
           </nav>
+
+          <div className="flex-1 lg:hidden" aria-hidden="true" />
 
           {/* Search */}
           <div className="hidden lg:flex items-center ms-auto">
@@ -382,18 +391,6 @@ export default function Header({
               </button>
             )}
           </div>
-
-          {/* Mobile hamburger */}
-          <button
-            ref={menuButtonRef}
-            className="lg:hidden ms-auto w-11 h-11 flex items-center justify-center rounded-full text-white/70 hover:bg-dq-800 transition-colors"
-            onClick={openMobileMenu}
-            aria-label="مینو کھولیں"
-            aria-expanded={menuOpen}
-            aria-controls="mobile-nav-panel"
-          >
-            <Menu size={20} />
-          </button>
         </div>
       </header>
 

@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import Link from 'next/link'
 import { ArrowRight, MessageCircle } from 'lucide-react'
+import { TW_CTA_ARROW, TW_GOLD_CTA, TW_SECTION_TITLE } from '@/lib/tailwind'
 
 type LeafCtaBannerProps = {
   heading?: string
@@ -29,7 +30,7 @@ export default function LeafCtaBanner({
     <section className="bg-dq-900 py-16 sm:py-20">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
         {heading && (
-          <h2 className="font-bold text-[26px] sm:text-[34px] text-white tracking-[-0.02em] mb-4">
+          <h2 className={`${TW_SECTION_TITLE} text-white mb-4`}>
             {heading}
           </h2>
         )}
@@ -41,10 +42,10 @@ export default function LeafCtaBanner({
             href={primaryHref}
             target={primaryExternal ? '_blank' : undefined}
             rel={primaryExternal ? 'noopener noreferrer' : undefined}
-            className="group inline-flex items-center gap-2 bg-dq-500 hover:bg-dq-400 text-white font-bold text-[14px] px-8 py-3.5 rounded-full shadow-[0_4px_20px_rgba(184,144,14,0.3)] transition-all duration-200 hover:-translate-y-px"
+            className={TW_GOLD_CTA}
           >
             {primaryLabel}
-            <ArrowRight size={14} strokeWidth={2.5} className="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform" />
+            <ArrowRight size={14} strokeWidth={2.5} className={TW_CTA_ARROW} />
           </Link>
           <Link
             href={whatsappHref}

@@ -5,39 +5,47 @@ alwaysApply: true
 
 # Project
 
-Next.js **16** · React **19** · Sanity **v6** · Tailwind **v4** · RTL Urdu
+Next.js **16.2** · React **19.2** · Sanity **v6** · Tailwind **v4.3** · TypeScript **6** · Node **≥22.12** · RTL Urdu
 
-Live: https://darulquran.pk · Dev/production Next.js: **port 3001** (`deploy/runtime.cjs`)
+Live: https://darulquran.pk · Runtime port **3001** → `12-production-port.mdc`  
+License: **MIT** · Stack reference: **`techstack.md`**
 
 ```bash
-npm run dev      # :3001, /studio — via scripts/run-next.mjs
+npm run dev      # :3001, /studio — scripts/run-next.mjs
 npm run build    # prebuild stubs polyfills
-npm run start    # production server :3001
-npm run lint && npm run check:urdu
+npm run start    # production :3001
+npm run lint && npm run check:urdu && npm run test
 ```
 
-Env (never commit): `NEXT_PUBLIC_SANITY_*`, `SANITY_API_TOKEN`, `EMAIL_*`, `NEXT_PUBLIC_SITE_URL`
+## Environment
+
+See **`.env.example`**. Never commit secrets. Security rule: **`17-security.mdc`**.
+
+| Required | Optional (production) |
+|----------|------------------------|
+| `NEXT_PUBLIC_SANITY_*` | `RESEND_API_KEY`, `EMAIL_FROM`, `EMAIL_TO` |
+| `SANITY_API_TOKEN` | `REVALIDATE_SECRET` |
+| `NEXT_PUBLIC_SITE_URL` | `UPSTASH_REDIS_REST_*`, Turnstile keys |
 
 ## Layout
 
+See **`14-file-structure.mdc`**. Summary:
+
 ```
-app/
-  (site)/          # public routes (no URL segment)
-  studio/          # Sanity CMS
-  api/             # route handlers
-  icon.svg         # favicon fallback
-components/
-  layout/ ui/ sections/ content/ seo/ studio/
-lib/
-  types/           # NavNode, schema DTOs (no UI imports)
-  seo.ts paths.ts cmsPage.ts …
-sanity/
-  schemaTypes/ lib/   # queries.ts, fetchers.ts, client.ts
-public/            # static fallbacks only
-scripts/ deploy/
+app/(site)/ api/ studio/
+components/{layout,ui,sections,content,seo}/
+lib/{types,cache-tags,contact-schema,rate-limit,tailwind.ts,…}/
+sanity/{schemaTypes,lib}/
+docs/ deploy/ scripts/
 ```
 
-- Thin `page.tsx` — fetch + compose; route-private UI in `app/**/_components/`
-- Types in `lib/types/`; data layer must not import from `components/`
-- `safeFetch` → Sanity; `revalidate = 300` on CMS routes
-- Brand: `dq-*`; font: `DeferredUrduFont`
+- Thin `page.tsx`; route-private UI in `app/**/_components/`
+- API routes: Zod + rate limit — **`17-security.mdc`**
+- CMS: `revalidate = 300` + webhook tags (`setup-revalidation` skill)
+- Fetch via `get*` in `sanity/lib/fetchers.ts`
+
+## Key dependencies
+
+`zod` · `resend` · `@upstash/ratelimit` (optional) · `vitest` (dev)
+
+Upgrade policy → **`13-dependencies.mdc`**. **ESLint v9** until `eslint-config-next` supports v10.

@@ -1,11 +1,12 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { cmsPageMetadata, fetchCmsPage, resolveSeoDescription, resolveSeoTitle } from '@/lib/cmsPage'
-import { PortableText } from '@portabletext/react'
+import RichTextBody from '@/components/content/RichTextBody'
 import { ArrowRight } from 'lucide-react'
 import WebPageSchema from '@/components/seo/WebPageSchema'
 import PageHeroHeader from '@/components/ui/PageHeroHeader'
 import Reveal from '@/components/ui/Reveal'
+import { TW_CTA_ARROW, TW_PAYPAL_CTA } from '@/lib/tailwind'
 
 export const revalidate = 300
 
@@ -53,9 +54,7 @@ export default async function DonatePage() {
 
           {page?.body && (
             <Reveal animation="fade">
-              <div className="prose prose-sm max-w-none text-gray-700 mb-8 sm:mb-10">
-                <PortableText value={page.body} />
-              </div>
+              <RichTextBody value={page.body} size="sm" className="mb-8 sm:mb-10" />
             </Reveal>
           )}
 
@@ -86,14 +85,13 @@ export default async function DonatePage() {
                   href={settings?.donateUrl || 'https://www.paypal.com/donate/?hosted_button_id=Q22WVGY8WWZ4C'}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex items-center justify-center gap-2.5 bg-[#0070BA] hover:bg-[#005ea6] text-white text-[14px] font-bold px-8 py-3 rounded-full
-                    shadow-[0_4px_20px_rgba(0,112,186,0.45)] transition-all duration-200 hover:-translate-y-px"
+                  className={TW_PAYPAL_CTA}
                 >
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                     <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944 2.28a.78.78 0 0 1 .77-.65h7.794c2.728 0 4.636.602 5.668 1.79.49.56.802 1.147.952 1.795.157.676.13 1.484-.08 2.47l-.007.045v.387l.277.157c.232.13.442.29.625.472.31.318.524.72.636 1.194.115.483.103 1.056-.036 1.705-.164.76-.428 1.42-.785 1.963a5.09 5.09 0 0 1-1.247 1.39c-.478.365-1.04.64-1.674.82-.617.175-1.32.264-2.09.264h-.497a1.41 1.41 0 0 0-1.393 1.19l-.112.61-.58 3.672-.026.14a.78.78 0 0 1-.77.648z" />
                   </svg>
                   {settings?.donatePayOnlineLabel || 'آنلائن عطیہ دیں'}
-                  <ArrowRight size={14} strokeWidth={2.5} className="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform" />
+                  <ArrowRight size={14} strokeWidth={2.5} className={TW_CTA_ARROW} />
                 </a>
                 <Link href="/contact"
                   className="inline-flex items-center justify-center text-[13px] font-medium text-slate-300 hover:text-white border border-white/20 hover:border-white/50 px-6 py-3 rounded-full transition-all duration-200">

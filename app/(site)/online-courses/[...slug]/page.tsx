@@ -35,7 +35,7 @@ export async function generateMetadata(
     getCourseBySlug(currentSlug),
     getSiteSettings(),
   ])
-  if (!course) return { title: 'کورس | دار القرآن' }
+  if (!course) notFound()
 
   const courseTitle = course.title ?? 'کورس'
   const canonicalPath = `${SECTION_PATH}/${slug.join('/')}`

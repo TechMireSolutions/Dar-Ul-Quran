@@ -1,41 +1,56 @@
 # Dar Ul Quran — Agent index
 
 **Rules (primary):** `.cursor/rules/*.mdc` · **Workflows:** `.cursor/skills/`  
-**Content SEO:** `.antigravityrules` · **Urdu allowlist:** `CLAUDE.md` § Urdu
+**Stack:** [`techstack.md`](techstack.md) (versions, infra, routes) · **Content SEO:** `.antigravityrules` · **Urdu:** `CLAUDE.md` § Urdu · **Security:** `SECURITY.md` + `17-security.mdc`
 
-Live: https://darulquran.pk · Dev/production: `npm run dev` / PM2 on **:3001** (`08-production-port.mdc`)
+Live: https://darulquran.pk · Port **3001** → `12-production-port.mdc`
 
 ## File structure
 
 | Path | Role |
 |------|------|
 | `app/(site)/` | Public pages; `_components/` for route-private UI |
+| `app/api/` | Contact + revalidation routes (`17-security.mdc`) |
 | `app/studio/` | Embedded Sanity |
-| `components/{layout,ui,sections,content,seo,studio}` | Shared UI |
-| `lib/types/` | Nav + schema DTOs (data layer imports from here) |
+| `components/{layout,ui,sections,content,seo}` | Shared UI |
+| `lib/types/` | DTOs · `cache-tags.ts` · `contact-schema.ts` · `navigation.ts` |
+| `lib/tailwind.ts` | Shared `TW_*` class strings (`06-tailwind.mdc`) |
 | `sanity/lib/` | GROQ, `safeFetch`, cached `fetchers` |
-| `public/` | Static fallbacks; CMS assets primary |
+| `docs/` | Ops docs (Sanity webhook) |
+
+Full layout: `14-file-structure.mdc`
 
 ## Rules map
 
-| `.mdc` | Topic |
-|--------|--------|
-| `00` | Hierarchy, behavior |
-| `01` | Stack, env, commands |
-| `02` | TS, Next 16, Tailwind |
-| `03` | RTL, Urdu UI |
-| `04` | Sanity / GROQ |
-| `05` | Content SEO (E-E-A-T) |
-| `06` | Components |
-| `07` | Deploy |
-| `08` | Production port 3001 |
-| `09` | Technical SEO shared |
-| `10` | Technical SEO mobile |
-| `11` | Technical SEO desktop |
+| Group | ID | Topic |
+|-------|-----|--------|
+| **Core** | `00` | Hierarchy & behavior |
+| | `01` | Stack, commands, env |
+| | `12` | Production port 3001 |
+| **Code** | `02`–`06` | TS, RTL, Sanity, components, Tailwind |
+| | `13`–`16` | Dependencies, structure, naming, DRY |
+| **SEO** | `07`–`10` | Content + technical SEO |
+| **Ops** | `11` | Deploy & CI |
+| **Security** | `17` | API auth, CSP, secrets, contact hardening |
 
-## Skills
+Authority table (no conflicts): `00-mirror-sources.mdc`
 
-`preflight` · `new-page` · `add-sanity-query` · `new-sanity-schema` · `add-seo-to-page` · `technical-seo-audit` · `optimize-lcp` · `rtl-check` · `check-urdu` · `deploy`
+## Skills (20)
+
+### Ship & quality
+`preflight` · `check-urdu` · `rtl-check` · `upgrade-deps` · `write-tests`
+
+### Pages & UI
+`new-page` · `new-leaf-route` · `new-component` · `tailwind-ui` · `add-homepage-section`
+
+### Sanity CMS
+`add-sanity-query` · `add-fetcher` · `new-sanity-schema` · `setup-revalidation`
+
+### SEO
+`add-seo-to-page` · `technical-seo-audit` · `optimize-lcp`
+
+### Ops & security
+`deploy` · `fix-chunk-mime` · `secure-api-route`
 
 ## Exceptions
 
@@ -45,4 +60,4 @@ Live: https://darulquran.pk · Dev/production: `npm run dev` / PM2 on **:3001** 
 | Blocking font | `DeferredUrduFont` |
 | Eager mobile JS | `HeaderMobileMenu` dynamic |
 
-Commits only when user asks. Preflight before ship.
+Commits only when user asks. Preflight: `lint` + `check:urdu` + `test` (+ `build` if deploy).

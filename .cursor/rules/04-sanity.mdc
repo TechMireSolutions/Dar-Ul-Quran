@@ -1,6 +1,6 @@
 ---
 description: Sanity schema and GROQ
-globs: "{sanity/**/*,app/api/**/*}"
+globs: "{sanity/**/*,app/api/revalidate/**/*}"
 alwaysApply: false
 ---
 
@@ -10,8 +10,18 @@ Schema: `slug` (unique), `order`, inline `seo`, PT `body`, image `alt`, parent `
 
 GROQ in `queries.ts` only: draft filter, explicit fields (no top-level `...`), `slug { current }`, `seo { title, description }`
 
+DRY: one query per concern — fragments in `queries.ts`, access via `fetchers.ts` (`16-dry.mdc`).
+
+## Cache & revalidation
+
+- All `safeFetch` calls tag **`cms`** — authority: `lib/cache-tags.ts` (see `16-dry.mdc`)
+- ISR fallback: `revalidate = 300` on public routes
+- On-demand: Sanity webhook → `/api/revalidate` — skill: **`setup-revalidation`**
+- Webhook filter, path map, new `_type` handling → this rule + `app/api/revalidate/route.ts`
+- Secret query param & env → **`17-security.mdc`** (do not duplicate auth rules here)
+
 ```ts
 const data = await safeFetch<T>(query, { slug }); if (!data) notFound()
 ```
 
-Workflow: `add-sanity-query` / `new-sanity-schema` skills.
+Workflow: `add-sanity-query` → `add-fetcher` → route skills (`new-page` / `new-leaf-route`).

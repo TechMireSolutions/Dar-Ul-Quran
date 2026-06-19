@@ -1,14 +1,54 @@
 # Antigravity SEO 2026 — content & trust
 
-Technical crawl/index/CWV: `.cursor/rules/09`–`11` · Audit: `technical-seo-audit` skill
+**Rule hierarchy:** `.cursor/rules/00-mirror-sources.mdc` · **Stack & SEO:** [`techstack.md`](techstack.md) · **Index:** `AGENTS.md`
+
+| Layer | Cursor rule | This file |
+|-------|-------------|-----------|
+| Content SEO (E-E-A-T, copy) | `07-content-seo.mdc` | **Primary narrative below** |
+| Technical SEO | `08`–`10` | CWV targets referenced here |
+| Tailwind / UI perf | `06-tailwind.mdc` | UI section below |
+| DRY / shared UI | `16-dry.mdc` | `TW_*` in `lib/tailwind.ts` |
+| Security / API | `17-security.mdc` | CSP, contact hardening |
+| Urdu copy | `03-rtl-urdu.mdc` | Urdu in `CLAUDE.md` |
+
+Audit: `technical-seo-audit` · UI: `tailwind-ui` · Deploy: `fix-chunk-mime` · Revalidation: `setup-revalidation`
+
+---
 
 ## For darulquran.pk
 
-- **E-E-A-T:** org JSON-LD, article authors/dates, HTTPS, CMS contact info
-- **CWV:** LCP ≤2.5s · INP ≤200ms · CLS ≤0.1 (mobile-first; test both profiles)
-- **Schema:** `components/seo/*` + `pageMetadata()` — match visible content
-- **Engagement:** clear above-fold intent; no intrusive interstitials
-- **Clusters:** internal links courses ↔ services ↔ articles
-- **SGE:** concise Urdu intros, lists, FAQs; `llms.txt` for AI crawlers
-- **A11y:** one H1, Urdu alt, skip link, 44px targets, `menuitem` in dropdowns only
-- **No spam:** no stuffing, cloaking, or misleading meta
+### Trust & content (E-E-A-T)
+- Org JSON-LD in root layout; article authors and dates on posts
+- HTTPS + security headers; contact info from Sanity `siteSettings`
+- One H1 per page; Urdu `alt` on images; internal links across courses ↔ services ↔ articles
+- Concise Urdu intros, lists, FAQs for SGE; `llms.txt` for AI crawlers
+- No keyword stuffing, cloaking, dark patterns, or misleading metadata
+
+### Core Web Vitals (mobile-first index)
+| Metric | Target | Detail rules |
+|--------|--------|--------------|
+| LCP | ≤2.5s | `09-technical-seo-mobile.mdc` · `optimize-lcp` skill |
+| INP | ≤200ms | Lazy mobile nav; light handlers |
+| CLS | ≤0.1 | Image dimensions; reserved hero space |
+
+Test **both** Lighthouse Mobile and Desktop (`10-technical-seo-desktop.mdc`).
+
+### Schema & metadata
+- `components/seo/*` + `pageMetadata()` — JSON-LD must match visible title/description
+- Canonical via `pageMetadata({ path })`; `robots.ts` + `sitemap.ts`
+
+### Accessibility & engagement
+- Skip link; keyboard nav dropdowns; `role="menuitem"` inside menus only
+- Touch targets ≥44px (`TW_TOUCH` in `lib/tailwind.ts`)
+- Clear above-fold intent; no intrusive interstitials
+
+### UI performance (Tailwind)
+- Pure utilities — no CSS-in-JS; shared patterns in `lib/tailwind.ts` (`06-tailwind.mdc`)
+- Below-fold: `TW_CV_AUTO` (`content-visibility: auto`)
+- Rich text: `rich-text` classes — not broken `prose-*`
+- Hero LCP: inline styles only for `--hero-delay` and blur placeholder
+
+### Production
+- Next.js on port **3001** (`12-production-port.mdc`); deploy via `11-deploy-ops.mdc`
+- On-demand CMS revalidation via Sanity webhook (`setup-revalidation` skill)
+- Contact form: rate-limited, Zod-validated (`17-security.mdc`)

@@ -1,101 +1,18 @@
-# Dar-Ul-Quran — Cursor AI Rules
+# Dar Ul Quran — Cursor stub
 
-## Project
+> **Do not duplicate conventions here.** Edit `.cursor/rules/*.mdc` and `.cursor/skills/` first.
 
-Islamic educational organization website. Next.js 15 App Router + React 19 + Sanity v6 CMS + Tailwind CSS v4. Fully RTL (Urdu/Arabic). TypeScript strict mode.
+| Resource | Path |
+|----------|------|
+| Rules | `.cursor/rules/*.mdc` |
+| Workflows | `.cursor/skills/*/SKILL.md` |
+| Index | `AGENTS.md` |
+| Stack & versions | [`techstack.md`](techstack.md) |
+| Content SEO | `.antigravityrules` |
+| Urdu allowlist | `CLAUDE.md` § Urdu |
+| Security | `SECURITY.md` · `17-security.mdc` |
+| Env vars | `.env.example` |
 
----
+Next.js 16 · React 19 · Sanity v6 · Tailwind v4 · RTL Urdu · https://darulquran.pk · port **3001**
 
-## Stack
-
-- **Framework:** Next.js 15 App Router (no Pages Router)
-- **UI:** React 19 — default to Server Components; `"use client"` only for interactivity
-- **CMS:** Sanity v6 with next-sanity v13 — all queries in `sanity/lib/queries.ts`
-- **Styles:** Tailwind CSS v4 via PostCSS plugin — brand colors `dq-*` (gold palette)
-- **Language:** TypeScript v6, strict, no `any`
-- **Rich Text:** @portabletext/react
-- **Images:** next/image + @sanity/image-url (`urlFor`)
-- **Icons:** lucide-react only
-- **Font:** Noto Nastaliq Urdu (Google Fonts) — `font-urdu` Tailwind class
-
----
-
-## File Structure (critical paths)
-
-```
-app/(site)/layout.tsx         → site shell (Header + Footer)
-app/(site)/page.tsx           → homepage
-sanity/lib/queries.ts         → ALL GROQ queries (never inline)
-sanity/lib/client.ts          → safeFetch wrapper (returns null on missing config)
-sanity/lib/image.ts           → urlFor() image builder
-components/ui/Reveal.tsx      → scroll-triggered animations
-components/ui/ContentCard.tsx → reusable card
-tailwind.config.ts            → custom tokens (dq-* colors, animations)
-app/globals.css               → keyframe definitions
-```
-
----
-
-## Rules
-
-### Always
-- Server Components by default — add `"use client"` only when needed
-- All GROQ in `sanity/lib/queries.ts` — no inline queries in pages
-- Use `safeFetch` from `sanity/lib/client.ts` — handles null gracefully
-- Use `<Link>` not `<a>`, `<Image>` not `<img>`
-- Use `ms-*`/`me-*` (margin-inline-start/end) for RTL-safe spacing
-- Add `alt` text to every Sanity image field
-- Use `dq-*` color tokens — never raw hex for brand colors
-- TypeScript `type` keyword for props, not `interface`
-- `leading-[1.8]` or higher for Urdu/Arabic body text
-
-### Never
-- No `any` or `@ts-ignore` without explanation
-- No `getServerSideProps`/`getStaticProps` — App Router only
-- No `useEffect` for data fetching — use async Server Components
-- No hardcoded phone/email/social links — everything from Sanity siteSettings
-- No `console.log` in committed code
-- No `styled-components` or `emotion` — Tailwind only
-- No `@tailwindcss/typography` — prose styles live in globals.css
-- No `"use client"` on layout.tsx or page.tsx files without interactivity
-- No direct `import` of server modules (sanity client, nodemailer) in client components
-
----
-
-## RTL Rules
-
-- HTML root: `lang="ur" dir="rtl"` — never override with `dir="ltr"` without reason
-- Use `rtl:` Tailwind prefix for RTL-specific overrides
-- `flex-row` reverses visually in RTL — use `flex-row-reverse` for LTR visual order
-- `rotate-180` on chevrons/arrows in RTL navigation contexts
-
----
-
-## Sanity Schema Rules
-
-- Every public content type needs `slug` with `isUnique`
-- Parent references (`course.parent`, `service.parent`) use `weak: false`
-- `order` number field on all list types for manual sort
-- `seo: { title, description }` inline on every content type
-- `body` is always Portable Text array
-
----
-
-## Environment Variables (required)
-
-```
-NEXT_PUBLIC_SANITY_PROJECT_ID
-NEXT_PUBLIC_SANITY_DATASET
-SANITY_API_TOKEN
-EMAIL_USER / EMAIL_PASS / EMAIL_TO
-```
-
----
-
-## Common Gotchas
-
-1. Tailwind v4 uses new syntax: `bg-black/50` not `bg-opacity-50`
-2. `cdn.sanity.io` must be in `next.config.ts` remotePatterns for images
-3. Catch-all `[...slug]` params are `string[]` — join with `/` for paths
-4. Layout ISR is 300s — nav changes take up to 5 min to reflect
-5. Noto Nastaliq Urdu has large vertical metrics — always test with real Urdu text
+Ship: `npm run lint && npm run check:urdu && npm run test` (+ `build` if deploy) — `preflight` skill

@@ -15,3 +15,5 @@ Same URL as mobile. PSI/Lighthouse **Desktop**.
 | CLS | ≤0.1 | stable sticky header |
 
 Nav links in HTML (`lg:flex`); keyboard dropdowns; breadcrumbs on detail pages; 1440px Urdu overflow check.
+
+Shared: `08-technical-seo-shared.mdc`

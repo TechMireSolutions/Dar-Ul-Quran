@@ -1,7 +1,12 @@
 'use client'
 
 import dynamic from 'next/dynamic'
+import type { ComponentProps } from 'react'
 
-const WhatsAppButton = dynamic(() => import('./WhatsAppButton'), { ssr: false })
+const WhatsAppButtonInner = dynamic(() => import('./WhatsAppButton'), { ssr: false })
 
-export default WhatsAppButton
+type WhatsAppButtonLazyProps = ComponentProps<typeof WhatsAppButtonInner>
+
+export default function WhatsAppButtonLazy(props: WhatsAppButtonLazyProps) {
+  return <WhatsAppButtonInner {...props} />
+}

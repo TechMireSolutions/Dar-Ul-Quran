@@ -1,11 +1,9 @@
 import JsonLdScripts from '@/components/seo/JsonLdScripts'
-import { SITE_URL } from '@/lib/seo'
+import { SITE_URL, DEFAULT_SITE_NAME } from '@/lib/seo'
 import { buildBreadcrumbSchema, buildFaqPageSchema } from '@/lib/schemaHelpers'
 import type { ServiceSchemaData } from '@/lib/types'
 
 export type { ServiceSchemaData } from '@/lib/types'
-
-const ORG_NAME = 'Dar Ul Quran'
 
 function buildSchemas(data: ServiceSchemaData): object[] {
   const serviceUrl = `${SITE_URL}/services/${data.slugPath}`
@@ -30,7 +28,7 @@ function buildSchemas(data: ServiceSchemaData): object[] {
     provider: {
       '@type': 'EducationalOrganization',
       '@id': `${SITE_URL}#organization`,
-      name: data.orgName ?? ORG_NAME,
+      name: data.orgName ?? DEFAULT_SITE_NAME,
       url: SITE_URL,
       description:
         'دار القرآن ایک شیعہ اسلامی تعلیمی و خدماتی ادارہ ہے جو قرآن، فقہ اور مذہبی خدمات دنیا بھر میں پیش کرتا ہے۔',

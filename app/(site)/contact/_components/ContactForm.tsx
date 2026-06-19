@@ -1,22 +1,20 @@
 'use client'
 
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
+import TurnstileField from '@/components/ui/TurnstileField'
+import { TW_FORM_INPUT, TW_FORM_SUBMIT } from '@/lib/tailwind'
 
 type ContactFormOption = { _id: string; title: string; parentTitle?: string }
 
 type ContactFormProps = {
-  subjects:    string[]
   submitLabel: string
-  courses:     ContactFormOption[]
-  services:    ContactFormOption[]
+  courses: ContactFormOption[]
+  services: ContactFormOption[]
+  turnstileSiteKey?: string
 }
 
 type Purpose = 'general' | 'course' | 'service' | 'other'
 type Status  = 'idle' | 'loading' | 'success' | 'error'
-
-const INPUT_CLASS = `w-full border border-gray-200 rounded-lg px-3.5 py-2.5 text-[13.5px] text-slate-700
-  placeholder:text-gray-400 bg-white focus:outline-none focus:border-dq-400
-  focus:ring-2 focus:ring-dq-400/20 transition-all`
 
 function FieldLabel({ children, required, htmlFor }: { children: React.ReactNode; required?: boolean; htmlFor: string }) {
   return (
@@ -24,7 +22,7 @@ function FieldLabel({ children, required, htmlFor }: { children: React.ReactNode
       {children}
       {required && (
         <>
-          <span className="text-red-500 ml-0.5" aria-hidden="true">*</span>
+          <span className="text-red-500 ms-0.5" aria-hidden="true">*</span>
           <span className="sr-only"> (لازمی)</span>
         </>
       )}
@@ -36,28 +34,43 @@ function optionLabel(option: ContactFormOption) {
   return option.parentTitle ? `${option.parentTitle} — ${option.title}` : option.title
 }
 
-export default function ContactForm({ submitLabel, courses, services }: ContactFormProps) {
+export default function ContactForm({ submitLabel, courses, services, turnstileSiteKey }: ContactFormProps) {
   const [purpose,    setPurpose]    = useState<Purpose>('general')
   const [appliedFor, setAppliedFor] = useState('')
   const [status,     setStatus]     = useState<Status>('idle')
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
+
+  const handleTurnstileToken = useCallback((token: string | null) => {
+    setTurnstileToken(token)
+  }, [])
+
+  const turnstileRequired = Boolean(turnstileSiteKey)
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     setStatus('loading')
 
     const form = e.currentTarget
-    const getValue = (name: string) => (form.elements.namedItem(name) as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement)?.value ?? ''
+    const readFieldValue = (name: string) =>
+      (form.elements.namedItem(name) as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement)?.value ?? ''
 
     const data = {
-      firstName:  getValue('firstName'),
-      lastName:   getValue('lastName'),
-      email:      getValue('email'),
-      phone:      getValue('phone'),
-      country:    getValue('country'),
-      city:       getValue('city'),
+      firstName:  readFieldValue('firstName'),
+      lastName:   readFieldValue('lastName'),
+      email:      readFieldValue('email'),
+      phone:      readFieldValue('phone'),
+      country:    readFieldValue('country'),
+      city:       readFieldValue('city'),
       purpose,
       appliedFor: appliedFor || undefined,
-      message:    getValue('message'),
+      message:    readFieldValue('message'),
+      website:    readFieldValue('website'),
+      turnstileToken: turnstileToken ?? undefined,
+    }
+
+    if (turnstileRequired && !turnstileToken) {
+      setStatus('error')
+      return
     }
 
     const res = await fetch('/api/contact', {
@@ -71,6 +84,9 @@ export default function ContactForm({ submitLabel, courses, services }: ContactF
       form.reset()
       setPurpose('general')
       setAppliedFor('')
+      setTurnstileToken(null)
+    } else if (res.status === 429) {
+      setStatus('error')
     } else {
       setStatus('error')
     }
@@ -99,11 +115,11 @@ export default function ContactForm({ submitLabel, courses, services }: ContactF
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <FieldLabel required htmlFor="cf-first-name">پہلا نام</FieldLabel>
-          <input id="cf-first-name" type="text" name="firstName" required autoComplete="given-name" placeholder="پہلا نام" className={INPUT_CLASS} />
+          <input id="cf-first-name" type="text" name="firstName" required autoComplete="given-name" placeholder="پہلا نام" className={TW_FORM_INPUT} />
         </div>
         <div>
           <FieldLabel htmlFor="cf-last-name">آخری نام</FieldLabel>
-          <input id="cf-last-name" type="text" name="lastName" autoComplete="family-name" placeholder="آخری نام (اختیاری)" className={INPUT_CLASS} />
+          <input id="cf-last-name" type="text" name="lastName" autoComplete="family-name" placeholder="آخری نام (اختیاری)" className={TW_FORM_INPUT} />
         </div>
       </div>
 
@@ -114,7 +130,7 @@ export default function ContactForm({ submitLabel, courses, services }: ContactF
           id="cf-purpose"
           value={purpose}
           onChange={e => { setPurpose(e.target.value as Purpose); setAppliedFor('') }}
-          className={INPUT_CLASS}
+          className={TW_FORM_INPUT}
         >
           <option value="general">عام پوچھ گچھ</option>
           {courses.length  > 0 && <option value="course">کورس میں داخلہ</option>}
@@ -132,7 +148,7 @@ export default function ContactForm({ submitLabel, courses, services }: ContactF
             required
             value={appliedFor}
             onChange={e => setAppliedFor(e.target.value)}
-            className={INPUT_CLASS}
+            className={TW_FORM_INPUT}
           >
             <option value="" disabled>— کورس منتخب کریں —</option>
             {courses.map(course => (
@@ -151,7 +167,7 @@ export default function ContactForm({ submitLabel, courses, services }: ContactF
             required
             value={appliedFor}
             onChange={e => setAppliedFor(e.target.value)}
-            className={INPUT_CLASS}
+            className={TW_FORM_INPUT}
           >
             <option value="" disabled>— خدمت منتخب کریں —</option>
             {services.map(service => (
@@ -165,11 +181,11 @@ export default function ContactForm({ submitLabel, courses, services }: ContactF
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <FieldLabel required htmlFor="cf-email">ای میل</FieldLabel>
-          <input id="cf-email" type="email" name="email" required autoComplete="email" placeholder="your@email.com" className={INPUT_CLASS} />
+          <input id="cf-email" type="email" name="email" required autoComplete="email" placeholder="آپ کی ای میل" className={TW_FORM_INPUT} />
         </div>
         <div>
           <FieldLabel required htmlFor="cf-phone">فون نمبر</FieldLabel>
-          <input id="cf-phone" type="tel" name="phone" required autoComplete="tel" placeholder="+92 300 0000000" className={INPUT_CLASS} />
+          <input id="cf-phone" type="tel" name="phone" required autoComplete="tel" placeholder="+92 300 0000000" className={TW_FORM_INPUT} />
         </div>
       </div>
 
@@ -177,11 +193,11 @@ export default function ContactForm({ submitLabel, courses, services }: ContactF
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <FieldLabel required htmlFor="cf-country">ملک</FieldLabel>
-          <input id="cf-country" type="text" name="country" required autoComplete="country-name" placeholder="مثلاً: پاکستان" className={INPUT_CLASS} />
+          <input id="cf-country" type="text" name="country" required autoComplete="country-name" placeholder="مثلاً: پاکستان" className={TW_FORM_INPUT} />
         </div>
         <div>
           <FieldLabel required htmlFor="cf-city">شہر</FieldLabel>
-          <input id="cf-city" type="text" name="city" required autoComplete="address-level2" placeholder="مثلاً: کراچی" className={INPUT_CLASS} />
+          <input id="cf-city" type="text" name="city" required autoComplete="address-level2" placeholder="مثلاً: کراچی" className={TW_FORM_INPUT} />
         </div>
       </div>
 
@@ -198,19 +214,38 @@ export default function ContactForm({ submitLabel, courses, services }: ContactF
             purpose === 'service' ? 'اپنی ضرورت اور متعلقہ تفصیل بیان کریں...' :
             'یہاں اپنا پیغام لکھیں...'
           }
-          className={`${INPUT_CLASS} resize-none`}
+          className={`${TW_FORM_INPUT} resize-none`}
         />
       </div>
+
+      {/* Honeypot — hidden from users */}
+      <input
+        type="text"
+        name="website"
+        tabIndex={-1}
+        autoComplete="off"
+        className="absolute opacity-0 pointer-events-none h-0 w-0 overflow-hidden"
+        aria-hidden="true"
+      />
+
+      {turnstileSiteKey && (
+        <TurnstileField siteKey={turnstileSiteKey} onToken={handleTurnstileToken} />
+      )}
 
       {/* Submit */}
       <button
         type="submit"
-        disabled={status === 'loading' || ((purpose === 'course' || purpose === 'service') && !appliedFor)}
-        aria-disabled={status === 'loading' || ((purpose === 'course' || purpose === 'service') && !appliedFor)}
-        className="w-full bg-dq-600 hover:bg-dq-700 disabled:opacity-60 disabled:cursor-not-allowed
-          text-white text-[13.5px] font-semibold py-3 rounded-lg
-          shadow-[0_4px_14px_rgba(184,144,14,0.28)] hover:shadow-[0_6px_20px_rgba(184,144,14,0.4)]
-          transition-all duration-200 hover:-translate-y-px"
+        disabled={
+          status === 'loading' ||
+          ((purpose === 'course' || purpose === 'service') && !appliedFor) ||
+          (turnstileRequired && !turnstileToken)
+        }
+        aria-disabled={
+          status === 'loading' ||
+          ((purpose === 'course' || purpose === 'service') && !appliedFor) ||
+          (turnstileRequired && !turnstileToken)
+        }
+        className={TW_FORM_SUBMIT}
       >
         {status === 'loading' ? 'بھیجا جا رہا ہے...' : submitLabel}
       </button>

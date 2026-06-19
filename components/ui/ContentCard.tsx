@@ -27,8 +27,8 @@ export default function ContentCard({
         border transition-all duration-300 ease-out
         hover:-translate-y-2
         ${active
-          ? 'shadow-[0_4px_24px_rgba(184,144,14,0.16)] border-dq-200/80 hover:shadow-[0_12px_36px_rgba(184,144,14,0.22)]'
-          : 'shadow-[0_1px_4px_rgba(0,0,0,0.06)] border-gray-100 hover:shadow-[0_12px_36px_rgba(0,0,0,0.1)] hover:border-dq-100'
+          ? 'shadow-gold-lg border-dq-200/80 hover:shadow-gold-glow'
+          : 'shadow-card border-gray-100 hover:shadow-card-hover hover:border-dq-100'
         }`}
     >
       {/* Gold top accent stripe — slides in on hover */}

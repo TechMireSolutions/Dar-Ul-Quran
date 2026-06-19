@@ -10,4 +10,4 @@ npm run check:urdu
 ```
 
 Fix English in JSX, labels, placeholders, `aria-label`, `alt`, fallbacks.  
-Allowlist: `CLAUDE.md` § Urdu. Suppress: `// urdu-ok`
+Allowlist: `CLAUDE.md` § Urdu · Rule: `03-rtl-urdu.mdc`. Suppress: `// urdu-ok`

@@ -1,6 +1,6 @@
 import JsonLdScripts from '@/components/seo/JsonLdScripts'
 import { urlFor } from '@/sanity/lib/image'
-import { SITE_URL } from '@/lib/seo'
+import { SITE_URL, DEFAULT_SITE_NAME } from '@/lib/seo'
 
 type ArticlePost = {
   title?: string
@@ -40,7 +40,7 @@ export default function ArticleSchema({ post, slug, publisherLogoUrl }: ArticleS
         : {}),
       publisher: {
         '@type': 'Organization',
-        name: 'Dar Ul Quran',
+        name: DEFAULT_SITE_NAME,
         url: SITE_URL,
         ...(publisherLogoUrl ? { logo: { '@type': 'ImageObject', url: publisherLogoUrl } } : {}),
       },

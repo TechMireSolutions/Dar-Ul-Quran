@@ -3,6 +3,9 @@ import { ogImageUrl, type SanityImageAsset } from '@/sanity/lib/image'
 
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://darulquran.pk'
 
+/** Default org name when Sanity siteSettings is unavailable (JSON-LD, metadata). */
+export const DEFAULT_SITE_NAME = 'Dar Ul Quran'
+
 type SanityImage = SanityImageAsset
 
 export type SiteSettingsOg = {
@@ -72,7 +75,7 @@ export function pageMetadata({
 }: PageMetadataOptions): Metadata {
   const url = path === '/' ? SITE_URL : `${SITE_URL}${path}`
   const ogImage = resolveOgImage(image, settings)
-  const resolvedSiteName = siteName ?? settings?.siteName ?? 'Dar Ul Quran'
+  const resolvedSiteName = siteName ?? settings?.siteName ?? DEFAULT_SITE_NAME
 
   return {
     title,

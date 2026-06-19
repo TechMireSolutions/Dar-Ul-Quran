@@ -3,11 +3,10 @@ import Link from 'next/link'
 import { cmsPageMetadata, fetchCmsPage, resolveSeoDescription, resolveSeoTitle } from '@/lib/cmsPage'
 import WebPageSchema from '@/components/seo/WebPageSchema'
 import PageHeroHeader from '@/components/ui/PageHeroHeader'
-import { PortableText } from '@portabletext/react'
+import RichTextBody from '@/components/content/RichTextBody'
 import { ArrowRight, BookOpen, Heart, Star } from 'lucide-react'
 import Reveal from '@/components/ui/Reveal'
-
-export const revalidate = 300
+import { TW_CTA_ARROW, TW_GOLD_CTA_DARK } from '@/lib/tailwind'
 
 export async function generateMetadata(): Promise<Metadata> {
   return cmsPageMetadata({
@@ -46,12 +45,7 @@ export default async function AboutPage() {
 
           {page?.body ? (
             <Reveal animation="fade">
-              <div className="prose prose-slate prose-base sm:prose-lg max-w-none
-                prose-headings:font-bold prose-headings:tracking-tight
-                prose-a:text-dq-500 prose-a:no-underline hover:prose-a:underline
-                prose-strong:text-slate-900">
-                <PortableText value={page.body} />
-              </div>
+              <RichTextBody value={page.body} />
             </Reveal>
           ) : (
             <div className="space-y-6 sm:space-y-8">
@@ -89,11 +83,9 @@ export default async function AboutPage() {
 
           <Reveal animation="up" delay={100}>
             <div className="mt-8 sm:mt-10 pt-7 sm:pt-8 border-t border-gray-100 flex flex-wrap gap-3">
-              <Link href="/contact"
-                className="group inline-flex items-center gap-2 bg-dq-600 hover:bg-dq-700 text-white text-[13.5px] font-semibold px-5 sm:px-6 py-2.5 rounded-full
-                  shadow-[0_4px_16px_rgba(184,144,14,0.3)] transition-all duration-200 hover:-translate-y-px">
+              <Link href="/contact" className={TW_GOLD_CTA_DARK}>
                 ہم سے رابطہ کریں
-                <ArrowRight size={13} strokeWidth={2.5} className="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform duration-150" />
+                <ArrowRight size={13} strokeWidth={2.5} className={TW_CTA_ARROW} />
               </Link>
               <Link href="/online-courses"
                 className="inline-flex items-center text-[13.5px] font-medium text-slate-700 hover:text-slate-900

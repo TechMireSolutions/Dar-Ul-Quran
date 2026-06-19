@@ -1,42 +1,16 @@
 import { NextResponse } from 'next/server'
-import { safeFetch } from '@/sanity/lib/client'
-import { llmFeedQuery } from '@/sanity/lib/queries'
+import { getLlmFeedData } from '@/sanity/lib/fetchers'
 import { coursePath } from '@/lib/paths'
-import { SITE_URL } from '@/lib/seo'
-
-type LLMData = {
-  settings: { siteName: string; description: string; whatsapp: string; email: string } | null
-  courses: Array<{
-    title: string
-    slug: string
-    subject?: string
-    duration?: string
-    seoDescription?: string
-    children?: Array<{
-      title: string
-      slug: string
-      subject?: string
-      seoDescription?: string
-      grandchildren?: Array<{ title: string; slug: string; seoDescription?: string }>
-    }>
-  }>
-  articles: Array<{
-    title: string
-    slug: string
-    excerpt?: string
-    categories?: Array<{ title: string }>
-  }>
-  testimonials: Array<{ name?: string; quote?: string }>
-}
+import { SITE_URL, DEFAULT_SITE_NAME } from '@/lib/seo'
 
 export const revalidate = 3600
 
 export async function GET() {
-  const data = await safeFetch<LLMData>(llmFeedQuery)
+  const data = await getLlmFeedData()
   const s = data?.settings
 
   const md: string[] = [
-    `# ${s?.siteName ?? 'Dar Ul Quran'}`,
+    `# ${s?.siteName ?? DEFAULT_SITE_NAME}`,
     ``,
     `> ${s?.description ?? 'Authentic Shia Quran and Islamic education for Muslim families in Pakistan and worldwide.'}`,
     ``,

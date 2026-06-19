@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { getSiteSettings } from '@/sanity/lib/fetchers'
 import { urlFor } from '@/sanity/lib/image'
-import { SITE_URL, defaultOgImage } from '@/lib/seo'
+import { SITE_URL, DEFAULT_SITE_NAME, defaultOgImage } from '@/lib/seo'
 import './globals.css'
 
 export const viewport: Viewport = {
@@ -12,11 +12,11 @@ export const viewport: Viewport = {
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  const baseUrl = new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://darulquran.pk')
+  const baseUrl = new URL(SITE_URL)
   try {
     const settings = await getSiteSettings()
 
-    const siteName   = settings?.siteName   || 'Dar Ul Quran'
+    const siteName   = settings?.siteName   || DEFAULT_SITE_NAME
     const faviconUrl = settings?.favicon ? urlFor(settings.favicon).width(256).height(256).url() : undefined
     const description = settings?.description || 'اسلامی علم، آنلائن کورسز اور خدمات'
     const ogImageUrl = defaultOgImage(settings)
@@ -93,7 +93,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
       {
         '@type': 'EducationalOrganization',
         '@id': `${SITE_URL}#organization`,
-        name: settings?.siteName ?? 'Dar Ul Quran',
+        name: settings?.siteName ?? DEFAULT_SITE_NAME,
         url: SITE_URL,
         logo: { '@type': 'ImageObject', url: orgLogoUrl },
         description: settings?.description ?? 'اسلامی علم، آنلائن کورسز اور خدمات',
@@ -105,7 +105,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
       {
         '@type': 'WebSite',
         '@id': `${SITE_URL}#website`,
-        name: settings?.siteName ?? 'Dar Ul Quran',
+        name: settings?.siteName ?? DEFAULT_SITE_NAME,
         url: SITE_URL,
         inLanguage: 'ur',
         publisher: { '@id': `${SITE_URL}#organization` },

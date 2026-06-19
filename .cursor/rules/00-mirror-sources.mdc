@@ -1,27 +1,93 @@
 ---
-description: Doc hierarchy and agent behavior (always on)
+description: Doc hierarchy, rule registry, and agent behavior (always on)
 alwaysApply: true
 ---
 
-# Sources (do not duplicate elsewhere)
+# Rule hierarchy
+
+**Edit `.cursor/rules/*.mdc` or `.cursor/skills/` first.** Mirror index lines only in `AGENTS.md`, `CLAUDE.md`, `.antigravityrules`, and other tool stubs (`.cursorrules`, `.clinerules`, `.windsurfrules`).
 
 | Layer | Path | Role |
 |-------|------|------|
 | Rules | `.cursor/rules/*.mdc` | **Primary** — conventions by glob |
 | Skills | `.cursor/skills/*/SKILL.md` | **Workflows** — step-by-step tasks |
-| Index | `AGENTS.md` | Entry map only |
+| Index | `AGENTS.md` | Entry map (no duplicate rules) |
+| Stack | `techstack.md` | Versions, infra, routes, SEO inventory (human reference) |
 | Content SEO | `.antigravityrules` | E-E-A-T, engagement, copy |
-| Urdu table | `CLAUDE.md` § Urdu | Full allow/deny list |
+| Urdu allowlist | `CLAUDE.md` § Urdu | Full allow/deny table |
 
-**Sync:** edit `.mdc` or skill first → update `AGENTS.md` / `CLAUDE.md` index lines only.
+## Rule registry (by group)
+
+### Core — always on
+| ID | File | Scope |
+|----|------|--------|
+| 00 | `00-mirror-sources.mdc` | This file — hierarchy & behavior |
+| 01 | `01-project.mdc` | Stack, commands, layout, env |
+| 12 | `12-production-port.mdc` | VPS port **3001** (mandatory) |
+
+### Application code — glob-scoped
+| ID | File | Scope |
+|----|------|--------|
+| 02 | `02-coding-standards.mdc` | TypeScript, Next.js 16 (naming summary → 15) |
+| 03 | `03-rtl-urdu.mdc` | RTL, Urdu copy, logical spacing |
+| 04 | `04-sanity.mdc` | Schema, GROQ, fetchers, cache tags, webhook path map |
+| 05 | `05-components.mdc` | Component folders, client boundaries |
+| 06 | `06-tailwind.mdc` | Pure Tailwind v4, `lib/tailwind.ts` |
+| 13 | `13-dependencies.mdc` | Latest stable deps & upgrade policy |
+| 14 | `14-file-structure.mdc` | App Router layout & import boundaries |
+| 15 | `15-naming.mdc` | Files, folders, symbols, GROQ naming |
+| 16 | `16-dry.mdc` | Single source of truth, extraction rules |
+
+### SEO
+| ID | File | Scope |
+|----|------|--------|
+| 07 | `07-content-seo.mdc` | E-E-A-T, engagement → `.antigravityrules` |
+| 08 | `08-technical-seo-shared.mdc` | Crawl, index, metadata, JSON-LD |
+| 09 | `09-technical-seo-mobile.mdc` | CWV mobile (primary index) |
+| 10 | `10-technical-seo-desktop.mdc` | CWV desktop, crawlable nav |
+
+### Operations & security
+| ID | File | Scope |
+|----|------|--------|
+| 11 | `11-deploy-ops.mdc` | GitHub Actions, PM2, Apache |
+| 17 | `17-security.mdc` | API auth, CSP, secrets, contact hardening |
+
+## Authority (no conflicts)
+
+| Topic | Single source |
+|-------|----------------|
+| Port 3001 | `12-production-port.mdc` + `deploy/runtime.cjs` |
+| Version tables & full dep list | `techstack.md` § Dependencies (`13-dependencies.mdc` = policy only) |
+| Tailwind / `TW_*` | `06-tailwind.mdc` + `lib/tailwind.ts` |
+| Upgrade workflow | `13-dependencies.mdc` + `upgrade-deps` skill |
+| File / folder layout | `14-file-structure.mdc` |
+| Naming | `15-naming.mdc` (02 has quick summary only) |
+| DRY / single source | `16-dry.mdc` |
+| Urdu allow/deny list | `CLAUDE.md` § Urdu (03 summarizes) |
+| Content SEO narrative | `.antigravityrules` (07 points here) |
+| Technical SEO tactics | `08` → `09` mobile · `10` desktop |
+| Deploy steps | `11-deploy-ops.mdc` + `deploy` skill |
+| CMS cache tags & fetch tagging | `04-sanity.mdc` + `lib/cache-tags.ts` |
+| Revalidation webhook & path map | `04-sanity.mdc` + `setup-revalidation` skill + `docs/sanity-webhook.md` |
+| Revalidate API secret/auth | `17-security.mdc` |
+| Contact API security | `17-security.mdc` + `secure-api-route` skill |
+
+## Skills registry (20 — each listed once)
+
+| Group | Skills |
+|-------|--------|
+| Ship | `preflight`, `check-urdu`, `rtl-check`, `upgrade-deps`, `write-tests` |
+| Pages/UI | `new-page`, `new-leaf-route`, `new-component`, `tailwind-ui`, `add-homepage-section` |
+| Sanity | `add-sanity-query`, `add-fetcher`, `new-sanity-schema`, `setup-revalidation` |
+| SEO | `add-seo-to-page`, `technical-seo-audit`, `optimize-lcp` |
+| Ops | `deploy`, `fix-chunk-mime` |
+| Security | `secure-api-route` |
+
+Claude Code: `.claude/commands/<name>.md` → `.cursor/skills/<name>/SKILL.md`
 
 ## Behavior
 
 - Smallest correct diff; match existing patterns
-- Urdu UI only; `npm run check:urdu` after UI changes
+- Urdu UI only → `npm run check:urdu` after UI changes
 - Commit/push only when user asks; never commit secrets
-- Deploy: `pm2 stop` before build; never `rm -rf .next` while PM2 serves; production port **3001** (`08-production-port.mdc`)
-
-## Preflight
-
-`preflight` skill → `npm run lint` + `npm run check:urdu` (+ `build` if bundling/deploy)
+- Ship check → `preflight` skill (`lint` + `check:urdu` + `test` + `build` if deploy)

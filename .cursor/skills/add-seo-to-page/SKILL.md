@@ -9,4 +9,4 @@ description: Adds or fixes pageMetadata and JSON-LD on an existing route. Use fo
 2. Add `WebPageSchema` + type schema (`Article`/`Course`/`Service`/`ItemList`)
 3. `BreadcrumbNav` if hierarchical · sitemap entry · `?q=` → `noIndex`
 
-Rules: `09-technical-seo-shared` · `05-seo-antigravity`
+Rules: `08-technical-seo-shared.mdc` · `07-content-seo.mdc` · `.antigravityrules`

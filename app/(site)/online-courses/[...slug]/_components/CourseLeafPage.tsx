@@ -7,6 +7,7 @@ import LeafCtaBanner from '@/components/content/LeafCtaBanner'
 import LeafTopicClusterBlock from '@/components/content/LeafTopicClusterBlock'
 import PortableTextSection from '@/components/content/PortableTextSection'
 import type { CourseDetailDoc, SiteSettingsDoc, TopicClusterDoc } from '@/lib/types'
+import { TW_CTA_ARROW, TW_EYEBROW, TW_GOLD_CTA, TW_HERO_TITLE, TW_SECTION_TITLE } from '@/lib/tailwind'
 
 type CourseLeafPageProps = {
   course: CourseDetailDoc
@@ -65,7 +66,7 @@ export default function CourseLeafPage({
                 )}
               </div>
 
-              <h1 className="font-bold text-[34px] sm:text-[46px] lg:text-[54px] text-white leading-[1.1] tracking-[-0.03em] mb-5">
+              <h1 className={`${TW_HERO_TITLE} mb-5`}>
                 {courseTitle}
               </h1>
 
@@ -80,10 +81,10 @@ export default function CourseLeafPage({
                   href={enrollHref}
                   target={course.enrollmentLink ? '_blank' : undefined}
                   rel={course.enrollmentLink ? 'noopener noreferrer' : undefined}
-                  className="group inline-flex items-center gap-2 bg-dq-500 hover:bg-dq-400 text-white font-bold text-[14px] px-8 py-3.5 rounded-full shadow-[0_4px_24px_rgba(184,144,14,0.45)] transition-all duration-200 hover:-translate-y-px"
+                  className={`${TW_GOLD_CTA} shadow-gold-lg`}
                 >
                   {course.heroCtaLabel || 'ابھی داخلہ لیں'}
-                  <ArrowRight size={14} strokeWidth={2.5} className="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform" />
+                  <ArrowRight size={14} strokeWidth={2.5} className={TW_CTA_ARROW} />
                 </Link>
               </div>
             </div>
@@ -94,7 +95,7 @@ export default function CourseLeafPage({
             <section className="bg-white py-16 sm:py-20">
               <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
                 {course.overviewHeading && (
-                  <h2 className="font-bold text-[24px] sm:text-[32px] text-slate-900 tracking-[-0.02em] mb-5">
+                  <h2 className={`${TW_SECTION_TITLE} mb-5`}>
                     {course.overviewHeading}
                   </h2>
                 )}
@@ -110,7 +111,7 @@ export default function CourseLeafPage({
             <section className="bg-slate-50 py-16 sm:py-20">
               <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-12">
-                  <h2 className="font-bold text-[24px] sm:text-[32px] text-slate-900 tracking-[-0.02em]">
+                  <h2 className={TW_SECTION_TITLE}>
                     {course.outcomesHeading || 'آپ کیا حاصل کریں گے'}
                   </h2>
                 </div>
@@ -139,7 +140,7 @@ export default function CourseLeafPage({
             <section className="bg-white py-16 sm:py-20">
               <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-12">
-                  <h2 className="font-bold text-[24px] sm:text-[32px] text-slate-900 tracking-[-0.02em]">
+                  <h2 className={TW_SECTION_TITLE}>
                     {course.whyUsHeading || 'ہمارا کورس کیوں منفرد ہے'}
                   </h2>
                 </div>
@@ -176,11 +177,10 @@ export default function CourseLeafPage({
               <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Heading */}
                 <div className="text-center mb-10">
-                  <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl mb-4"
-                    style={{ background: 'linear-gradient(135deg, #fdf8e8, #faefc4)', border: '1px solid rgba(212,168,32,0.3)' }}>
+                  <div className="inline-flex items-center justify-center size-14 rounded-2xl mb-4 bg-gradient-to-br from-dq-50 to-dq-100 border border-dq-400/30">
                     <span className="text-2xl leading-none">💰</span>
                   </div>
-                  <h2 className="font-bold text-[24px] sm:text-[32px] text-slate-900 tracking-[-0.02em]">
+                  <h2 className={TW_SECTION_TITLE}>
                     {course.feeSummaryHeading || 'فیس'}
                   </h2>
                 </div>
@@ -191,13 +191,10 @@ export default function CourseLeafPage({
                     <div
                       key={i}
                       className="flex items-center justify-between gap-4 bg-white rounded-2xl border border-gray-100 shadow-sm px-6 py-4
-                        hover:border-dq-100 hover:shadow-[0_4px_16px_rgba(184,144,14,0.08)] transition-all duration-200"
+                        hover:border-dq-100 hover:shadow-gold-subtle transition-all duration-200"
                     >
                       <span className="text-[14.5px] text-slate-700 font-medium">{item.label}</span>
-                      <span
-                        className="shrink-0 font-bold text-[15px] px-4 py-1.5 rounded-full"
-                        style={{ background: 'linear-gradient(135deg, #fdf8e8, #faefc4)', color: '#7c5d07', border: '1px solid rgba(212,168,32,0.3)' }}
-                      >
+                      <span className="shrink-0 font-bold text-[15px] px-4 py-1.5 rounded-full bg-gradient-to-br from-dq-50 to-dq-100 text-dq-700 border border-dq-400/30">
                         {item.amount}
                       </span>
                     </div>
@@ -217,10 +214,10 @@ export default function CourseLeafPage({
             <section className="bg-slate-50 py-16 sm:py-20">
               <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-12">
-                  <p className="text-[10.5px] font-bold uppercase tracking-[0.18em] text-dq-700 mb-2">
+                  <p className={`${TW_EYEBROW} mb-2`}>
                     پلانز
                   </p>
-                  <h2 className="font-bold text-[24px] sm:text-[32px] text-slate-900 tracking-[-0.02em]">
+                  <h2 className={TW_SECTION_TITLE}>
                     {course.pricingHeading || 'سستے پلانز'}
                   </h2>
                 </div>
@@ -302,7 +299,7 @@ export default function CourseLeafPage({
             <section className="bg-white py-16 sm:py-20">
               <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
                 {course.promiseHeading && (
-                  <h2 className="font-bold text-[24px] sm:text-[30px] text-slate-900 tracking-[-0.02em] mb-5">
+                  <h2 className={`${TW_SECTION_TITLE} mb-5`}>
                     {course.promiseHeading}
                   </h2>
                 )}

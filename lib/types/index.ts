@@ -1,5 +1,12 @@
 export type { NavNode, RawNavItem } from './navigation'
-export { toNavNode, buildNavTree } from './navigation'
+export type { CarouselItem } from './ui'
+export type {
+  SitemapData,
+  LlmFeedData,
+  SitemapCourseEntry,
+  SitemapServiceEntry,
+  SitemapArticleEntry,
+} from './feed'
 export type { CourseSchemaData, ServiceSchemaData, FaqSchemaItem, TopicClusterDoc } from './schema'
 export type {
   SiteSettingsDoc,
