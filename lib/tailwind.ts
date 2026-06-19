@@ -32,6 +32,42 @@ export const TW_BADGE_SM =
 /** Page section container */
 export const TW_CONTAINER = 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'
 
+/** Header inner container (tighter horizontal padding on large screens) */
+export const TW_CONTAINER_HEADER = 'max-w-7xl mx-auto px-6 lg:px-8'
+
+/** Homepage hero content container */
+export const TW_CONTAINER_HERO =
+  'relative z-10 max-w-7xl mx-auto px-4 sm:px-8 lg:px-14'
+
+/** Narrow centered column (CTA banners, quotes) */
+export const TW_CONTAINER_NARROW = 'max-w-3xl mx-auto px-4 sm:px-6'
+
+/** Donate quote block column */
+export const TW_CONTAINER_PROSE = 'max-w-2xl mx-auto px-4 sm:px-6'
+
+/** Standard vertical section padding */
+export const TW_SECTION_PY = 'py-16 sm:py-20'
+
+/** Page hero header inner padding */
+export const TW_PAGE_HERO_PADDING = 'mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12'
+
+/** Subtitle under page/section titles */
+export const TW_PAGE_SUBTITLE = 'text-[13.5px] text-gray-500 leading-relaxed'
+
+/** Muted body copy (error pages, empty states) */
+export const TW_BODY_MUTED = 'text-[14px] text-gray-500'
+
+/** White card surface */
+export const TW_CARD_SURFACE = 'bg-white border border-gray-100 rounded-2xl'
+
+/** Contact form panel */
+export const TW_FORM_PANEL =
+  'lg:col-span-3 bg-white border border-gray-100 rounded-2xl shadow-sm p-5 sm:p-6 space-y-4'
+
+/** Dark leaf-page WhatsApp CTA */
+export const TW_LEAF_WHATSAPP_CTA =
+  'inline-flex items-center gap-2 bg-white/10 hover:bg-white/15 text-white text-[14px] font-semibold px-8 py-3.5 rounded-full border border-white/20 transition-all duration-200 hover:-translate-y-px'
+
 /** CMS page body shell */
 export const TW_PAGE_BODY = 'py-8 sm:py-12 bg-slate-50/40'
 

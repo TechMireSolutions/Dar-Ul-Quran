@@ -17,7 +17,7 @@ alwaysApply: false
 | CMS types | `lib/types/` | Ad-hoc inline object shapes |
 | SEO metadata | `pageMetadata()` in `lib/seo.ts` | Hand-built `<meta>` tags |
 | Canonical paths | `lib/paths.ts` | String-concat paths in components |
-| Tailwind patterns | `lib/tailwind.ts` (`TW_*`) | Same class string in 2+ files |
+| Tailwind patterns | `lib/tailwind.ts` (`TW_*`) | Same class string in 2+ files; raw `max-w-* mx-auto`, `py-16 sm:py-20`, eyebrow line |
 | Theme tokens | `tailwind.config.ts` | Raw hex/spacing repeated in TSX |
 | Rich text styles | `TW_RICH_TEXT_*` + `.rich-text` in `globals.css` | `prose-*` or per-page typography |
 | Site URL / defaults | `lib/seo.ts`, `getSiteSettings()` | Hardcoded domain or phone/email |
@@ -34,7 +34,7 @@ alwaysApply: false
 
 | Signal | Action |
 |--------|--------|
-| Same class string **2+** times | Add `TW_*` to `lib/tailwind.ts` |
+| Same class string **2+** times | Add `TW_*` to `lib/tailwind.ts` (containers → `TW_CONTAINER*`, sections → `TW_SECTION_PY`, typography → `TW_PAGE_*` / `TW_BODY_MUTED`) |
 | Same GROQ field set **2+** queries | Private `SCREAMING_SNAKE` fragment in `queries.ts` |
 | Same JSX block **2+** routes | Shared component in `components/content/` or `ui/` |
 | Same fallback chain **2+** callers | `resolve*` helper in `lib/` |

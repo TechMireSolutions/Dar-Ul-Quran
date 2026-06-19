@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { ArrowRight, Users, BookOpen, GraduationCap } from 'lucide-react'
-import { TW_CTA_ARROW, TW_CONTAINER, TW_CV_AUTO, TW_EYEBROW, TW_EYEBROW_LINE, TW_HERO_GOLD_CTA, TW_HERO_OUTLINE_CTA, TW_HERO_STAT_ICON, TW_TEXT_GRADIENT_GOLD } from '@/lib/tailwind'
+import { TW_CONTAINER_HERO, TW_CTA_ARROW, TW_CV_AUTO, TW_EYEBROW, TW_EYEBROW_LINE, TW_HERO_GOLD_CTA, TW_HERO_OUTLINE_CTA, TW_HERO_STAT_ICON, TW_TEXT_GRADIENT_GOLD } from '@/lib/tailwind'
 
 type HeroSectionProps = {
   subtitle?:    string
@@ -79,7 +79,7 @@ export default function HeroSection({
       </div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 lg:px-14 flex flex-col justify-center min-h-[400px] md:min-h-[720px] py-10 md:py-0">
+      <div className={`${TW_CONTAINER_HERO} flex flex-col justify-center min-h-[400px] md:min-h-[720px] py-10 md:py-0`}>
         <div className="w-full md:max-w-[500px]">
 
           {/* Enrollment badge */}

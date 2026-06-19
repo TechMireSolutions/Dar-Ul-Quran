@@ -10,7 +10,8 @@ Homepage: `app/(site)/page.tsx` · CMS: `homepageSettings` schema · helpers: `l
 ## Steps
 
 1. If CMS-driven: extend `sanity/schemaTypes/homepageSettings.ts` + `homepageSettingsQuery` + `HomepageSettingsDoc` type
-2. If reusable block: add `components/sections/*` — use `TW_*` from `lib/tailwind.ts`
+2. If reusable block: add `components/sections/*` — use `TW_*` from `lib/tailwind.ts`  
+   Hero: `TW_CONTAINER_HERO`, `TW_HERO_GOLD_CTA`, `TW_HERO_OUTLINE_CTA` · sections: `TW_CONTAINER` + `TW_SECTION_PY`
 3. Below-fold carousels: `nextDynamic` import (see existing `CarouselSection` pattern)
 4. LCP hero: keep `HeroSection` + `LcpImagePreload` — do not add competing above-fold images
 5. Urdu copy in JSX or Sanity fields · `check-urdu` after UI strings change

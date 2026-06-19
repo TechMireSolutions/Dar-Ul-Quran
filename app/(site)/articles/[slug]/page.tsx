@@ -9,7 +9,7 @@ import ArticleSchema from '@/components/seo/ArticleSchema'
 import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
 import WebPageSchema from '@/components/seo/WebPageSchema'
 import TopicClusterRelated from '@/components/content/TopicClusterRelated'
-import { TW_ARTICLE_TITLE, TW_BADGE } from '@/lib/tailwind'
+import { TW_ARTICLE_TITLE, TW_BADGE, TW_CONTAINER_NARROW } from '@/lib/tailwind'
 import { pageMetadata } from '@/lib/seo'
 
 export const revalidate = 300
@@ -71,7 +71,7 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
         items={[{ label: pageTitle }]}
       />
 
-      <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+      <article className={`${TW_CONTAINER_NARROW} lg:px-8 py-8 sm:py-12`}>
 
         {(post.categories?.length ?? 0) > 0 && (
           <div className="flex flex-wrap gap-2 mb-4 sm:mb-5">

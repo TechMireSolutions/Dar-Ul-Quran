@@ -240,9 +240,16 @@ Deploy rule: **stop PM2 before rebuilding `.next`** — prevents chunk 404s duri
 | **Console** | Stripped in production (`removeConsole` in `next.config.ts`) |
 | **Carousel** | Dynamic import with skeleton placeholder |
 
-Shared Tailwind strings: `lib/tailwind.ts` (`TW_*`) — single source, no duplicated class strings.
+Shared Tailwind strings: `lib/tailwind.ts` (`TW_*`) — single source, no duplicated class strings. Full token map: `06-tailwind.mdc`.
 
-Key exports: `TW_CONTAINER`, `TW_PAGE_BODY`, `TW_EYEBROW`, `TW_SECTION_TITLE`, `TW_GOLD_CTA`, `TW_HERO_GOLD_CTA`, `TW_VIEW_ALL_LINK`, `TW_FORM_INPUT`, `TW_FORM_SUBMIT`, `TW_CARD_LINK`, `TW_RICH_TEXT_LG` / `TW_RICH_TEXT_SM`, `TW_CV_AUTO`. Theme shadows: `shadow-focus-gold`, `shadow-nav-scrolled`, `shadow-gold-dot`, `shadow-gold-icon`, `shadow-inset-highlight`.
+Key exports by group:
+- **Layout:** `TW_CONTAINER`, `TW_CONTAINER_HEADER`, `TW_CONTAINER_HERO`, `TW_CONTAINER_NARROW`, `TW_SECTION_PY`, `TW_PAGE_BODY`, `TW_PAGE_HERO_PADDING`
+- **Typography:** `TW_EYEBROW`, `TW_EYEBROW_LINE`, `TW_PAGE_TITLE`, `TW_PAGE_SUBTITLE`, `TW_BODY_MUTED`, `TW_SECTION_TITLE`, `TW_HERO_TITLE`, `TW_ARTICLE_TITLE`
+- **Surfaces:** `TW_CARD_SURFACE`, `TW_FORM_PANEL`, `TW_FORM_INPUT`, `TW_FORM_SUBMIT`
+- **CTAs:** `TW_GOLD_CTA`, `TW_HERO_GOLD_CTA`, `TW_LEAF_WHATSAPP_CTA`, `TW_BTN_PRIMARY`, `TW_CTA_ARROW`, `TW_CARD_LINK`
+- **Rich text / perf:** `TW_RICH_TEXT_LG` / `TW_RICH_TEXT_SM`, `TW_CV_AUTO`
+
+Theme shadows: `shadow-focus-gold`, `shadow-nav-scrolled`, `shadow-gold-dot`, `shadow-gold-icon`, `shadow-inset-highlight`.
 
 Org name fallback: `DEFAULT_SITE_NAME` in `lib/seo.ts` (metadata + JSON-LD).
 

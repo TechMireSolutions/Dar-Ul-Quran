@@ -14,7 +14,7 @@ Live: https://darulquran.pk · Port **3001** → `12-production-port.mdc`
 | `app/studio/` | Embedded Sanity |
 | `components/{layout,ui,sections,content,seo}` | Shared UI |
 | `lib/types/` | DTOs · `cache-tags.ts` · `contact-schema.ts` · `navigation.ts` |
-| `lib/tailwind.ts` | Shared `TW_*` class strings (`06-tailwind.mdc`) |
+| `lib/tailwind.ts` | Shared `TW_*` class strings — full catalog in `06-tailwind.mdc` |
 | `sanity/lib/` | GROQ, `safeFetch`, cached `fetchers` |
 | `docs/` | Ops docs (Sanity webhook) |
 

@@ -42,7 +42,6 @@ export default function TopicClusterRelated({
     <aside className="mt-12 pt-8 border-t border-gray-100">
       <p className={`${TW_EYEBROW} mb-3`}>
         <span className={TW_EYEBROW_LINE} />
-        <span className="w-5 h-px bg-dq-400 inline-block" />
         {clusterName || pillarKeyword || 'متعلقہ موضوعات'}
       </p>
 

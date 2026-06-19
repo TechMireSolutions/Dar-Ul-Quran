@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { pageMetadata } from '@/lib/seo'
-import { TW_BTN_PRIMARY, TW_EYEBROW, TW_PAGE_TITLE } from '@/lib/tailwind'
+import { TW_BODY_MUTED, TW_BTN_PRIMARY, TW_EYEBROW, TW_PAGE_TITLE } from '@/lib/tailwind'
 
 export const metadata: Metadata = pageMetadata({
   title: 'صفحہ نہیں ملا',
@@ -15,7 +15,7 @@ export default function NotFound() {
     <div className="min-h-[60vh] flex flex-col items-center justify-center px-4 text-center">
       <p className={`${TW_EYEBROW} mb-3`}>۴۰۴</p>
       <h1 className={`${TW_PAGE_TITLE} mb-3`}>صفحہ نہیں ملا</h1>
-      <p className="text-[14px] text-gray-500 mb-8 max-w-md">
+      <p className={`${TW_BODY_MUTED} mb-8 max-w-md`}>
         جس صفحے کی آپ تلاش کر رہے ہیں وہ موجود نہیں ہے یا منتقل ہو چکا ہے۔
       </p>
       <Link

@@ -6,7 +6,7 @@ import PageHeroHeader from '@/components/ui/PageHeroHeader'
 import RichTextBody from '@/components/content/RichTextBody'
 import { ArrowRight, BookOpen, Heart, Star } from 'lucide-react'
 import Reveal from '@/components/ui/Reveal'
-import { TW_CTA_ARROW, TW_FEATURE_ICON, TW_GOLD_CTA_DARK } from '@/lib/tailwind'
+import { TW_CONTAINER_NARROW, TW_CTA_ARROW, TW_FEATURE_ICON, TW_GOLD_CTA_DARK } from '@/lib/tailwind'
 
 export async function generateMetadata(): Promise<Metadata> {
   return cmsPageMetadata({
@@ -41,7 +41,7 @@ export default async function AboutPage() {
       />
 
       <div className="py-8 sm:py-12 bg-white">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className={`${TW_CONTAINER_NARROW} lg:px-8`}>
 
           {page?.body ? (
             <Reveal animation="fade">

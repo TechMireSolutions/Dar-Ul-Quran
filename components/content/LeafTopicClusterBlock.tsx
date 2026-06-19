@@ -1,5 +1,6 @@
 import TopicClusterRelated from '@/components/content/TopicClusterRelated'
 import type { TopicClusterDoc } from '@/lib/types'
+import { TW_CONTAINER_NARROW } from '@/lib/tailwind'
 
 type LeafTopicClusterBlockProps = {
   cluster: TopicClusterDoc | null
@@ -10,7 +11,7 @@ export default function LeafTopicClusterBlock({ cluster }: LeafTopicClusterBlock
 
   return (
     <section className="bg-white pb-12 sm:pb-16">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6">
+      <div className={TW_CONTAINER_NARROW}>
         <TopicClusterRelated
           clusterName={cluster.clusterName}
           pillarKeyword={cluster.pillarKeyword}

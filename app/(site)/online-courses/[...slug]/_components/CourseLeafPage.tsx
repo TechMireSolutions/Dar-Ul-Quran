@@ -7,7 +7,7 @@ import LeafCtaBanner from '@/components/content/LeafCtaBanner'
 import LeafTopicClusterBlock from '@/components/content/LeafTopicClusterBlock'
 import PortableTextSection from '@/components/content/PortableTextSection'
 import type { CourseDetailDoc, SiteSettingsDoc, TopicClusterDoc } from '@/lib/types'
-import { TW_CTA_ARROW, TW_EYEBROW, TW_GOLD_CTA, TW_HERO_CHIP_GOLD, TW_HERO_CHIP_MUTED, TW_HERO_TITLE, TW_LEAF_HERO_OVERLAY, TW_SECTION_TITLE } from '@/lib/tailwind'
+import { TW_CONTAINER_NARROW, TW_CTA_ARROW, TW_EYEBROW, TW_EYEBROW_LINE, TW_GOLD_CTA, TW_HERO_CHIP_GOLD, TW_HERO_CHIP_MUTED, TW_HERO_TITLE, TW_LEAF_HERO_OVERLAY, TW_SECTION_PY, TW_SECTION_TITLE } from '@/lib/tailwind'
 
 type CourseLeafPageProps = {
   course: CourseDetailDoc
@@ -92,8 +92,8 @@ export default function CourseLeafPage({
 
           {/* ── 2. OVERVIEW ──────────────────────────────────────────────────── */}
           {(course.overviewHeading || course.overviewBody) && (
-            <section className="bg-white py-16 sm:py-20">
-              <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+            <section className={`bg-white ${TW_SECTION_PY}`}>
+              <div className={`${TW_CONTAINER_NARROW} text-center`}>
                 {course.overviewHeading && (
                   <h2 className={`${TW_SECTION_TITLE} mb-5`}>
                     {course.overviewHeading}
@@ -108,7 +108,7 @@ export default function CourseLeafPage({
 
           {/* ── 3. WHAT YOU'LL ACHIEVE ───────────────────────────────────────── */}
           {(course.outcomes?.length ?? 0) > 0 && (
-            <section className="bg-slate-50 py-16 sm:py-20">
+            <section className={`bg-slate-50 ${TW_SECTION_PY}`}>
               <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-12">
                   <h2 className={TW_SECTION_TITLE}>
@@ -137,7 +137,7 @@ export default function CourseLeafPage({
 
           {/* ── 4. WHY OUR COURSE STANDS OUT ─────────────────────────────────── */}
           {(course.whyUs?.length ?? 0) > 0 && (
-            <section className="bg-white py-16 sm:py-20">
+            <section className={`bg-white ${TW_SECTION_PY}`}>
               <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-12">
                   <h2 className={TW_SECTION_TITLE}>
@@ -211,7 +211,7 @@ export default function CourseLeafPage({
 
           {/* ── 6b. PRICING TABLES (multi-column) ────────────────────────────── */}
           {(course.pricingTables?.length ?? 0) > 0 && (
-            <section className="bg-slate-50 py-16 sm:py-20">
+            <section className={`bg-slate-50 ${TW_SECTION_PY}`}>
               <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-12">
                   <p className={`${TW_EYEBROW} mb-2`}>
@@ -226,7 +226,7 @@ export default function CourseLeafPage({
                     <div key={ti}>
                       {table.label && (
                         <h3 className="font-bold text-[14.5px] text-slate-700 mb-4 flex items-center gap-2">
-                          <span className="w-5 h-px bg-dq-400 inline-block" />
+                          <span className={TW_EYEBROW_LINE} />
                           {table.label}
                         </h3>
                       )}
@@ -296,8 +296,8 @@ export default function CourseLeafPage({
 
           {/* ── 8. OUR PROMISE ───────────────────────────────────────────────── */}
           {(course.promiseHeading || course.promiseBody) && (
-            <section className="bg-white py-16 sm:py-20">
-              <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+            <section className={`bg-white ${TW_SECTION_PY}`}>
+              <div className={`${TW_CONTAINER_NARROW} text-center`}>
                 {course.promiseHeading && (
                   <h2 className={`${TW_SECTION_TITLE} mb-5`}>
                     {course.promiseHeading}

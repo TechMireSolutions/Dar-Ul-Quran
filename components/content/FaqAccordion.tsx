@@ -1,7 +1,7 @@
 import { ChevronRight, Plus } from 'lucide-react'
 import type { PortableTextBlock } from '@portabletext/types'
 import RichTextBody from '@/components/content/RichTextBody'
-import { TW_SECTION_TITLE } from '@/lib/tailwind'
+import { TW_CARD_SURFACE, TW_CONTAINER_NARROW, TW_SECTION_PY, TW_SECTION_TITLE } from '@/lib/tailwind'
 
 type FaqItem = {
   question: string
@@ -24,8 +24,8 @@ export default function FaqAccordion({ heading, items, icon = 'chevron' }: FaqAc
       : 'shrink-0 text-gray-400 group-open:rotate-90 transition-transform duration-200'
 
   return (
-    <section className="bg-slate-50 py-16 sm:py-20">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6">
+    <section className={`bg-slate-50 ${TW_SECTION_PY}`}>
+      <div className={TW_CONTAINER_NARROW}>
         {heading && (
           <div className="text-center mb-10">
             <h2 className={TW_SECTION_TITLE}>
@@ -37,7 +37,7 @@ export default function FaqAccordion({ heading, items, icon = 'chevron' }: FaqAc
           {items.map((item, i) => (
             <details
               key={i}
-              className="group bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm"
+              className={`group ${TW_CARD_SURFACE} overflow-hidden shadow-sm`}
             >
               <summary className="flex items-center justify-between gap-4 px-6 py-5 cursor-pointer list-none font-semibold text-[15px] text-slate-900 hover:text-dq-700 transition-colors">
                 {item.question}

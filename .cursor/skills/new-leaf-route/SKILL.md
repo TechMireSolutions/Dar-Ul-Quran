@@ -15,7 +15,8 @@ For nested CMS trees (courses, services). Simple flat pages → `new-page` skill
 4. `generateMetadata` → leaf slug = `slug[slug.length - 1]` · `pageMetadata({ path: \`${SECTION}/${slug.join('/')}\` })`
 5. `ancestryFromParent` + `buildBreadcrumbNavItems` + `BreadcrumbNav`
 6. Type schema: `CourseSchema` or `ServiceSchema` · `ItemListSchema` for index children
-7. Route-private UI in `_components/*LeafPage.tsx` · shared listing → `NestedChildListing`
+7. Route-private UI in `_components/*LeafPage.tsx` · shared listing → `NestedChildListing`  
+   Styling: `TW_SECTION_PY`, `TW_CONTAINER_NARROW`, `TW_LEAF_HERO_OVERLAY`, `TW_HERO_CHIP_*`, `LeafCtaBanner`, `FaqAccordion` — see `tailwind-ui` skill
 8. `sitemap.ts` paths via `coursePath` / `servicePath` helpers
 
 ## Verify

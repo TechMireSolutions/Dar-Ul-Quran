@@ -6,7 +6,7 @@ import { ArrowRight } from 'lucide-react'
 import WebPageSchema from '@/components/seo/WebPageSchema'
 import PageHeroHeader from '@/components/ui/PageHeroHeader'
 import Reveal from '@/components/ui/Reveal'
-import { TW_CTA_ARROW, TW_FEATURE_ICON, TW_PAGE_BODY, TW_PAYPAL_CTA } from '@/lib/tailwind'
+import { TW_CONTAINER_NARROW, TW_CTA_ARROW, TW_FEATURE_ICON, TW_PAGE_BODY, TW_PAYPAL_CTA } from '@/lib/tailwind'
 
 export const revalidate = 300
 
@@ -50,7 +50,7 @@ export default async function DonatePage() {
       />
 
       <div className={TW_PAGE_BODY}>
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className={`${TW_CONTAINER_NARROW} lg:px-8`}>
 
           {page?.body && (
             <Reveal animation="fade">

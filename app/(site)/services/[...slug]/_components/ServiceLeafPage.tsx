@@ -6,7 +6,7 @@ import LeafCtaBanner from '@/components/content/LeafCtaBanner'
 import LeafTopicClusterBlock from '@/components/content/LeafTopicClusterBlock'
 import PortableTextSection from '@/components/content/PortableTextSection'
 import type { ServiceDetailDoc, TopicClusterDoc } from '@/lib/types'
-import { TW_HERO_CHIP_GOLD, TW_HERO_TITLE, TW_LEAF_HERO_OVERLAY, TW_SECTION_TITLE } from '@/lib/tailwind'
+import { TW_CONTAINER_NARROW, TW_HERO_CHIP_GOLD, TW_HERO_TITLE, TW_LEAF_HERO_OVERLAY, TW_SECTION_PY, TW_SECTION_TITLE } from '@/lib/tailwind'
 
 type ServiceLeafPageProps = {
   service: ServiceDetailDoc
@@ -42,7 +42,7 @@ export default function ServiceLeafPage({
             )}
             <div className={TW_LEAF_HERO_OVERLAY} />
 
-            <div className="relative max-w-3xl mx-auto px-4 sm:px-6 py-20 sm:py-28 text-center">
+            <div className={`relative ${TW_CONTAINER_NARROW} py-20 sm:py-28 text-center`}>
               {service.price && (
                 <span className={`inline-block ${TW_HERO_CHIP_GOLD} mb-6`}>
                   {service.price}
@@ -66,7 +66,7 @@ export default function ServiceLeafPage({
 
           {/* ── 2. WHY USE OUR PLATFORM ──────────────────────────────────── */}
           {(service.whyUs?.length ?? 0) > 0 && (
-            <section className="bg-white py-16 sm:py-20">
+            <section className={`bg-white ${TW_SECTION_PY}`}>
               <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
@@ -110,8 +110,8 @@ export default function ServiceLeafPage({
 
           {/* ── 3. OUR COMMITMENT ────────────────────────────────────────── */}
           {(service.commitment?.length ?? 0) > 0 && (
-            <section className="bg-dq-900 py-16 sm:py-20">
-              <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+            <section className={`bg-dq-900 ${TW_SECTION_PY}`}>
+              <div className={`${TW_CONTAINER_NARROW} text-center`}>
                 <h2 className={`${TW_SECTION_TITLE} text-white mb-10`}>
                   {service.commitmentHeading || 'ہمارا عہد'}
                 </h2>

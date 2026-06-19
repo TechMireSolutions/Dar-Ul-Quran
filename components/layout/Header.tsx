@@ -7,7 +7,7 @@ import { Search, Menu, ChevronDown, ChevronLeft } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import type { NavNode } from '@/lib/types'
 import { nodeIsActive } from '@/lib/navigation'
-import { TW_SEARCH_FORM } from '@/lib/tailwind'
+import { TW_CONTAINER_HEADER, TW_SEARCH_FORM } from '@/lib/tailwind'
 
 const HeaderMobileMenu = dynamic(() => import('./HeaderMobileMenu'), { ssr: false })
 
@@ -328,7 +328,7 @@ export default function Header({
             : 'border-b border-dq-800'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 h-[68px] flex items-center gap-4 lg:gap-8">
+        <div className={`${TW_CONTAINER_HEADER} h-[68px] flex items-center gap-4 lg:gap-8`}>
 
           {/* Mobile hamburger — inline-start (right in RTL), same side as drawer */}
           <button

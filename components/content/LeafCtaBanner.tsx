@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import Link from 'next/link'
 import { ArrowRight, MessageCircle } from 'lucide-react'
-import { TW_CTA_ARROW, TW_GOLD_CTA, TW_SECTION_TITLE } from '@/lib/tailwind'
+import { TW_CONTAINER_NARROW, TW_CTA_ARROW, TW_GOLD_CTA, TW_LEAF_WHATSAPP_CTA, TW_SECTION_PY, TW_SECTION_TITLE } from '@/lib/tailwind'
 
 type LeafCtaBannerProps = {
   heading?: string
@@ -27,8 +27,8 @@ export default function LeafCtaBanner({
   if (!heading && !subtitle) return null
 
   return (
-    <section className="bg-dq-900 py-16 sm:py-20">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+    <section className={`bg-dq-900 ${TW_SECTION_PY}`}>
+      <div className={`${TW_CONTAINER_NARROW} text-center`}>
         {heading && (
           <h2 className={`${TW_SECTION_TITLE} text-white mb-4`}>
             {heading}
@@ -51,7 +51,7 @@ export default function LeafCtaBanner({
             href={whatsappHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/15 text-white text-[14px] font-semibold px-8 py-3.5 rounded-full border border-white/20 transition-all duration-200 hover:-translate-y-px"
+            className={TW_LEAF_WHATSAPP_CTA}
           >
             <MessageCircle size={14} />
             {whatsappLabel}

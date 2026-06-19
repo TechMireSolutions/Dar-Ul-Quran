@@ -10,7 +10,8 @@ description: Scaffolds a CMS public page under app/(site)/ with metadata and JSO
 3. `generateMetadata` → `pageMetadata({ path: '/<slug>', ... })`
 4. Render `WebPageSchema` + `BreadcrumbNav` + `Reveal`; `notFound()` if no data
 5. Sanity doc with matching `slug` + `seo`; add to `sitemap.ts` if needed
-6. `preflight` skill + `technical-seo-audit` if SEO-critical
+6. Body shell: `TW_PAGE_BODY` + `` `${TW_CONTAINER_NARROW} lg:px-8` `` for prose; `PageHeroHeader` for hero
+7. `preflight` skill + `technical-seo-audit` if SEO-critical
 
 Rules: `02-coding-standards.mdc` · `03-rtl-urdu.mdc` · `06-tailwind.mdc` · `08-technical-seo-shared.mdc` · `14-file-structure.mdc`
 

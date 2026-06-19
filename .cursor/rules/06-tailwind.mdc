@@ -18,12 +18,85 @@ Entry: `@import "tailwindcss"` + `@config` in `app/globals.css` · tokens in `ta
 | PT wrapper component | `components/content/RichTextBody.tsx` |
 | Scroll/reveal utilities | `@utility` in globals; Reveal `.rv-*` |
 
+## `TW_*` token map (`lib/tailwind.ts`)
+
+Import before duplicating raw class strings. Compose with template literals: `` className={`bg-white ${TW_SECTION_PY}`} ``.
+
+### Layout & containers
+
+| Token | Use |
+|-------|-----|
+| `TW_CONTAINER` | Standard section width (`max-w-7xl`) |
+| `TW_CONTAINER_HEADER` | Header inner shell |
+| `TW_CONTAINER_HERO` | Homepage hero content area |
+| `TW_CONTAINER_NARROW` | `max-w-3xl` prose, CTA, FAQ columns |
+| `TW_CONTAINER_PROSE` | Donate quote block (`max-w-2xl`) |
+| `TW_SECTION_PY` | Section vertical padding — pair with `bg-*` |
+| `TW_PAGE_BODY` | CMS page body shell (`bg-slate-50/40`) |
+| `TW_PAGE_HERO_PADDING` | `PageHeroHeader` inner padding |
+
+Wider prose on lg screens: `` `${TW_CONTAINER_NARROW} lg:px-8` `` (about, donate, articles).
+
+### Typography
+
+| Token | Use |
+|-------|-----|
+| `TW_EYEBROW` + `TW_EYEBROW_LINE` | Section kicker — **one** line span only |
+| `TW_PAGE_TITLE` | Page hero H1 |
+| `TW_PAGE_SUBTITLE` | Muted subtitle under titles |
+| `TW_BODY_MUTED` | Error/404/empty-state body |
+| `TW_SECTION_TITLE` / `TW_SECTION_TITLE_COMPACT` | Section H2 |
+| `TW_HERO_TITLE` | Dark leaf hero H1 |
+| `TW_ARTICLE_TITLE` | Article detail H1 |
+| `TW_BADGE` / `TW_BADGE_SM` | Category/tag chips |
+
+### Surfaces & forms
+
+| Token | Use |
+|-------|-----|
+| `TW_CARD_SURFACE` | White bordered card (`rounded-2xl`) |
+| `TW_FORM_PANEL` | Contact form column |
+| `TW_FORM_INPUT` / `TW_FORM_SUBMIT` | Form fields |
+| `TW_FEATURE_ICON` | About/donate feature icon box |
+
+### CTAs & navigation
+
+| Token | Use |
+|-------|-----|
+| `TW_GOLD_CTA` / `TW_GOLD_CTA_DARK` | Gold pill CTAs |
+| `TW_HERO_GOLD_CTA` / `TW_HERO_OUTLINE_CTA` | Homepage hero buttons |
+| `TW_LEAF_WHATSAPP_CTA` | Dark-section WhatsApp on leaf pages |
+| `TW_BTN_PRIMARY` / `TW_BTN_SECONDARY` | Error/404 actions |
+| `TW_CTA_ARROW` | RTL-aware arrow on CTAs |
+| `TW_CARD_LINK` / `TW_VIEW_ALL_LINK` | Card footer / section “view all” |
+| `TW_MOBILE_NAV_ROW` | Mobile nav item row |
+| `TW_SEARCH_FORM` / `TW_SEARCH_FORM_MOBILE` / `TW_SEARCH_INPUT` | Header & articles search |
+
+### Leaf & hero accents
+
+| Token | Use |
+|-------|-----|
+| `TW_LEAF_HERO_OVERLAY` | Dark hero gradient overlay |
+| `TW_HERO_CHIP_GOLD` / `TW_HERO_CHIP_MUTED` | Meta chips on dark heroes |
+| `TW_HERO_STAT_ICON` | Homepage hero stat box |
+| `TW_TEXT_GRADIENT_GOLD` | Hero headline gold accent |
+
+### Rich text & performance
+
+| Token | Use |
+|-------|-----|
+| `TW_RICH_TEXT` / `TW_RICH_TEXT_LG` / `TW_RICH_TEXT_SM` | Portable Text wrapper classes |
+| `TW_CV_AUTO` | Below-fold `content-visibility` |
+| `TW_SCROLLBAR_HIDE` | Carousel tracks |
+| `TW_TOUCH` | `min-h-11` touch targets |
+
 ## Do
 - Utilities in `className` only — no CSS-in-JS
-- Import `TW_EYEBROW`, `TW_SECTION_TITLE`, `TW_GOLD_CTA`, etc. before duplicating
+- Check `lib/tailwind.ts` before adding layout, section, or CTA classes
 - `shrink-0` not `flex-shrink-0` · slash opacity `bg-dq-500/20`
-- Theme shadows: `shadow-gold-*`, `shadow-nav`, `shadow-gold-subtle`
-- RTL spacing → `03-rtl-urdu.mdc` (logical props)
+- Theme shadows: `shadow-gold-*`, `shadow-nav`, `shadow-gold-subtle`, `shadow-focus-gold`
+- RTL spacing → `03-rtl-urdu.mdc` (logical props; `start-*`/`end-*`, `ms-*`/`me-*`)
+- Geometric centering (`left-1/2 -translate-x-1/2`) OK for symmetric pins (e.g. quote badge)
 
 ## Don't
 - `@tailwindcss/typography` or `prose-*`
@@ -31,8 +104,14 @@ Entry: `@import "tailwindcss"` + `@config` in `app/globals.css` · tokens in `ta
   OK: `--hero-delay`, LCP blur, `--nav-indent` CSS vars
 - Raw hex for brand UI · duplicate arbitrary rgba shadows
 - `@apply` except base/rich-text in `globals.css`
+- Duplicate these — use tokens instead:
+  - `max-w-7xl mx-auto px-*` → `TW_CONTAINER*`
+  - `max-w-3xl mx-auto px-4 sm:px-6` → `TW_CONTAINER_NARROW`
+  - `py-16 sm:py-20` → `TW_SECTION_PY`
+  - `w-5 h-px bg-dq-400` → `TW_EYEBROW_LINE`
+  - `text-[13.5px] text-gray-500 leading-relaxed` under titles → `TW_PAGE_SUBTITLE`
 
 ## Brand exceptions
-PayPal (`TW_PAYPAL_CTA`), WhatsApp (`TW_WHATSAPP_FLOAT`) only.
+PayPal (`TW_PAYPAL_CTA`), WhatsApp float (`TW_WHATSAPP_FLOAT`) only.
 
 Skill: `tailwind-ui` · verify: `preflight` + `rtl-check` after Urdu UI.

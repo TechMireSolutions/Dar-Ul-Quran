@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import Reveal from '@/components/ui/Reveal'
-import { TW_EYEBROW, TW_EYEBROW_LINE, TW_PAGE_TITLE } from '@/lib/tailwind'
+import { TW_EYEBROW, TW_EYEBROW_LINE, TW_PAGE_HERO_PADDING, TW_PAGE_SUBTITLE, TW_PAGE_TITLE } from '@/lib/tailwind'
 
 const MAX_WIDTH: Record<string, string> = {
   '3xl': 'max-w-3xl',
@@ -34,7 +34,7 @@ export default function PageHeroHeader({
     <div className="bg-white border-b border-gray-100">
       <Reveal
         animation="up"
-        className={`${MAX_WIDTH[maxWidth]} mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 ${alignClass}`}
+        className={`${MAX_WIDTH[maxWidth]} ${TW_PAGE_HERO_PADDING} ${alignClass}`}
       >
         <div>
           {topContent}
@@ -52,7 +52,7 @@ export default function PageHeroHeader({
           </h1>
           {subtitle && (
             <p
-              className={`text-[13.5px] text-gray-500 leading-relaxed ${
+              className={`${TW_PAGE_SUBTITLE} ${
                 align === 'center' ? 'mx-auto' : 'max-w-xl'
               }`}
             >

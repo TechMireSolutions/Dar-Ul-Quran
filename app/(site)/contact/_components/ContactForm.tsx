@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from 'react'
 import TurnstileField from '@/components/ui/TurnstileField'
-import { TW_FORM_INPUT, TW_FORM_SUBMIT } from '@/lib/tailwind'
+import { TW_FORM_INPUT, TW_FORM_PANEL, TW_FORM_SUBMIT } from '@/lib/tailwind'
 
 type ContactFormOption = { _id: string; title: string; parentTitle?: string }
 
@@ -96,7 +96,7 @@ export default function ContactForm({ submitLabel, courses, services, turnstileS
     <form
       onSubmit={handleSubmit}
       aria-busy={status === 'loading'}
-      className="lg:col-span-3 bg-white border border-gray-100 rounded-2xl shadow-sm p-5 sm:p-6 space-y-4"
+      className={TW_FORM_PANEL}
     >
       <div aria-live="polite" aria-atomic="true">
       {status === 'success' && (

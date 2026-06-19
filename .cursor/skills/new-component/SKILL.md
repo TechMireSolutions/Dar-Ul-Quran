@@ -18,7 +18,8 @@ Rules: `05-components.mdc` · `06-tailwind.mdc` · `15-naming.mdc` · `16-dry.md
 
 1. `type ComponentNameProps = { ... }` — default export matches filename
 2. Server Component default; `"use client"` only if state/effects/events
-3. Import `TW_*` from `lib/tailwind.ts` — no duplicated class strings
+3. Import `TW_*` from `lib/tailwind.ts` — no duplicated class strings  
+   Layout: `TW_CONTAINER` / `TW_CONTAINER_NARROW` / `TW_SECTION_PY` · copy: `TW_PAGE_SUBTITLE` / `TW_BODY_MUTED` · cards: `TW_CARD_SURFACE`
 4. Urdu user-visible strings; `aria-label` / `alt` in Urdu
 5. `ms-*` / `me-*` for spacing; `shrink-0` not `flex-shrink-0`
 
