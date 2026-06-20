@@ -118,6 +118,19 @@ export const TW_CARD_LINK =
 export const TW_MOBILE_NAV_ROW =
   'flex items-center gap-2 py-2.5 ps-3 pe-[calc(12px+var(--nav-indent,0px))] rounded-xl text-sm font-medium transition-colors duration-150'
 
+/** Mobile slide-over panel — full dynamic viewport height + safe areas */
+export const TW_MOBILE_PANEL =
+  'fixed inset-y-0 start-0 z-[70] flex h-dvh max-h-dvh w-[min(300px,85vw)] flex-col bg-white lg:hidden shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]'
+
+export const TW_MOBILE_PANEL_HEADER =
+  'flex shrink-0 items-center justify-between border-b border-gray-100 px-6 pb-5 pt-[max(1.25rem,env(safe-area-inset-top))]'
+
+export const TW_MOBILE_PANEL_SEARCH =
+  'shrink-0 border-b border-gray-100 px-5 py-3'
+
+export const TW_MOBILE_PANEL_NAV =
+  'min-h-0 flex-1 overflow-y-auto overscroll-y-contain px-3 py-3'
+
 /** PayPal donate CTA (brand colors — exception to dq-*) */
 export const TW_PAYPAL_CTA =
   'group inline-flex items-center justify-center gap-2.5 bg-[#0070BA] hover:bg-[#005ea6] text-white text-sm font-bold px-8 py-3 rounded-full shadow-[0_4px_20px_rgb(0_112_186/0.45)] transition-all duration-200 hover:-translate-y-px'

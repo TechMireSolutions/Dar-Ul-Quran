@@ -8,7 +8,7 @@ import { usePathname } from 'next/navigation'
 
 import type { NavNode } from '@/lib/types'
 import { nodeIsActive } from '@/lib/navigation'
-import { TW_MOBILE_NAV_ROW, TW_SEARCH_FORM_MOBILE } from '@/lib/tailwind'
+import { TW_MOBILE_NAV_ROW, TW_MOBILE_PANEL, TW_MOBILE_PANEL_HEADER, TW_MOBILE_PANEL_NAV, TW_MOBILE_PANEL_SEARCH, TW_SEARCH_FORM_MOBILE } from '@/lib/tailwind'
 
 type MobileNavNodeProps = {
   node: NavNode
@@ -65,7 +65,7 @@ function MobileNavNode({ node, onClose, depth = 0 }: MobileNavNodeProps) {
         />
       </button>
 
-      <div className={`overflow-hidden transition-all duration-250 ${open ? 'max-h-[600px]' : 'max-h-0'}`}>
+      <div className={`overflow-hidden transition-all duration-250 ${open ? 'max-h-[min(600px,50dvh)]' : 'max-h-0'}`}>
         <div
           className="mt-0.5 border-s-2 border-dq-100 me-[calc(20px+var(--nav-indent,0px))]"
           style={indentStyle}
@@ -173,11 +173,10 @@ export default function HeaderMobileMenu({
         aria-label="مینو"
         aria-hidden={!open}
         inert={!open ? true : undefined}
-        className={`fixed top-0 start-0 bottom-0 w-[300px] z-[70] bg-white lg:hidden flex flex-col
-          shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]
+        className={`${TW_MOBILE_PANEL}
           ${open ? 'translate-x-0' : 'translate-x-full'}`}
       >
-        <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100 shrink-0">
+        <div className={TW_MOBILE_PANEL_HEADER}>
           <Link href="/" onClick={onClose} className="flex items-center gap-2.5">
             <div className="w-[40px] h-[40px] rounded-full overflow-hidden border-2 border-dq-400">
               {logoUrl
@@ -197,13 +196,7 @@ export default function HeaderMobileMenu({
           </button>
         </div>
 
-        <nav aria-label="موبائل نیویگیشن" className="flex-1 overflow-y-auto px-3 py-3">
-          {navLinks.map(node => (
-            <MobileNavNode key={node.label} node={node} onClose={onClose} depth={0} />
-          ))}
-        </nav>
-
-        <div className="px-5 pb-8 pt-3 border-t border-gray-100 shrink-0">
+        <div className={TW_MOBILE_PANEL_SEARCH}>
           <form onSubmit={onSearch} role="search" aria-label="مضامین تلاش"
             className={TW_SEARCH_FORM_MOBILE}>
             <label htmlFor="mobile-search" className="sr-only">مضامین تلاش کریں</label>
@@ -222,6 +215,12 @@ export default function HeaderMobileMenu({
             </button>
           </form>
         </div>
+
+        <nav aria-label="موبائل نیویگیشن" className={`${TW_MOBILE_PANEL_NAV} pb-[max(1rem,env(safe-area-inset-bottom))]`}>
+          {navLinks.map(node => (
+            <MobileNavNode key={node.label} node={node} onClose={onClose} depth={0} />
+          ))}
+        </nav>
       </div>
     </>
   )

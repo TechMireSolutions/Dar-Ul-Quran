@@ -54,6 +54,7 @@
 
 body.mobile-menu-open {
   overflow: hidden;
+  overscroll-behavior: none;
 }
 
 @layer base {
