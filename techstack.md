@@ -4,7 +4,7 @@
 
 This document describes what the site **actually runs today** (from `package.json`, deploy config, and codebase). It is the single reference for stack, dependencies, infrastructure, security, and SEO.
 
-**Last dependency verification:** 2026-06-19 — all direct packages at latest **stable** npm release. See [Upgrade policy](#upgrade-policy).
+**Last dependency verification:** 2026-06-20 — direct packages at latest **stable** npm; lockfile refreshed (`npm update`, 25 transitive bumps). See [Upgrade policy](#upgrade-policy).
 
 ---
 
@@ -75,7 +75,7 @@ This document describes what the site **actually runs today** (from `package.jso
 | `eslint` | ^9.39.4 | Linting (**v10 blocked** by `eslint-config-next`) |
 | `eslint-config-next` | ^16.2.9 | Next.js ESLint rules |
 | `vitest` | ^4.1.9 | Unit tests |
-| `@types/node` | ^25.9.3 | Node types |
+| `@types/node` | ^26.0.0 | Node types (Node 22+ API) |
 | `@types/react` / `@types/react-dom` | ^19.2.x | React types |
 | `@types/nodemailer` | ^8.0.1 | Nodemailer types |
 
@@ -89,7 +89,7 @@ Chrome ≥ 120 · Edge ≥ 120 · Firefox ≥ 121 · Safari ≥ 17 · iOS Safari
 |----------|---------|
 | `postcss@^8.5.15` | Forces Next.js nested PostCSS to patched 8.5.15+ (XSS advisory in older nested copies) |
 
-### Known audit notes (2026-06-19)
+### Known audit notes (2026-06-20)
 
 - **11 moderate** — transitive via Sanity CLI (`js-yaml`, `uuid` in `@sanity/cli` / `typeid-js`). No fix without `npm audit fix --force` downgrading Sanity to v5.
 - **CI gate:** `npm audit --audit-level=high` — passes (no high/critical).
@@ -190,7 +190,7 @@ Internet → Apache (HTTPS, HSTS) → 127.0.0.1:3001 → PM2 (darulquran-next) �
 | **Process** | PM2 — `ecosystem.config.cjs`, app name `darulquran-next` |
 | **Port** | **3001** (locked in production) — `deploy/runtime.cjs` |
 | **Proxy** | Apache — static `/_next/static/`, security headers, HTTP/2 |
-| **CI/CD** | GitHub Actions — push `main` → SSH deploy script v7 |
+| **CI/CD** | GitHub Actions — CI passes → deploy v8 (`workflow_run`) |
 | **CI checks** | lint → `check:urdu` → vitest → `npm audit --audit-level=high` → build |
 | **Dependabot** | Weekly npm updates (`.github/dependabot.yml`) |
 
@@ -358,7 +358,7 @@ docs/                  sanity-webhook.md
 
 - Stay on **latest stable** per major line (`13-dependencies.mdc`)
 - Run `npm outdated` + `npm update`; bump `package.json` ranges only when npm registry has a newer stable release
-- **ESLint 9.39.4** until `eslint-config-next` supports ESLint 10 (v10.5.0 available but breaks lint)
+- **ESLint 9.39.4** until `eslint-config-next@16` supports ESLint 10 (`getFilename()` removed — re-verified 2026-06-20)
 - **`postcss` override** — keep `^8.5.15` in `package.json` `overrides`
 - Never `npm audit fix --force` if it downgrades Sanity
 - Preflight before ship: `npm run lint && npm run check:urdu && npm run test` (+ `build` if deploy-bound)
@@ -376,6 +376,7 @@ docs/                  sanity-webhook.md
 | typescript | 6.0.3 | 6.0.3 |
 | zod | 4.4.3 | 4.4.3 |
 | vitest | 4.1.9 | 4.1.9 |
+| @types/node | 26.0.0 | 26.0.0 |
 | eslint | 9.39.4 (pin) | 9.39.4 |
 
 ---

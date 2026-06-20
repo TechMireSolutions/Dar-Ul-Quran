@@ -23,7 +23,8 @@ alwaysApply: false
 | `resend` | Latest — contact email |
 | `vitest` | Latest — unit tests (dev) |
 | `eslint`, `eslint-config-next` | Latest **9.x** until config-next supports ESLint 10 |
-| Node (VPS + local) | `>=22.12.0` per `engines` — prefer latest **22 LTS** |
+| Node (VPS + local) | `>=22.12.0` per `engines` — latest **22 LTS** is 22.23.x |
+| `@types/node` | Latest **26.x** (Node 22 runtime) |
 
 ## Upgrade workflow
 
@@ -41,7 +42,7 @@ npm run lint && npm run check:urdu && npm run build
 
 ## Pinning exceptions (document here if added)
 
-- **ESLint 9.39.4** — ESLint 10 crashes `eslint-config-next@16` (`eslint-plugin-react` uses removed `getFilename()`; verified 2026-06)
+- **ESLint 9.39.4** — ESLint 10 crashes `eslint-config-next@16` (`eslint-plugin-react` `getFilename()` removed; re-verified 2026-06-20)
 - **`postcss@^8.5.15` override** — pins Next nested PostCSS; see `package.json` `overrides`
 - No other pins unless a upstream blocker is documented in this file
 
