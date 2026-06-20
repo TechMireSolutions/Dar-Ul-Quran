@@ -23,8 +23,7 @@ alwaysApply: false
 | `resend` | Latest — contact email |
 | `vitest` | Latest — unit tests (dev) |
 | `eslint`, `eslint-config-next` | Latest **9.x** until config-next supports ESLint 10 |
-| Node (VPS + local) | `>=22.12.0` per `engines` — latest **22 LTS** is 22.23.x |
-| `@types/node` | Latest **26.x** (Node 22 runtime) |
+| Node (VPS + local) | `>=22.12.0` per `engines` — production VPS **24.17.0**; CI/local 22+ or 24+ |
 
 ## Upgrade workflow
 

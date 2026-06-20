@@ -15,7 +15,7 @@ See **[`techstack.md`](techstack.md)** for full dependencies, infrastructure, se
 | Framework | Next.js 16 · React 19 · TypeScript 6 |
 | CMS | Sanity v6 · GROQ · Portable Text |
 | UI | Tailwind CSS v4 · Noto Nastaliq Urdu |
-| Runtime | Node 22 · PM2 · Apache (production) |
+| Runtime | Node 24 · PM2 · Apache (production) |
 
 ## Quick start
 

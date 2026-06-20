@@ -42,7 +42,7 @@ unset NODE_ENV
 if [ -s "$HOME/.nvm/nvm.sh" ]; then
   # shellcheck disable=SC1090
   . "$HOME/.nvm/nvm.sh"
-  nvm use 22 2>/dev/null || nvm use node 2>/dev/null || true
+  nvm use 24 2>/dev/null || nvm use 22 2>/dev/null || nvm use node 2>/dev/null || true
 fi
 echo "Node: $(node -v) · npm: $(npm -v)"
 

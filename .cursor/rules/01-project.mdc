@@ -5,7 +5,7 @@ alwaysApply: true
 
 # Project
 
-Next.js **16.2** · React **19.2** · Sanity **v6** · Tailwind **v4.3** · TypeScript **6** · Node **≥22.12** · RTL Urdu
+Next.js **16.2** · React **19.2** · Sanity **v6** · Tailwind **v4.3** · TypeScript **6** · Node **≥22.12** (VPS **24**) · RTL Urdu
 
 Live: https://darulquran.pk · Runtime port **3001** → `12-production-port.mdc`  
 License: **MIT** · Stack reference: **`techstack.md`**

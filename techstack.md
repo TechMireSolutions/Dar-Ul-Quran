@@ -4,7 +4,7 @@
 
 This document describes what the site **actually runs today** (from `package.json`, deploy config, and codebase). It is the single reference for stack, dependencies, infrastructure, security, and SEO.
 
-**Last dependency verification:** 2026-06-20 — direct packages at latest **stable** npm; lockfile refreshed (`npm update`, 25 transitive bumps). See [Upgrade policy](#upgrade-policy).
+**Last dependency verification:** 2026-06-20 (re-audit) — all **direct** packages at latest stable npm; lockfile refreshed. Only **ESLint 10** blocked. Production Node **24.17.0**.
 
 ---
 
@@ -12,7 +12,7 @@ This document describes what the site **actually runs today** (from `package.jso
 
 | Layer | Technology | Version | Notes |
 |-------|------------|---------|-------|
-| Runtime | **Node.js** | ≥ 22.12 | `engines` in `package.json`; VPS uses Node 22 |
+| Runtime | **Node.js** | ≥ 22.12 (prod **24.17**) | `engines` in `package.json`; VPS runs **24.17.0** |
 | Framework | **Next.js** (App Router) | 16.2.9 | RSC default; no Pages Router |
 | UI | **React** | 19.2.7 | Server Components first; `"use client"` only when needed |
 | Language | **TypeScript** | 6.0.3 | Strict mode |
