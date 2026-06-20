@@ -4,7 +4,7 @@
 
 This document describes what the site **actually runs today** (from `package.json`, deploy config, and codebase). It is the single reference for stack, dependencies, infrastructure, security, and SEO.
 
-**Last dependency verification:** 2026-06-20 (re-audit) — all **direct** packages at latest stable npm; lockfile refreshed. Only **ESLint 10** blocked. Production Node **24.17.0**.
+**Last dependency verification:** 2026-06-18 — all **direct** packages at latest stable npm; lockfile current. Only **ESLint 10** blocked. CI + production Node **24**.
 
 ---
 
@@ -190,7 +190,7 @@ Internet → Apache (HTTPS, HSTS) → 127.0.0.1:3001 → PM2 (darulquran-next) �
 | **Process** | PM2 — `ecosystem.config.cjs`, app name `darulquran-next` |
 | **Port** | **3001** (locked in production) — `deploy/runtime.cjs` |
 | **Proxy** | Apache — static `/_next/static/`, security headers, HTTP/2 |
-| **CI/CD** | GitHub Actions — CI passes → deploy v8 (`workflow_run`) |
+| **CI/CD** | GitHub Actions — Node **24**; CI passes → deploy v8 (`workflow_run`) |
 | **CI checks** | lint → `check:urdu` → vitest → `npm audit --audit-level=high` → build |
 | **Dependabot** | Weekly npm updates (`.github/dependabot.yml`) |
 
@@ -358,7 +358,7 @@ docs/                  sanity-webhook.md
 
 - Stay on **latest stable** per major line (`13-dependencies.mdc`)
 - Run `npm outdated` + `npm update`; bump `package.json` ranges only when npm registry has a newer stable release
-- **ESLint 9.39.4** until `eslint-config-next@16` supports ESLint 10 (`getFilename()` removed — re-verified 2026-06-20)
+- **ESLint 9.39.4** until `eslint-config-next@16` supports ESLint 10 (`eslint-plugin-react` lacks ESLint 10 peer — re-verified 2026-06-18)
 - **`postcss` override** — keep `^8.5.15` in `package.json` `overrides`
 - Never `npm audit fix --force` if it downgrades Sanity
 - Preflight before ship: `npm run lint && npm run check:urdu && npm run test` (+ `build` if deploy-bound)

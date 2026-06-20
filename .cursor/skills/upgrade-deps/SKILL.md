@@ -25,7 +25,7 @@ Keep `package.json` `overrides.postcss` at `^8.5.15`. Never `npm audit fix --for
 | `zod` | Latest **4.x** — API validation |
 | `resend` | Latest — contact email |
 | `vitest` | Latest — unit tests in CI |
-| Node | `>=22.12.0` — production VPS **24.17.0** |
+| Node | `>=22.12.0` — CI + production VPS **24** |
 | `@types/node` | Latest **26.x** |
 
 After bump: read changelogs for `next-sanity`, Studio, Tailwind v4.

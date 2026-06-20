@@ -61,7 +61,7 @@ jobs:
 
       - name: Deploy to Hetzner VPS via SSH
         id: ssh
-        uses: appleboy/ssh-action@v1.2.2
+        uses: appleboy/ssh-action@v1.2.5
         with:
           host: ${{ env.DEPLOY_HOST }}
           username: ${{ env.DEPLOY_USER }}

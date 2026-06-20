@@ -5,6 +5,10 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 10
+    ignore:
+      # ESLint 10 breaks eslint-config-next (eslint-plugin-react getFilename API).
+      - dependency-name: eslint
+        update-types: ["version-update:semver-major"]
     groups:
       sanity:
         patterns:
