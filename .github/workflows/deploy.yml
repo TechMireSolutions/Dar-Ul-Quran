@@ -1,98 +1,92 @@
 name: Deploy Darulquran Website
 
 on:
-  push:
-    branches:
-      - main
+  # Deploy only after CI passes on main (no race with lint/test/build).
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
   workflow_dispatch:
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  DEPLOY_HOST: ${{ vars.DEPLOY_HOST || '157.90.168.216' }}
+  DEPLOY_USER: ${{ vars.DEPLOY_USER || 'root' }}
+  DEPLOY_PORT: ${{ vars.DEPLOY_PORT || '22' }}
+  APP_ROOT: /var/www/darulquran_next
+  # Hetzner VPS host key — rotate if the server is rebuilt.
+  SSH_FINGERPRINT: SHA256:LjGEfBMbm1OwFvGSFOF9cVkYt4anPC2ExNko47VxkdA
 
 jobs:
   deploy:
+    name: Deploy to production
     runs-on: ubuntu-latest
-    env:
-      DEPLOY_HOST: 157.90.168.216
-      DEPLOY_USER: root
+    timeout-minutes: 35
+    environment: production
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'success'
+
     steps:
-      - name: Verify deploy secret
+      - name: Resolve deploy commit
+        id: meta
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_run" ]; then
+            echo "sha=${{ github.event.workflow_run.head_sha }}" >> "$GITHUB_OUTPUT"
+            echo "ref=${{ github.event.workflow_run.head_branch }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "sha=${{ github.sha }}" >> "$GITHUB_OUTPUT"
+            echo "ref=${{ github.ref_name }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Verify deploy configuration
         run: |
           if [ -z "${{ secrets.SSH_PRIVATE_KEY }}" ]; then
             echo "::error::Missing GitHub secret SSH_PRIVATE_KEY."
-            echo "Add it at: Settings → Secrets and variables → Actions → New repository secret"
+            echo "Add it at: Settings → Secrets and variables → Actions"
+            exit 1
+          fi
+          if [ -z "${{ env.DEPLOY_HOST }}" ]; then
+            echo "::error::DEPLOY_HOST is empty. Set repository variable DEPLOY_HOST or use the default in deploy.yml."
             exit 1
           fi
 
       - name: Deploy to Hetzner VPS via SSH
+        id: ssh
         uses: appleboy/ssh-action@v1.2.2
         with:
           host: ${{ env.DEPLOY_HOST }}
           username: ${{ env.DEPLOY_USER }}
+          port: ${{ env.DEPLOY_PORT }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          fingerprint: ${{ env.SSH_FINGERPRINT }}
+          timeout: 60s
           command_timeout: 30m
           script: |
-            set -e
-            echo "=== Dar Ul Quran deploy script v7 $(date -u +%Y-%m-%dT%H:%M:%SZ) ==="
-            cd /var/www/darulquran_next
+            set -euo pipefail
+            cd "${{ env.APP_ROOT }}"
+            chmod +x deploy/remote-deploy.sh
+            APP_ROOT="${{ env.APP_ROOT }}" DEPLOY_SHA="${{ steps.meta.outputs.sha }}" bash deploy/remote-deploy.sh
 
-            git checkout -- . 2>/dev/null || true
-            git fetch origin main
-            git reset --hard origin/main
-            echo "HEAD: $(git rev-parse --short HEAD)"
-
-            if [ -f .env ]; then set -a && . ./.env && set +a; fi
-            if [ -f .env.local ]; then set -a && . ./.env.local && set +a; fi
-            unset NODE_ENV
-
-            if [ -s "$HOME/.nvm/nvm.sh" ]; then
-              . "$HOME/.nvm/nvm.sh"
-              nvm use 22 2>/dev/null || nvm use node 2>/dev/null || true
-            fi
-            echo "Node: $(node -v)"
-
-            # Stop app BEFORE touching .next — prevents 500s on /_next/static/chunks during rebuild.
-            pm2 stop darulquran-next 2>/dev/null || true
-
-            rm -rf node_modules
-            npm ci --include=dev
-            npm run build
-
-            if [ ! -f .next/BUILD_ID ]; then
-              echo "ERROR: Build output missing (.next/BUILD_ID not found)"
-              exit 1
-            fi
-
-            SAMPLE_CHUNK=$(find .next/static/chunks -maxdepth 1 -name '*.js' -type f | head -1)
-            if [ -z "$SAMPLE_CHUNK" ]; then
-              echo "ERROR: No JS chunks in .next/static/chunks"
-              exit 1
-            fi
-            echo "Build chunks OK: $(basename "$SAMPLE_CHUNK")"
-
-            pm2 delete darulquran-next 2>/dev/null || true
-            pm2 start ecosystem.config.cjs --update-env
-            pm2 save
-
-            APP_PORT=$(node -e "console.log(require('./deploy/runtime.cjs').PORT)")
-            CHUNK_URL_PATH="/_next/static/chunks/$(basename "$SAMPLE_CHUNK")"
-            for i in 1 2 3 4 5 6; do
-              if curl -fsS "http://127.0.0.1:${APP_PORT}/" -o /dev/null \
-                && curl -fsS "http://127.0.0.1:${APP_PORT}${CHUNK_URL_PATH}" -o /dev/null; then
-                echo "Health check passed: homepage + ${CHUNK_URL_PATH}"
-                break
-              fi
-              if [ "$i" -eq 6 ]; then
-                echo "ERROR: App or static chunks not responding on http://127.0.0.1:${APP_PORT}"
-                pm2 logs darulquran-next --lines 40 --nostream || true
-                exit 1
-              fi
-              echo "Waiting for app to start (attempt $i/6)..."
-              sleep 5
-            done
-
-            if [ -d /etc/apache2 ] && command -v apache2ctl >/dev/null 2>&1; then
-              echo "Applying Apache security headers..."
-              sudo bash deploy/apply-apache-security.sh || echo "WARN: Apache security snippet skipped."
-              echo "Configuring Apache static asset serving..."
-              sudo bash deploy/apply-apache-static.sh || echo "WARN: Apache static config skipped."
-              echo "Enabling HTTP/2 on SSL vhost..."
-              sudo bash deploy/enable-http2.sh || echo "WARN: HTTP/2 enable skipped."
-            fi
+      - name: Deployment summary
+        if: success()
+        run: |
+          {
+            echo "## Production deploy succeeded"
+            echo ""
+            echo "| | |"
+            echo "|---|---|"
+            echo "| **Host** | \`${{ env.DEPLOY_HOST }}\` |"
+            echo "| **Commit** | \`${{ steps.meta.outputs.sha }}\` |"
+            echo "| **Branch** | \`${{ steps.meta.outputs.ref }}\` |"
+            echo "| **Site** | https://darulquran.pk/ |"
+            echo ""
+            echo "Triggered by \`${{ github.event_name }}\`."
+          } >> "$GITHUB_STEP_SUMMARY"

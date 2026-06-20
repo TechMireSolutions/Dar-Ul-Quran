@@ -6,18 +6,21 @@ alwaysApply: false
 
 # Deploy
 
-Push `main` → GitHub Actions v7. Skill: `deploy`.
+Push `main` → **CI** passes → deploy workflow v8 (`workflow_run`). Skill: `deploy`.
+
+Secret: `SSH_PRIVATE_KEY`. Optional vars: `DEPLOY_HOST`, `DEPLOY_USER`, `DEPLOY_PORT`.
 
 Port/runtime → **`12-production-port.mdc`** (do not duplicate port rules here).
 
 | Step | Command |
 |------|---------|
-| Stop before build | `pm2 stop darulquran-next` |
+| Sync + deploy | `bash deploy/remote-deploy.sh` (on VPS or via Actions) |
+| Stop before build | `pm2 stop darulquran-next` (inside remote-deploy.sh) |
 | Install & build | `npm ci` → `npm run build` |
 | Start | `pm2 start ecosystem.config.cjs --update-env` |
 | Health | curl `LOCAL_URL` from `deploy/runtime.cjs` + sample chunk |
 
-Critical: stop PM2 **before** touching `.next`. Verify chunk URL after restart. Apache serves `/_next/static/`.
+Critical: stop PM2 **before** touching `.next`. Verify chunk URL after restart. Apache serves `/_next/static/`. Failed deploy rolls back git + PM2.
 
 Never `rm -rf .next` while PM2 is serving.
 

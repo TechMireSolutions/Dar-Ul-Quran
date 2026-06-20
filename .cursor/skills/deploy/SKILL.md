@@ -5,11 +5,17 @@ description: Deploys Dar Ul Quran via GitHub Actions or VPS steps. Use for produ
 
 # Deploy
 
-Push `main` → `.github/workflows/deploy.yml` v7.
+Push `main` → **CI** must pass → `.github/workflows/deploy.yml` v8 (via `workflow_run`).
+
+Manual: Actions → **Deploy Darulquran Website** → Run workflow.
+
+GitHub secret: `SSH_PRIVATE_KEY` only. Optional repo variables: `DEPLOY_HOST`, `DEPLOY_USER`, `DEPLOY_PORT`.
 
 Runtime port: **3001** (`deploy/runtime.cjs`). PM2 app: `darulquran-next`.
 
-Manual order: `pm2 stop` → `npm ci` → `npm run build` → verify chunk → `pm2 start ecosystem.config.cjs` → health check on `127.0.0.1:3001`.
+Remote script: `deploy/remote-deploy.sh` (rollback on failure).
+
+Manual on VPS: `cd /var/www/darulquran_next && bash deploy/remote-deploy.sh`
 
 Never `rm -rf .next` while PM2 serves. Rules: `11-deploy-ops.mdc`, `12-production-port.mdc`, `17-security.mdc`.
 
