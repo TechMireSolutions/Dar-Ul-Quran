@@ -1,6 +1,6 @@
 ---
 description: Technical SEO mobile — CWV and UX (primary index)
-globs: "{app/layout.tsx,app/manifest.ts,app/(site)/page.tsx,components/sections/HeroSection.tsx,components/layout/HeaderMobileMenu.tsx,components/ui/DeferredUrduFont.tsx}"
+globs: "{app/layout.tsx,app/manifest.ts,app/(site)/page.tsx,components/sections/HeroSection.tsx,components/layout/HeaderMobileMenu.tsx,components/ui/DeferredUrduFont.tsx,components/seo/LcpImagePreload.tsx,sanity/lib/image.ts}"
 alwaysApply: false
 ---
 
@@ -10,10 +10,17 @@ Primary Google index profile. PSI/Lighthouse **Mobile**.
 
 | Metric | Target | Tactics |
 |--------|--------|---------|
-| LCP | ≤2.5s | `LcpImagePreload`, hero `fetchPriority`, ~828w, deferred font |
-| INP | ≤200ms | lazy `HeaderMobileMenu`, small initial JS |
-| CLS | ≤0.1 | image dimensions, reserved hero |
+| LCP | ≤2.5s | Mobile LCP = hero **H1 text** (no hero image below `md`); desktop-only preload with `media="(min-width: 768px)"`; `hero-item` opacity 1 on mobile |
+| INP | ≤200ms | lazy `HeaderMobileMenu`; Turnstile loads on intersect; passive scroll listeners |
+| CLS | ≤0.1 | image dimensions; reserved hero `min-h`; aspect-ratio on cards/articles |
 
 Touch ≥44px (`TW_TOUCH`) · no horizontal scroll · manifest/viewport/theme_color · content parity with desktop.
+
+## Image rules (PSI)
+
+- Homepage hero: `lcpHeroImageProps()` in `sanity/lib/image.ts` — srcset + `LcpImagePreload` with `media="(min-width: 768px)"`
+- Leaf heroes: `leafHeroImageUrl()` · `sizes="100vw"` on fill `Image`
+- Article featured: `articleFeaturedImageUrl()` · `loading="lazy"` (below H1)
+- Below-fold sections: `TW_CV_AUTO` on homepage blocks, footer, listing grids
 
 Shared: `08-technical-seo-shared.mdc` · Skill: `optimize-lcp`

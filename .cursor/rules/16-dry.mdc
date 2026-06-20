@@ -36,6 +36,7 @@ alwaysApply: false
 |--------|--------|
 | Same class string **2+** times | Add `TW_*` to `lib/tailwind.ts` (containers → `TW_CONTAINER*`, sections → `TW_SECTION_PY`, typography → `TW_PAGE_*` / `TW_BODY_MUTED`) |
 | Same GROQ field set **2+** queries | Private `SCREAMING_SNAKE` fragment in `queries.ts` |
+| Same image URL builder **2+** callers | Helper in `sanity/lib/image.ts` (`lcpHeroImageProps`, `leafHeroImageUrl`, etc.) |
 | Same JSX block **2+** routes | Shared component in `components/content/` or `ui/` |
 | Same fallback chain **2+** callers | `resolve*` helper in `lib/` |
 | Same breadcrumb/path logic | Use `lib/paths.ts` helpers |

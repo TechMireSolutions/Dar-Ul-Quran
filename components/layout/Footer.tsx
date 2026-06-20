@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { TW_CONTAINER, TW_CTA_ARROW, TW_FOOTER_DONATE_CTA } from '@/lib/tailwind'
+import { TW_CONTAINER, TW_CTA_ARROW, TW_CV_AUTO, TW_FOOTER_DONATE_CTA } from '@/lib/tailwind'
 import Image from 'next/image'
 import { whatsappHref } from '@/lib/contact'
 import type { NavNode, SiteSettingsDoc, FooterServiceDoc } from '@/lib/types'
@@ -122,7 +122,7 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
   const services   = footerServices?.length ? footerServices.map(s => ({ label: s.title, href: `/services/${s.slug}` })) : FALLBACK_SERVICES.map(s => ({ label: s.title, href: `/services/${s.slug}` }))
 
   return (
-    <footer className="bg-dq-900 border-t border-dq-800">
+    <footer className={`bg-dq-900 border-t border-dq-800 ${TW_CV_AUTO}`}>
 
       {/* ── Main body ── */}
       <div className={`${TW_CONTAINER} py-6 sm:py-10 lg:py-12`}>

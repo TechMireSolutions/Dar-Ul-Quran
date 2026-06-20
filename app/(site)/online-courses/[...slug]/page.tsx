@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { urlFor, ogImageUrl } from '@/sanity/lib/image'
+import { urlFor, ogImageUrl, leafHeroImageUrl } from '@/sanity/lib/image'
 import {
   getCourseBySlug,
   getCourseSchema,
@@ -87,7 +87,7 @@ export default async function CourseCatchAllPage(
   const ancestry = ancestryFromParent(course)
   const currentPath = `${SECTION_PATH}/${slug.join('/')}`
   const heroImageUrl = course.featuredImage
-    ? urlFor(course.featuredImage).width(1400).height(700).url()
+    ? leafHeroImageUrl(course.featuredImage)
     : null
 
   const enrollHref = course.enrollmentLink || '/contact'

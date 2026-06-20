@@ -1,12 +1,14 @@
 import Link from 'next/link'
 import { ArrowRight, Users, BookOpen, GraduationCap } from 'lucide-react'
-import { TW_CONTAINER_HERO, TW_CTA_ARROW, TW_CV_AUTO, TW_EYEBROW, TW_EYEBROW_LINE, TW_HERO_GOLD_CTA, TW_HERO_OUTLINE_CTA, TW_HERO_STAT_ICON, TW_TEXT_GRADIENT_GOLD } from '@/lib/tailwind'
+import { TW_CONTAINER_HERO, TW_CTA_ARROW, TW_EYEBROW, TW_EYEBROW_LINE, TW_HERO_GOLD_CTA, TW_HERO_OUTLINE_CTA, TW_HERO_STAT_ICON, TW_TEXT_GRADIENT_GOLD } from '@/lib/tailwind'
 
 type HeroSectionProps = {
   subtitle?:    string
   title?:       string
   description?: string
   heroImage?:   string | null
+  heroImageSrcSet?: string
+  heroImageSizes?: string
   heroImageBlur?: string
   cta1Label?:   string
   cta1Link?:    string
@@ -31,6 +33,8 @@ export default function HeroSection({
   title,
   description = 'دار القرآن میں ہم ہر شخص کے لیے آسان اور سستی شیعہ اسلامی تعلیم پیش کرتے ہیں، چاہے آپ دنیا میں کہیں بھی ہوں۔',
   heroImage,
+  heroImageSrcSet,
+  heroImageSizes = '(min-width: 768px) 58vw, 1px',
   heroImageBlur,
   cta1Label   = 'کورسز دیکھیں',
   cta1Link    = '/online-courses',
@@ -61,6 +65,8 @@ export default function HeroSection({
           // eslint-disable-next-line @next/next/no-img-element -- intentional LCP optimization
           <img
             src={heroImage}
+            srcSet={heroImageSrcSet}
+            sizes={heroImageSizes}
             alt={title ? `دار القرآن - ${title.replace(/\n/g, ' ')}` : 'دار القرآن - اسلامی علم اور کورسز'}
             fetchPriority="high"
             decoding="async"

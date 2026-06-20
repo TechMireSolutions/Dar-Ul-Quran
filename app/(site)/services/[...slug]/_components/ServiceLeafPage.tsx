@@ -35,6 +35,7 @@ export default function ServiceLeafPage({
                 src={heroImageUrl}
                 alt={serviceTitle}
                 fill
+                sizes="100vw"
                 className="object-cover opacity-[0.18]"
                 priority
                 fetchPriority="high"

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { urlFor, ogImageUrl } from '@/sanity/lib/image'
+import { urlFor, ogImageUrl, leafHeroImageUrl } from '@/sanity/lib/image'
 import { getServiceBySlug, getSiteSettings, getTopicClusterForPillar, getAllServicePaths } from '@/sanity/lib/fetchers'
 import ServiceSchema from '@/components/seo/ServiceSchema'
 import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
@@ -65,7 +65,7 @@ export default async function ServiceCatchAllPage(
   const hasChildren = (service.children?.length ?? 0) > 0
   const ancestry = ancestryFromParent(service)
   const currentPath = `${SECTION_PATH}/${slug.join('/')}`
-  const heroImageUrl = service.heroImage ? urlFor(service.heroImage).width(1600).height(800).url() : null
+  const heroImageUrl = service.heroImage ? leafHeroImageUrl(service.heroImage) : null
   const whyUsImageUrl = service.whyUsImage ? urlFor(service.whyUsImage).width(700).height(700).url() : null
   const whatsappLink = resolveWhatsappLink(site?.whatsapp)
 

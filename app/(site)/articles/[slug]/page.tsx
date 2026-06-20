@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import { CalendarDays, User } from 'lucide-react'
 import { getPostBySlug, getSiteSettings, getTopicClusterForPost, getPostSlugs } from '@/sanity/lib/fetchers'
-import { urlFor, ogImageUrl } from '@/sanity/lib/image'
+import { urlFor, ogImageUrl, articleFeaturedImageUrl } from '@/sanity/lib/image'
 import RichTextBody from '@/components/content/RichTextBody'
 import ArticleSchema from '@/components/seo/ArticleSchema'
 import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
@@ -106,9 +106,13 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
         {post.mainImage && (
           <div className="relative w-full aspect-[16/9] sm:aspect-[16/8] rounded-xl sm:rounded-2xl overflow-hidden mb-8 sm:mb-10 shadow-sm">
             <Image
-              src={urlFor(post.mainImage).width(900).height(500).url()}
+              src={articleFeaturedImageUrl(post.mainImage)}
               alt={post.mainImage.alt ?? pageTitle}
-              fill sizes="(max-width: 768px) 100vw, 800px" className="object-cover"
+              fill
+              loading="lazy"
+              decoding="async"
+              sizes="(max-width: 768px) 100vw, 800px"
+              className="object-cover"
             />
           </div>
         )}

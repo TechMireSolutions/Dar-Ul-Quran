@@ -230,11 +230,11 @@ Deploy rule: **stop PM2 before rebuilding `.next`** — prevents chunk 404s duri
 
 | Tactic | Where |
 |--------|-------|
-| **LCP ≤ 2.5s** | `LcpImagePreload`, hero `<img fetchPriority="high">`, ~828w Sanity image |
-| **Deferred font** | `DeferredUrduFont` — Noto Nastaliq off critical path |
-| **INP ≤ 200ms** | Lazy `HeaderMobileMenu` (`dynamic`, `ssr: false`) |
-| **CLS ≤ 0.1** | Image dimensions, reserved hero space |
-| **Below-fold** | `content-visibility: auto` (`TW_CV_AUTO`) |
+| **LCP ≤ 2.5s** | `LcpImagePreload` with `media="(min-width: 768px)"`; `lcpHeroImageProps()` srcset; hero `<img fetchPriority="high">`; leaf `leafHeroImageUrl()` |
+| **Deferred font** | `DeferredUrduFont` — Noto Nastaliq off critical path; preconnect Google Fonts |
+| **INP ≤ 200ms** | Lazy `HeaderMobileMenu`; Turnstile on intersect; passive scroll |
+| **CLS ≤ 0.1** | Image dimensions, reserved hero space, aspect-ratio cards |
+| **Below-fold** | `content-visibility: auto` (`TW_CV_AUTO`) on sections, footer, listings |
 | **Images** | `next/image` — AVIF/WebP, 30-day cache, Sanity `remotePatterns` |
 | **JS bundle** | `optimizePackageImports` for lucide, portabletext, sanity client |
 | **Console** | Stripped in production (`removeConsole` in `next.config.ts`) |

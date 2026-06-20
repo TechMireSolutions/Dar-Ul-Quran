@@ -38,6 +38,7 @@ export default function CourseLeafPage({
                 src={heroImageUrl}
                 alt={courseTitle}
                 fill
+                sizes="100vw"
                 className="object-cover opacity-[0.18]"
                 priority
                 fetchPriority="high"

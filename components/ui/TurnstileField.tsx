@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 type TurnstileFieldProps = {
   siteKey: string
@@ -28,8 +28,28 @@ const SCRIPT_ID = 'cf-turnstile-script'
 export default function TurnstileField({ siteKey, onToken }: TurnstileFieldProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const widgetIdRef = useRef<string | undefined>(undefined)
+  const [visible, setVisible] = useState(false)
 
   useEffect(() => {
+    const el = containerRef.current
+    if (!el) return
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          setVisible(true)
+          io.disconnect()
+        }
+      },
+      { rootMargin: '120px' },
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (!visible) return
+
     let cancelled = false
 
     function renderWidget() {
@@ -65,7 +85,7 @@ export default function TurnstileField({ siteKey, onToken }: TurnstileFieldProps
         window.turnstile.remove(widgetIdRef.current)
       }
     }
-  }, [siteKey, onToken])
+  }, [visible, siteKey, onToken])
 
   return <div ref={containerRef} className="flex justify-center min-h-[65px]" />
 }

@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 import WebPageSchema from '@/components/seo/WebPageSchema'
 import ItemListSchema from '@/components/seo/ItemListSchema'
 import PageHeroHeader from '@/components/ui/PageHeroHeader'
-import { TW_CONTAINER, TW_PAGE_BODY } from '@/lib/tailwind'
+import { TW_CONTAINER, TW_CV_AUTO, TW_PAGE_BODY } from '@/lib/tailwind'
 
 type ListingIndexShellProps = {
   title: string
@@ -38,7 +38,7 @@ export default function ListingIndexShell({
         {heroChildren}
       </PageHeroHeader>
 
-      <div className={`${TW_PAGE_BODY} min-h-[50vh]`}>
+      <div className={`${TW_PAGE_BODY} min-h-[50vh] ${TW_CV_AUTO}`}>
         <div className={TW_CONTAINER}>
           {children}
         </div>

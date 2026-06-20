@@ -52,6 +52,7 @@ export default function SanityImage({
       width={finalWidth}
       height={finalHeight}
       priority={priority}
+      fetchPriority={priority ? 'high' : undefined}
       placeholder={lqip ? 'blur' : 'empty'}
       blurDataURL={lqip}
       sizes={sizes}

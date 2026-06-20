@@ -1,6 +1,6 @@
 ---
 description: Technical SEO desktop — CWV and crawlable nav
-globs: "{components/layout/Header.tsx,components/sections/CarouselSection.tsx,components/layout/Footer.tsx,app/(site)/**/page.tsx}"
+globs: "{components/layout/Header.tsx,components/sections/CarouselSection.tsx,components/sections/HeroSection.tsx,components/layout/Footer.tsx,app/(site)/**/page.tsx,sanity/lib/image.ts}"
 alwaysApply: false
 ---
 
@@ -10,10 +10,12 @@ Same URL as mobile. PSI/Lighthouse **Desktop**.
 
 | Metric | Target | Tactics |
 |--------|--------|---------|
-| LCP | ≤2.5s | preload hero; up to 1200w; no mobile-menu JS |
+| LCP | ≤2.5s | `LcpImagePreload` + hero `srcSet`/`sizes="58vw"`; `lcpHeroImageProps()` up to 1200w; `fetchPriority="high"` |
 | INP | ≤200ms | rAF scroll; light flyout handlers |
-| CLS | ≤0.1 | stable sticky header |
+| CLS | ≤0.1 | stable sticky header; explicit image width/height |
 
 Nav links in HTML (`lg:flex`); keyboard dropdowns; breadcrumbs on detail pages; 1440px Urdu overflow check.
 
-Shared: `08-technical-seo-shared.mdc`
+Leaf pages: `leafHeroImageUrl()` at 1200w · `SanityImage` with `fetchPriority="high"` when `priority`.
+
+Shared: `08-technical-seo-shared.mdc` · Skill: `optimize-lcp`

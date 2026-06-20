@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { urlFor } from '@/sanity/lib/image'
+import { urlFor, lcpHeroImageProps } from '@/sanity/lib/image'
 import {
   getSiteSettings,
   getHomepageSettings,
@@ -83,8 +83,8 @@ export default async function HomePage() {
     homepageSettings?.heroSubtitle ||
     'اسلامی علم، آن لائن کورسز اور خدمات — دنیا بھر میں شیعہ خاندانوں کے لیے مستند تعلیم۔'
 
-  const heroImageUrl = homepageSettings?.heroImage
-    ? urlFor(homepageSettings.heroImage).width(828).height(552).fit('crop').auto('format').quality(70).url()
+  const heroImage = homepageSettings?.heroImage
+    ? lcpHeroImageProps(homepageSettings.heroImage)
     : null
   const heroImageBlur = homepageSettings?.heroImageLqip ?? undefined
 
@@ -93,14 +93,18 @@ export default async function HomePage() {
 
   return (
     <>
-      {heroImageUrl && <LcpImagePreload href={heroImageUrl} />}
+      {heroImage && (
+        <LcpImagePreload href={heroImage.preloadHref} media="(min-width: 768px)" />
+      )}
       <WebPageSchema title={homeTitle} description={homeDescription} path="/" />
 
       <HeroSection
         subtitle={homepageSettings?.heroArabicText || undefined}
         title={homepageSettings?.heroTitle ? homepageSettings.heroTitle.replace(/\\n/g, '\n') : undefined}
         description={homepageSettings?.heroSubtitle || undefined}
-        heroImage={heroImageUrl}
+        heroImage={heroImage?.src ?? null}
+        heroImageSrcSet={heroImage?.srcSet}
+        heroImageSizes={heroImage?.sizes}
         heroImageBlur={heroImageBlur}
         cta1Label={homepageSettings?.heroCta1Label || undefined}
         cta1Link={homepageSettings?.heroCta1Link || undefined}
