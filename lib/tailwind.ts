@@ -114,22 +114,35 @@ export const TW_SEARCH_INPUT =
 export const TW_CARD_LINK =
   'mt-auto inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-dq-700 py-2 transition-all duration-200 group/cta relative after:absolute after:bottom-0 after:end-0 after:h-px after:w-0 after:bg-dq-400 after:transition-all after:duration-300 hover:after:w-full'
 
-/** Mobile nav row base */
+/** Mobile nav row base — 44px min touch target */
 export const TW_MOBILE_NAV_ROW =
-  'flex items-center gap-2 py-2.5 ps-3 pe-[calc(12px+var(--nav-indent,0px))] rounded-xl text-sm font-medium transition-colors duration-150'
+  'flex min-h-11 items-center gap-2 py-2.5 ps-3 pe-[calc(12px+var(--nav-indent,0px))] rounded-xl text-sm font-medium transition-colors duration-150'
 
-/** Mobile slide-over panel — full dynamic viewport height + safe areas */
+export const TW_MOBILE_NAV_ROW_ACTIVE =
+  'bg-dq-50 text-dq-700 font-semibold border-s-2 border-dq-500'
+
+/** Mobile drawer backdrop */
+export const TW_MOBILE_PANEL_BACKDROP =
+  'fixed inset-0 z-[60] touch-none bg-dq-950/70 lg:hidden transition-opacity duration-300 motion-reduce:transition-none supports-[backdrop-filter]:backdrop-blur-sm'
+
+/** Mobile slide-over panel — dynamic viewport height + safe areas */
 export const TW_MOBILE_PANEL =
-  'fixed inset-y-0 start-0 z-[70] flex h-dvh max-h-dvh w-[min(300px,85vw)] flex-col bg-white lg:hidden shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]'
+  'fixed inset-y-0 start-0 z-[70] flex h-dvh max-h-dvh w-[min(300px,85vw)] flex-col border-e border-gray-100 bg-white lg:hidden shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none'
 
 export const TW_MOBILE_PANEL_HEADER =
-  'flex shrink-0 items-center justify-between border-b border-gray-100 px-6 pb-5 pt-[max(1.25rem,env(safe-area-inset-top))]'
+  'flex shrink-0 items-center justify-between border-b border-gray-100 px-5 pb-4 pt-[max(1rem,env(safe-area-inset-top))]'
 
 export const TW_MOBILE_PANEL_SEARCH =
-  'shrink-0 border-b border-gray-100 px-5 py-3'
+  'shrink-0 space-y-2 border-b border-gray-100 bg-slate-50/60 px-5 py-3'
+
+export const TW_MOBILE_PANEL_SEARCH_LABEL =
+  'text-[11px] font-bold uppercase tracking-wide text-gray-400'
 
 export const TW_MOBILE_PANEL_NAV =
-  'min-h-0 flex-1 overflow-y-auto overscroll-y-contain px-3 py-3'
+  'min-h-0 flex-1 overflow-y-auto overscroll-y-contain px-3 py-3 scroll-smooth'
+
+export const TW_MOBILE_SEARCH_SUBMIT =
+  'flex min-h-11 min-w-11 shrink-0 items-center justify-center self-stretch bg-dq-500 px-4 transition-colors hover:bg-dq-600'
 
 /** PayPal donate CTA (brand colors — exception to dq-*) */
 export const TW_PAYPAL_CTA =

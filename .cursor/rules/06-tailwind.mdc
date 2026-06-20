@@ -69,7 +69,9 @@ Wider prose on lg screens: `` `${TW_CONTAINER_NARROW} lg:px-8` `` (about, donate
 | `TW_BTN_PRIMARY` / `TW_BTN_SECONDARY` | Error/404 actions |
 | `TW_CTA_ARROW` | RTL-aware arrow on CTAs |
 | `TW_CARD_LINK` / `TW_VIEW_ALL_LINK` | Card footer / section “view all” |
-| `TW_MOBILE_NAV_ROW` | Mobile nav item row |
+| `TW_MOBILE_NAV_ROW` / `TW_MOBILE_NAV_ROW_ACTIVE` | Mobile nav item row + active state |
+| `TW_MOBILE_PANEL*` / `TW_MOBILE_PANEL_BACKDROP` | Mobile drawer shell, search, nav |
+| `TW_MOBILE_SEARCH_SUBMIT` | Mobile sidebar search button |
 | `TW_SEARCH_FORM` / `TW_SEARCH_FORM_MOBILE` / `TW_SEARCH_INPUT` | Header & articles search |
 
 ### Leaf & hero accents
