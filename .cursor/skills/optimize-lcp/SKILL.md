@@ -33,9 +33,9 @@ Rules: `09-technical-seo-mobile.mdc` · `10-technical-seo-desktop.mdc`
 
 ## Below-fold
 
-- `TW_CV_AUTO` on homepage sections, footer, listing body
+- `TW_CV_AUTO` on homepage sections, footer, listing body (desktop only)
 - Dynamic import carousels with skeleton placeholder
-- Carousel prev/next: sentinel `IntersectionObserver` on track edges — no `scrollWidth` reads (PSI forced reflow)
+- Carousel prev/next: sentinel `IntersectionObserver` on desktop only — mobile touch scroll, no IO
 - Reveal animations: CSS-only on mobile; no `useEffect` DOM writes below 768px
 
 ## Verify

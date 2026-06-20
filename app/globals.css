@@ -120,8 +120,11 @@ body.mobile-menu-open {
 }
 
 @utility cv-auto {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 480px;
+  /* Desktop only — cv-auto on mobile triggers layout when sections enter view (PSI forced reflow). */
+  @media (min-width: 768px) {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 480px;
+  }
 }
 
 @utility link-underline {

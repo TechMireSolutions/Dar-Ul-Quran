@@ -276,7 +276,7 @@ export default function Header({
 
   useEffect(() => {
     let raf = 0
-    let scrolledFlag = window.scrollY > 12
+    let scrolledFlag = false
 
     const update = () => {
       const next = window.scrollY > 12
@@ -285,15 +285,15 @@ export default function Header({
       setScrolled(next)
     }
 
-    const fn = () => {
+    const onScroll = () => {
       cancelAnimationFrame(raf)
       raf = requestAnimationFrame(update)
     }
 
-    window.addEventListener('scroll', fn, { passive: true })
-    fn()
+    // Attach only on scroll — avoids mount-time scrollY read + re-render (PSI forced reflow).
+    window.addEventListener('scroll', onScroll, { passive: true })
     return () => {
-      window.removeEventListener('scroll', fn)
+      window.removeEventListener('scroll', onScroll)
       cancelAnimationFrame(raf)
     }
   }, [])

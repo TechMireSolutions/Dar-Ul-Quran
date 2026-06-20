@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useRef, type ReactNode } from 'react'
+import { isMobileViewport } from '@/lib/viewport'
 
 type Animation = 'up' | 'fade' | 'scale' | 'left' | 'right'
 
@@ -40,10 +41,6 @@ function getSharedObserver(): IntersectionObserver | null {
 
 function prefersReducedMotion(): boolean {
   return typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
-}
-
-function isMobileViewport(): boolean {
-  return typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches
 }
 
 export default function Reveal({

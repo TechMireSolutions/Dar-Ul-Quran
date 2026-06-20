@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react'
 import ContentCard from '@/components/ui/ContentCard'
 import type { CarouselItem } from '@/lib/types/ui'
+import { isMobileViewport } from '@/lib/viewport'
 import { TW_CTA_ARROW, TW_CONTAINER, TW_CV_AUTO, TW_EYEBROW, TW_EYEBROW_LINE, TW_SCROLLBAR_HIDE, TW_SECTION_TITLE, TW_VIEW_ALL_LINK } from '@/lib/tailwind'
 
 type CarouselSectionProps = {
@@ -36,8 +37,10 @@ export default function CarouselSection({
   const [active, setActive] = useState(false)
   const headingId = useId()
 
-  // Activate carousel JS when near viewport — no layout reads (avoids forced reflow).
+  // Mobile: native touch scroll only — no observers (IO still forces layout on narrow viewports).
   useEffect(() => {
+    if (isMobileViewport()) return
+
     const el = trackRef.current
     if (!el) return
 
@@ -51,9 +54,9 @@ export default function CarouselSection({
     return () => io.disconnect()
   }, [items.length])
 
-  // Edge sentinels replace scrollWidth / scrollLeft reads for prev/next button state.
+  // Edge sentinels replace scrollWidth / scrollLeft reads for prev/next button state (desktop only).
   useEffect(() => {
-    if (!active) return
+    if (!active || isMobileViewport()) return
 
     const track = trackRef.current
     const start = startSentinelRef.current
@@ -104,7 +107,7 @@ export default function CarouselSection({
           </div>
 
           <div className="flex items-center gap-3 shrink-0 sm:ms-6">
-            <div className="flex items-center gap-1.5" role="group" aria-label="کاروسل کنٹرول">
+            <div className="hidden md:flex items-center gap-1.5" role="group" aria-label="کاروسل کنٹرول">
               <button
                 onClick={() => scrollBy('left')}
                 disabled={!active || !canLeft}
@@ -150,12 +153,12 @@ export default function CarouselSection({
         {/* Scroll track + edge fades */}
         <div className="relative">
           <div
-            className={`absolute end-0 top-0 bottom-0 w-10 z-10 pointer-events-none
+            className={`absolute end-0 top-0 bottom-0 w-10 z-10 pointer-events-none hidden md:block
               bg-gradient-to-r ${bg === 'gray' ? 'from-slate-50' : 'from-white'} to-transparent
               transition-opacity duration-200 ${active && canLeft ? 'opacity-100' : 'opacity-0'}`}
           />
           <div
-            className={`absolute start-0 top-0 bottom-0 w-10 z-10 pointer-events-none
+            className={`absolute start-0 top-0 bottom-0 w-10 z-10 pointer-events-none hidden md:block
               bg-gradient-to-l ${bg === 'gray' ? 'from-slate-50' : 'from-white'} to-transparent
               transition-opacity duration-200 ${active && canRight ? 'opacity-100' : 'opacity-0'}`}
           />

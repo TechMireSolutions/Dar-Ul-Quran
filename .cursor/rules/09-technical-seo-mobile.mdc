@@ -21,8 +21,8 @@ Touch ≥44px (`TW_TOUCH`) · no horizontal scroll · manifest/viewport/theme_co
 - Homepage hero: `lcpHeroImageProps()` in `sanity/lib/image.ts` — srcset + `LcpImagePreload` with `media="(min-width: 768px)"`
 - Leaf heroes: `leafHeroImageUrl()` · `sizes="100vw"` on fill `Image`
 - Article featured: `articleFeaturedImageUrl()` · `loading="lazy"` (below H1)
-- Below-fold sections: `TW_CV_AUTO` on homepage blocks, footer, listing grids
-- Carousel: sentinel `IntersectionObserver` for prev/next — never read `scrollWidth` / `scrollLeft`
+- Below-fold sections: `TW_CV_AUTO` on homepage blocks, footer, listing grids (desktop only — utility skips mobile to avoid reflow)
+- Carousel: sentinel `IntersectionObserver` for prev/next on desktop only; mobile uses touch scroll, no IO
 - Reveal: no JS on mobile (`globals.css` shows `.rv-*`); avoids forced reflow on homepage
 
 Shared: `08-technical-seo-shared.mdc` · Skill: `optimize-lcp`
