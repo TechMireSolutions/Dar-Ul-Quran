@@ -11,7 +11,7 @@ Primary Google index profile. PSI/Lighthouse **Mobile**.
 | Metric | Target | Tactics |
 |--------|--------|---------|
 | LCP | ≤2.5s | Mobile LCP = hero **H1 text** (no hero image below `md`); desktop-only preload with `media="(min-width: 768px)"`; `hero-item` opacity 1 on mobile |
-| INP | ≤200ms | lazy `HeaderMobileMenu`; Turnstile loads on intersect; passive scroll listeners |
+| INP | ≤200ms | lazy `HeaderMobileMenu`; Turnstile on intersect; passive scroll; carousel edge sentinels (no `scrollWidth` reads) |
 | CLS | ≤0.1 | image dimensions; reserved hero `min-h`; aspect-ratio on cards/articles |
 
 Touch ≥44px (`TW_TOUCH`) · no horizontal scroll · manifest/viewport/theme_color · content parity with desktop.
@@ -22,5 +22,7 @@ Touch ≥44px (`TW_TOUCH`) · no horizontal scroll · manifest/viewport/theme_co
 - Leaf heroes: `leafHeroImageUrl()` · `sizes="100vw"` on fill `Image`
 - Article featured: `articleFeaturedImageUrl()` · `loading="lazy"` (below H1)
 - Below-fold sections: `TW_CV_AUTO` on homepage blocks, footer, listing grids
+- Carousel: sentinel `IntersectionObserver` for prev/next — never read `scrollWidth` / `scrollLeft`
+- Reveal: no JS on mobile (`globals.css` shows `.rv-*`); avoids forced reflow on homepage
 
 Shared: `08-technical-seo-shared.mdc` · Skill: `optimize-lcp`

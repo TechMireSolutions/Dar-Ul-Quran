@@ -1,5 +1,5 @@
 'use client'
-import { useRef, useState, useEffect, useCallback, useId } from 'react'
+import { useRef, useState, useEffect, useId } from 'react'
 import Link from 'next/link'
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react'
 import ContentCard from '@/components/ui/ContentCard'
@@ -29,56 +29,51 @@ export default function CarouselSection({
   bg = 'white',
 }: CarouselSectionProps) {
   const trackRef = useRef<HTMLDivElement>(null)
-  const [canLeft,  setCanLeft]  = useState(false)
-  const [canRight, setCanRight] = useState(false)
-  const [active,   setActive]   = useState(false)
+  const startSentinelRef = useRef<HTMLDivElement>(null)
+  const endSentinelRef = useRef<HTMLDivElement>(null)
+  const [canLeft, setCanLeft] = useState(false)
+  const [canRight, setCanRight] = useState(() => items.length > 1)
+  const [active, setActive] = useState(false)
   const headingId = useId()
-  const measureRaf = useRef(0)
 
-  const measure = useCallback(() => {
-    cancelAnimationFrame(measureRaf.current)
-    measureRaf.current = requestAnimationFrame(() => {
-      const el = trackRef.current
-      if (!el || !el.isConnected) return
-      const left = el.scrollLeft
-      const max = el.scrollWidth - el.clientWidth
-      setCanLeft(left > 4)
-      setCanRight(left < max - 4)
-    })
-  }, [])
-
+  // Activate carousel JS when near viewport — no layout reads (avoids forced reflow).
   useEffect(() => {
     const el = trackRef.current
     if (!el) return
 
     const io = new IntersectionObserver(
       ([entry]) => {
-        if (entry?.isIntersecting) {
-          setActive(true)
-          measure()
-        }
+        if (entry?.isIntersecting) setActive(true)
       },
       { rootMargin: '120px' },
     )
     io.observe(el)
+    return () => io.disconnect()
+  }, [items.length])
 
-    el.addEventListener('scroll', measure, { passive: true })
+  // Edge sentinels replace scrollWidth / scrollLeft reads for prev/next button state.
+  useEffect(() => {
+    if (!active) return
 
-    let resizeRaf = 0
-    const onResize = () => {
-      cancelAnimationFrame(resizeRaf)
-      resizeRaf = requestAnimationFrame(measure)
-    }
-    window.addEventListener('resize', onResize, { passive: true })
+    const track = trackRef.current
+    const start = startSentinelRef.current
+    const end = endSentinelRef.current
+    if (!track || !start || !end) return
 
-    return () => {
-      io.disconnect()
-      el.removeEventListener('scroll', measure)
-      window.removeEventListener('resize', onResize)
-      cancelAnimationFrame(measureRaf.current)
-      cancelAnimationFrame(resizeRaf)
-    }
-  }, [measure, items])
+    const edgeIo = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.target === start) setCanLeft(!entry.isIntersecting)
+          if (entry.target === end) setCanRight(!entry.isIntersecting)
+        }
+      },
+      { root: track, threshold: 0.99 },
+    )
+
+    edgeIo.observe(start)
+    edgeIo.observe(end)
+    return () => edgeIo.disconnect()
+  }, [active, items.length])
 
   function scrollBy(dir: 'left' | 'right') {
     trackRef.current?.scrollBy({
@@ -109,7 +104,6 @@ export default function CarouselSection({
           </div>
 
           <div className="flex items-center gap-3 shrink-0 sm:ms-6">
-            {/* Prev / Next — only wire scroll state once carousel is near viewport */}
             <div className="flex items-center gap-1.5" role="group" aria-label="کاروسل کنٹرول">
               <button
                 onClick={() => scrollBy('left')}
@@ -155,7 +149,6 @@ export default function CarouselSection({
 
         {/* Scroll track + edge fades */}
         <div className="relative">
-          {/* Left fade */}
           <div
             className={`absolute end-0 top-0 bottom-0 w-10 z-10 pointer-events-none
               bg-gradient-to-r ${bg === 'gray' ? 'from-slate-50' : 'from-white'} to-transparent
@@ -171,8 +164,13 @@ export default function CarouselSection({
             ref={trackRef}
             role="region"
             aria-label={`${title} — سلائیڈر`}
-            className={`flex gap-6 overflow-x-auto ${TW_SCROLLBAR_HIDE} pb-2 snap-x snap-mandatory overscroll-x-contain`}
+            className={`flex gap-6 overflow-x-auto ${TW_SCROLLBAR_HIDE} pb-2 snap-x snap-mandatory overscroll-x-contain touch-pan-x`}
           >
+            <div
+              ref={startSentinelRef}
+              className="shrink-0 w-px self-stretch pointer-events-none"
+              aria-hidden="true"
+            />
             {items.map((item) => (
               <div
                 key={item.id}
@@ -189,6 +187,11 @@ export default function CarouselSection({
                 />
               </div>
             ))}
+            <div
+              ref={endSentinelRef}
+              className="shrink-0 w-px self-stretch pointer-events-none"
+              aria-hidden="true"
+            />
           </div>
         </div>
 

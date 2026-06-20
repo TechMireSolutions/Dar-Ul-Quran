@@ -11,7 +11,7 @@ Same URL as mobile. PSI/Lighthouse **Desktop**.
 | Metric | Target | Tactics |
 |--------|--------|---------|
 | LCP | ≤2.5s | `LcpImagePreload` + hero `srcSet`/`sizes="58vw"`; `lcpHeroImageProps()` up to 1200w; `fetchPriority="high"` |
-| INP | ≤200ms | rAF scroll; light flyout handlers |
+| INP | ≤200ms | rAF scroll with deduped state; carousel sentinels; light flyout handlers |
 | CLS | ≤0.1 | stable sticky header; explicit image width/height |
 
 Nav links in HTML (`lg:flex`); keyboard dropdowns; breadcrumbs on detail pages; 1440px Urdu overflow check.

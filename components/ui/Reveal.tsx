@@ -58,12 +58,11 @@ export default function Reveal({
   useEffect(() => {
     const el = ref.current
     if (!el) return
-    if (delay) el.style.transitionDelay = `${delay}ms`
 
-    if (prefersReducedMotion() || isMobileViewport()) {
-      el.classList.add('rv-visible')
-      return
-    }
+    // Mobile: globals.css @media (max-width:767px) already shows content — skip JS DOM writes.
+    if (prefersReducedMotion() || isMobileViewport()) return
+
+    if (delay) el.style.transitionDelay = `${delay}ms`
 
     const observer = getSharedObserver()
     if (!observer) {

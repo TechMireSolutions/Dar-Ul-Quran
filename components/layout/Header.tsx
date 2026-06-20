@@ -276,10 +276,20 @@ export default function Header({
 
   useEffect(() => {
     let raf = 0
+    let scrolledFlag = window.scrollY > 12
+
+    const update = () => {
+      const next = window.scrollY > 12
+      if (next === scrolledFlag) return
+      scrolledFlag = next
+      setScrolled(next)
+    }
+
     const fn = () => {
       cancelAnimationFrame(raf)
-      raf = requestAnimationFrame(() => setScrolled(window.scrollY > 12))
+      raf = requestAnimationFrame(update)
     }
+
     window.addEventListener('scroll', fn, { passive: true })
     fn()
     return () => {
