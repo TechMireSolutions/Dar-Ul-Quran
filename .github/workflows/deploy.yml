@@ -21,8 +21,9 @@ env:
   DEPLOY_USER: ${{ vars.DEPLOY_USER || 'root' }}
   DEPLOY_PORT: ${{ vars.DEPLOY_PORT || '22' }}
   APP_ROOT: /var/www/darulquran_next
-  # Hetzner VPS host key — rotate if the server is rebuilt.
-  SSH_FINGERPRINT: SHA256:LjGEfBMbm1OwFvGSFOF9cVkYt4anPC2ExNko47VxkdA
+  # Ubuntu 24.04 / appleboy (Go ssh) often negotiates ECDSA — not ED25519.
+  # Regenerate: ssh-keyscan -t ecdsa HOST | ssh-keygen -lf - -E sha256
+  SSH_FINGERPRINT: SHA256:Aih8r+ZL1sWmCdHYcMpftRwca4HMb03oANjvAgWpUN4
 
 jobs:
   deploy:
