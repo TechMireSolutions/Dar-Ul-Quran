@@ -1,4 +1,5 @@
 import { defineField, defineType } from 'sanity'
+import { LtrStringInput } from '../components/LtrStringInput'
 
 export const siteSettings = defineType({
   name: 'siteSettings',
@@ -16,11 +17,20 @@ export const siteSettings = defineType({
     defineField({ name: 'tagline', type: 'string' }),
     defineField({ name: 'description', type: 'text', rows: 3, title: 'Site Meta Description' }),
     defineField({ name: 'email', type: 'string' }),
-    defineField({ name: 'phone', type: 'string' }),
+    defineField({
+      name: 'phone',
+      type: 'string',
+      components: { input: LtrStringInput },
+    }),
     defineField({ name: 'address', type: 'text', rows: 3 }),
     defineField({ name: 'facebook', type: 'url' }),
     defineField({ name: 'youtube', type: 'url' }),
-    defineField({ name: 'whatsapp', type: 'string', title: 'WhatsApp Number' }),
+    defineField({
+      name: 'whatsapp',
+      type: 'string',
+      title: 'WhatsApp Number',
+      components: { input: LtrStringInput },
+    }),
     defineField({ name: 'darulQuranUrl', type: 'url', title: 'Dar Ul Quran Website URL' }),
     defineField({ name: 'donateUrl', type: 'url', title: 'Donate / Payment Link' }),
 

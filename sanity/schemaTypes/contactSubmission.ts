@@ -1,4 +1,5 @@
 import { defineField, defineType } from 'sanity'
+import { LtrStringInput } from '../components/LtrStringInput'
 
 export const contactSubmission = defineType({
   name: 'contactSubmission',
@@ -8,7 +9,12 @@ export const contactSubmission = defineType({
     defineField({ name: 'firstName', title: 'First Name', type: 'string' }),
     defineField({ name: 'lastName',  title: 'Last Name',  type: 'string' }),
     defineField({ name: 'email',     title: 'Email',      type: 'string' }),
-    defineField({ name: 'phone',     title: 'Phone',      type: 'string' }),
+    defineField({
+      name: 'phone',
+      title: 'Phone',
+      type: 'string',
+      components: { input: LtrStringInput },
+    }),
     defineField({ name: 'country',   title: 'Country',    type: 'string' }),
     defineField({ name: 'city',      title: 'City',       type: 'string' }),
     defineField({
