@@ -10,6 +10,7 @@ import {
 } from '@/sanity/lib/fetchers'
 import { pageMetadata, resolveSiteNameUrdu, DEFAULT_SITE_NAME_URDU, DEFAULT_HOME_DESCRIPTION } from '@/lib/seo'
 import { coursesToCarouselItems, servicesToCarouselItems } from '@/lib/homepage'
+import { PATHS } from '@/lib/paths'
 import WebPageSchema from '@/components/seo/WebPageSchema'
 import LcpImagePreload from '@/components/seo/LcpImagePreload'
 import HeroSection from '@/components/sections/HeroSection'
@@ -53,7 +54,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return pageMetadata({
     title,
     description,
-    path: '/',
+    path: PATHS.home,
     image: ogImage,
     imageAlt: title,
     settings,
@@ -96,7 +97,7 @@ export default async function HomePage() {
       {heroImage && (
         <LcpImagePreload href={heroImage.preloadHref} media="(min-width: 768px)" />
       )}
-      <WebPageSchema title={homeTitle} description={homeDescription} path="/" />
+      <WebPageSchema title={homeTitle} description={homeDescription} path={PATHS.home} />
 
       <HeroSection
         subtitle={homepageSettings?.heroArabicText || undefined}
@@ -134,7 +135,7 @@ export default async function HomePage() {
           title={homepageSettings?.coursesHeading || 'آنلائن کورسز'}
           subtitle={homepageSettings?.coursesSubheading || 'اہل علماء سے سیکھیں — قرآن، فقہ، اخلاق اور مزید'}
           items={courseItems}
-          viewAllHref="/online-courses"
+          viewAllHref={PATHS.onlineCourses}
           viewAllLabel="تمام کورسز"
           bg="white"
         />
@@ -146,7 +147,7 @@ export default async function HomePage() {
           title={homepageSettings?.servicesHeading || 'ہماری خدمات'}
           subtitle={homepageSettings?.servicesSubheading || 'اخلاص اور توجہ کے ساتھ ادا کی گئی مذہبی خدمات'}
           items={serviceItems}
-          viewAllHref="/services"
+          viewAllHref={PATHS.services}
           viewAllLabel="تمام خدمات"
           bg="gray"
         />

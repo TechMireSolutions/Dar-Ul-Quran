@@ -43,7 +43,7 @@ export async function POST(req: Request) {
   revalidateTag(CMS_TAG, 'max')
   revalidateTag(cmsTypeTag(type), 'max')
 
-  const paths = new Set<string>(['/', ...(TYPE_PATHS[type] ?? [])])
+  const paths = new Set<string>([PATHS.home, ...(TYPE_PATHS[type] ?? [])])
   if (body.slug?.current) {
     const slug = body.slug.current
     if (type === 'post') {

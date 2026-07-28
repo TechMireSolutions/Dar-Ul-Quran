@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { getLlmFeedData } from '@/sanity/lib/fetchers'
-import { coursePath, servicePath } from '@/lib/paths'
+import { coursePath, servicePath, PATHS } from '@/lib/paths'
 import { SITE_URL, DEFAULT_SITE_NAME } from '@/lib/seo'
 
 export const revalidate = 3600
@@ -88,7 +88,7 @@ export async function GET() {
     for (const a of data.articles) {
       const cats = a.categories?.map((c) => c.title).join(', ') ?? ''
       md.push(
-        `- [${a.title}](${SITE_URL}/articles/${a.slug})${cats ? ` [${cats}]` : ''}${a.excerpt ? ` — ${a.excerpt}` : ''}`
+        `- [${a.title}](${SITE_URL}${PATHS.articles}/${a.slug})${cats ? ` [${cats}]` : ''}${a.excerpt ? ` — ${a.excerpt}` : ''}`
       )
     }
     md.push(``)
@@ -105,12 +105,12 @@ export async function GET() {
 
   md.push(`## Key Pages`)
   md.push(``)
-  md.push(`- [All Courses](${SITE_URL}/online-courses) — Full Shia Quran curriculum catalog`)
-  md.push(`- [Services](${SITE_URL}/services) — Religious services including ziyarat, zakat, khums, and more`)
-  md.push(`- [Articles](${SITE_URL}/articles) — Shia Islamic educational resources`)
-  md.push(`- [About](${SITE_URL}/about) — Mission and organizational background`)
-  md.push(`- [Contact & Enrollment](${SITE_URL}/contact) — Book a free trial class`)
-  md.push(`- [Donate](${SITE_URL}/donate) — Support Islamic education for Shia families`)
+  md.push(`- [All Courses](${SITE_URL}${PATHS.onlineCourses}) — Full Shia Quran curriculum catalog`)
+  md.push(`- [Services](${SITE_URL}${PATHS.services}) — Religious services including ziyarat, zakat, khums, and more`)
+  md.push(`- [Articles](${SITE_URL}${PATHS.articles}) — Shia Islamic educational resources`)
+  md.push(`- [About](${SITE_URL}${PATHS.about}) — Mission and organizational background`)
+  md.push(`- [Contact & Enrollment](${SITE_URL}${PATHS.contact}) — Book a free trial class`)
+  md.push(`- [Donate](${SITE_URL}${PATHS.donate}) — Support Islamic education for Shia families`)
   md.push(``)
   md.push(`## Machine-Readable Data`)
   md.push(``)

@@ -7,7 +7,7 @@ export type {
   SitemapServiceEntry,
   SitemapArticleEntry,
 } from './feed'
-export type { CourseSchemaData, ServiceSchemaData, FaqSchemaItem, TopicClusterDoc } from './schema'
+export type { CourseSchemaData, ServiceSchemaData, FaqSchemaItem, TopicClusterDoc, TopicClusterPillarPage, TopicClusterRelatedArticle } from './schema'
 export type {
   SiteSettingsDoc,
   PageDoc,

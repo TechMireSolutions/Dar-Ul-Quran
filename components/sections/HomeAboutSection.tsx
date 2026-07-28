@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import Reveal from '@/components/ui/Reveal'
 import type { HomepageSettingsDoc } from '@/lib/types'
+import { PATHS } from '@/lib/paths'
 import {
   TW_BODY_MUTED,
   TW_CONTAINER,
@@ -58,7 +59,7 @@ export default function HomeAboutSection({ settings }: HomeAboutSectionProps) {
                   </span>
                 ))}
               </div>
-              <Link href="/about" className={TW_GOLD_CTA_DARK}>
+              <Link href={PATHS.about} className={TW_GOLD_CTA_DARK}>
                 {settings?.aboutCtaLabel || 'ہمارے بارے میں جانیں'}
                 <ArrowRight size={13} strokeWidth={2.5} className={TW_CTA_ARROW} />
               </Link>

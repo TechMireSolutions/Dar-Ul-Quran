@@ -1,10 +1,11 @@
 import JsonLdScripts from '@/components/seo/JsonLdScripts'
 import { SITE_URL, DEFAULT_SITE_NAME } from '@/lib/seo'
+import { PATHS } from '@/lib/paths'
 import { buildBreadcrumbSchema, buildFaqPageSchema } from '@/lib/schemaHelpers'
 import type { ServiceSchemaData } from '@/lib/types'
 
 function buildSchemas(data: ServiceSchemaData): object[] {
-  const serviceUrl = `${SITE_URL}/services/${data.slugPath}`
+  const serviceUrl = `${SITE_URL}${PATHS.services}/${data.slugPath}`
   const description =
     data.seoDescription ??
     data.excerpt ??

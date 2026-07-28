@@ -3,8 +3,6 @@ import { pageMetadata } from '@/lib/seo'
 import { getPageBySlug, getSiteSettings } from '@/sanity/lib/fetchers'
 import type { SiteSettingsDoc, PageDoc, CmsPageDoc, SlugListItem } from '@/lib/types'
 
-export type { CmsPageDoc, SlugListItem }
-
 export function resolveSeoTitle(doc: CmsPageDoc | null | undefined, fallback: string): string {
   return doc?.seoTitle || doc?.title || fallback
 }

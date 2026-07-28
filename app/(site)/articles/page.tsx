@@ -12,7 +12,8 @@ import {
 import ContentCard from '@/components/ui/ContentCard'
 import ListingIndexShell, { ListingCardGrid, ListingEmptyState } from '@/components/layout/ListingIndexShell'
 import Reveal from '@/components/ui/Reveal'
-import { TW_BTN_PRIMARY, TW_PAGE_SUBTITLE, TW_SEARCH_INPUT } from '@/lib/tailwind'
+import ArticlesSearchForm from './_components/ArticlesSearchForm'
+import { TW_PAGE_SUBTITLE } from '@/lib/tailwind'
 import { PATHS } from '@/lib/paths'
 
 export const revalidate = 300
@@ -71,31 +72,7 @@ export default async function ArticlesPage({
       eyebrow={page?.eyebrow || 'علم'}
       pageTitle={page?.title || 'مضامین'}
       pageSubtitle={page?.subtitle || 'اسلامی علم، خبریں اور مطالعات'}
-      heroChildren={
-        <form action={PAGE_PATH} method="get" role="search" className="max-w-md mt-5">
-          <label htmlFor="article-search" className="sr-only">
-            مضامین تلاش کریں
-          </label>
-          <div className="flex gap-2">
-            <input
-              id="article-search"
-              name="q"
-              type="search"
-              defaultValue={q ?? ''}
-              placeholder="مضمون تلاش کریں…"
-              enterKeyHint="search"
-              autoComplete="off"
-              className={TW_SEARCH_INPUT}
-            />
-            <button
-              type="submit"
-              className={`${TW_BTN_PRIMARY} min-w-11`}
-            >
-              تلاش
-            </button>
-          </div>
-        </form>
-      }
+      heroChildren={<ArticlesSearchForm defaultQuery={q ?? ''} />}
     >
       {query && (
         <p className={`${TW_PAGE_SUBTITLE} mb-6`} role="status" aria-live="polite">
@@ -113,7 +90,7 @@ export default async function ArticlesPage({
           {filtered.map((post, i) => (
             <Reveal key={post._id} animation="up" delay={i * 70}>
               <ContentCard
-                href={`/articles/${post.slug?.current ?? ''}`}
+                href={`${PAGE_PATH}/${post.slug?.current ?? ''}`}
                 image={post.mainImage ? cardImageUrl(post.mainImage) : null}
                 title={post.title ?? ''}
                 description={post.excerpt || null}

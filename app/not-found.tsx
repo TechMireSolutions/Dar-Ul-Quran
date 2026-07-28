@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { pageMetadata, DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
+import { PATHS } from '@/lib/paths'
 import { TW_BODY_MUTED, TW_BTN_PRIMARY, TW_EYEBROW, TW_PAGE_TITLE } from '@/lib/tailwind'
 
 export const metadata: Metadata = pageMetadata({
@@ -20,7 +21,7 @@ export default function NotFound() {
         جس صفحے کی آپ تلاش کر رہے ہیں وہ موجود نہیں ہے یا منتقل ہو چکا ہے۔
       </p>
       <Link
-        href="/"
+        href={PATHS.home}
         className={TW_BTN_PRIMARY}
       >
         صفحۂ اول پر واپس جائیں

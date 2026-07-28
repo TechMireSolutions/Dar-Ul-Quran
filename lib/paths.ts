@@ -1,4 +1,4 @@
-import type { ParentSlugNode } from '@/lib/types'
+import type { ParentSlugNode, TopicClusterPillarPage } from '@/lib/types'
 
 /** Canonical public paths — prefer these over string literals. */
 export const PATHS = {
@@ -160,15 +160,8 @@ export function buildBreadcrumbNavItems(
   ]
 }
 
-type PillarPage = {
-  _type?: string
-  slug?: string
-  parentSlug?: string | null
-  grandparentSlug?: string | null
-}
-
 /** Resolve a topic-cluster pillar reference to a site path. */
-export function pillarPagePath(pillar?: PillarPage | null): string | null {
+export function pillarPagePath(pillar?: TopicClusterPillarPage | null): string | null {
   if (!pillar?.slug) return null
   if (pillar._type === 'page') return `/${pillar.slug}`
   if (pillar._type === 'course') {

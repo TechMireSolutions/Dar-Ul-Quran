@@ -1,5 +1,6 @@
 import JsonLdScripts from '@/components/seo/JsonLdScripts'
 import { SITE_URL, DEFAULT_SITE_NAME } from '@/lib/seo'
+import { PATHS } from '@/lib/paths'
 import { buildBreadcrumbSchema, buildFaqPageSchema } from '@/lib/schemaHelpers'
 import type { CourseSchemaData } from '@/lib/types'
 
@@ -11,7 +12,7 @@ function resolveSlugPath(data: CourseSchemaData): string {
 
 function buildSchemas(data: CourseSchemaData): object[] {
   const slugPath = resolveSlugPath(data)
-  const courseUrl = `${SITE_URL}/online-courses/${slugPath}`
+  const courseUrl = `${SITE_URL}${PATHS.onlineCourses}/${slugPath}`
   const description =
     data.seoDescription ??
     data.excerpt ??

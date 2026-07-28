@@ -3,6 +3,7 @@
 import { useEffect } from 'react'
 import Link from 'next/link'
 import { TW_BODY_MUTED, TW_BTN_PRIMARY, TW_BTN_SECONDARY, TW_EYEBROW, TW_PAGE_TITLE } from '@/lib/tailwind'
+import { PATHS } from '@/lib/paths'
 
 export default function Error({
   error,
@@ -31,7 +32,7 @@ export default function Error({
           دوبارہ کوشش کریں
         </button>
         <Link
-          href="/"
+          href={PATHS.home}
           className={TW_BTN_SECONDARY}
         >
           صفحۂ اول

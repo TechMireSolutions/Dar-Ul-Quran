@@ -8,6 +8,7 @@ import LeafTopicClusterBlock from '@/components/content/LeafTopicClusterBlock'
 import PortableTextSection from '@/components/content/PortableTextSection'
 import CenteredSectionHeader from '@/components/ui/CenteredSectionHeader'
 import type { ServiceDetailDoc, TopicClusterDoc } from '@/lib/types'
+import { PATHS } from '@/lib/paths'
 import { TW_CONTAINER_NARROW, TW_CONTAINER_WIDE, TW_HERO_CHIP_GOLD, TW_SECTION_PY, TW_SECTION_TITLE } from '@/lib/tailwind'
 
 type ServiceLeafPageProps = {
@@ -124,7 +125,7 @@ export default function ServiceLeafPage({
           <LeafCtaBanner
             heading={service.ctaHeading}
             subtitle={service.ctaSubtitle}
-            primaryHref="/contact"
+            primaryHref={PATHS.contact}
             primaryLabel={service.ctaBtn1Label || 'شروع کریں'}
             whatsappHref={whatsappLink}
             whatsappLabel={service.ctaBtn2Label || 'واٹس ایپ کریں'}

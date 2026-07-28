@@ -3,6 +3,7 @@ import ContentCard from '@/components/ui/ContentCard'
 import Reveal from '@/components/ui/Reveal'
 import SectionHeaderRow from '@/components/ui/SectionHeaderRow'
 import type { HomepageSettingsDoc, PostListItemDoc } from '@/lib/types'
+import { PATHS } from '@/lib/paths'
 import { TW_CARD_GRID, TW_CONTAINER, TW_CV_AUTO } from '@/lib/tailwind'
 
 type HomeArticlesSectionProps = {
@@ -22,14 +23,14 @@ export default function HomeArticlesSection({ posts, settings }: HomeArticlesSec
             title={settings?.articlesHeading || 'تازہ ترین مضامین'}
             subtitle={settings?.articlesSubheading}
             compact
-            viewAllHref="/articles"
+            viewAllHref={PATHS.articles}
           />
         </Reveal>
         <div className={TW_CARD_GRID}>
           {posts.slice(0, 3).map((post, i) => (
             <Reveal key={post._id} animation="up" delay={i * 80}>
               <ContentCard
-                href={`/articles/${post.slug?.current ?? ''}`}
+                href={`${PATHS.articles}/${post.slug?.current ?? ''}`}
                 image={post.mainImage ? urlFor(post.mainImage).width(600).height(450).url() : null}
                 title={post.title ?? ''}
                 description={post.excerpt || null}

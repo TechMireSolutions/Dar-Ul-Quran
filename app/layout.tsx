@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { getSiteSettings } from '@/sanity/lib/fetchers'
 import { urlFor } from '@/sanity/lib/image'
 import { SITE_URL, DEFAULT_SITE_NAME_URDU, DEFAULT_SITE_DESCRIPTION, defaultOgImage, resolveSiteNameUrdu } from '@/lib/seo'
+import { PATHS } from '@/lib/paths'
 import './globals.css'
 
 export const viewport: Viewport = {
@@ -112,7 +113,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           '@type': 'SearchAction',
           target: {
             '@type': 'EntryPoint',
-            urlTemplate: `${SITE_URL}/articles?q={search_term_string}`,
+            urlTemplate: `${SITE_URL}${PATHS.articles}?q={search_term_string}`,
           },
           'query-input': 'required name=search_term_string',
         },

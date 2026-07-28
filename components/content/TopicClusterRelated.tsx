@@ -1,28 +1,14 @@
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
-import { pillarPagePath } from '@/lib/paths'
+import { PATHS, pillarPagePath } from '@/lib/paths'
 import { TW_CTA_ARROW, TW_EYEBROW, TW_EYEBROW_LINE, TW_FEATURE_CARD_DESC } from '@/lib/tailwind'
-
-type RelatedArticle = {
-  _id: string
-  title: string
-  slug: string
-  excerpt?: string
-}
-
-type PillarPage = {
-  title?: string
-  _type?: string
-  slug?: string
-  parentSlug?: string | null
-  grandparentSlug?: string | null
-}
+import type { TopicClusterPillarPage, TopicClusterRelatedArticle } from '@/lib/types'
 
 type TopicClusterRelatedProps = {
   clusterName?: string
   pillarKeyword?: string
-  pillarPage?: PillarPage | null
-  relatedArticles?: RelatedArticle[]
+  pillarPage?: TopicClusterPillarPage | null
+  relatedArticles?: TopicClusterRelatedArticle[]
   currentSlug?: string
 }
 
@@ -64,7 +50,7 @@ export default function TopicClusterRelated({
           {articles.map((article) => (
             <li key={article._id}>
               <Link
-                href={`/articles/${article.slug}`}
+                href={`${PATHS.articles}/${article.slug}`}
                 className="block min-h-11 rounded-xl border border-gray-100 bg-slate-50/60 px-4 py-3 hover:border-dq-100 hover:bg-dq-50/40 focus-visible:border-dq-100 focus-visible:bg-dq-50/40 transition-colors"
               >
                 <span className="font-medium text-[14px] text-slate-900">{article.title}</span>
