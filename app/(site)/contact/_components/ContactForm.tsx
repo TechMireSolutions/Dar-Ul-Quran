@@ -213,11 +213,11 @@ export default function ContactForm({
       <div className={TW_GRID_2}>
         <div>
           <FieldLabel required htmlFor="cf-email">ای میل</FieldLabel>
-          <input id="cf-email" type="email" name="email" required autoComplete="email" placeholder="آپ کی ای میل" className={TW_FORM_INPUT} />
+          <input id="cf-email" type="email" name="email" required autoComplete="email" placeholder="آپ کی ای میل" dir="ltr" className={TW_FORM_INPUT} />
         </div>
         <div>
           <FieldLabel required htmlFor="cf-phone">فون نمبر</FieldLabel>
-          <input id="cf-phone" type="tel" name="phone" required autoComplete="tel" placeholder="+92 300 0000000" className={TW_FORM_INPUT} />
+          <input id="cf-phone" type="tel" name="phone" required autoComplete="tel" inputMode="tel" placeholder="+92 300 0000000" dir="ltr" className={TW_FORM_INPUT} />
         </div>
       </div>
 

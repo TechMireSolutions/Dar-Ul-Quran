@@ -4,7 +4,7 @@ import WhatsAppButton from '@/components/ui/WhatsAppButtonLazy'
 import DeferredUrduFont from '@/components/ui/DeferredUrduFont'
 import { getSiteSettings, getHeaderNav, getFooterServices } from '@/sanity/lib/fetchers'
 import { urlFor } from '@/sanity/lib/image'
-import { buildNavTree } from '@/lib/navigation'
+import { buildNavTree, ensurePrimaryNav } from '@/lib/navigation'
 
 export const revalidate = 300
 
@@ -21,7 +21,7 @@ export default async function SiteLayout({ children }: SiteLayoutProps) {
     ? urlFor(settings.logo).width(72).height(72).url()
     : null
 
-  const navTree = buildNavTree(headerNav?.items)
+  const navTree = ensurePrimaryNav(buildNavTree(headerNav?.items))
 
   return (
     <>

@@ -286,6 +286,16 @@ export const llmFeedQuery = `{
       }
     }
   },
+  "services": *[_type == "service" && !defined(parent)] | order(order asc) {
+    title,
+    "slug": slug.current,
+    seoDescription,
+    "children": *[_type == "service" && parent._ref == ^._id] | order(order asc) {
+      title,
+      "slug": slug.current,
+      seoDescription
+    }
+  },
   "articles": *[_type == "post"] | order(publishedAt desc) [0..14] {
     title,
     "slug": slug.current,

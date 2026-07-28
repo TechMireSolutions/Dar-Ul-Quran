@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { getLlmFeedData } from '@/sanity/lib/fetchers'
-import { coursePath } from '@/lib/paths'
+import { coursePath, servicePath } from '@/lib/paths'
 import { SITE_URL, DEFAULT_SITE_NAME } from '@/lib/seo'
 
 export const revalidate = 3600
@@ -66,6 +66,22 @@ export async function GET() {
     }
   }
 
+  if (data?.services?.length) {
+    md.push(`## Religious Services`)
+    md.push(``)
+    for (const service of data.services) {
+      md.push(`### ${service.title}`)
+      md.push(`- URL: ${SITE_URL}${servicePath(service.slug)}`)
+      if (service.seoDescription) md.push(`- Overview: ${service.seoDescription}`)
+      if (service.children?.length) {
+        for (const child of service.children) {
+          md.push(`  - [${child.title}](${SITE_URL}${servicePath(child.slug, service.slug)})${child.seoDescription ? `: ${child.seoDescription}` : ''}`)
+        }
+      }
+      md.push(``)
+    }
+  }
+
   if (data?.articles?.length) {
     md.push(`## Educational Articles & Resources`)
     md.push(``)
@@ -90,7 +106,7 @@ export async function GET() {
   md.push(`## Key Pages`)
   md.push(``)
   md.push(`- [All Courses](${SITE_URL}/online-courses) — Full Shia Quran curriculum catalog`)
-  md.push(`- [Services](${SITE_URL}/services) — Additional Islamic education programs`)
+  md.push(`- [Services](${SITE_URL}/services) — Religious services including ziyarat, zakat, khums, and more`)
   md.push(`- [Articles](${SITE_URL}/articles) — Shia Islamic educational resources`)
   md.push(`- [About](${SITE_URL}/about) — Mission and organizational background`)
   md.push(`- [Contact & Enrollment](${SITE_URL}/contact) — Book a free trial class`)

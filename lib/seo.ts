@@ -57,6 +57,28 @@ const DEFAULT_ROBOTS: Metadata['robots'] = {
   },
 }
 
+/**
+ * Build a single document title that will not be doubled by the root
+ * `title.template`. Home uses the site name alone; other pages get
+ * `Title | SiteName` unless the brand suffix is already present.
+ */
+export function resolveDocumentTitle(title: string, siteName: string): string {
+  const trimmed = title.trim()
+  const brand = siteName.trim()
+  if (!trimmed) return brand
+  if (trimmed === brand) return brand
+
+  const suffix = ` | ${brand}`
+  if (trimmed.endsWith(suffix)) return trimmed
+
+  // Legacy callers sometimes hard-coded `| دار القرآن` while CMS siteName differs.
+  if (/\s\|\sدار\s*القرآن\s*$/u.test(trimmed) || /\s\|\sدار\s*القرآٓن\s*$/u.test(trimmed)) {
+    return trimmed
+  }
+
+  return `${trimmed}${suffix}`
+}
+
 /** Per-page metadata with canonical URL, Open Graph, and Twitter cards. */
 export function pageMetadata({
   title,
@@ -76,9 +98,10 @@ export function pageMetadata({
   const url = path === '/' ? SITE_URL : `${SITE_URL}${path}`
   const ogImage = resolveOgImage(image, settings)
   const resolvedSiteName = siteName ?? settings?.siteName ?? DEFAULT_SITE_NAME
+  const documentTitle = resolveDocumentTitle(title, resolvedSiteName)
 
   return {
-    title,
+    title: { absolute: documentTitle },
     ...(description ? { description } : {}),
     ...(keywords?.length ? { keywords } : {}),
     ...(authors?.length ? { authors: authors.map((name) => ({ name })) } : {}),
@@ -88,19 +111,23 @@ export function pageMetadata({
       type,
       locale: 'ur_PK',
       url,
-      title,
+      title: documentTitle,
       siteName: resolvedSiteName,
       ...(description ? { description } : {}),
       ...(type === 'article' && publishedTime ? { publishedTime } : {}),
       ...(type === 'article' && modifiedTime ? { modifiedTime } : {}),
       ...(type === 'article' && authors?.length ? { authors } : {}),
       ...(ogImage
-        ? { images: [{ url: ogImage, width: 1200, height: 630, alt: imageAlt ?? title }] }
+        ? {
+            images: [
+              { url: ogImage, width: 1200, height: 630, alt: imageAlt ?? documentTitle },
+            ],
+          }
         : {}),
     },
     twitter: {
       card: ogImage ? 'summary_large_image' : 'summary',
-      title,
+      title: documentTitle,
       ...(description ? { description } : {}),
       ...(ogImage ? { images: [ogImage] } : {}),
     },

@@ -6,7 +6,7 @@ import { useState, useEffect, useRef } from 'react'
 import { Search, Menu, ChevronDown, ChevronLeft } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import type { NavNode } from '@/lib/types'
-import { nodeIsActive } from '@/lib/navigation'
+import { ensurePrimaryNav, nodeIsActive } from '@/lib/navigation'
 import { TW_CONTAINER_HEADER, TW_HEADER_SEARCH_INPUT, TW_HEADER_SEARCH_SUBMIT, TW_NAV_DROPDOWN, TW_NAV_MENU_ITEM, TW_SEARCH_FORM } from '@/lib/tailwind'
 
 const HeaderMobileMenu = dynamic(() => import('./HeaderMobileMenu'), { ssr: false })
@@ -18,14 +18,6 @@ type HeaderProps = {
   navItems?:          NavNode[]
   searchPlaceholder?: string
 }
-
-const FALLBACK_NAV: NavNode[] = [
-  { label: 'آنلائن کلاسز', href: '/online-courses' },
-  { label: 'خدمات',        href: '/services' },
-  { label: 'مضامین',       href: '/articles' },
-  { label: 'عطیہ',         href: '/donate' },
-  { label: 'ہمارے بارے',   href: '/about' },
-]
 
 type DesktopPanelProps = {
   nodes: NavNode[]
@@ -303,9 +295,13 @@ export default function Header({
     wasMenuOpen.current = menuOpen
   }, [menuOpen])
 
-  const navLinks: NavNode[] = navItems?.length
-    ? navItems
-    : [...FALLBACK_NAV, { label: 'دار القرآن', href: darulQuranUrl || '#', external: true }]
+  const navLinks: NavNode[] = ensurePrimaryNav(navItems)
+  if (
+    darulQuranUrl &&
+    !navLinks.some((node) => node.href === darulQuranUrl || node.external)
+  ) {
+    navLinks.push({ label: 'دار القرآن', href: darulQuranUrl, external: true })
+  }
 
   function closeMobileMenu() {
     setMenuOpen(false)

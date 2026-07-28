@@ -53,10 +53,20 @@ function resolveMailTransporter(): Transporter | null {
   })
 }
 
-export async function sendContactNotification(data: ContactBody): Promise<void> {
+/** True when Resend or SMTP + EMAIL_TO are available. */
+export function isContactEmailConfigured(): boolean {
   const to = process.env.EMAIL_TO
-  if (!to) return
+  if (!to) return false
+  if (process.env.RESEND_API_KEY) return true
+  return Boolean(process.env.EMAIL_USER && process.env.EMAIL_PASS)
+}
 
+export async function sendContactNotification(data: ContactBody): Promise<void> {
+  if (!isContactEmailConfigured()) {
+    throw new Error('Contact email is not configured')
+  }
+
+  const to = process.env.EMAIL_TO!
   const fullName = [data.firstName, data.lastName].filter(Boolean).join(' ')
   const purposeText = PURPOSE_LABEL[data.purpose] ?? data.purpose
   const subject = `New ${purposeText}${data.appliedFor ? ` — ${data.appliedFor}` : ''} from ${fullName}`
@@ -73,7 +83,9 @@ export async function sendContactNotification(data: ContactBody): Promise<void> 
   }
 
   const transporter = resolveMailTransporter()
-  if (!transporter) return
+  if (!transporter) {
+    throw new Error('Contact email transporter is unavailable')
+  }
 
   await transporter.sendMail({
     from: `"${DEFAULT_SITE_NAME} Contact" <${process.env.EMAIL_USER}>`,

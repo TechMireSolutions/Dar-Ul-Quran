@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { buildNavTree, nodeIsActive, toNavNode } from '@/lib/navigation'
+import { buildNavTree, ensurePrimaryNav, FALLBACK_HEADER_NAV, nodeIsActive, toNavNode } from '@/lib/navigation'
 import type { NavNode, RawNavItem } from '@/lib/types/navigation'
 
 describe('toNavNode / buildNavTree', () => {
@@ -28,6 +28,32 @@ describe('toNavNode / buildNavTree', () => {
   it('returns undefined for empty input', () => {
     expect(buildNavTree(undefined)).toBeUndefined()
     expect(buildNavTree([])).toBeUndefined()
+  })
+})
+
+describe('ensurePrimaryNav', () => {
+  it('falls back when CMS nav is empty', () => {
+    expect(ensurePrimaryNav(undefined)).toEqual(FALLBACK_HEADER_NAV)
+    expect(ensurePrimaryNav([])).toEqual(FALLBACK_HEADER_NAV)
+  })
+
+  it('injects missing courses and contact links', () => {
+    const nav = ensurePrimaryNav([
+      { label: 'خدمات', href: '/services' },
+      { label: 'مضامین', href: '/articles' },
+    ])
+    expect(nav.some((n) => n.href === '/online-courses')).toBe(true)
+    expect(nav.some((n) => n.href === '/contact')).toBe(true)
+    expect(nav[0].href).toBe('/online-courses')
+  })
+
+  it('does not duplicate existing pillar links', () => {
+    const nav = ensurePrimaryNav([
+      { label: 'آنلائن کلاسز', href: '/online-courses' },
+      { label: 'رابطہ', href: '/contact' },
+    ])
+    expect(nav.filter((n) => n.href === '/online-courses')).toHaveLength(1)
+    expect(nav.filter((n) => n.href === '/contact')).toHaveLength(1)
   })
 })
 

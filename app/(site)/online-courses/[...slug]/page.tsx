@@ -9,10 +9,18 @@ import {
   getAllCoursePaths,
 } from '@/sanity/lib/fetchers'
 import CourseSchema from '@/components/seo/CourseSchema'
+import WebPageSchema from '@/components/seo/WebPageSchema'
 import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
 import NestedChildListing from '@/components/content/NestedChildListing'
 import CourseLeafPage from './_components/CourseLeafPage'
-import { ancestryFromParent, breadcrumbLabelsFromAncestry, buildBreadcrumbNavItems, staticParamsFromPaths } from '@/lib/paths'
+import {
+  ancestryFromParent,
+  assertSlugAncestry,
+  breadcrumbLabelsFromAncestry,
+  buildBreadcrumbNavItems,
+  expectedPathFromAncestry,
+  staticParamsFromPaths,
+} from '@/lib/paths'
 import { resolveWhatsappLink } from '@/lib/contact'
 import { mergeFaqItems } from '@/lib/topicCluster'
 import { pageMetadata } from '@/lib/seo'
@@ -37,9 +45,13 @@ export async function generateMetadata(
   ])
   if (!course) notFound()
 
+  const leafSlug = course.slug?.current ?? currentSlug
+  const ancestry = ancestryFromParent(course)
+  if (!assertSlugAncestry(slug, ancestry, leafSlug)) notFound()
+
   const courseTitle = course.title ?? 'کورس'
-  const canonicalPath = `${SECTION_PATH}/${slug.join('/')}`
-  const title = course.seoTitle || `${courseTitle} | دار القرآن`
+  const canonicalPath = expectedPathFromAncestry(SECTION_PATH, ancestry, leafSlug)
+  const title = course.seoTitle || courseTitle
   const description =
     course.seoDescription ||
     course.excerpt ||
@@ -77,6 +89,10 @@ export default async function CourseCatchAllPage(
   const course = await getCourseBySlug(currentSlug)
   if (!course) notFound()
 
+  const leafSlug = course.slug?.current ?? currentSlug
+  const ancestry = ancestryFromParent(course)
+  if (!assertSlugAncestry(slug, ancestry, leafSlug)) notFound()
+
   const [site, schemaData, cluster] = await Promise.all([
     getSiteSettings(),
     getCourseSchema(currentSlug),
@@ -84,8 +100,7 @@ export default async function CourseCatchAllPage(
   ])
 
   const hasChildren = (course.children?.length ?? 0) > 0
-  const ancestry = ancestryFromParent(course)
-  const currentPath = `${SECTION_PATH}/${slug.join('/')}`
+  const currentPath = expectedPathFromAncestry(SECTION_PATH, ancestry, leafSlug)
   const heroImageUrl = course.featuredImage
     ? leafHeroImageUrl(course.featuredImage)
     : null
@@ -94,14 +109,19 @@ export default async function CourseCatchAllPage(
   const whatsappLink = resolveWhatsappLink(site?.whatsapp)
 
   const courseTitle = course.title ?? 'کورس'
+  const pageDescription =
+    course.seoDescription ||
+    course.excerpt ||
+    `آن لائن ${courseTitle}${course.subject ? ` — ${course.subject}` : ''}۔`
 
   return (
     <div>
+      <WebPageSchema title={courseTitle} description={pageDescription} path={currentPath} />
       {schemaData && (
         <CourseSchema
           data={{
             ...schemaData,
-            slugPath: slug.join('/'),
+            slugPath: currentPath.replace(`${SECTION_PATH}/`, ''),
             breadcrumbLabels: breadcrumbLabelsFromAncestry(ancestry),
             faqItems: mergeFaqItems(schemaData.faqItems, cluster?.faqItems),
           }}

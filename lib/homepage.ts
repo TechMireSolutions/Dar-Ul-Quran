@@ -15,22 +15,28 @@ export function coursesToCarouselItems(courses: CourseListItemDoc[] | null | und
       description: [course.price, course.duration].filter(Boolean).join(' · ') || null,
       href: `/online-courses/${course.slug.current}`,
       badge: course.subject ?? null,
-      ctaLabel: 'ابھی داخلہ لیں',
+      ctaLabel: (course.childCount ?? 0) > 0 ? 'کورسز دیکھیں' : 'ابھی داخلہ لیں',
     }))
 }
 
 export function servicesToCarouselItems(services: ServiceListItemDoc[] | null | undefined): CarouselItem[] {
   return (services ?? [])
     .filter(hasPublishedSlug)
-    .map((service) => ({
-      id: service._id,
-      image: service.icon ? carouselImageUrl(service.icon) : null,
-      title: service.title,
-      description: (service.children?.length ?? 0) > 0
-        ? service.children!.slice(0, 4).map((child) => child.title).filter(Boolean).join(' · ')
-        : service.price || null,
-      href: `/services/${service.slug.current}`,
-      badge: null,
-      ctaLabel: 'ابھی بک کریں',
-    }))
+    .map((service) => {
+      const childCount = service.childCount ?? service.children?.length ?? 0
+      const childTitles = service.children
+        ?.slice(0, 4)
+        .map((child) => child.title)
+        .filter(Boolean)
+        .join(' · ')
+      return {
+        id: service._id,
+        image: service.icon ? carouselImageUrl(service.icon) : null,
+        title: service.title,
+        description: childCount > 0 ? childTitles || null : service.price || null,
+        href: `/services/${service.slug.current}`,
+        badge: null,
+        ctaLabel: childCount > 0 ? 'خدمات دیکھیں' : 'ابھی بک کریں',
+      }
+    })
 }

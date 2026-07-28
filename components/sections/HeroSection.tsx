@@ -1,6 +1,11 @@
 import Link from 'next/link'
-import { ArrowRight, Users, BookOpen, GraduationCap } from 'lucide-react'
-import { TW_CONTAINER_HERO, TW_CTA_ARROW, TW_EYEBROW, TW_EYEBROW_LINE, TW_HERO_GOLD_CTA, TW_HERO_OUTLINE_CTA, TW_HERO_STAT_ICON, TW_TEXT_GRADIENT_GOLD } from '@/lib/tailwind'
+import { ArrowRight, Users, BookOpen, GraduationCap, type LucideIcon } from 'lucide-react'
+import { TW_CONTAINER_HERO, TW_CTA_ARROW, TW_HERO_GOLD_CTA, TW_HERO_OUTLINE_CTA, TW_HERO_STAT_ICON, TW_TEXT_GRADIENT_GOLD } from '@/lib/tailwind'
+
+export type HeroStat = {
+  value: string
+  label: string
+}
 
 type HeroSectionProps = {
   subtitle?:    string
@@ -14,15 +19,13 @@ type HeroSectionProps = {
   cta1Link?:    string
   cta2Label?:   string
   cta2Link?:    string
+  /** CMS-driven stats (homepage aboutStat*). Omit or empty to hide the strip. */
+  stats?: HeroStat[]
 }
 
 const DEFAULT_LINES = ['قرآن، فقہ اور مزید', 'شیعہ علماء سے', 'سیکھیں۔']
 
-const STATS = [
-  { value: '500+', label: 'طلباء',  Icon: Users         },
-  { value: '20+',  label: 'کورسز',  Icon: BookOpen      },
-  { value: '10+',  label: 'علماء',  Icon: GraduationCap },
-]
+const STAT_ICONS: LucideIcon[] = [Users, BookOpen, GraduationCap]
 
 function heroDelay(ms: number): React.CSSProperties {
   return { '--hero-delay': `${ms}ms` } as React.CSSProperties
@@ -40,8 +43,10 @@ export default function HeroSection({
   cta1Link    = '/online-courses',
   cta2Label   = 'ہماری خدمات',
   cta2Link    = '/services',
+  stats,
 }: HeroSectionProps) {
   const titleLines = title ? title.split('\n') : DEFAULT_LINES
+  const visibleStats = (stats ?? []).filter((s) => s.value.trim() && s.label.trim())
 
   return (
     <section
@@ -151,30 +156,35 @@ export default function HeroSection({
             </Link>
           </div>
 
-          {/* Stats */}
-          <div
-            style={heroDelay(560)}
-            className="hero-item flex items-center flex-wrap gap-y-4 mt-10 pt-7 border-t border-dq-400/20"
-          >
-            {STATS.map(({ value, label, Icon }, i) => (
-              <div key={label} className="flex items-center">
-                <div className="flex items-center gap-3">
-                  <div className={TW_HERO_STAT_ICON}>
-                    <Icon size={17} strokeWidth={1.5} className="text-dq-600" />
+          {/* Stats — CMS-driven only */}
+          {visibleStats.length > 0 && (
+            <div
+              style={heroDelay(560)}
+              className="hero-item flex items-center flex-wrap gap-y-4 mt-10 pt-7 border-t border-dq-400/20"
+            >
+              {visibleStats.map(({ value, label }, i) => {
+                const Icon = STAT_ICONS[i % STAT_ICONS.length]
+                return (
+                  <div key={label} className="flex items-center">
+                    <div className="flex items-center gap-3">
+                      <div className={TW_HERO_STAT_ICON}>
+                        <Icon size={17} strokeWidth={1.5} className="text-dq-600" />
+                      </div>
+                      <div>
+                        <p className="font-bold leading-none tracking-normal text-[22px] text-dq-950" dir="ltr">
+                          {value}
+                        </p>
+                        <p className="text-[11px] mt-1 text-gray-400 leading-urdu-tight">{label}</p>
+                      </div>
+                    </div>
+                    {i < visibleStats.length - 1 && (
+                      <div className="h-9 w-px mx-5 shrink-0 hidden sm:block bg-gold-divider" />
+                    )}
                   </div>
-                  <div>
-                    <p className="font-bold leading-none tracking-normal text-[22px] text-dq-950">
-                      {value}
-                    </p>
-                    <p className="text-[11px] mt-1 text-gray-400 leading-urdu-tight">{label}</p>
-                  </div>
-                </div>
-                {i < STATS.length - 1 && (
-                  <div className="h-9 w-px mx-5 shrink-0 hidden sm:block bg-gold-divider" />
-                )}
-              </div>
-            ))}
-          </div>
+                )
+              })}
+            </div>
+          )}
 
         </div>
       </div>

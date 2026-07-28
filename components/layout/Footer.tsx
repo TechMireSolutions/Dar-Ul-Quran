@@ -238,19 +238,19 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
               {settings?.email && (
                 <ContactLink href={`mailto:${settings.email}`}>
                   <IconMail size={12} className="text-dq-400 shrink-0" />
-                  <span className="truncate">{settings.email}</span>
+                  <span className="truncate" dir="ltr"><bdi>{settings.email}</bdi></span>
                 </ContactLink>
               )}
               {settings?.phone && (
                 <ContactLink href={`tel:${settings.phone}`}>
                   <IconPhone size={12} className="text-dq-400 shrink-0" />
-                  {settings.phone}
+                  <span dir="ltr"><bdi>{settings.phone}</bdi></span>
                 </ContactLink>
               )}
               {settings?.whatsapp && (
                 <ContactLink href={whatsappHref(settings.whatsapp)} external>
                   <IconMessageCircle size={12} className="text-dq-400 shrink-0" />
-                  واٹس ایپ: {settings.whatsapp}
+                  <span>واٹس ایپ: <bdi dir="ltr">{settings.whatsapp}</bdi></span>
                 </ContactLink>
               )}
               {settings?.address && (
@@ -263,7 +263,7 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
               )}
               {!settings?.email && !settings?.phone && !settings?.address && (
                 <li className="text-[12px] text-gray-400 italic">
-                  سنیٹی اسٹوڈیو میں رابطہ کی معلومات شامل کریں
+                  رابطہ کی معلومات جلد دستیاب ہوں گی
                 </li>
               )}
             </ul>

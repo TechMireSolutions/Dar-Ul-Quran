@@ -1,10 +1,13 @@
 import { describe, expect, it } from 'vitest'
 import {
   ancestryFromParent,
+  assertSlugAncestry,
   breadcrumbHref,
   breadcrumbLabelsFromAncestry,
   buildBreadcrumbNavItems,
   coursePath,
+  expectedPathFromAncestry,
+  expectedSlugSegmentsFromAncestry,
   pillarPagePath,
   servicePath,
   staticParamsFromPaths,
@@ -81,6 +84,30 @@ describe('ancestry + breadcrumbs', () => {
       { label: 'بچے', href: '/online-courses/quran/kids' },
       { label: 'نظریہ' },
     ])
+  })
+})
+
+describe('assertSlugAncestry / expectedPathFromAncestry', () => {
+  const ancestry = [
+    { title: 'روزانه', slug: 'rozana' },
+    { title: 'نظریہ', slug: 'nazra-rozana' },
+  ]
+
+  it('builds expected slug segments and paths', () => {
+    expect(expectedSlugSegmentsFromAncestry(ancestry, 'leaf')).toEqual([
+      'rozana',
+      'nazra-rozana',
+      'leaf',
+    ])
+    expect(expectedPathFromAncestry('/online-courses', ancestry, 'leaf')).toBe(
+      '/online-courses/rozana/nazra-rozana/leaf',
+    )
+  })
+
+  it('accepts matching URL segments and rejects wrong parents', () => {
+    expect(assertSlugAncestry(['rozana', 'nazra-rozana', 'leaf'], ancestry, 'leaf')).toBe(true)
+    expect(assertSlugAncestry(['wrong', 'leaf'], ancestry, 'leaf')).toBe(false)
+    expect(assertSlugAncestry(['leaf'], [], 'leaf')).toBe(true)
   })
 })
 

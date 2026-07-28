@@ -13,7 +13,7 @@ export function ogImageUrl(source: SanityImageSource): string {
 }
 
 export function cardImageUrl(source: SanityImageSource): string {
-  return urlFor(source).width(600).height(450).url()
+  return urlFor(source).width(600).height(450).auto('format').quality(75).url()
 }
 
 export function carouselImageUrl(source: SanityImageSource): string {

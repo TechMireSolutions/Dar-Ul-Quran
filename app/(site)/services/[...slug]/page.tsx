@@ -3,10 +3,18 @@ import { notFound } from 'next/navigation'
 import { urlFor, ogImageUrl, leafHeroImageUrl } from '@/sanity/lib/image'
 import { getServiceBySlug, getSiteSettings, getTopicClusterForPillar, getAllServicePaths } from '@/sanity/lib/fetchers'
 import ServiceSchema from '@/components/seo/ServiceSchema'
+import WebPageSchema from '@/components/seo/WebPageSchema'
 import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
 import NestedChildListing from '@/components/content/NestedChildListing'
 import ServiceLeafPage from './_components/ServiceLeafPage'
-import { ancestryFromParent, breadcrumbLabelsFromAncestry, buildBreadcrumbNavItems, staticParamsFromPaths } from '@/lib/paths'
+import {
+  ancestryFromParent,
+  assertSlugAncestry,
+  breadcrumbLabelsFromAncestry,
+  buildBreadcrumbNavItems,
+  expectedPathFromAncestry,
+  staticParamsFromPaths,
+} from '@/lib/paths'
 import { resolveWhatsappLink } from '@/lib/contact'
 import { mergeFaqItems } from '@/lib/topicCluster'
 import { pageMetadata } from '@/lib/seo'
@@ -29,12 +37,21 @@ export async function generateMetadata(
     getServiceBySlug(currentSlug),
     getSiteSettings(),
   ])
-  const canonicalPath = `${SECTION_PATH}/${slug.join('/')}`
-  const title = service?.seoTitle || service?.title || 'خدمت'
-  const description = service?.seoDescription || service?.excerpt
-  const image = service?.featuredImage
+  if (!service) notFound()
+
+  const leafSlug = service.slug?.current ?? currentSlug
+  const ancestry = ancestryFromParent(service)
+  if (!assertSlugAncestry(slug, ancestry, leafSlug)) notFound()
+
+  const canonicalPath = expectedPathFromAncestry(SECTION_PATH, ancestry, leafSlug)
+  const title = service.seoTitle || service.title || 'خدمت'
+  const description =
+    service.seoDescription ||
+    service.excerpt ||
+    `${title} — دار القرآن کی مذہبی خدمات۔`
+  const image = service.featuredImage
     ? ogImageUrl(service.featuredImage)
-    : service?.icon
+    : service.icon
       ? ogImageUrl(service.icon)
       : null
 
@@ -57,28 +74,34 @@ export default async function ServiceCatchAllPage(
   const service = await getServiceBySlug(currentSlug)
   if (!service) notFound()
 
+  const leafSlug = service.slug?.current ?? currentSlug
+  const ancestry = ancestryFromParent(service)
+  if (!assertSlugAncestry(slug, ancestry, leafSlug)) notFound()
+
   const [site, cluster] = await Promise.all([
     getSiteSettings(),
     getTopicClusterForPillar(service._id),
   ])
 
   const hasChildren = (service.children?.length ?? 0) > 0
-  const ancestry = ancestryFromParent(service)
-  const currentPath = `${SECTION_PATH}/${slug.join('/')}`
+  const currentPath = expectedPathFromAncestry(SECTION_PATH, ancestry, leafSlug)
   const heroImageUrl = service.heroImage ? leafHeroImageUrl(service.heroImage) : null
-  const whyUsImageUrl = service.whyUsImage ? urlFor(service.whyUsImage).width(700).height(700).url() : null
+  const whyUsImageUrl = service.whyUsImage ? urlFor(service.whyUsImage).width(700).height(700).auto('format').url() : null
   const whatsappLink = resolveWhatsappLink(site?.whatsapp)
 
   const serviceTitle = service.title ?? 'خدمت'
+  const pageDescription =
+    service.seoDescription || service.excerpt || `${serviceTitle} — دار القرآن کی مذہبی خدمات۔`
 
   return (
     <div>
+      <WebPageSchema title={serviceTitle} description={pageDescription} path={currentPath} />
       <ServiceSchema
         data={{
           title: serviceTitle,
           seoDescription: service.seoDescription,
           excerpt: service.excerpt,
-          slugPath: slug.join('/'),
+          slugPath: currentPath.replace(`${SECTION_PATH}/`, ''),
           price: service.price,
           isBookable: service.isBookable,
           faqItems: mergeFaqItems(service.faqItems, cluster?.faqItems),

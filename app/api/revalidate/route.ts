@@ -1,6 +1,9 @@
 import { revalidatePath, revalidateTag } from 'next/cache'
 import { NextResponse } from 'next/server'
 import { CMS_TAG, cmsTypeTag, courseTag, postTag, serviceTag } from '@/lib/cache-tags'
+import { secretsEqual } from '@/lib/secrets'
+import { ancestryFromParent, expectedPathFromAncestry } from '@/lib/paths'
+import { getCourseBySlug, getServiceBySlug } from '@/sanity/lib/fetchers'
 
 type SanityWebhookBody = {
   _type?: string
@@ -25,7 +28,7 @@ export async function POST(req: Request) {
   const secret = new URL(req.url).searchParams.get('secret')
   const expected = process.env.REVALIDATE_SECRET
 
-  if (!expected || secret !== expected) {
+  if (!secretsEqual(secret, expected)) {
     return NextResponse.json({ message: 'Invalid secret' }, { status: 401 })
   }
 
@@ -51,10 +54,30 @@ export async function POST(req: Request) {
     if (type === 'course') {
       revalidateTag(courseTag(slug), 'max')
       paths.add(`/online-courses/${slug}`)
+      try {
+        const course = await getCourseBySlug(slug)
+        if (course) {
+          const leafSlug = course.slug?.current ?? slug
+          const ancestry = ancestryFromParent(course)
+          paths.add(expectedPathFromAncestry('/online-courses', ancestry, leafSlug))
+        }
+      } catch (err) {
+        console.error('Revalidate course path resolve failed:', err)
+      }
     }
     if (type === 'service') {
       revalidateTag(serviceTag(slug), 'max')
       paths.add(`/services/${slug}`)
+      try {
+        const service = await getServiceBySlug(slug)
+        if (service) {
+          const leafSlug = service.slug?.current ?? slug
+          const ancestry = ancestryFromParent(service)
+          paths.add(expectedPathFromAncestry('/services', ancestry, leafSlug))
+        }
+      } catch (err) {
+        console.error('Revalidate service path resolve failed:', err)
+      }
     }
   }
 

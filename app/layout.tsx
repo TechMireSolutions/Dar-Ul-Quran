@@ -25,7 +25,6 @@ export async function generateMetadata(): Promise<Metadata> {
       metadataBase: baseUrl,
       title:       { default: siteName, template: `%s | ${siteName}` },
       description,
-      alternates:  { canonical: '/' },
       icons:       faviconUrl ? { icon: faviconUrl, apple: faviconUrl } : undefined,
       verification: { google: 'HlwG4YjRAkH3E4L7nQg1wNUk4Qy8b8LCSd9ccfxgZto' },
       openGraph: {

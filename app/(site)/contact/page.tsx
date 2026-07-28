@@ -85,8 +85,9 @@ export default async function ContactPage() {
                       <p className="text-[10px] font-bold tracking-normal text-gray-400 mb-0.5">{label}</p>
                       {href ? (
                         <Link href={href} target={href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer"
-                          className="inline-flex min-h-11 items-center text-[13px] text-slate-700 hover:text-dq-700 focus-visible:text-dq-700 transition-colors break-all">
-                          {value}
+                          className="inline-flex min-h-11 items-center text-[13px] text-slate-700 hover:text-dq-700 focus-visible:text-dq-700 transition-colors break-all"
+                          {...(label === 'ای میل' || label === 'فون' || label === 'واٹس ایپ' ? { dir: 'ltr' as const } : {})}>
+                          <bdi>{value}</bdi>
                         </Link>
                       ) : (
                         <p className="text-[13px] text-slate-700 whitespace-pre-line">{value}</p>
@@ -116,7 +117,7 @@ export default async function ContactPage() {
               )}
 
               {contactItems.length === 0 && (
-                <p className="text-[13px] text-gray-400 italic">سنیٹی اسٹوڈیو میں رابطہ کی تفصیلات شامل کریں۔</p>
+                <p className="text-[13px] text-gray-400 italic">رابطہ کی تفصیلات جلد دستیاب ہوں گی۔</p>
               )}
             </div>
 

@@ -110,6 +110,20 @@ export default async function HomePage() {
         cta1Link={homepageSettings?.heroCta1Link || undefined}
         cta2Label={homepageSettings?.heroCta2Label || undefined}
         cta2Link={homepageSettings?.heroCta2Link || undefined}
+        stats={[
+          {
+            value: homepageSettings?.aboutStat1Value ?? '',
+            label: homepageSettings?.aboutStat1Label ?? '',
+          },
+          {
+            value: homepageSettings?.aboutStat2Value ?? '',
+            label: homepageSettings?.aboutStat2Label ?? '',
+          },
+          {
+            value: homepageSettings?.aboutStat3Value ?? '',
+            label: homepageSettings?.aboutStat3Label ?? '',
+          },
+        ]}
       />
 
       <HomeAboutSection settings={homepageSettings} />

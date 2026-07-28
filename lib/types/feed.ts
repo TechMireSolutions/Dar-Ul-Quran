@@ -60,9 +60,23 @@ export type LlmFeedTestimonial = {
   quote?: string
 }
 
+export type LlmFeedServiceChild = {
+  title: string
+  slug: string
+  seoDescription?: string
+}
+
+export type LlmFeedService = {
+  title: string
+  slug: string
+  seoDescription?: string
+  children?: LlmFeedServiceChild[]
+}
+
 export type LlmFeedData = {
   settings: LlmFeedSettings | null
   courses: LlmFeedCourse[]
+  services: LlmFeedService[]
   articles: LlmFeedArticle[]
   testimonials: LlmFeedTestimonial[]
 }

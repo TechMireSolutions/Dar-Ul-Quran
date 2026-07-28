@@ -55,13 +55,14 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
     ? urlFor(settings.logo).width(512).height(512).url()
     : undefined
 
-  const pageTitle = post.seoTitle ?? post.title ?? 'مضمون'
+  const pageTitle = post.title ?? 'مضمون'
+  const schemaTitle = post.seoTitle ?? pageTitle
 
   return (
     <div className="min-h-screen bg-white">
       <ArticleSchema post={post} slug={slug} publisherLogoUrl={publisherLogoUrl} />
       <WebPageSchema
-        title={pageTitle}
+        title={schemaTitle}
         description={post.seoDescription ?? post.excerpt}
         path={`/articles/${slug}`}
       />

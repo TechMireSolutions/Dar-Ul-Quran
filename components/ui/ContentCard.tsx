@@ -11,6 +11,7 @@ type ContentCardProps = {
   ctaLabel?:    string
   badge?:       string | null
   active?:      boolean
+  imageAlt?:    string
 }
 
 export default function ContentCard({
@@ -21,6 +22,7 @@ export default function ContentCard({
   ctaLabel = 'مزید جانیں',
   badge,
   active = false,
+  imageAlt,
 }: ContentCardProps) {
   return (
     <article
@@ -47,7 +49,7 @@ export default function ContentCard({
             {image ? (
               <Image
                 src={image}
-                alt=""
+                alt={imageAlt?.trim() ?? ''}
                 fill
                 loading="lazy"
                 decoding="async"

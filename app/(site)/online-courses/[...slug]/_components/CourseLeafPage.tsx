@@ -243,16 +243,16 @@ export default function CourseLeafPage({
               (site?.email || site?.phone) ? (
                 <div className="flex flex-wrap justify-center gap-6 text-[13px] text-slate-500">
                   {site?.email && (
-                    <span className="flex items-center gap-1.5">
+                    <a href={`mailto:${site.email}`} className="flex items-center gap-1.5 hover:text-dq-700 transition-colors" dir="ltr">
                       <Mail size={12} className="text-slate-600" />
-                      {site.email}
-                    </span>
+                      <bdi>{site.email}</bdi>
+                    </a>
                   )}
                   {site?.phone && (
-                    <span className="flex items-center gap-1.5">
+                    <a href={`tel:${site.phone}`} className="flex items-center gap-1.5 hover:text-dq-700 transition-colors" dir="ltr">
                       <Phone size={12} className="text-slate-600" />
-                      {site.phone}
-                    </span>
+                      <bdi>{site.phone}</bdi>
+                    </a>
                   )}
                 </div>
               ) : undefined

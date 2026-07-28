@@ -53,6 +53,36 @@ export function breadcrumbHref(basePath: string, ancestry: { slug: string }[], i
     .join('/')}`
 }
 
+/** Expected catch-all segments: [...ancestorSlugs, leafSlug]. */
+export function expectedSlugSegmentsFromAncestry(
+  ancestry: { slug: string }[],
+  leafSlug: string,
+): string[] {
+  return [...ancestry.map((a) => a.slug), leafSlug]
+}
+
+/** Canonical path for a nested CMS leaf under a section. */
+export function expectedPathFromAncestry(
+  sectionPath: string,
+  ancestry: { slug: string }[],
+  leafSlug: string,
+): string {
+  return `${sectionPath}/${expectedSlugSegmentsFromAncestry(ancestry, leafSlug).join('/')}`
+}
+
+/** True when the URL slug array matches the CMS parent chain + leaf. */
+export function assertSlugAncestry(
+  urlSlugs: string[],
+  ancestry: { slug: string }[],
+  leafSlug: string,
+): boolean {
+  const expected = expectedSlugSegmentsFromAncestry(ancestry, leafSlug)
+  return (
+    urlSlugs.length === expected.length &&
+    urlSlugs.every((segment, i) => segment === expected[i])
+  )
+}
+
 export type BreadcrumbAncestryItem = { title: string; slug: string }
 
 /** Map ancestry slugs to labels for JSON-LD breadcrumb schema. */

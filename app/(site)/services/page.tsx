@@ -23,6 +23,7 @@ export async function generateMetadata(): Promise<Metadata> {
     slug: PAGE_SLUG,
     path: PAGE_PATH,
     titleFallback: 'خدمات',
+    descriptionFallback: 'اخلاص کے ساتھ پیش کی گئی مذہبی خدمات — نیابت زیارت، زکوٰۃ، خمس اور مزید۔',
   })
 }
 
@@ -34,7 +35,10 @@ export default async function ServicesPage() {
   const services = servicesRaw ?? []
 
   const title = resolveSeoTitle(page, 'خدمات')
-  const description = resolveSeoDescription(page)
+  const description = resolveSeoDescription(
+    page,
+    'اخلاص کے ساتھ پیش کی گئی مذہبی خدمات — نیابت زیارت، زکوٰۃ، خمس اور مزید۔',
+  )
   const listItems = toItemListEntries(services.filter(hasPublishedSlug), PAGE_PATH)
 
   return (

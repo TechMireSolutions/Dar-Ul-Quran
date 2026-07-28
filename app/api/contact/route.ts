@@ -1,7 +1,7 @@
 import { createClient, type SanityClient } from '@sanity/client'
 import { NextResponse } from 'next/server'
 import { contactBodySchema } from '@/lib/contact-schema'
-import { sendContactNotification } from '@/lib/contact-notify'
+import { isContactEmailConfigured, sendContactNotification } from '@/lib/contact-notify'
 import { rateLimitContact } from '@/lib/rate-limit'
 import { verifyTurnstileToken } from '@/lib/turnstile'
 
@@ -56,6 +56,11 @@ export async function POST(req: Request) {
     const turnstileOk = await verifyTurnstileToken(data.turnstileToken, ip)
     if (!turnstileOk) {
       return NextResponse.json({ error: 'Bot verification failed' }, { status: 403 })
+    }
+
+    if (!isContactEmailConfigured()) {
+      console.error('Contact form rejected: email is not configured')
+      return NextResponse.json({ error: 'Failed to save submission' }, { status: 503 })
     }
 
     await createSanityClient().create({

@@ -81,18 +81,20 @@ export default async function DonatePage() {
                 {settings?.donateHowToText || 'بینک ٹرانسفر کی تفصیل کے لیے ہم سے رابطہ کریں یا نیچے آنلائن ادائیگی کا لنک استعمال کریں۔'}
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <a
-                  href={settings?.donateUrl || 'https://www.paypal.com/donate/?hosted_button_id=Q22WVGY8WWZ4C'}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={TW_PAYPAL_CTA}
-                >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                    <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944 2.28a.78.78 0 0 1 .77-.65h7.794c2.728 0 4.636.602 5.668 1.79.49.56.802 1.147.952 1.795.157.676.13 1.484-.08 2.47l-.007.045v.387l.277.157c.232.13.442.29.625.472.31.318.524.72.636 1.194.115.483.103 1.056-.036 1.705-.164.76-.428 1.42-.785 1.963a5.09 5.09 0 0 1-1.247 1.39c-.478.365-1.04.64-1.674.82-.617.175-1.32.264-2.09.264h-.497a1.41 1.41 0 0 0-1.393 1.19l-.112.61-.58 3.672-.026.14a.78.78 0 0 1-.77.648z" />
-                  </svg>
-                  {settings?.donatePayOnlineLabel || 'آنلائن عطیہ دیں'}
-                  <ArrowRight size={14} strokeWidth={2.5} className={TW_CTA_ARROW} />
-                </a>
+                {settings?.donateUrl ? (
+                  <a
+                    href={settings.donateUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={TW_PAYPAL_CTA}
+                  >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                      <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944 2.28a.78.78 0 0 1 .77-.65h7.794c2.728 0 4.636.602 5.668 1.79.49.56.802 1.147.952 1.795.157.676.13 1.484-.08 2.47l-.007.045v.387l.277.157c.232.13.442.29.625.472.31.318.524.72.636 1.194.115.483.103 1.056-.036 1.705-.164.76-.428 1.42-.785 1.963a5.09 5.09 0 0 1-1.247 1.39c-.478.365-1.04.64-1.674.82-.617.175-1.32.264-2.09.264h-.497a1.41 1.41 0 0 0-1.393 1.19l-.112.61-.58 3.672-.026.14a.78.78 0 0 1-.77.648z" />
+                    </svg>
+                    {settings?.donatePayOnlineLabel || 'آنلائن عطیہ دیں'}
+                    <ArrowRight size={14} strokeWidth={2.5} className={TW_CTA_ARROW} />
+                  </a>
+                ) : null}
                 <Link
                   href="/contact"
                   className={`${TW_OUTLINE_PILL} border-white/20 bg-transparent text-slate-300 hover:border-white/50 hover:bg-white/5 hover:text-white`}
