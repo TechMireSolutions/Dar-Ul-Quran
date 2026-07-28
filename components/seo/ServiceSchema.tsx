@@ -3,8 +3,6 @@ import { SITE_URL, DEFAULT_SITE_NAME } from '@/lib/seo'
 import { buildBreadcrumbSchema, buildFaqPageSchema } from '@/lib/schemaHelpers'
 import type { ServiceSchemaData } from '@/lib/types'
 
-export type { ServiceSchemaData } from '@/lib/types'
-
 function buildSchemas(data: ServiceSchemaData): object[] {
   const serviceUrl = `${SITE_URL}/services/${data.slugPath}`
   const description =

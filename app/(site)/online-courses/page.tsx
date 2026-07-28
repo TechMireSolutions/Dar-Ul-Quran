@@ -13,11 +13,12 @@ import { DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
 import ContentCard from '@/components/ui/ContentCard'
 import ListingIndexShell, { ListingCardGrid, ListingEmptyState } from '@/components/layout/ListingIndexShell'
 import Reveal from '@/components/ui/Reveal'
+import { PATHS } from '@/lib/paths'
 
 export const revalidate = 300
 
 const PAGE_SLUG = 'online-courses'
-const PAGE_PATH = '/online-courses'
+const PAGE_PATH = PATHS.onlineCourses
 
 export async function generateMetadata(): Promise<Metadata> {
   return cmsPageMetadata({

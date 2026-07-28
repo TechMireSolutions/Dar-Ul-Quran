@@ -1,3 +1,5 @@
+import type { ParentSlugNode } from '@/lib/types'
+
 /** Canonical public paths — prefer these over string literals. */
 export const PATHS = {
   home: '/',
@@ -8,8 +10,6 @@ export const PATHS = {
   about: '/about',
   contact: '/contact',
 } as const
-
-type ParentSlugNode = { slug: string; parent?: ParentSlugNode | null } | null | undefined
 
 type AncestryNode = { title: string; slug: string; parent?: AncestryNode | null }
 
@@ -45,18 +45,20 @@ export function coursePath(
   parentSlug?: string | null,
   grandparentSlug?: string | null,
 ): string {
+  const base = PATHS.onlineCourses
   if (grandparentSlug && parentSlug) {
-    return `/online-courses/${grandparentSlug}/${parentSlug}/${slug}`
+    return `${base}/${grandparentSlug}/${parentSlug}/${slug}`
   }
-  if (parentSlug) return `/online-courses/${parentSlug}/${slug}`
-  return `/online-courses/${slug}`
+  if (parentSlug) return `${base}/${parentSlug}/${slug}`
+  return `${base}/${slug}`
 }
 
 export function servicePath(slug: string, parentSlug?: string | null): string {
+  const base = PATHS.services
   const leaf = slug.toLowerCase()
   const parent = parentSlug?.toLowerCase()
-  if (parent) return `/services/${parent}/${leaf}`
-  return `/services/${leaf}`
+  if (parent) return `${base}/${parent}/${leaf}`
+  return `${base}/${leaf}`
 }
 
 /** Strip trailing slashes for href equality (keeps `/`). */
@@ -110,6 +112,31 @@ export function assertSlugAncestry(
 }
 
 export type BreadcrumbAncestryItem = { title: string; slug: string }
+
+type LeafCanonicalDoc = {
+  slug?: { current?: string }
+  parent?: AncestryNode | null
+}
+
+/**
+ * Resolve leaf slug + ancestry + canonical path, or null when URL ancestry is wrong.
+ * Shared by course/service catch-all routes.
+ */
+export function resolveLeafCanonical(
+  sectionPath: string,
+  urlSlugs: string[],
+  doc: LeafCanonicalDoc,
+): { leafSlug: string; ancestry: BreadcrumbAncestryItem[]; canonicalPath: string } | null {
+  const leafSlug = doc.slug?.current ?? urlSlugs[urlSlugs.length - 1]
+  if (!leafSlug) return null
+  const ancestry = ancestryFromParent(doc)
+  if (!assertSlugAncestry(urlSlugs, ancestry, leafSlug)) return null
+  return {
+    leafSlug,
+    ancestry,
+    canonicalPath: expectedPathFromAncestry(sectionPath, ancestry, leafSlug),
+  }
+}
 
 /** Map ancestry slugs to labels for JSON-LD breadcrumb schema. */
 export function breadcrumbLabelsFromAncestry(

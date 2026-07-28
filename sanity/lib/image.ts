@@ -50,7 +50,7 @@ export function articleFeaturedImageUrl(source: SanityImageSource): string {
   return urlFor(source).width(900).height(500).fit('crop').auto('format').quality(80).url()
 }
 
-// Typed image shape for use with SanityImage component.
+// Typed image shape for CMS image fields and image helpers.
 // Queries must expand asset->{ metadata { lqip, dimensions } } to enable blur placeholder.
 export type SanityImageAsset = {
   asset?: {

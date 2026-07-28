@@ -48,18 +48,18 @@ export async function POST(req: Request) {
     const slug = body.slug.current
     if (type === 'post') {
       revalidateTag(postTag(slug), 'max')
-      paths.add(`/articles/${slug}`)
+      paths.add(`${PATHS.articles}/${slug}`)
     }
     if (type === 'page') paths.add(`/${slug}`)
     if (type === 'course') {
       revalidateTag(courseTag(slug), 'max')
-      paths.add(`/online-courses/${slug}`)
+      paths.add(`${PATHS.onlineCourses}/${slug}`)
       try {
         const course = await getCourseBySlug(slug)
         if (course) {
           const leafSlug = course.slug?.current ?? slug
           const ancestry = ancestryFromParent(course)
-          paths.add(expectedPathFromAncestry('/online-courses', ancestry, leafSlug))
+          paths.add(expectedPathFromAncestry(PATHS.onlineCourses, ancestry, leafSlug))
         }
       } catch (err) {
         console.error('Revalidate course path resolve failed:', err)
@@ -67,13 +67,13 @@ export async function POST(req: Request) {
     }
     if (type === 'service') {
       revalidateTag(serviceTag(slug), 'max')
-      paths.add(`/services/${slug}`)
+      paths.add(`${PATHS.services}/${slug}`)
       try {
         const service = await getServiceBySlug(slug)
         if (service) {
           const leafSlug = service.slug?.current ?? slug
           const ancestry = ancestryFromParent(service)
-          paths.add(expectedPathFromAncestry('/services', ancestry, leafSlug))
+          paths.add(expectedPathFromAncestry(PATHS.services, ancestry, leafSlug))
         }
       } catch (err) {
         console.error('Revalidate service path resolve failed:', err)

@@ -1,8 +1,20 @@
 import type { SanityImageAsset } from '@/sanity/lib/image'
 import type { PortableTextBlock } from '@portabletext/types'
-import type { CmsPageDoc } from '@/lib/cmsPage'
 import type { FaqSchemaItem } from './schema'
 import type { RawNavItem } from './navigation'
+
+export type CmsPageDoc = {
+  title?: string
+  seoTitle?: string
+  subtitle?: string
+  seoDescription?: string
+  eyebrow?: string
+}
+
+export type SlugListItem = {
+  title?: string
+  slug?: { current?: string }
+}
 
 export type SiteSettingsDoc = {
   siteName?: string

@@ -13,11 +13,12 @@ import ContentCard from '@/components/ui/ContentCard'
 import ListingIndexShell, { ListingCardGrid, ListingEmptyState } from '@/components/layout/ListingIndexShell'
 import Reveal from '@/components/ui/Reveal'
 import { TW_BTN_PRIMARY, TW_PAGE_SUBTITLE, TW_SEARCH_INPUT } from '@/lib/tailwind'
+import { PATHS } from '@/lib/paths'
 
 export const revalidate = 300
 
 const PAGE_SLUG = 'articles'
-const PAGE_PATH = '/articles'
+const PAGE_PATH = PATHS.articles
 
 export async function generateMetadata({
   searchParams,

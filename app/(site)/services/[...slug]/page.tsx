@@ -9,12 +9,11 @@ import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
 import NestedChildListing from '@/components/content/NestedChildListing'
 import ServiceLeafPage from './_components/ServiceLeafPage'
 import {
-  ancestryFromParent,
-  assertSlugAncestry,
   breadcrumbLabelsFromAncestry,
   buildBreadcrumbNavItems,
-  expectedPathFromAncestry,
   normalizeCatchAllSlug,
+  PATHS,
+  resolveLeafCanonical,
   staticParamsFromPaths,
 } from '@/lib/paths'
 import { resolveWhatsappLink } from '@/lib/contact'
@@ -23,24 +22,11 @@ import { pageMetadata, DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
 
 export const revalidate = 300
 
-const SECTION_PATH = '/services'
+const SECTION_PATH = PATHS.services
 
 export async function generateStaticParams() {
   const paths = await getAllServicePaths()
   return staticParamsFromPaths(paths)
-}
-
-function serviceCanonical(
-  slug: string[],
-  service: { slug?: { current?: string }; parent?: Parameters<typeof ancestryFromParent>[0]['parent'] },
-) {
-  const leafSlug = service.slug?.current ?? slug[slug.length - 1]
-  const ancestry = ancestryFromParent(service)
-  return {
-    leafSlug,
-    ancestry,
-    canonicalPath: expectedPathFromAncestry(SECTION_PATH, ancestry, leafSlug),
-  }
 }
 
 export async function generateMetadata(
@@ -56,8 +42,9 @@ export async function generateMetadata(
   ])
   if (!service) notFound()
 
-  const { leafSlug, ancestry, canonicalPath } = serviceCanonical(slug, service)
-  if (!assertSlugAncestry(slug, ancestry, leafSlug)) notFound()
+  const resolved = resolveLeafCanonical(SECTION_PATH, slug, service)
+  if (!resolved) notFound()
+  const { canonicalPath } = resolved
   const title = service.seoTitle || service.title || 'خدمت'
   const description =
     service.seoDescription ||
@@ -92,8 +79,9 @@ export default async function ServiceCatchAllPage(
   const service = await getServiceBySlug(currentSlug)
   if (!service) notFound()
 
-  const { leafSlug, ancestry, canonicalPath: currentPath } = serviceCanonical(slug, service)
-  if (!assertSlugAncestry(slug, ancestry, leafSlug)) notFound()
+  const resolved = resolveLeafCanonical(SECTION_PATH, slug, service)
+  if (!resolved) notFound()
+  const { ancestry, canonicalPath: currentPath } = resolved
 
   const [site, cluster] = await Promise.all([
     getSiteSettings(),

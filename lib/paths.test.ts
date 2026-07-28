@@ -12,6 +12,7 @@ import {
   normalizeHref,
   PATHS,
   pillarPagePath,
+  resolveLeafCanonical,
   servicePath,
   staticParamsFromPaths,
 } from '@/lib/paths'
@@ -140,6 +141,30 @@ describe('normalizeCatchAllSlug', () => {
     expect(normalizeCatchAllSlug(['a', 'b'])).toEqual(['a', 'b'])
     expect(normalizeCatchAllSlug('a/b')).toEqual(['a', 'b'])
     expect(normalizeCatchAllSlug(undefined)).toEqual([])
+  })
+})
+
+describe('resolveLeafCanonical', () => {
+  it('returns canonical data when URL matches ancestry', () => {
+    expect(
+      resolveLeafCanonical(PATHS.onlineCourses, ['quran', 'nazra'], {
+        slug: { current: 'nazra' },
+        parent: { title: 'قرآن', slug: 'quran', parent: null },
+      }),
+    ).toEqual({
+      leafSlug: 'nazra',
+      ancestry: [{ title: 'قرآن', slug: 'quran' }],
+      canonicalPath: '/online-courses/quran/nazra',
+    })
+  })
+
+  it('returns null when ancestry does not match the URL', () => {
+    expect(
+      resolveLeafCanonical(PATHS.services, ['wrong', 'zakat'], {
+        slug: { current: 'zakat' },
+        parent: null,
+      }),
+    ).toBeNull()
   })
 })
 

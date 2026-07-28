@@ -18,6 +18,6 @@ Nav links in HTML (`lg:flex`); keyboard dropdowns + `:focus-visible`; breadcrumb
 
 **1440px Urdu check (actionable):** open a leaf + homepage at ≥1440px width — titles must not clip, sticky header must not overlap H1, no unintended horizontal scroll, card grids stay 3-col without overflow.
 
-Leaf pages: `leafHeroImageUrl()` at 1200w · `SanityImage` with `fetchPriority="high"` when `priority`.
+Leaf pages: `leafHeroImageUrl()` at 1200w · `next/image` with `fetchPriority="high"` for above-the-fold heroes.
 
 Shared: `08-technical-seo-shared.mdc` · Skill: `optimize-lcp`

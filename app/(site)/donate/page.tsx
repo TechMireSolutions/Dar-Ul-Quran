@@ -1,14 +1,11 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
 import { cmsPageMetadata, fetchCmsPage, resolveSeoDescription, resolveSeoTitle } from '@/lib/cmsPage'
-import RichTextBody from '@/components/content/RichTextBody'
-import { ArrowRight } from 'lucide-react'
 import WebPageSchema from '@/components/seo/WebPageSchema'
 import PageHeroHeader from '@/components/ui/PageHeroHeader'
-import Reveal from '@/components/ui/Reveal'
+import DonateContent from './_components/DonateContent'
 import { PATHS } from '@/lib/paths'
 import { DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
-import { TW_CONTAINER_NARROW, TW_CTA_ARROW, TW_FEATURE_CARD, TW_FEATURE_CARD_DESC, TW_FEATURE_CARD_TITLE, TW_FEATURE_ICON, TW_GRID_2, TW_OUTLINE_PILL, TW_PAGE_BODY, TW_PAYPAL_CTA } from '@/lib/tailwind'
+import { TW_CONTAINER_NARROW, TW_PAGE_BODY } from '@/lib/tailwind'
 
 export const revalidate = 300
 
@@ -26,9 +23,9 @@ export default async function DonatePage() {
   const causes: { title: string; desc: string }[] = settings?.donateCauses?.length
     ? settings.donateCauses
     : [
-        { title: 'عمومی عطیہ',      desc: `${DEFAULT_SITE_NAME_URDU} کے مجموعی مشن میں معاونت` },
-        { title: 'قرآنی تعلیم',     desc: 'بچوں کی مفت قرآنی کلاسوں کی مالی معاونت' },
-        { title: 'محرم پروگرامز',   desc: 'مجالس اور عزاداری کی تقاریب منظم کرنے میں مدد' },
+        { title: 'عمومی عطیہ', desc: `${DEFAULT_SITE_NAME_URDU} کے مجموعی مشن میں معاونت` },
+        { title: 'قرآنی تعلیم', desc: 'بچوں کی مفت قرآنی کلاسوں کی مالی معاونت' },
+        { title: 'محرم پروگرامز', desc: 'مجالس اور عزاداری کی تقاریب منظم کرنے میں مدد' },
         { title: `${DEFAULT_SITE_NAME_URDU} معاونت`, desc: 'ہمارے قرآنی ادارے میں حصہ ڈالیں' },
       ]
 
@@ -53,64 +50,16 @@ export default async function DonatePage() {
 
       <div className={TW_PAGE_BODY}>
         <div className={`${TW_CONTAINER_NARROW} lg:px-8`}>
-
-          {page?.body && (
-            <Reveal animation="fade">
-              <RichTextBody value={page.body} size="sm" className="mb-8 sm:mb-10" />
-            </Reveal>
-          )}
-
-          <div className={`${TW_GRID_2} mb-8 sm:mb-10`}>
-            {causes.map(({ title, desc }, i) => (
-              <Reveal key={i} animation="up" delay={i * 80}>
-                <div className={`${TW_FEATURE_CARD} bg-white shadow-sm hover:shadow-md hover:-translate-y-0.5 motion-reduce:hover:translate-y-0 transition-all duration-200 h-full`}>
-                  <div className={TW_FEATURE_ICON}>
-                    <span className="text-dq-700 font-bold text-[16px] leading-none">{i + 1}</span>
-                  </div>
-                  <h3 className={TW_FEATURE_CARD_TITLE}>{title}</h3>
-                  <p className={TW_FEATURE_CARD_DESC}>{desc}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-
-          <Reveal animation="scale" delay={60}>
-            <div className="bg-dq-900 rounded-2xl p-6 sm:p-8 text-center">
-              <h2 className="font-bold text-[20px] sm:text-[22px] text-white tracking-normal leading-heading mb-2">
-                {settings?.donateHowToHeading || 'عطیہ کیسے دیں'}
-              </h2>
-              <p className="text-[13px] sm:text-[13.5px] text-slate-400 mb-6 max-w-sm mx-auto leading-urdu">
-                {settings?.donateHowToText || 'بینک ٹرانسفر کی تفصیل کے لیے ہم سے رابطہ کریں یا نیچے آنلائن ادائیگی کا لنک استعمال کریں۔'}
-              </p>
-              <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                {settings?.donateUrl ? (
-                  <a
-                    href={settings.donateUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={TW_PAYPAL_CTA}
-                  >
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                      <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944 2.28a.78.78 0 0 1 .77-.65h7.794c2.728 0 4.636.602 5.668 1.79.49.56.802 1.147.952 1.795.157.676.13 1.484-.08 2.47l-.007.045v.387l.277.157c.232.13.442.29.625.472.31.318.524.72.636 1.194.115.483.103 1.056-.036 1.705-.164.76-.428 1.42-.785 1.963a5.09 5.09 0 0 1-1.247 1.39c-.478.365-1.04.64-1.674.82-.617.175-1.32.264-2.09.264h-.497a1.41 1.41 0 0 0-1.393 1.19l-.112.61-.58 3.672-.026.14a.78.78 0 0 1-.77.648z" />
-                    </svg>
-                    {settings?.donatePayOnlineLabel || 'آنلائن عطیہ دیں'}
-                    <ArrowRight size={14} strokeWidth={2.5} className={TW_CTA_ARROW} />
-                  </a>
-                ) : null}
-                <Link
-                  href="/contact"
-                  className={`${TW_OUTLINE_PILL} border-white/20 bg-transparent text-slate-300 hover:border-white/50 hover:bg-white/5 hover:text-white`}
-                >
-                  {settings?.donateContactLabel || 'ہم سے رابطہ کریں'}
-                </Link>
-              </div>
-            </div>
-          </Reveal>
-
-          <p className="text-center text-[12px] text-gray-400 mt-6">
-            {settings?.donateClosingMessage || 'جزاک اللہ خیر — اللہ (سبحانہ و تعالیٰ) آپ کے عطیات قبول فرمائے۔'}
-          </p>
-
+          <DonateContent
+            body={page?.body}
+            causes={causes}
+            howToHeading={settings?.donateHowToHeading || 'عطیہ کیسے دیں'}
+            howToText={settings?.donateHowToText || 'بینک ٹرانسفر کی تفصیل کے لیے ہم سے رابطہ کریں یا نیچے آنلائن ادائیگی کا لنک استعمال کریں۔'}
+            donateUrl={settings?.donateUrl}
+            payOnlineLabel={settings?.donatePayOnlineLabel || 'آنلائن عطیہ دیں'}
+            contactLabel={settings?.donateContactLabel || 'ہم سے رابطہ کریں'}
+            closingMessage={settings?.donateClosingMessage || 'جزاک اللہ خیر — اللہ (سبحانہ و تعالیٰ) آپ کے عطیات قبول فرمائے۔'}
+          />
         </div>
       </div>
     </div>

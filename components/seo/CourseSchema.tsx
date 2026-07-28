@@ -3,8 +3,6 @@ import { SITE_URL, DEFAULT_SITE_NAME } from '@/lib/seo'
 import { buildBreadcrumbSchema, buildFaqPageSchema } from '@/lib/schemaHelpers'
 import type { CourseSchemaData } from '@/lib/types'
 
-export type { CourseSchemaData } from '@/lib/types'
-
 function resolveSlugPath(data: CourseSchemaData): string {
   if (data.slugPath) return data.slugPath
   if (data.parentSlug && data.slug) return `${data.parentSlug}/${data.slug}`

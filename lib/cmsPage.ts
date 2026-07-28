@@ -1,20 +1,9 @@
 import type { Metadata } from 'next'
 import { pageMetadata } from '@/lib/seo'
 import { getPageBySlug, getSiteSettings } from '@/sanity/lib/fetchers'
-import type { SiteSettingsDoc, PageDoc } from '@/lib/types'
+import type { SiteSettingsDoc, PageDoc, CmsPageDoc, SlugListItem } from '@/lib/types'
 
-export type CmsPageDoc = {
-  title?: string
-  seoTitle?: string
-  subtitle?: string
-  seoDescription?: string
-  eyebrow?: string
-}
-
-export type SlugListItem = {
-  title?: string
-  slug?: { current?: string }
-}
+export type { CmsPageDoc, SlugListItem }
 
 export function resolveSeoTitle(doc: CmsPageDoc | null | undefined, fallback: string): string {
   return doc?.seoTitle || doc?.title || fallback

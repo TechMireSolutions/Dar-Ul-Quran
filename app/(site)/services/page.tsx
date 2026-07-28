@@ -12,11 +12,12 @@ import {
 import ContentCard from '@/components/ui/ContentCard'
 import ListingIndexShell, { ListingCardGrid, ListingEmptyState } from '@/components/layout/ListingIndexShell'
 import Reveal from '@/components/ui/Reveal'
+import { PATHS } from '@/lib/paths'
 
 export const revalidate = 300
 
 const PAGE_SLUG = 'services'
-const PAGE_PATH = '/services'
+const PAGE_PATH = PATHS.services
 
 export async function generateMetadata(): Promise<Metadata> {
   return cmsPageMetadata({

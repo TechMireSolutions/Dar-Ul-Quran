@@ -15,12 +15,11 @@ import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
 import NestedChildListing from '@/components/content/NestedChildListing'
 import CourseLeafPage from './_components/CourseLeafPage'
 import {
-  ancestryFromParent,
-  assertSlugAncestry,
   breadcrumbLabelsFromAncestry,
   buildBreadcrumbNavItems,
-  expectedPathFromAncestry,
   normalizeCatchAllSlug,
+  PATHS,
+  resolveLeafCanonical,
   staticParamsFromPaths,
 } from '@/lib/paths'
 import { resolveWhatsappLink } from '@/lib/contact'
@@ -29,24 +28,11 @@ import { pageMetadata, DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
 
 export const revalidate = 300
 
-const SECTION_PATH = '/online-courses'
+const SECTION_PATH = PATHS.onlineCourses
 
 export async function generateStaticParams() {
   const paths = await getAllCoursePaths()
   return staticParamsFromPaths(paths)
-}
-
-function courseCanonical(
-  slug: string[],
-  course: { slug?: { current?: string }; parent?: Parameters<typeof ancestryFromParent>[0]['parent'] },
-) {
-  const leafSlug = course.slug?.current ?? slug[slug.length - 1]
-  const ancestry = ancestryFromParent(course)
-  return {
-    leafSlug,
-    ancestry,
-    canonicalPath: expectedPathFromAncestry(SECTION_PATH, ancestry, leafSlug),
-  }
 }
 
 export async function generateMetadata(
@@ -62,8 +48,9 @@ export async function generateMetadata(
   ])
   if (!course) notFound()
 
-  const { leafSlug, ancestry, canonicalPath } = courseCanonical(slug, course)
-  if (!assertSlugAncestry(slug, ancestry, leafSlug)) notFound()
+  const resolved = resolveLeafCanonical(SECTION_PATH, slug, course)
+  if (!resolved) notFound()
+  const { canonicalPath } = resolved
   const courseTitle = course.title ?? 'کورس'
   const title = course.seoTitle || courseTitle
   const description =
@@ -107,8 +94,9 @@ export default async function CourseCatchAllPage(
   const course = await getCourseBySlug(currentSlug)
   if (!course) notFound()
 
-  const { leafSlug, ancestry, canonicalPath: currentPath } = courseCanonical(slug, course)
-  if (!assertSlugAncestry(slug, ancestry, leafSlug)) notFound()
+  const resolved = resolveLeafCanonical(SECTION_PATH, slug, course)
+  if (!resolved) notFound()
+  const { ancestry, canonicalPath: currentPath } = resolved
 
   const [site, schemaData, cluster] = await Promise.all([
     getSiteSettings(),
@@ -121,7 +109,7 @@ export default async function CourseCatchAllPage(
     ? leafHeroImageUrl(course.featuredImage)
     : null
 
-  const enrollHref = course.enrollmentLink || '/contact'
+  const enrollHref = course.enrollmentLink || PATHS.contact
   const whatsappLink = resolveWhatsappLink(site?.whatsapp)
 
   const courseTitle = course.title ?? 'کورس'
