@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import { unstable_noStore as noStore } from 'next/cache'
 import { ogImageUrl, leafHeroImageUrl } from '@/sanity/lib/image'
 import {
   getCourseBySlug,
@@ -92,6 +93,8 @@ export async function generateMetadata(
 export default async function CourseCatchAllPage(
   { params }: { params: Promise<{ slug: string[] }> }
 ) {
+  // Prevent wrong-parent URLs from sharing a statically cached leaf response.
+  noStore()
   const { slug } = await params
   const currentSlug = slug[slug.length - 1]
 

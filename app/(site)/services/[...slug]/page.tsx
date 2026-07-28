@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import { unstable_noStore as noStore } from 'next/cache'
 import { urlFor, ogImageUrl, leafHeroImageUrl } from '@/sanity/lib/image'
 import { getServiceBySlug, getSiteSettings, getTopicClusterForPillar, getAllServicePaths } from '@/sanity/lib/fetchers'
 import ServiceSchema from '@/components/seo/ServiceSchema'
@@ -77,6 +78,8 @@ export async function generateMetadata(
 export default async function ServiceCatchAllPage(
   { params }: { params: Promise<{ slug: string[] }> }
 ) {
+  // Prevent wrong-parent URLs from sharing a statically cached leaf response.
+  noStore()
   const { slug } = await params
   const currentSlug = slug[slug.length - 1]
 
