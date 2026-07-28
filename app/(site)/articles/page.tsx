@@ -14,7 +14,7 @@ import ListingIndexShell, { ListingCardGrid, ListingEmptyState } from '@/compone
 import Reveal from '@/components/ui/Reveal'
 import ArticlesSearchForm from './_components/ArticlesSearchForm'
 import { TW_PAGE_SUBTITLE } from '@/lib/tailwind'
-import { PATHS } from '@/lib/paths'
+import { articlePath, PATHS } from '@/lib/paths'
 
 export const revalidate = 300
 
@@ -90,7 +90,7 @@ export default async function ArticlesPage({
           {filtered.map((post, i) => (
             <Reveal key={post._id} animation="up" delay={i * 70}>
               <ContentCard
-                href={`${PAGE_PATH}/${post.slug?.current ?? ''}`}
+                href={articlePath(post.slug?.current ?? '')}
                 image={post.mainImage ? cardImageUrl(post.mainImage) : null}
                 title={post.title ?? ''}
                 description={post.excerpt || null}

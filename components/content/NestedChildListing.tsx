@@ -2,7 +2,7 @@ import ContentCard from '@/components/ui/ContentCard'
 import PageHeroHeader from '@/components/ui/PageHeroHeader'
 import { ListingCardGrid } from '@/components/layout/ListingIndexShell'
 import { cardImageUrl } from '@/sanity/lib/image'
-import type { SanityImageAsset } from '@/sanity/lib/image'
+import type { SanityImageAsset } from '@/lib/types'
 import { TW_CONTAINER, TW_CV_AUTO, TW_PAGE_BODY } from '@/lib/tailwind'
 
 type NestedChild = {
@@ -24,8 +24,8 @@ type NestedChildListingProps = {
   basePath: string
   items: NestedChild[]
   imageField: 'featuredImage' | 'icon'
-  parentCtaLabel: string
-  leafCtaLabel: string
+  /** Parent vs leaf CTA from `courseCtaLabel` / `serviceCtaLabel`. */
+  resolveCtaLabel: (childCount: number) => string
   formatDescription?: (child: NestedChild) => string | null
 }
 
@@ -36,8 +36,7 @@ export default function NestedChildListing({
   basePath,
   items,
   imageField,
-  parentCtaLabel,
-  leafCtaLabel,
+  resolveCtaLabel,
   formatDescription,
 }: NestedChildListingProps) {
   return (
@@ -59,7 +58,7 @@ export default function NestedChildListing({
                   image={imageSource ? cardImageUrl(imageSource) : null}
                   title={child.title}
                   description={description}
-                  ctaLabel={(child.childCount ?? 0) > 0 ? parentCtaLabel : leafCtaLabel}
+                  ctaLabel={resolveCtaLabel(child.childCount ?? 0)}
                 />
               )
             })}

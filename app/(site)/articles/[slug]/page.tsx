@@ -1,12 +1,13 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getPostBySlug, getSiteSettings, getTopicClusterForPost, getPostSlugs } from '@/sanity/lib/fetchers'
-import { urlFor, ogImageUrl } from '@/sanity/lib/image'
+import { urlFor, ogImageUrl, defaultOgImage } from '@/sanity/lib/image'
 import ArticleSchema from '@/components/seo/ArticleSchema'
 import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
 import WebPageSchema from '@/components/seo/WebPageSchema'
 import ArticleDetail from './_components/ArticleDetail'
-import { PATHS } from '@/lib/paths'
+import { resolveLeafDescription } from '@/lib/cmsPage'
+import { articlePath, PATHS } from '@/lib/paths'
 import { pageMetadata } from '@/lib/seo'
 
 export const revalidate = 300
@@ -20,13 +21,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params
   const [post, settings] = await Promise.all([getPostBySlug(slug), getSiteSettings()])
   const title = post?.seoTitle ?? post?.title ?? 'مضمون'
-  const description = post?.seoDescription ?? post?.excerpt
-  const image = post?.mainImage ? ogImageUrl(post.mainImage) : null
+  const description = resolveLeafDescription(post, '')
+  const image = post?.mainImage ? ogImageUrl(post.mainImage) : defaultOgImage(settings)
 
   return pageMetadata({
     title,
-    description,
-    path: `${PATHS.articles}/${slug}`,
+    description: description || undefined,
+    path: articlePath(slug),
     image,
     imageAlt: post?.mainImage?.alt ?? title,
     type: 'article',
@@ -53,15 +54,15 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
 
   const pageTitle = post.title ?? 'مضمون'
   const schemaTitle = post.seoTitle ?? pageTitle
-  const articlePath = `${PATHS.articles}/${slug}`
+  const path = articlePath(slug)
 
   return (
     <div className="min-h-screen bg-white">
       <ArticleSchema post={post} slug={slug} publisherLogoUrl={publisherLogoUrl} />
       <WebPageSchema
         title={schemaTitle}
-        description={post.seoDescription ?? post.excerpt}
-        path={articlePath}
+        description={resolveLeafDescription(post, '') || undefined}
+        path={path}
       />
 
       <BreadcrumbNav

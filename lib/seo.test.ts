@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest'
-import { DEFAULT_SITE_NAME_URDU, resolveDocumentTitle, resolveSiteNameUrdu } from '@/lib/seo'
+import {
+  DEFAULT_SITE_NAME_URDU,
+  resolveDocumentTitle,
+  resolveOgImage,
+  resolveSiteNameUrdu,
+} from '@/lib/seo'
 
 describe('resolveSiteNameUrdu', () => {
   it('returns CMS name when present', () => {
@@ -10,6 +15,14 @@ describe('resolveSiteNameUrdu', () => {
     expect(resolveSiteNameUrdu(undefined)).toBe(DEFAULT_SITE_NAME_URDU)
     expect(resolveSiteNameUrdu('')).toBe(DEFAULT_SITE_NAME_URDU)
     expect(resolveSiteNameUrdu('   ')).toBe(DEFAULT_SITE_NAME_URDU)
+  })
+})
+
+describe('resolveOgImage', () => {
+  it('prefers explicit image then fallback URL', () => {
+    expect(resolveOgImage('https://a/page.jpg', 'https://a/logo.jpg')).toBe('https://a/page.jpg')
+    expect(resolveOgImage(null, 'https://a/logo.jpg')).toBe('https://a/logo.jpg')
+    expect(resolveOgImage(undefined, undefined)).toBeUndefined()
   })
 })
 

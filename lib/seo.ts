@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { ogImageUrl, type SanityImageAsset } from '@/sanity/lib/image'
 
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://darulquran.pk'
 
@@ -32,38 +31,29 @@ export function resolveSiteNameUrdu(siteName?: string | null): string {
   return trimmed || DEFAULT_SITE_NAME_URDU
 }
 
-type SanityImage = SanityImageAsset
-
-export type SiteSettingsOg = {
-  logo?: SanityImage
-  favicon?: SanityImage
+/** Site settings fields used for metadata chrome (not image URL building). */
+export type SiteSettingsMeta = {
   siteName?: string
 } | null
 
-/** Default Open Graph image from Sanity site settings (logo → favicon). */
-export function defaultOgImage(settings?: SiteSettingsOg): string | undefined {
-  if (settings?.logo) return ogImageUrl(settings.logo)
-  if (settings?.favicon) return ogImageUrl(settings.favicon)
-  return undefined
-}
-
-/** Resolve page OG image: explicit image → site default. */
+/** Resolve page OG image: explicit URL → pre-resolved site default. */
 export function resolveOgImage(
   image?: string | null,
-  settings?: SiteSettingsOg,
+  fallback?: string | null,
 ): string | undefined {
-  return image ?? defaultOgImage(settings) ?? undefined
+  return image ?? fallback ?? undefined
 }
 
 type PageMetadataOptions = {
   title: string
   description?: string | null
   path: string
+  /** Fully resolved OG image URL (page asset or `defaultOgImage(settings)`). */
   image?: string | null
   imageAlt?: string
   type?: 'website' | 'article'
   keywords?: string[]
-  settings?: SiteSettingsOg
+  settings?: SiteSettingsMeta
   noIndex?: boolean
   siteName?: string
   publishedTime?: string
@@ -122,7 +112,7 @@ export function pageMetadata({
   authors,
 }: PageMetadataOptions): Metadata {
   const url = path === '/' ? SITE_URL : `${SITE_URL}${path}`
-  const ogImage = resolveOgImage(image, settings)
+  const ogImage = resolveOgImage(image)
   const resolvedSiteName = resolveSiteNameUrdu(siteName ?? settings?.siteName)
   const documentTitle = resolveDocumentTitle(title, resolvedSiteName)
 

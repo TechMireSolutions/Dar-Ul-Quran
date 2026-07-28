@@ -13,7 +13,7 @@ export const FALLBACK_HEADER_NAV: NavNode[] = [
 ]
 
 /** Footer fallback when nav is empty — includes Home. */
-export const HOME_NAV_NODE: NavNode = { label: 'ہوم', href: PATHS.home }
+const HOME_NAV_NODE: NavNode = { label: 'ہوم', href: PATHS.home }
 
 export const FALLBACK_QUICK_LINKS: NavNode[] = [
   HOME_NAV_NODE,

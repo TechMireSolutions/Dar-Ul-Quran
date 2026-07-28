@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { getLlmFeedData } from '@/sanity/lib/fetchers'
-import { coursePath, servicePath, PATHS } from '@/lib/paths'
+import { articlePath, coursePath, servicePath, PATHS } from '@/lib/paths'
 import { SITE_URL, DEFAULT_SITE_NAME } from '@/lib/seo'
 
 export const revalidate = 3600
@@ -88,7 +88,7 @@ export async function GET() {
     for (const a of data.articles) {
       const cats = a.categories?.map((c) => c.title).join(', ') ?? ''
       md.push(
-        `- [${a.title}](${SITE_URL}${PATHS.articles}/${a.slug})${cats ? ` [${cats}]` : ''}${a.excerpt ? ` — ${a.excerpt}` : ''}`
+        `- [${a.title}](${SITE_URL}${articlePath(a.slug)})${cats ? ` [${cats}]` : ''}${a.excerpt ? ` — ${a.excerpt}` : ''}`
       )
     }
     md.push(``)

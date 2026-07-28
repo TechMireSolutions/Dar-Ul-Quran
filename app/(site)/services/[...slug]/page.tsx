@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { unstable_noStore as noStore } from 'next/cache'
-import { urlFor, ogImageUrl, leafHeroImageUrl } from '@/sanity/lib/image'
+import { urlFor, ogImageUrl, leafHeroImageUrl, defaultOgImage } from '@/sanity/lib/image'
 import { getServiceBySlug, getSiteSettings, getTopicClusterForPillar, getAllServicePaths } from '@/sanity/lib/fetchers'
 import ServiceSchema from '@/components/seo/ServiceSchema'
 import WebPageSchema from '@/components/seo/WebPageSchema'
@@ -11,14 +11,16 @@ import ServiceLeafPage from './_components/ServiceLeafPage'
 import {
   breadcrumbLabelsFromAncestry,
   buildBreadcrumbNavItems,
-  normalizeCatchAllSlug,
+  parseCatchAllSlug,
   PATHS,
   resolveLeafCanonical,
+  sectionRelativePath,
   staticParamsFromPaths,
 } from '@/lib/paths'
 import { resolveWhatsappLink } from '@/lib/contact'
+import { resolveLeafDescription, serviceCtaLabel } from '@/lib/cmsPage'
 import { mergeFaqItems } from '@/lib/topicCluster'
-import { pageMetadata, DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
+import { pageMetadata, DEFAULT_SITE_NAME_URDU, resolveOgImage } from '@/lib/seo'
 
 export const revalidate = 300
 
@@ -33,28 +35,30 @@ export async function generateMetadata(
   { params }: { params: Promise<{ slug: string | string[] }> }
 ): Promise<Metadata> {
   const { slug: rawSlug } = await params
-  const slug = normalizeCatchAllSlug(rawSlug)
-  const currentSlug = slug[slug.length - 1]
-  if (!currentSlug) notFound()
+  const { segments, leafSlug } = parseCatchAllSlug(rawSlug)
+  if (!leafSlug) notFound()
   const [service, settings] = await Promise.all([
-    getServiceBySlug(currentSlug),
+    getServiceBySlug(leafSlug),
     getSiteSettings(),
   ])
   if (!service) notFound()
 
-  const resolved = resolveLeafCanonical(SECTION_PATH, slug, service)
+  const resolved = resolveLeafCanonical(SECTION_PATH, segments, service)
   if (!resolved) notFound()
   const { canonicalPath } = resolved
   const title = service.seoTitle || service.title || 'خدمت'
-  const description =
-    service.seoDescription ||
-    service.excerpt ||
-    `${title} — ${DEFAULT_SITE_NAME_URDU} کی مذہبی خدمات۔`
-  const image = service.featuredImage
-    ? ogImageUrl(service.featuredImage)
-    : service.icon
-      ? ogImageUrl(service.icon)
-      : null
+  const description = resolveLeafDescription(
+    service,
+    `${title} — ${DEFAULT_SITE_NAME_URDU} کی مذہبی خدمات۔`,
+  )
+  const image = resolveOgImage(
+    service.heroImage
+      ? ogImageUrl(service.heroImage)
+      : service.icon
+        ? ogImageUrl(service.icon)
+        : null,
+    defaultOgImage(settings),
+  )
 
   return pageMetadata({
     title,
@@ -72,14 +76,13 @@ export default async function ServiceCatchAllPage(
   // Prevent wrong-parent URLs from sharing a statically cached leaf response.
   noStore()
   const { slug: rawSlug } = await params
-  const slug = normalizeCatchAllSlug(rawSlug)
-  const currentSlug = slug[slug.length - 1]
-  if (!currentSlug) notFound()
+  const { segments, leafSlug } = parseCatchAllSlug(rawSlug)
+  if (!leafSlug) notFound()
 
-  const service = await getServiceBySlug(currentSlug)
+  const service = await getServiceBySlug(leafSlug)
   if (!service) notFound()
 
-  const resolved = resolveLeafCanonical(SECTION_PATH, slug, service)
+  const resolved = resolveLeafCanonical(SECTION_PATH, segments, service)
   if (!resolved) notFound()
   const { ancestry, canonicalPath: currentPath } = resolved
 
@@ -94,8 +97,10 @@ export default async function ServiceCatchAllPage(
   const whatsappLink = resolveWhatsappLink(site?.whatsapp)
 
   const serviceTitle = service.title ?? 'خدمت'
-  const pageDescription =
-    service.seoDescription || service.excerpt || `${serviceTitle} — ${DEFAULT_SITE_NAME_URDU} کی مذہبی خدمات۔`
+  const pageDescription = resolveLeafDescription(
+    service,
+    `${serviceTitle} — ${DEFAULT_SITE_NAME_URDU} کی مذہبی خدمات۔`,
+  )
 
   return (
     <div>
@@ -105,7 +110,7 @@ export default async function ServiceCatchAllPage(
           title: serviceTitle,
           seoDescription: service.seoDescription,
           excerpt: service.excerpt,
-          slugPath: currentPath.replace(`${SECTION_PATH}/`, ''),
+          slugPath: sectionRelativePath(SECTION_PATH, currentPath),
           price: service.price,
           isBookable: service.isBookable,
           faqItems: mergeFaqItems(service.faqItems, cluster?.faqItems),
@@ -128,8 +133,7 @@ export default async function ServiceCatchAllPage(
           basePath={currentPath}
           items={service.children ?? []}
           imageField="icon"
-          parentCtaLabel="خدمات دیکھیں"
-          leafCtaLabel="مزید جانیں"
+          resolveCtaLabel={serviceCtaLabel}
           formatDescription={(child) => child.excerpt || child.price || null}
         />
       ) : (

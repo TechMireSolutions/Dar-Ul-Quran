@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { unstable_noStore as noStore } from 'next/cache'
-import { ogImageUrl, leafHeroImageUrl } from '@/sanity/lib/image'
+import { ogImageUrl, leafHeroImageUrl, defaultOgImage } from '@/sanity/lib/image'
 import {
   getCourseBySlug,
   getCourseSchema,
@@ -17,14 +17,16 @@ import CourseLeafPage from './_components/CourseLeafPage'
 import {
   breadcrumbLabelsFromAncestry,
   buildBreadcrumbNavItems,
-  normalizeCatchAllSlug,
+  parseCatchAllSlug,
   PATHS,
   resolveLeafCanonical,
+  sectionRelativePath,
   staticParamsFromPaths,
 } from '@/lib/paths'
 import { resolveWhatsappLink } from '@/lib/contact'
+import { courseCtaLabel, resolveLeafDescription } from '@/lib/cmsPage'
 import { mergeFaqItems } from '@/lib/topicCluster'
-import { pageMetadata, DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
+import { pageMetadata, DEFAULT_SITE_NAME_URDU, resolveOgImage } from '@/lib/seo'
 
 export const revalidate = 300
 
@@ -39,25 +41,27 @@ export async function generateMetadata(
   { params }: { params: Promise<{ slug: string | string[] }> }
 ): Promise<Metadata> {
   const { slug: rawSlug } = await params
-  const slug = normalizeCatchAllSlug(rawSlug)
-  const currentSlug = slug[slug.length - 1]
-  if (!currentSlug) notFound()
+  const { segments, leafSlug } = parseCatchAllSlug(rawSlug)
+  if (!leafSlug) notFound()
   const [course, settings] = await Promise.all([
-    getCourseBySlug(currentSlug),
+    getCourseBySlug(leafSlug),
     getSiteSettings(),
   ])
   if (!course) notFound()
 
-  const resolved = resolveLeafCanonical(SECTION_PATH, slug, course)
+  const resolved = resolveLeafCanonical(SECTION_PATH, segments, course)
   if (!resolved) notFound()
   const { canonicalPath } = resolved
   const courseTitle = course.title ?? 'کورس'
   const title = course.seoTitle || courseTitle
-  const description =
-    course.seoDescription ||
-    course.excerpt ||
-    `آن لائن ${courseTitle}${course.subject ? ` — ${course.subject}` : ''}۔ پاکستان اور دنیا بھر کے شیعہ خاندانوں کے لیے مستند اسلامی تعلیم۔`
-  const image = course.featuredImage ? ogImageUrl(course.featuredImage) : null
+  const description = resolveLeafDescription(
+    course,
+    `آن لائن ${courseTitle}${course.subject ? ` — ${course.subject}` : ''}۔ پاکستان اور دنیا بھر کے شیعہ خاندانوں کے لیے مستند اسلامی تعلیم۔`,
+  )
+  const image = resolveOgImage(
+    course.featuredImage ? ogImageUrl(course.featuredImage) : null,
+    defaultOgImage(settings),
+  )
 
   return pageMetadata({
     title,
@@ -87,20 +91,19 @@ export default async function CourseCatchAllPage(
   // Prevent wrong-parent URLs from sharing a statically cached leaf response.
   noStore()
   const { slug: rawSlug } = await params
-  const slug = normalizeCatchAllSlug(rawSlug)
-  const currentSlug = slug[slug.length - 1]
-  if (!currentSlug) notFound()
+  const { segments, leafSlug } = parseCatchAllSlug(rawSlug)
+  if (!leafSlug) notFound()
 
-  const course = await getCourseBySlug(currentSlug)
+  const course = await getCourseBySlug(leafSlug)
   if (!course) notFound()
 
-  const resolved = resolveLeafCanonical(SECTION_PATH, slug, course)
+  const resolved = resolveLeafCanonical(SECTION_PATH, segments, course)
   if (!resolved) notFound()
   const { ancestry, canonicalPath: currentPath } = resolved
 
   const [site, schemaData, cluster] = await Promise.all([
     getSiteSettings(),
-    getCourseSchema(currentSlug),
+    getCourseSchema(leafSlug),
     getTopicClusterForPillar(course._id),
   ])
 
@@ -113,10 +116,10 @@ export default async function CourseCatchAllPage(
   const whatsappLink = resolveWhatsappLink(site?.whatsapp)
 
   const courseTitle = course.title ?? 'کورس'
-  const pageDescription =
-    course.seoDescription ||
-    course.excerpt ||
-    `آن لائن ${courseTitle}${course.subject ? ` — ${course.subject}` : ''}۔`
+  const pageDescription = resolveLeafDescription(
+    course,
+    `آن لائن ${courseTitle}${course.subject ? ` — ${course.subject}` : ''}۔`,
+  )
 
   return (
     <div>
@@ -125,7 +128,7 @@ export default async function CourseCatchAllPage(
         <CourseSchema
           data={{
             ...schemaData,
-            slugPath: currentPath.replace(`${SECTION_PATH}/`, ''),
+            slugPath: sectionRelativePath(SECTION_PATH, currentPath),
             breadcrumbLabels: breadcrumbLabelsFromAncestry(ancestry),
             faqItems: mergeFaqItems(schemaData.faqItems, cluster?.faqItems),
           }}
@@ -146,8 +149,7 @@ export default async function CourseCatchAllPage(
           basePath={currentPath}
           items={course.children ?? []}
           imageField="featuredImage"
-          parentCtaLabel="کورسز دیکھیں"
-          leafCtaLabel="ابھی داخلہ لیں"
+          resolveCtaLabel={courseCtaLabel}
         />
       ) : (
         <CourseLeafPage

@@ -27,4 +27,5 @@ export type {
   ParentSlugNode,
   CmsPageDoc,
   SlugListItem,
+  SanityImageAsset,
 } from './cms'

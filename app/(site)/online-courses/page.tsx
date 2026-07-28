@@ -9,11 +9,12 @@ import {
   resolveSeoTitle,
   toItemListEntries,
 } from '@/lib/cmsPage'
+import { courseCtaLabel } from '@/lib/cmsPage'
 import { DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
 import ContentCard from '@/components/ui/ContentCard'
 import ListingIndexShell, { ListingCardGrid, ListingEmptyState } from '@/components/layout/ListingIndexShell'
 import Reveal from '@/components/ui/Reveal'
-import { PATHS } from '@/lib/paths'
+import { coursePath, PATHS } from '@/lib/paths'
 
 export const revalidate = 300
 
@@ -62,11 +63,11 @@ export default async function CoursesPage() {
           {courses.map((course, i) => (
             <Reveal key={course._id} animation="up" delay={i * 70}>
               <ContentCard
-                href={`${PAGE_PATH}/${course.slug?.current ?? ''}`}
+                href={coursePath(course.slug?.current ?? '')}
                 image={course.featuredImage ? cardImageUrl(course.featuredImage) : null}
                 title={course.title ?? ''}
                 description={course.excerpt || [course.price, course.duration].filter(Boolean).join(' · ') || null}
-                ctaLabel={(course.childCount ?? 0) > 0 ? 'کورسز دیکھیں' : 'ابھی داخلہ لیں'}
+                ctaLabel={courseCtaLabel(course.childCount ?? 0)}
               />
             </Reveal>
           ))}

@@ -1,4 +1,4 @@
-import { buildFooterContactRows, buildFooterSocialLinks, type FooterContactRow, type FooterSocialLink } from '@/lib/contact'
+import { buildFooterContactRows, buildFooterSocialLinks, CONTACT_EMPTY_MESSAGE, type FooterContactRow, type FooterSocialLink } from '@/lib/contact'
 import { flattenFooterQuickLinks, footerServiceLinks, withoutHref } from '@/lib/navigation'
 import { PATHS } from '@/lib/paths'
 import {
@@ -14,7 +14,7 @@ export const FOOTER_COPY = {
   quickLinks: 'فوری روابط',
   services: 'خدمات',
   contact: 'ہم سے رابطہ',
-  contactEmpty: 'رابطہ کی معلومات جلد دستیاب ہوں گی',
+  contactEmpty: CONTACT_EMPTY_MESSAGE,
   whatsappPrefix: 'واٹس ایپ:',
   rights: 'تمام حقوق محفوظ ہیں۔',
 } as const

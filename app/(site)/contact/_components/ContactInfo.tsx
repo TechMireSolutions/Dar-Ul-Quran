@@ -2,7 +2,7 @@ import Link from 'next/link'
 import type { LucideIcon } from 'lucide-react'
 import { Globe, Play } from 'lucide-react'
 import Reveal from '@/components/ui/Reveal'
-import { FOOTER_COPY } from '@/lib/footer'
+import { CONTACT_EMPTY_MESSAGE } from '@/lib/contact'
 import { TW_CONTACT_INFO_ROW, TW_CONTACT_SOCIAL_CHIP, TW_FEATURE_ICON } from '@/lib/tailwind'
 
 export type ContactInfoItem = {
@@ -65,7 +65,7 @@ export default function ContactInfo({ items, facebook, youtube }: ContactInfoPro
       )}
 
       {items.length === 0 && (
-        <p className="text-[13px] text-gray-400 leading-urdu">{FOOTER_COPY.contactEmpty}</p>
+        <p className="text-[13px] text-gray-400 leading-urdu">{CONTACT_EMPTY_MESSAGE}</p>
       )}
     </div>
   )

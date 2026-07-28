@@ -1,6 +1,7 @@
 import { createImageUrlBuilder } from '@sanity/image-url'
 import type { SanityImageSource } from '@sanity/image-url'
 import { client } from './client'
+import type { SanityImageAsset } from '@/lib/types'
 
 const builder = createImageUrlBuilder(client)
 
@@ -18,6 +19,15 @@ export function cardImageUrl(source: SanityImageSource): string {
 
 export function carouselImageUrl(source: SanityImageSource): string {
   return urlFor(source).width(480).height(360).auto('format').quality(75).url()
+}
+
+/** Default Open Graph image from site settings (logo → favicon). */
+export function defaultOgImage(
+  settings?: { logo?: SanityImageAsset; favicon?: SanityImageAsset } | null,
+): string | undefined {
+  if (settings?.logo) return ogImageUrl(settings.logo)
+  if (settings?.favicon) return ogImageUrl(settings.favicon)
+  return undefined
 }
 
 /** Homepage hero LCP — desktop only (hidden below md). */
@@ -48,20 +58,4 @@ export function leafHeroImageUrl(source: SanityImageSource): string {
 /** Article inline featured image (below H1). */
 export function articleFeaturedImageUrl(source: SanityImageSource): string {
   return urlFor(source).width(900).height(500).fit('crop').auto('format').quality(80).url()
-}
-
-// Typed image shape for CMS image fields and image helpers.
-// Queries must expand asset->{ metadata { lqip, dimensions } } to enable blur placeholder.
-export type SanityImageAsset = {
-  asset?: {
-    _ref?: string
-    url?: string
-    metadata?: {
-      lqip?: string
-      dimensions?: { width: number; height: number; aspectRatio: number }
-    }
-  }
-  alt?: string
-  hotspot?: { x: number; y: number }
-  crop?: { top: number; bottom: number; left: number; right: number }
 }

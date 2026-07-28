@@ -9,10 +9,11 @@ import {
   resolveSeoTitle,
   toItemListEntries,
 } from '@/lib/cmsPage'
+import { serviceCtaLabel } from '@/lib/cmsPage'
 import ContentCard from '@/components/ui/ContentCard'
 import ListingIndexShell, { ListingCardGrid, ListingEmptyState } from '@/components/layout/ListingIndexShell'
 import Reveal from '@/components/ui/Reveal'
-import { PATHS } from '@/lib/paths'
+import { PATHS, servicePath } from '@/lib/paths'
 
 export const revalidate = 300
 
@@ -60,11 +61,11 @@ export default async function ServicesPage() {
           {services.map((service, i) => (
             <Reveal key={service._id} animation="up" delay={i * 70}>
               <ContentCard
-                href={`${PAGE_PATH}/${service.slug?.current ?? ''}`}
-                image={service.featuredImage ? cardImageUrl(service.featuredImage) : null}
+                href={servicePath(service.slug?.current ?? '')}
+                image={service.icon ? cardImageUrl(service.icon) : null}
                 title={service.title ?? ''}
                 description={service.excerpt || null}
-                ctaLabel={(service.childCount ?? 0) > 0 ? 'خدمات دیکھیں' : 'ابھی بک کریں'}
+                ctaLabel={serviceCtaLabel(service.childCount ?? 0)}
               />
             </Reveal>
           ))}

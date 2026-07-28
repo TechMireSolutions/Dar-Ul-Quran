@@ -61,6 +61,10 @@ export function servicePath(slug: string, parentSlug?: string | null): string {
   return `${base}/${leaf}`
 }
 
+export function articlePath(slug: string): string {
+  return `${PATHS.articles}/${slug}`
+}
+
 /** Strip trailing slashes for href equality (keeps `/`). */
 export function normalizeHref(href: string): string {
   if (!href || href === '/') return href || '/'
@@ -79,6 +83,22 @@ export function normalizeCatchAllSlug(slug: string | string[] | undefined): stri
   if (!slug) return []
   if (Array.isArray(slug)) return slug.filter(Boolean)
   return slug.split('/').filter(Boolean)
+}
+
+/** Parse catch-all route params into segments + leaf slug. */
+export function parseCatchAllSlug(rawSlug: string | string[] | undefined): {
+  segments: string[]
+  leafSlug: string | null
+} {
+  const segments = normalizeCatchAllSlug(rawSlug)
+  return { segments, leafSlug: segments.at(-1) ?? null }
+}
+
+/** Relative path under a section root (for JSON-LD slugPath). */
+export function sectionRelativePath(sectionPath: string, canonicalPath: string): string {
+  const prefix = `${sectionPath}/`
+  if (canonicalPath.startsWith(prefix)) return canonicalPath.slice(prefix.length)
+  return canonicalPath.replace(/^\//, '')
 }
 
 /** Expected catch-all segments: [...ancestorSlugs, leafSlug]. */

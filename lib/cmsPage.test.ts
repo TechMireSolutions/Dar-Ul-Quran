@@ -1,8 +1,11 @@
 import { describe, expect, it } from 'vitest'
 import {
   hasPublishedSlug,
+  courseCtaLabel,
+  resolveLeafDescription,
   resolveSeoDescription,
   resolveSeoTitle,
+  serviceCtaLabel,
   toItemListEntries,
 } from '@/lib/cmsPage'
 
@@ -20,6 +23,29 @@ describe('resolveSeoTitle / resolveSeoDescription', () => {
     expect(resolveSeoDescription({ subtitle: 'Sub' }, 'Fallback')).toBe('Sub')
     expect(resolveSeoDescription(null, 'Fallback')).toBe('Fallback')
     expect(resolveSeoDescription(null)).toBeUndefined()
+  })
+})
+
+describe('resolveLeafDescription', () => {
+  it('prefers seoDescription then excerpt then fallback', () => {
+    expect(
+      resolveLeafDescription({ seoDescription: 'SEO', excerpt: 'Excerpt' }, 'Fallback'),
+    ).toBe('SEO')
+    expect(resolveLeafDescription({ excerpt: 'Excerpt' }, 'Fallback')).toBe('Excerpt')
+    expect(resolveLeafDescription({}, 'Fallback')).toBe('Fallback')
+    expect(resolveLeafDescription(null, 'Fallback')).toBe('Fallback')
+  })
+})
+
+describe('courseCtaLabel / serviceCtaLabel', () => {
+  it('uses browse labels when children exist', () => {
+    expect(courseCtaLabel(2)).toBe('کورسز دیکھیں')
+    expect(serviceCtaLabel(1)).toBe('خدمات دیکھیں')
+  })
+
+  it('uses enroll/book labels for leaves', () => {
+    expect(courseCtaLabel(0)).toBe('ابھی داخلہ لیں')
+    expect(serviceCtaLabel(0)).toBe('ابھی بک کریں')
   })
 })
 

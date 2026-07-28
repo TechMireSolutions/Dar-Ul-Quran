@@ -1,7 +1,7 @@
 import JsonLdScripts from '@/components/seo/JsonLdScripts'
-import { urlFor } from '@/sanity/lib/image'
+import { ogImageUrl } from '@/sanity/lib/image'
 import { SITE_URL, DEFAULT_SITE_NAME } from '@/lib/seo'
-import { PATHS } from '@/lib/paths'
+import { articlePath, PATHS } from '@/lib/paths'
 
 type ArticlePost = {
   title?: string
@@ -19,7 +19,7 @@ type ArticleSchemaProps = {
 }
 
 export default function ArticleSchema({ post, slug, publisherLogoUrl }: ArticleSchemaProps) {
-  const articleUrl = `${SITE_URL}${PATHS.articles}/${slug}`
+  const articleUrl = `${SITE_URL}${articlePath(slug)}`
 
   const schemas = [
     {
@@ -33,9 +33,7 @@ export default function ArticleSchema({ post, slug, publisherLogoUrl }: ArticleS
       inLanguage: 'ur',
       ...(post.publishedAt ? { datePublished: post.publishedAt } : {}),
       ...(post._updatedAt ? { dateModified: post._updatedAt } : {}),
-      ...(post.mainImage
-        ? { image: [urlFor(post.mainImage).width(1200).height(630).auto('format').url()] }
-        : {}),
+      ...(post.mainImage ? { image: [ogImageUrl(post.mainImage)] } : {}),
       ...(post.author?.name
         ? { author: { '@type': 'Person', name: post.author.name } }
         : {}),

@@ -6,6 +6,9 @@ export function telHref(number: string): string {
   return `tel:${number.trim().replace(/[^\d+]/g, '')}`
 }
 
+/** Empty-state copy when no contact details are configured (footer + contact page). */
+export const CONTACT_EMPTY_MESSAGE = 'رابطہ کی معلومات جلد دستیاب ہوں گی'
+
 /** target/rel (+ optional Urdu aria) for links that open a new tab. */
 export function externalLinkAttrs(label?: string): {
   target: '_blank'

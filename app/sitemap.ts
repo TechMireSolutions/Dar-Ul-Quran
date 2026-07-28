@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { getSitemapData } from '@/sanity/lib/fetchers'
-import { coursePath, servicePath, PATHS } from '@/lib/paths'
+import { coursePath, servicePath, articlePath, PATHS } from '@/lib/paths'
 import { SITE_URL } from '@/lib/seo'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -32,7 +32,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }))
 
   const articlePages: MetadataRoute.Sitemap = (data?.articles ?? []).map((a) => ({
-    url: `${SITE_URL}${PATHS.articles}/${a.slug}`,
+    url: `${SITE_URL}${articlePath(a.slug)}`,
     lastModified: new Date(a._updatedAt),
     changeFrequency: 'monthly' as const,
     priority: 0.6,

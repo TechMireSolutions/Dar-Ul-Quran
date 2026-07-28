@@ -10,10 +10,13 @@ import {
   expectedSlugSegmentsFromAncestry,
   normalizeCatchAllSlug,
   normalizeHref,
+  parseCatchAllSlug,
   PATHS,
   pillarPagePath,
   resolveLeafCanonical,
+  sectionRelativePath,
   servicePath,
+  articlePath,
   staticParamsFromPaths,
 } from '@/lib/paths'
 
@@ -27,6 +30,10 @@ describe('coursePath / servicePath', () => {
   it('builds service paths with optional parent', () => {
     expect(servicePath('zakat')).toBe('/services/zakat')
     expect(servicePath('fitrana', 'zakat')).toBe('/services/zakat/fitrana')
+  })
+
+  it('builds article paths', () => {
+    expect(articlePath('ramadan')).toBe('/articles/ramadan')
   })
 
   it('normalizes service slug casing', () => {
@@ -136,11 +143,26 @@ describe('assertSlugAncestry / expectedPathFromAncestry', () => {
   })
 })
 
-describe('normalizeCatchAllSlug', () => {
+describe('normalizeCatchAllSlug / parseCatchAllSlug', () => {
   it('normalizes arrays and slash-joined strings', () => {
     expect(normalizeCatchAllSlug(['a', 'b'])).toEqual(['a', 'b'])
     expect(normalizeCatchAllSlug('a/b')).toEqual(['a', 'b'])
     expect(normalizeCatchAllSlug(undefined)).toEqual([])
+  })
+
+  it('exposes leafSlug from parsed catch-all params', () => {
+    expect(parseCatchAllSlug(['quran', 'nazra'])).toEqual({
+      segments: ['quran', 'nazra'],
+      leafSlug: 'nazra',
+    })
+    expect(parseCatchAllSlug(undefined)).toEqual({ segments: [], leafSlug: null })
+  })
+})
+
+describe('sectionRelativePath', () => {
+  it('strips the section prefix from a canonical path', () => {
+    expect(sectionRelativePath('/services', '/services/zakat/fitrana')).toBe('zakat/fitrana')
+    expect(sectionRelativePath('/online-courses', '/online-courses/nazra')).toBe('nazra')
   })
 })
 

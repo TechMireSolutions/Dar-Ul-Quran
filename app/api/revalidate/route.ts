@@ -2,7 +2,7 @@ import { revalidatePath, revalidateTag } from 'next/cache'
 import { NextResponse } from 'next/server'
 import { CMS_TAG, cmsTypeTag, courseTag, postTag, serviceTag } from '@/lib/cache-tags'
 import { secretsEqual } from '@/lib/secrets'
-import { ancestryFromParent, expectedPathFromAncestry, PATHS } from '@/lib/paths'
+import { ancestryFromParent, articlePath, expectedPathFromAncestry, PATHS } from '@/lib/paths'
 import { getCourseBySlug, getServiceBySlug } from '@/sanity/lib/fetchers'
 
 type SanityWebhookBody = {
@@ -48,7 +48,7 @@ export async function POST(req: Request) {
     const slug = body.slug.current
     if (type === 'post') {
       revalidateTag(postTag(slug), 'max')
-      paths.add(`${PATHS.articles}/${slug}`)
+      paths.add(articlePath(slug))
     }
     if (type === 'page') paths.add(`/${slug}`)
     if (type === 'course') {

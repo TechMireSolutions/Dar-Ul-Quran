@@ -378,6 +378,5 @@ export const TW_TEXT_GRADIENT_GOLD =
   'bg-gradient-to-br from-dq-400 via-dq-500 to-dq-600 bg-clip-text text-transparent'
 
 /** Rich text from Portable Text — see globals.css @layer components */
-export const TW_RICH_TEXT = 'rich-text max-w-none'
 export const TW_RICH_TEXT_LG = 'rich-text rich-text-lg max-w-none'
 export const TW_RICH_TEXT_SM = 'rich-text rich-text-sm max-w-none'

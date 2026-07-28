@@ -2,11 +2,18 @@ import { describe, expect, it } from 'vitest'
 import {
   buildFooterContactRows,
   buildFooterSocialLinks,
+  CONTACT_EMPTY_MESSAGE,
   externalLinkAttrs,
   resolveWhatsappLink,
   telHref,
   whatsappHref,
 } from '@/lib/contact'
+
+describe('CONTACT_EMPTY_MESSAGE', () => {
+  it('is Urdu empty-state copy shared by footer and contact', () => {
+    expect(CONTACT_EMPTY_MESSAGE).toContain('رابطہ')
+  })
+})
 
 describe('telHref', () => {
   it('strips spaces and punctuation from phone numbers', () => {

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { urlFor, lcpHeroImageProps } from '@/sanity/lib/image'
+import { lcpHeroImageProps, carouselImageUrl, defaultOgImage, ogImageUrl } from '@/sanity/lib/image'
 import {
   getSiteSettings,
   getHomepageSettings,
@@ -8,8 +8,8 @@ import {
   getTopLevelCourses,
   getTestimonials,
 } from '@/sanity/lib/fetchers'
-import { pageMetadata, resolveSiteNameUrdu, DEFAULT_SITE_NAME_URDU, DEFAULT_HOME_DESCRIPTION } from '@/lib/seo'
-import { coursesToCarouselItems, servicesToCarouselItems } from '@/lib/homepage'
+import { pageMetadata, DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
+import { coursesToCarouselItems, resolveHomeCopy, servicesToCarouselItems } from '@/lib/homepage'
 import { PATHS } from '@/lib/paths'
 import WebPageSchema from '@/components/seo/WebPageSchema'
 import LcpImagePreload from '@/components/seo/LcpImagePreload'
@@ -39,17 +39,11 @@ export async function generateMetadata(): Promise<Metadata> {
     getHomepageSettings(),
   ])
 
-  const title = resolveSiteNameUrdu(settings?.siteName)
-  const description =
-    settings?.description ||
-    homepageSettings?.heroSubtitle ||
-    DEFAULT_HOME_DESCRIPTION
+  const { title, description } = resolveHomeCopy(settings, homepageSettings)
 
   const ogImage = homepageSettings?.heroImage
-    ? urlFor(homepageSettings.heroImage).width(1200).height(630).fit('crop').auto('format').quality(80).url()
-    : settings?.logo
-      ? urlFor(settings.logo).width(1200).height(630).fit('crop').auto('format').url()
-      : null
+    ? ogImageUrl(homepageSettings.heroImage)
+    : defaultOgImage(settings)
 
   return pageMetadata({
     title,
@@ -78,19 +72,15 @@ export default async function HomePage() {
     getSiteSettings(),
   ])
 
-  const homeTitle = resolveSiteNameUrdu(settings?.siteName)
-  const homeDescription =
-    settings?.description ||
-    homepageSettings?.heroSubtitle ||
-    DEFAULT_HOME_DESCRIPTION
+  const { title: homeTitle, description: homeDescription } = resolveHomeCopy(settings, homepageSettings)
 
   const heroImage = homepageSettings?.heroImage
     ? lcpHeroImageProps(homepageSettings.heroImage)
     : null
   const heroImageBlur = homepageSettings?.heroImageLqip ?? undefined
 
-  const courseItems = coursesToCarouselItems(courses)
-  const serviceItems = servicesToCarouselItems(services)
+  const courseItems = coursesToCarouselItems(courses, carouselImageUrl)
+  const serviceItems = servicesToCarouselItems(services, carouselImageUrl)
 
   return (
     <>

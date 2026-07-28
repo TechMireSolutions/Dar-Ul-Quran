@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { pageMetadata } from '@/lib/seo'
+import { defaultOgImage } from '@/sanity/lib/image'
 import { getPageBySlug, getSiteSettings } from '@/sanity/lib/fetchers'
 import type { SiteSettingsDoc, PageDoc, CmsPageDoc, SlugListItem } from '@/lib/types'
 
@@ -12,6 +13,24 @@ export function resolveSeoDescription(
   fallback?: string,
 ): string | undefined {
   return doc?.seoDescription || doc?.subtitle || fallback
+}
+
+/** Leaf course/service description: SEO → excerpt → fallback. */
+export function resolveLeafDescription(
+  doc: { seoDescription?: string; excerpt?: string } | null | undefined,
+  fallback: string,
+): string {
+  return doc?.seoDescription || doc?.excerpt || fallback
+}
+
+/** Parent vs leaf CTA on course cards / carousel / nested listings. */
+export function courseCtaLabel(childCount: number): string {
+  return childCount > 0 ? 'کورسز دیکھیں' : 'ابھی داخلہ لیں'
+}
+
+/** Parent vs leaf CTA on service cards / carousel / nested listings. */
+export function serviceCtaLabel(childCount: number): string {
+  return childCount > 0 ? 'خدمات دیکھیں' : 'ابھی بک کریں'
 }
 
 /** Type guard for CMS list items with a published slug. */
@@ -32,6 +51,7 @@ export function toItemListEntries(
   }))
 }
 
+/** Page-level CMS orchestration (see `15-naming.mdc` — `fetch*` lives here). */
 export async function fetchCmsPage(slug: string): Promise<{
   page: PageDoc | null
   settings: SiteSettingsDoc | null
@@ -62,6 +82,7 @@ export async function cmsPageMetadata({
     title: resolveSeoTitle(page, titleFallback),
     description: resolveSeoDescription(page, descriptionFallback),
     path,
+    image: defaultOgImage(settings),
     settings,
     keywords,
     noIndex,

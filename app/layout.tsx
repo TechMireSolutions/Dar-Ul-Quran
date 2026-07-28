@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { getSiteSettings } from '@/sanity/lib/fetchers'
-import { urlFor } from '@/sanity/lib/image'
-import { SITE_URL, DEFAULT_SITE_NAME_URDU, DEFAULT_SITE_DESCRIPTION, defaultOgImage, resolveSiteNameUrdu } from '@/lib/seo'
+import { urlFor, defaultOgImage } from '@/sanity/lib/image'
+import { SITE_URL, DEFAULT_SITE_NAME_URDU, DEFAULT_SITE_DESCRIPTION, resolveSiteNameUrdu } from '@/lib/seo'
 import { PATHS } from '@/lib/paths'
 import './globals.css'
 

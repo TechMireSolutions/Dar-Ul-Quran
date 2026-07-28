@@ -1,7 +1,21 @@
-import type { SanityImageAsset } from '@/sanity/lib/image'
 import type { PortableTextBlock } from '@portabletext/types'
 import type { FaqSchemaItem } from './schema'
 import type { RawNavItem } from './navigation'
+
+/** CMS image field shape — queries expand asset metadata for LQIP when needed. */
+export type SanityImageAsset = {
+  asset?: {
+    _ref?: string
+    url?: string
+    metadata?: {
+      lqip?: string
+      dimensions?: { width: number; height: number; aspectRatio: number }
+    }
+  }
+  alt?: string
+  hotspot?: { x: number; y: number }
+  crop?: { top: number; bottom: number; left: number; right: number }
+}
 
 export type CmsPageDoc = {
   title?: string
@@ -151,7 +165,6 @@ export type ServiceListItemDoc = {
   title?: string
   slug?: { current?: string }
   excerpt?: string
-  featuredImage?: SanityImageAsset
   icon?: SanityImageAsset
   price?: string
   childCount?: number
@@ -252,7 +265,6 @@ export type ServiceDetailDoc = {
   excerpt?: string
   body?: PortableTextBlock[]
   icon?: SanityImageAsset
-  featuredImage?: SanityImageAsset
   isBookable?: boolean
   price?: string
   seoTitle?: string
