@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound, permanentRedirect } from 'next/navigation'
+import { connection } from 'next/server'
 import { ogImageUrl, leafHeroImageUrl } from '@/sanity/lib/image'
 import {
   getCourseBySlug,
@@ -100,6 +101,7 @@ export default async function CourseCatchAllPage(
 
   const { leafSlug, ancestry, canonicalPath: currentPath } = courseCanonical(slug, course)
   if (!assertSlugAncestry(slug, ancestry, leafSlug)) {
+    await connection()
     permanentRedirect(currentPath)
   }
 
