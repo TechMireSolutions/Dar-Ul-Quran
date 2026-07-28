@@ -154,6 +154,8 @@ export type CourseListItemDoc = {
   excerpt?: string
   subject?: string
   featuredImage?: SanityImageAsset
+  /** Own featuredImage, else first child with an image (list/carousel cards). */
+  cardImage?: SanityImageAsset
   price?: string
   duration?: string
   instructor?: string

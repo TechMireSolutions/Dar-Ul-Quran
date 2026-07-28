@@ -44,6 +44,12 @@ const LABEL_DESC_ITEMS = `[]{ label, desc }`
 const COURSE_CHILD_COUNT = `"childCount": count(*[_type == "course" && references(^._id)])`
 const SERVICE_CHILD_COUNT = `"childCount": count(*[_type == "service" && references(^._id)])`
 
+/** Own featured image, else first child that has one (parent category cards). */
+const COURSE_CARD_IMAGE = `"cardImage": coalesce(
+  featuredImage,
+  *[_type == "course" && references(^._id) && defined(featuredImage.asset)] | order(order asc)[0].featuredImage
+)`
+
 // ─── Posts / Articles ────────────────────────────────────────────────────────
 
 export const postsQuery = `
@@ -77,6 +83,7 @@ export const postSlugsQuery = `*[_type == "post" && defined(slug.current)]{ "slu
 export const topLevelCoursesQuery = `
   *[_type == "course" && !defined(parent)] | order(order asc) {
     _id, title, slug, excerpt, subject, featuredImage, price, duration, instructor,
+    ${COURSE_CARD_IMAGE},
     ${COURSE_CHILD_COUNT}
   }
 `

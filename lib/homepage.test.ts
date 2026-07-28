@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { buildHomeHeroModel, resolveHomeCopy } from '@/lib/homepage'
+import { buildHomeHeroModel, coursesToCarouselItems, resolveHomeCopy } from '@/lib/homepage'
 import { DEFAULT_HOME_DESCRIPTION, DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
 
 describe('resolveHomeCopy', () => {
@@ -22,6 +22,26 @@ describe('resolveHomeCopy', () => {
       title: 'دار القرآن',
       description: 'ہیرو',
     })
+  })
+})
+
+describe('coursesToCarouselItems', () => {
+  it('uses cardImage when featuredImage is missing', () => {
+    const items = coursesToCarouselItems(
+      [
+        {
+          _id: '1',
+          title: 'روزانه',
+          slug: { current: 'rozana' },
+          cardImage: { asset: { _ref: 'image-child' } },
+          childCount: 2,
+        },
+      ],
+      () => 'https://cdn.example/card.jpg',
+    )
+    expect(items).toHaveLength(1)
+    expect(items[0]?.image).toBe('https://cdn.example/card.jpg')
+    expect(items[0]?.ctaLabel).toBe('کورسز دیکھیں')
   })
 })
 

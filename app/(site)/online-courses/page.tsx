@@ -8,6 +8,7 @@ import {
   DEFAULT_COURSES_SUBTITLE,
   fetchCmsPage,
   hasPublishedSlug,
+  resolveCourseCardImage,
   resolveSeoDescription,
   resolveSeoTitle,
   toItemListEntries,
@@ -57,15 +58,18 @@ export default async function CoursesPage() {
         <ListingEmptyState message="کورسز جلد آ رہے ہیں۔" />
       ) : (
         <ListingContentCards
-          items={courses.map((course) => ({
-            id: course._id,
-            href: coursePath(course.slug?.current ?? ''),
-            image: course.featuredImage ? cardImageUrl(course.featuredImage) : null,
-            title: course.title ?? '',
-            description:
-              course.excerpt || [course.price, course.duration].filter(Boolean).join(' · ') || null,
-            ctaLabel: courseCtaLabel(course.childCount ?? 0),
-          }))}
+          items={courses.map((course) => {
+            const image = resolveCourseCardImage(course)
+            return {
+              id: course._id,
+              href: coursePath(course.slug?.current ?? ''),
+              image: image ? cardImageUrl(image) : null,
+              title: course.title ?? '',
+              description:
+                course.excerpt || [course.price, course.duration].filter(Boolean).join(' · ') || null,
+              ctaLabel: courseCtaLabel(course.childCount ?? 0),
+            }
+          })}
         />
       )}
     </ListingIndexShell>

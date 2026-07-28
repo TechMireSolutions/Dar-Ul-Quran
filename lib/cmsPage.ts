@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { DEFAULT_SITE_NAME_URDU, pageMetadata } from '@/lib/seo'
 import { defaultOgImage } from '@/sanity/lib/image'
 import { getPageBySlug, getSiteSettings } from '@/sanity/lib/fetchers'
-import type { SiteSettingsDoc, PageDoc, CmsPageDoc, SlugListItem } from '@/lib/types'
+import type { SiteSettingsDoc, PageDoc, CmsPageDoc, SlugListItem, SanityImageAsset } from '@/lib/types'
 
 /** Listing index meta/subtitle fallbacks. */
 export const DEFAULT_COURSES_DESCRIPTION =
@@ -60,6 +60,13 @@ export function resolveLeafDescription(
 /** Parent vs leaf CTA on course cards / carousel / nested listings. */
 export function courseCtaLabel(childCount: number): string {
   return childCount > 0 ? 'کورسز دیکھیں' : 'ابھی داخلہ لیں'
+}
+
+/** Card image for course lists — prefers own image, then GROQ child fallback. */
+export function resolveCourseCardImage(
+  course: { featuredImage?: SanityImageAsset; cardImage?: SanityImageAsset } | null | undefined,
+): SanityImageAsset | undefined {
+  return course?.featuredImage ?? course?.cardImage
 }
 
 /** Parent vs leaf CTA on service cards / carousel / nested listings. */

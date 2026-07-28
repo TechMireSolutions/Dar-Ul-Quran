@@ -1,5 +1,5 @@
 import type { CarouselItem } from '@/lib/types/ui'
-import { courseCtaLabel, hasPublishedSlug, serviceCtaLabel } from '@/lib/cmsPage'
+import { courseCtaLabel, hasPublishedSlug, resolveCourseCardImage, serviceCtaLabel } from '@/lib/cmsPage'
 import { coursePath, servicePath } from '@/lib/paths'
 import { DEFAULT_HOME_DESCRIPTION, resolveSiteNameUrdu } from '@/lib/seo'
 import type {
@@ -32,15 +32,18 @@ export function coursesToCarouselItems(
 ): CarouselItem[] {
   return (courses ?? [])
     .filter(hasPublishedSlug)
-    .map((course) => ({
-      id: course._id,
-      image: course.featuredImage ? toImageUrl(course.featuredImage) : null,
-      title: course.title,
-      description: [course.price, course.duration].filter(Boolean).join(' · ') || null,
-      href: coursePath(course.slug.current),
-      badge: course.subject ?? null,
-      ctaLabel: courseCtaLabel(course.childCount ?? 0),
-    }))
+    .map((course) => {
+      const image = resolveCourseCardImage(course)
+      return {
+        id: course._id,
+        image: image ? toImageUrl(image) : null,
+        title: course.title,
+        description: [course.price, course.duration].filter(Boolean).join(' · ') || null,
+        href: coursePath(course.slug.current),
+        badge: course.subject ?? null,
+        ctaLabel: courseCtaLabel(course.childCount ?? 0),
+      }
+    })
 }
 
 export function servicesToCarouselItems(

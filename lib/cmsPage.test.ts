@@ -4,6 +4,7 @@ import {
   courseCtaLabel,
   defaultCourseDescription,
   defaultServiceDescription,
+  resolveCourseCardImage,
   resolveLeafDescription,
   resolveSeoDescription,
   resolveSeoTitle,
@@ -49,6 +50,17 @@ describe('courseCtaLabel / serviceCtaLabel', () => {
   it('uses enroll/book labels for leaves', () => {
     expect(courseCtaLabel(0)).toBe('ابھی داخلہ لیں')
     expect(serviceCtaLabel(0)).toBe('ابھی بک کریں')
+  })
+})
+
+describe('resolveCourseCardImage', () => {
+  it('prefers featuredImage then cardImage fallback', () => {
+    const own = { asset: { _ref: 'image-own' } }
+    const child = { asset: { _ref: 'image-child' } }
+    expect(resolveCourseCardImage({ featuredImage: own, cardImage: child })).toBe(own)
+    expect(resolveCourseCardImage({ cardImage: child })).toBe(child)
+    expect(resolveCourseCardImage({})).toBeUndefined()
+    expect(resolveCourseCardImage(null)).toBeUndefined()
   })
 })
 
