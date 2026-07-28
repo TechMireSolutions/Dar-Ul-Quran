@@ -311,6 +311,18 @@ a:where([class*="rounded-full"], [class*="rounded-xl"], [class*="rounded-lg"],
   }
 }
 
+/* No-JS / scripting disabled — keep Reveal content visible on desktop */
+@media (scripting: none) {
+  .rv-up,
+  .rv-fade,
+  .rv-scale,
+  .rv-left,
+  .rv-right {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /* ─── Respect reduced-motion preference (WCAG 2.2, mobile INP) ─── */
 @media (prefers-reduced-motion: reduce) {
   .rv-up,

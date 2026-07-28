@@ -1,8 +1,9 @@
 import type { ReactNode } from 'react'
+import Link from 'next/link'
 import WebPageSchema from '@/components/seo/WebPageSchema'
 import ItemListSchema from '@/components/seo/ItemListSchema'
 import PageHeroHeader from '@/components/ui/PageHeroHeader'
-import { TW_CONTAINER, TW_CV_AUTO, TW_PAGE_BODY } from '@/lib/tailwind'
+import { TW_BODY_MUTED, TW_BTN_PRIMARY, TW_CARD_GRID, TW_CONTAINER, TW_CV_AUTO, TW_PAGE_BODY } from '@/lib/tailwind'
 
 type ListingIndexShellProps = {
   title: string
@@ -48,13 +49,16 @@ export default function ListingIndexShell({
 }
 
 export function ListingCardGrid({ children }: { children: ReactNode }) {
-  return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-      {children}
-    </div>
-  )
+  return <div className={TW_CARD_GRID}>{children}</div>
 }
 
 export function ListingEmptyState({ message }: { message: string }) {
-  return <p className="text-center text-gray-400 text-[15px] py-24">{message}</p>
+  return (
+    <div className="flex flex-col items-center justify-center gap-5 py-24 text-center">
+      <p className={`${TW_BODY_MUTED} text-[15px]`}>{message}</p>
+      <Link href="/" className={TW_BTN_PRIMARY}>
+        صفحۂ اول پر جائیں
+      </Link>
+    </div>
+  )
 }

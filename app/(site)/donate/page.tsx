@@ -6,7 +6,7 @@ import { ArrowRight } from 'lucide-react'
 import WebPageSchema from '@/components/seo/WebPageSchema'
 import PageHeroHeader from '@/components/ui/PageHeroHeader'
 import Reveal from '@/components/ui/Reveal'
-import { TW_CONTAINER_NARROW, TW_CTA_ARROW, TW_FEATURE_ICON, TW_PAGE_BODY, TW_PAYPAL_CTA } from '@/lib/tailwind'
+import { TW_CONTAINER_NARROW, TW_CTA_ARROW, TW_FEATURE_CARD, TW_FEATURE_CARD_DESC, TW_FEATURE_CARD_TITLE, TW_FEATURE_ICON, TW_GRID_2, TW_OUTLINE_PILL, TW_PAGE_BODY, TW_PAYPAL_CTA } from '@/lib/tailwind'
 
 export const revalidate = 300
 
@@ -58,15 +58,15 @@ export default async function DonatePage() {
             </Reveal>
           )}
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8 sm:mb-10">
+          <div className={`${TW_GRID_2} mb-8 sm:mb-10`}>
             {causes.map(({ title, desc }, i) => (
               <Reveal key={i} animation="up" delay={i * 80}>
-                <div className="bg-white border border-gray-100 rounded-xl p-4 sm:p-5 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 h-full">
+                <div className={`${TW_FEATURE_CARD} bg-white shadow-sm hover:shadow-md hover:-translate-y-0.5 motion-reduce:hover:translate-y-0 transition-all duration-200 h-full`}>
                   <div className={TW_FEATURE_ICON}>
                     <span className="text-dq-700 font-bold text-[16px] leading-none">{i + 1}</span>
                   </div>
-                  <h3 className="font-semibold text-slate-900 text-[14px] mb-1">{title}</h3>
-                  <p className="text-[13px] text-gray-500 leading-relaxed">{desc}</p>
+                  <h3 className={TW_FEATURE_CARD_TITLE}>{title}</h3>
+                  <p className={TW_FEATURE_CARD_DESC}>{desc}</p>
                 </div>
               </Reveal>
             ))}
@@ -93,8 +93,10 @@ export default async function DonatePage() {
                   {settings?.donatePayOnlineLabel || 'آنلائن عطیہ دیں'}
                   <ArrowRight size={14} strokeWidth={2.5} className={TW_CTA_ARROW} />
                 </a>
-                <Link href="/contact"
-                  className="inline-flex items-center justify-center text-[13px] font-medium text-slate-300 hover:text-white border border-white/20 hover:border-white/50 px-6 py-3 rounded-full transition-all duration-200">
+                <Link
+                  href="/contact"
+                  className={`${TW_OUTLINE_PILL} border-white/20 bg-transparent text-slate-300 hover:border-white/50 hover:bg-white/5 hover:text-white`}
+                >
                   {settings?.donateContactLabel || 'ہم سے رابطہ کریں'}
                 </Link>
               </div>

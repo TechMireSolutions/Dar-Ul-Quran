@@ -3,10 +3,12 @@ import { Check } from 'lucide-react'
 import FaqAccordion from '@/components/content/FaqAccordion'
 import HowItWorksSection from '@/components/content/HowItWorksSection'
 import LeafCtaBanner from '@/components/content/LeafCtaBanner'
+import LeafHero from '@/components/content/LeafHero'
 import LeafTopicClusterBlock from '@/components/content/LeafTopicClusterBlock'
 import PortableTextSection from '@/components/content/PortableTextSection'
+import CenteredSectionHeader from '@/components/ui/CenteredSectionHeader'
 import type { ServiceDetailDoc, TopicClusterDoc } from '@/lib/types'
-import { TW_CONTAINER_NARROW, TW_HERO_CHIP_GOLD, TW_HERO_TITLE, TW_LEAF_HERO_OVERLAY, TW_SECTION_PY, TW_SECTION_TITLE } from '@/lib/tailwind'
+import { TW_CONTAINER_NARROW, TW_CONTAINER_WIDE, TW_HERO_CHIP_GOLD, TW_SECTION_PY, TW_SECTION_TITLE } from '@/lib/tailwind'
 
 type ServiceLeafPageProps = {
   service: ServiceDetailDoc
@@ -29,46 +31,29 @@ export default function ServiceLeafPage({
     <div>
 
           {/* ── 1. HERO ────────────────────────────────────────────────────── */}
-          <section className="relative bg-dq-900 overflow-hidden min-h-[340px] flex items-center justify-center">
-            {heroImageUrl && (
-              <Image
-                src={heroImageUrl}
-                alt={serviceTitle}
-                fill
-                sizes="100vw"
-                className="object-cover opacity-[0.18]"
-                priority
-                fetchPriority="high"
-              />
-            )}
-            <div className={TW_LEAF_HERO_OVERLAY} />
-
-            <div className={`relative ${TW_CONTAINER_NARROW} py-20 sm:py-28 text-center`}>
-              {service.price && (
+          <LeafHero
+            tall
+            title={serviceTitle}
+            imageUrl={heroImageUrl}
+            chips={
+              service.price ? (
                 <span className={`inline-block ${TW_HERO_CHIP_GOLD} mb-6`}>
                   {service.price}
                 </span>
-              )}
-              <h1 className={`${TW_HERO_TITLE} mb-5`}>
-                {serviceTitle}
-              </h1>
-              {service.heroSubtitle && (
-                <p className="text-[16px] sm:text-[18px] font-semibold text-white/90 mb-4 leading-relaxed">
-                  {service.heroSubtitle}
-                </p>
-              )}
-              {(service.heroBody || (!service.heroSubtitle && service.excerpt)) && (
-                <p className="text-[15px] text-slate-300 max-w-2xl mx-auto leading-[1.85]">
-                  {service.heroBody || service.excerpt}
-                </p>
-              )}
-            </div>
-          </section>
+              ) : null
+            }
+            subtitle={service.heroSubtitle || null}
+            body={
+              service.heroBody ||
+              (!service.heroSubtitle ? service.excerpt : null) ||
+              null
+            }
+          />
 
           {/* ── 2. WHY USE OUR PLATFORM ──────────────────────────────────── */}
           {(service.whyUs?.length ?? 0) > 0 && (
             <section className={`bg-white ${TW_SECTION_PY}`}>
-              <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className={TW_CONTAINER_WIDE}>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
                   {/* Left: image */}
@@ -113,9 +98,11 @@ export default function ServiceLeafPage({
           {(service.commitment?.length ?? 0) > 0 && (
             <section className={`bg-dq-900 ${TW_SECTION_PY}`}>
               <div className={`${TW_CONTAINER_NARROW} text-center`}>
-                <h2 className={`${TW_SECTION_TITLE} text-white mb-10`}>
-                  {service.commitmentHeading || 'ہمارا عہد'}
-                </h2>
+                <CenteredSectionHeader
+                  title={service.commitmentHeading || 'ہمارا عہد'}
+                  tight
+                  titleClassName="text-white"
+                />
                 <ul className="space-y-5">
                   {service.commitment!.map((item, i) => (
                     <li key={i} className="text-[14.5px] text-slate-300 leading-relaxed">

@@ -1,18 +1,9 @@
-import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
 import { urlFor } from '@/sanity/lib/image'
 import ContentCard from '@/components/ui/ContentCard'
 import Reveal from '@/components/ui/Reveal'
+import SectionHeaderRow from '@/components/ui/SectionHeaderRow'
 import type { HomepageSettingsDoc, PostListItemDoc } from '@/lib/types'
-import {
-  TW_CTA_ARROW,
-  TW_CONTAINER,
-  TW_CV_AUTO,
-  TW_EYEBROW,
-  TW_EYEBROW_LINE,
-  TW_SECTION_TITLE_COMPACT,
-  TW_VIEW_ALL_LINK,
-} from '@/lib/tailwind'
+import { TW_CARD_GRID, TW_CONTAINER, TW_CV_AUTO } from '@/lib/tailwind'
 
 type HomeArticlesSectionProps = {
   posts: PostListItemDoc[] | null | undefined
@@ -26,29 +17,15 @@ export default function HomeArticlesSection({ posts, settings }: HomeArticlesSec
     <section className={`py-10 md:py-16 border-b border-gray-100 bg-white ${TW_CV_AUTO}`}>
       <div className={TW_CONTAINER}>
         <Reveal animation="up">
-          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-7 sm:mb-10">
-            <div>
-              <p className={`${TW_EYEBROW} mb-2`}>
-                <span className={`${TW_EYEBROW_LINE} w-6`} />
-                علم
-              </p>
-              <h2 className={TW_SECTION_TITLE_COMPACT}>
-                {settings?.articlesHeading || 'تازہ ترین مضامین'}
-              </h2>
-              {settings?.articlesSubheading && (
-                <p className="text-[13px] text-gray-500 mt-1.5">{settings.articlesSubheading}</p>
-              )}
-            </div>
-            <Link
-              href="/articles"
-              className={`${TW_VIEW_ALL_LINK} shrink-0 sm:ms-6`}
-            >
-              سب دیکھیں
-              <ArrowRight size={13} strokeWidth={2.5} className={TW_CTA_ARROW} />
-            </Link>
-          </div>
+          <SectionHeaderRow
+            eyebrow="علم"
+            title={settings?.articlesHeading || 'تازہ ترین مضامین'}
+            subtitle={settings?.articlesSubheading}
+            compact
+            viewAllHref="/articles"
+          />
         </Reveal>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className={TW_CARD_GRID}>
           {posts.slice(0, 3).map((post, i) => (
             <Reveal key={post._id} animation="up" delay={i * 80}>
               <ContentCard

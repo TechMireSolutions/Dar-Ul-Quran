@@ -6,7 +6,7 @@ import PageHeroHeader from '@/components/ui/PageHeroHeader'
 import RichTextBody from '@/components/content/RichTextBody'
 import { ArrowRight, BookOpen, Heart, Star } from 'lucide-react'
 import Reveal from '@/components/ui/Reveal'
-import { TW_CONTAINER_NARROW, TW_CTA_ARROW, TW_FEATURE_ICON, TW_GOLD_CTA_DARK } from '@/lib/tailwind'
+import { TW_CONTAINER_NARROW, TW_CTA_ARROW, TW_FEATURE_CARD, TW_FEATURE_CARD_DESC, TW_FEATURE_CARD_TITLE, TW_FEATURE_ICON, TW_GOLD_CTA_DARK, TW_OUTLINE_PILL, TW_PAGE_BODY } from '@/lib/tailwind'
 
 export async function generateMetadata(): Promise<Metadata> {
   return cmsPageMetadata({
@@ -40,7 +40,7 @@ export default async function AboutPage() {
         maxWidth="3xl"
       />
 
-      <div className="py-8 sm:py-12 bg-white">
+      <div className={`${TW_PAGE_BODY} bg-white`}>
         <div className={`${TW_CONTAINER_NARROW} lg:px-8`}>
 
           {page?.body ? (
@@ -59,19 +59,19 @@ export default async function AboutPage() {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {features.map(({ Icon, title, desc }, i) => (
                   <Reveal key={title} animation="up" delay={i * 80}>
-                    <div className="bg-slate-50 rounded-xl p-4 sm:p-5 border border-gray-100 h-full">
+                    <div className={`${TW_FEATURE_CARD} h-full`}>
                       <div className={TW_FEATURE_ICON}>
                         <Icon size={15} className="text-dq-600" strokeWidth={1.75} />
                       </div>
-                      <h3 className="font-semibold text-slate-900 text-[14px] mb-1">{title}</h3>
-                      <p className="text-[13px] text-gray-500 leading-relaxed">{desc}</p>
+                      <h3 className={TW_FEATURE_CARD_TITLE}>{title}</h3>
+                      <p className={TW_FEATURE_CARD_DESC}>{desc}</p>
                     </div>
                   </Reveal>
                 ))}
               </div>
 
               <Reveal animation="up" delay={80}>
-                <div className="bg-slate-50 rounded-xl p-4 sm:p-6 border border-gray-100">
+                <div className={TW_FEATURE_CARD}>
                   <h3 className="font-semibold text-slate-900 mb-2 text-[15px]">دار القرآن</h3>
                   <p className="text-[13.5px] text-gray-600 leading-relaxed">
                     ہم <strong className="text-slate-800">دار القرآن</strong> سے وابستہ ہیں، جو ہمارا خصوصی قرآنی ادارہ ہے اور ہر عمر کے طلبہ کے لیے منظم قرآنی تعلیمی پروگرام فراہم کرتا ہے۔
@@ -87,10 +87,7 @@ export default async function AboutPage() {
                 ہم سے رابطہ کریں
                 <ArrowRight size={13} strokeWidth={2.5} className={TW_CTA_ARROW} />
               </Link>
-              <Link href="/online-courses"
-                className="inline-flex items-center text-[13.5px] font-medium text-slate-700 hover:text-slate-900
-                  border border-gray-300 hover:border-gray-400 bg-white hover:bg-gray-50
-                  px-5 sm:px-6 py-2.5 rounded-full transition-all duration-200">
+              <Link href="/online-courses" className={TW_OUTLINE_PILL}>
                 ہمارے کورسز
               </Link>
             </div>

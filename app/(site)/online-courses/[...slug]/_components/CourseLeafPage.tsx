@@ -1,13 +1,14 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import { ArrowRight, Check, Mail, Phone } from 'lucide-react'
 import FaqAccordion from '@/components/content/FaqAccordion'
 import HowItWorksSection from '@/components/content/HowItWorksSection'
 import LeafCtaBanner from '@/components/content/LeafCtaBanner'
+import LeafHero from '@/components/content/LeafHero'
 import LeafTopicClusterBlock from '@/components/content/LeafTopicClusterBlock'
 import PortableTextSection from '@/components/content/PortableTextSection'
+import CenteredSectionHeader from '@/components/ui/CenteredSectionHeader'
 import type { CourseDetailDoc, SiteSettingsDoc, TopicClusterDoc } from '@/lib/types'
-import { TW_CONTAINER_NARROW, TW_CTA_ARROW, TW_EYEBROW, TW_EYEBROW_LINE, TW_GOLD_CTA, TW_HERO_CHIP_GOLD, TW_HERO_CHIP_MUTED, TW_HERO_TITLE, TW_LEAF_HERO_OVERLAY, TW_SECTION_PY, TW_SECTION_TITLE } from '@/lib/tailwind'
+import { TW_CARD_GRID, TW_CARD_SURFACE, TW_CARD_SURFACE_PADDED, TW_CONTAINER_NARROW, TW_CONTAINER_PRICING, TW_CONTAINER_PROSE, TW_CONTAINER_WIDE, TW_CTA_ARROW, TW_EYEBROW_LINE, TW_FEATURE_ICON, TW_GOLD_CTA, TW_HERO_CHIP_GOLD, TW_HERO_CHIP_MUTED, TW_PAGE_SUBTITLE, TW_SECTION_PY, TW_SECTION_TITLE } from '@/lib/tailwind'
 
 type CourseLeafPageProps = {
   course: CourseDetailDoc
@@ -32,51 +33,26 @@ export default function CourseLeafPage({
     <div>
 
           {/* ── 1. HERO ──────────────────────────────────────────────────────── */}
-          <section className="relative bg-dq-900 overflow-hidden">
-            {heroImageUrl && (
-              <Image
-                src={heroImageUrl}
-                alt={courseTitle}
-                fill
-                sizes="100vw"
-                className="object-cover opacity-[0.18]"
-                priority
-                fetchPriority="high"
-              />
-            )}
-            {/* Gradient overlay */}
-            <div className={TW_LEAF_HERO_OVERLAY} />
-
-            <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 text-center">
-              {/* Eyebrow tags */}
-              <div className="flex flex-wrap justify-center gap-2 mb-6">
-                {course.subject && (
-                  <span className={TW_HERO_CHIP_GOLD}>
-                    {course.subject}
-                  </span>
-                )}
-                {course.duration && (
-                  <span className={TW_HERO_CHIP_MUTED}>
-                    {course.duration}
-                  </span>
-                )}
-                {course.instructor && (
-                  <span className={TW_HERO_CHIP_MUTED}>
-                    {course.instructor}
-                  </span>
-                )}
-              </div>
-
-              <h1 className={`${TW_HERO_TITLE} mb-5`}>
-                {courseTitle}
-              </h1>
-
-              {(course.heroSubtitle || course.excerpt) && (
-                <p className="text-[16px] sm:text-[18px] text-slate-300 max-w-2xl mx-auto leading-relaxed mb-10">
-                  {course.heroSubtitle || course.excerpt}
-                </p>
-              )}
-
+          <LeafHero
+            title={courseTitle}
+            imageUrl={heroImageUrl}
+            chips={
+              (course.subject || course.duration || course.instructor) ? (
+                <div className="flex flex-wrap justify-center gap-2 mb-6">
+                  {course.subject && (
+                    <span className={TW_HERO_CHIP_GOLD}>{course.subject}</span>
+                  )}
+                  {course.duration && (
+                    <span className={TW_HERO_CHIP_MUTED}>{course.duration}</span>
+                  )}
+                  {course.instructor && (
+                    <span className={TW_HERO_CHIP_MUTED}>{course.instructor}</span>
+                  )}
+                </div>
+              ) : null
+            }
+            subtitle={course.heroSubtitle || course.excerpt || null}
+            cta={
               <div className="flex flex-wrap justify-center gap-3">
                 <Link
                   href={enrollHref}
@@ -88,8 +64,8 @@ export default function CourseLeafPage({
                   <ArrowRight size={14} strokeWidth={2.5} className={TW_CTA_ARROW} />
                 </Link>
               </div>
-            </div>
-          </section>
+            }
+          />
 
           {/* ── 2. OVERVIEW ──────────────────────────────────────────────────── */}
           {(course.overviewHeading || course.overviewBody) && (
@@ -110,24 +86,20 @@ export default function CourseLeafPage({
           {/* ── 3. WHAT YOU'LL ACHIEVE ───────────────────────────────────────── */}
           {(course.outcomes?.length ?? 0) > 0 && (
             <section className={`bg-slate-50 ${TW_SECTION_PY}`}>
-              <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-12">
-                  <h2 className={TW_SECTION_TITLE}>
-                    {course.outcomesHeading || 'آپ کیا حاصل کریں گے'}
-                  </h2>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              <div className={TW_CONTAINER_WIDE}>
+                <CenteredSectionHeader title={course.outcomesHeading || 'آپ کیا حاصل کریں گے'} />
+                <div className={TW_CARD_GRID}>
                   {course.outcomes!.map((item, i) => (
                     <div
                       key={i}
-                      className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-200"
+                      className={`${TW_CARD_SURFACE_PADDED} hover:shadow-md transition-shadow duration-200`}
                     >
-                      <div className="w-10 h-10 rounded-xl bg-dq-50 border border-dq-100 flex items-center justify-center mb-4">
+                      <div className={`${TW_FEATURE_ICON} w-10 h-10 mb-4`}>
                         <Check size={17} className="text-dq-600" strokeWidth={2.5} />
                       </div>
                       <h3 className="font-bold text-[15px] text-slate-900 mb-2">{item.title}</h3>
                       {item.desc && (
-                        <p className="text-[13.5px] text-gray-500 leading-relaxed">{item.desc}</p>
+                        <p className={TW_PAGE_SUBTITLE}>{item.desc}</p>
                       )}
                     </div>
                   ))}
@@ -139,13 +111,9 @@ export default function CourseLeafPage({
           {/* ── 4. WHY OUR COURSE STANDS OUT ─────────────────────────────────── */}
           {(course.whyUs?.length ?? 0) > 0 && (
             <section className={`bg-white ${TW_SECTION_PY}`}>
-              <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-12">
-                  <h2 className={TW_SECTION_TITLE}>
-                    {course.whyUsHeading || 'ہمارا کورس کیوں منفرد ہے'}
-                  </h2>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              <div className={TW_CONTAINER_WIDE}>
+                <CenteredSectionHeader title={course.whyUsHeading || 'ہمارا کورس کیوں منفرد ہے'} />
+                <div className={TW_CARD_GRID}>
                   {course.whyUs!.map((item, i) => (
                     <div
                       key={i}
@@ -157,7 +125,7 @@ export default function CourseLeafPage({
                       <div>
                         <h3 className="font-bold text-[15px] text-slate-900 mb-1.5">{item.title}</h3>
                         {item.desc && (
-                          <p className="text-[13.5px] text-gray-500 leading-relaxed">{item.desc}</p>
+                          <p className={TW_PAGE_SUBTITLE}>{item.desc}</p>
                         )}
                       </div>
                     </div>
@@ -174,25 +142,25 @@ export default function CourseLeafPage({
 
           {/* ── 6a. FEE SUMMARY (simple) ─────────────────────────────────────── */}
           {(course.feeSummaryItems?.length ?? 0) > 0 && (
-            <section className="bg-white py-14 sm:py-20">
-              <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-                {/* Heading */}
-                <div className="text-center mb-10">
-                  <div className="inline-flex items-center justify-center size-14 rounded-2xl mb-4 bg-gradient-to-br from-dq-50 to-dq-100 border border-dq-400/30">
-                    <span className="text-2xl leading-none">💰</span>
-                  </div>
-                  <h2 className={TW_SECTION_TITLE}>
-                    {course.feeSummaryHeading || 'فیس'}
-                  </h2>
-                </div>
+            <section className={`bg-white ${TW_SECTION_PY}`}>
+              <div className={`${TW_CONTAINER_PROSE} lg:px-8`}>
+                <CenteredSectionHeader
+                  title={course.feeSummaryHeading || 'فیس'}
+                  tight
+                  topContent={
+                    <div className="inline-flex items-center justify-center size-14 rounded-2xl mb-4 bg-gradient-to-br from-dq-50 to-dq-100 border border-dq-400/30">
+                      <span className="text-2xl leading-none" aria-hidden="true">💰</span>
+                    </div>
+                  }
+                />
 
                 {/* Fee rows */}
                 <div className="space-y-3">
                   {course.feeSummaryItems!.map((item, i) => (
                     <div
                       key={i}
-                      className="flex items-center justify-between gap-4 bg-white rounded-2xl border border-gray-100 shadow-sm px-6 py-4
-                        hover:border-dq-100 hover:shadow-gold-subtle transition-all duration-200"
+                      className={`flex items-center justify-between gap-4 ${TW_CARD_SURFACE} shadow-sm px-6 py-4
+                        hover:border-dq-100 hover:shadow-gold-subtle transition-all duration-200`}
                     >
                       <span className="text-[14.5px] text-slate-700 font-medium">{item.label}</span>
                       <span className="shrink-0 font-bold text-[15px] px-4 py-1.5 rounded-full bg-gradient-to-br from-dq-50 to-dq-100 text-dq-700 border border-dq-400/30">
@@ -213,15 +181,11 @@ export default function CourseLeafPage({
           {/* ── 6b. PRICING TABLES (multi-column) ────────────────────────────── */}
           {(course.pricingTables?.length ?? 0) > 0 && (
             <section className={`bg-slate-50 ${TW_SECTION_PY}`}>
-              <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-12">
-                  <p className={`${TW_EYEBROW} mb-2`}>
-                    پلانز
-                  </p>
-                  <h2 className={TW_SECTION_TITLE}>
-                    {course.pricingHeading || 'سستے پلانز'}
-                  </h2>
-                </div>
+              <div className={TW_CONTAINER_PRICING}>
+                <CenteredSectionHeader
+                  title={course.pricingHeading || 'سستے پلانز'}
+                  eyebrow="پلانز"
+                />
                 <div className="space-y-10">
                   {course.pricingTables!.map((table, ti) => (
                     <div key={ti}>

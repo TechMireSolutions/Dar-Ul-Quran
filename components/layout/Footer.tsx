@@ -1,5 +1,13 @@
 import Link from 'next/link'
-import { TW_CONTAINER, TW_CTA_ARROW, TW_CV_AUTO, TW_FOOTER_DONATE_CTA } from '@/lib/tailwind'
+import {
+  TW_CONTAINER,
+  TW_CTA_ARROW,
+  TW_CV_AUTO,
+  TW_FOOTER_BAR_LINK,
+  TW_FOOTER_CONTACT_LINK,
+  TW_FOOTER_DONATE_CTA,
+  TW_FOOTER_SOCIAL,
+} from '@/lib/tailwind'
 import Image from 'next/image'
 import { whatsappHref } from '@/lib/contact'
 import type { NavNode, SiteSettingsDoc, FooterServiceDoc } from '@/lib/types'
@@ -93,7 +101,7 @@ const FALLBACK_SERVICES: FooterServiceDoc[] = [
 
 function ColHeading({ children }: { children: React.ReactNode }) {
   return (
-    <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-2.5 sm:mb-4">
+    <h3 className="text-[13px] font-bold text-dq-400 mb-2.5 sm:mb-4">
       {children}
     </h3>
   )
@@ -104,11 +112,33 @@ function NavLink({ href, children }: { href: string; children: React.ReactNode }
     <li>
       <Link
         href={href}
-        className="group flex items-center gap-0 text-[12px] sm:text-[13px] text-gray-300 hover:text-dq-400 transition-colors duration-150"
+        className="group flex min-h-11 items-center gap-0 text-[12px] sm:text-[13px] text-gray-300 hover:text-dq-400 focus-visible:text-dq-400 transition-colors duration-150"
       >
-        <span className="inline-block w-0 overflow-hidden group-hover:w-3 transition-all duration-150 text-dq-400 text-[11px] leading-none">
+        <span className="inline-block w-0 overflow-hidden group-hover:w-3 group-focus-visible:w-3 transition-all duration-150 text-dq-400 text-[11px] leading-none" aria-hidden="true">
           ›
         </span>
+        {children}
+      </Link>
+    </li>
+  )
+}
+
+function ContactLink({
+  href,
+  children,
+  external,
+}: {
+  href: string
+  children: React.ReactNode
+  external?: boolean
+}) {
+  return (
+    <li>
+      <Link
+        href={href}
+        {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+        className={TW_FOOTER_CONTACT_LINK}
+      >
         {children}
       </Link>
     </li>
@@ -156,13 +186,13 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
               <div className="flex items-center gap-2 flex-wrap">
                 {settings?.facebook && (
                   <Link href={settings.facebook} target="_blank" rel="noopener noreferrer" aria-label="فیس بک"
-                    className="w-11 h-11 sm:w-10 sm:h-10 rounded-lg bg-dq-800 border border-dq-700 flex items-center justify-center text-gray-300 hover:border-dq-400 hover:text-dq-300 transition-all duration-200">
+                    className={TW_FOOTER_SOCIAL}>
                     <IconFacebook size={14} />
                   </Link>
                 )}
                 {settings?.youtube && (
                   <Link href={settings.youtube} target="_blank" rel="noopener noreferrer" aria-label="یوٹیوب"
-                    className="w-11 h-11 sm:w-10 sm:h-10 rounded-lg bg-dq-800 border border-dq-700 flex items-center justify-center text-gray-300 hover:border-dq-400 hover:text-dq-300 transition-all duration-200">
+                    className={TW_FOOTER_SOCIAL}>
                     <IconYoutube size={12} />
                   </Link>
                 )}
@@ -206,32 +236,22 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
             <ColHeading>ہم سے رابطہ</ColHeading>
             <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-x-4 gap-y-2 sm:gap-y-3">
               {settings?.email && (
-                <li>
-                  <Link href={`mailto:${settings.email}`}
-                    className="flex items-center gap-2 text-[12px] sm:text-[12.5px] text-gray-300 hover:text-dq-400 transition-colors duration-150">
-                    <IconMail size={12} className="text-dq-400 shrink-0" />
-                    <span className="truncate">{settings.email}</span>
-                  </Link>
-                </li>
+                <ContactLink href={`mailto:${settings.email}`}>
+                  <IconMail size={12} className="text-dq-400 shrink-0" />
+                  <span className="truncate">{settings.email}</span>
+                </ContactLink>
               )}
               {settings?.phone && (
-                <li>
-                  <Link href={`tel:${settings.phone}`}
-                    className="flex items-center gap-2 text-[12px] sm:text-[12.5px] text-gray-300 hover:text-dq-400 transition-colors duration-150">
-                    <IconPhone size={12} className="text-dq-400 shrink-0" />
-                    {settings.phone}
-                  </Link>
-                </li>
+                <ContactLink href={`tel:${settings.phone}`}>
+                  <IconPhone size={12} className="text-dq-400 shrink-0" />
+                  {settings.phone}
+                </ContactLink>
               )}
               {settings?.whatsapp && (
-                <li>
-                  <Link href={whatsappHref(settings.whatsapp)}
-                    target="_blank" rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-[12px] sm:text-[12.5px] text-gray-300 hover:text-dq-400 transition-colors duration-150">
-                    <IconMessageCircle size={12} className="text-dq-400 shrink-0" />
-                    واٹس ایپ: {settings.whatsapp}
-                  </Link>
-                </li>
+                <ContactLink href={whatsappHref(settings.whatsapp)} external>
+                  <IconMessageCircle size={12} className="text-dq-400 shrink-0" />
+                  واٹس ایپ: {settings.whatsapp}
+                </ContactLink>
               )}
               {settings?.address && (
                 <li className="flex items-start gap-2">
@@ -270,11 +290,11 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
             &copy; {new Date().getFullYear()} {siteName}۔ تمام حقوق محفوظ ہیں۔
           </p>
           <div className="flex items-center gap-1 text-dq-400">
-            <Link href="/about"   className="px-3 py-2 text-[12px] text-gray-300 hover:text-white transition-colors">ہمارے بارے میں</Link>
+            <Link href="/about" className={TW_FOOTER_BAR_LINK}>ہمارے بارے میں</Link>
             <span className="text-dq-400">·</span>
-            <Link href="/contact" className="px-3 py-2 text-[12px] text-gray-300 hover:text-white transition-colors">رابطہ</Link>
+            <Link href="/contact" className={TW_FOOTER_BAR_LINK}>رابطہ</Link>
             <span className="text-dq-400">·</span>
-            <Link href="/donate"  className="px-3 py-2 text-[12px] text-gray-300 hover:text-white transition-colors">عطیہ</Link>
+            <Link href="/donate" className={TW_FOOTER_BAR_LINK}>عطیہ</Link>
           </div>
         </div>
       </div>

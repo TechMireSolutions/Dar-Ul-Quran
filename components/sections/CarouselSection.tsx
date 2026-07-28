@@ -1,11 +1,11 @@
 'use client'
 import { useRef, useState, useEffect, useId } from 'react'
-import Link from 'next/link'
-import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import ContentCard from '@/components/ui/ContentCard'
+import SectionHeaderRow from '@/components/ui/SectionHeaderRow'
 import type { CarouselItem } from '@/lib/types/ui'
 import { isMobileViewport } from '@/lib/viewport'
-import { TW_CTA_ARROW, TW_CONTAINER, TW_CV_AUTO, TW_EYEBROW, TW_EYEBROW_LINE, TW_SCROLLBAR_HIDE, TW_SECTION_TITLE, TW_VIEW_ALL_LINK } from '@/lib/tailwind'
+import { TW_CAROUSEL_NAV_BTN, TW_CAROUSEL_NAV_BTN_OFF, TW_CAROUSEL_NAV_BTN_ON, TW_CONTAINER, TW_CV_AUTO, TW_SCROLLBAR_HIDE } from '@/lib/tailwind'
 
 type CarouselSectionProps = {
   eyebrow:       string
@@ -93,31 +93,21 @@ export default function CarouselSection({
     <section aria-labelledby={headingId} className={`py-10 md:py-16 border-b border-gray-100 ${bgClass} ${TW_CV_AUTO}`}>
       <div className={TW_CONTAINER}>
 
-        {/* Header row */}
-        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-7 sm:mb-10">
-          <div>
-            <p className={`${TW_EYEBROW} mb-2`}>
-              <span className={`${TW_EYEBROW_LINE} w-6`} />
-              {eyebrow}
-            </p>
-            <h2 id={headingId} className={TW_SECTION_TITLE}>{title}</h2>
-            {subtitle && (
-              <p className="text-[13.5px] text-gray-500 mt-1.5 max-w-md">{subtitle}</p>
-            )}
-          </div>
-
-          <div className="flex items-center gap-3 shrink-0 sm:ms-6">
+        <SectionHeaderRow
+          eyebrow={eyebrow}
+          title={title}
+          titleId={headingId}
+          subtitle={subtitle}
+          viewAllHref={viewAllHref}
+          viewAllLabel={viewAllLabel}
+          actions={
             <div className="hidden md:flex items-center gap-1.5" role="group" aria-label="کاروسل کنٹرول">
               <button
                 onClick={() => scrollBy('left')}
                 disabled={!active || !canLeft}
                 aria-label="پچھلا"
                 aria-disabled={!active || !canLeft}
-                className={`w-12 h-12 rounded-full border-2 flex items-center justify-center
-                  transition-all duration-200
-                  ${active && canLeft
-                    ? 'border-gray-200 text-gray-500 hover:border-dq-500 hover:text-dq-700 hover:bg-dq-50'
-                    : 'border-gray-100 text-gray-300 cursor-not-allowed'}`}
+                className={`${TW_CAROUSEL_NAV_BTN} ${active && canLeft ? TW_CAROUSEL_NAV_BTN_ON : TW_CAROUSEL_NAV_BTN_OFF}`}
               >
                 <ChevronLeft size={16} strokeWidth={2} />
               </button>
@@ -126,29 +116,13 @@ export default function CarouselSection({
                 disabled={!active || !canRight}
                 aria-label="اگلا"
                 aria-disabled={!active || !canRight}
-                className={`w-12 h-12 rounded-full border-2 flex items-center justify-center
-                  transition-all duration-200
-                  ${active && canRight
-                    ? 'border-gray-200 text-gray-500 hover:border-dq-500 hover:text-dq-700 hover:bg-dq-50'
-                    : 'border-gray-100 text-gray-300 cursor-not-allowed'}`}
+                className={`${TW_CAROUSEL_NAV_BTN} ${active && canRight ? TW_CAROUSEL_NAV_BTN_ON : TW_CAROUSEL_NAV_BTN_OFF}`}
               >
                 <ChevronRight size={16} strokeWidth={2} />
               </button>
             </div>
-
-            <Link
-              href={viewAllHref}
-              className={TW_VIEW_ALL_LINK}
-            >
-              {viewAllLabel}
-              <ArrowRight
-                size={13}
-                strokeWidth={2.5}
-                className={TW_CTA_ARROW}
-              />
-            </Link>
-          </div>
-        </div>
+          }
+        />
 
         {/* Scroll track + edge fades */}
         <div className="relative">

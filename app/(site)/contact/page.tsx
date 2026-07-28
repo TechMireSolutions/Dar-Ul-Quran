@@ -10,7 +10,7 @@ import WebPageSchema from '@/components/seo/WebPageSchema'
 import PageHeroHeader from '@/components/ui/PageHeroHeader'
 import ContactForm from './_components/ContactForm'
 import Reveal from '@/components/ui/Reveal'
-import { TW_PAGE_BODY } from '@/lib/tailwind'
+import { TW_CONTACT_INFO_ROW, TW_CONTACT_SOCIAL_CHIP, TW_CONTAINER_WIDE, TW_FEATURE_ICON, TW_PAGE_BODY } from '@/lib/tailwind'
 
 export const revalidate = 300
 
@@ -63,7 +63,7 @@ export default async function ContactPage() {
       />
 
       <div className={TW_PAGE_BODY}>
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className={TW_CONTAINER_WIDE}>
 
           {page?.body && (
             <Reveal animation="fade">
@@ -77,15 +77,15 @@ export default async function ContactPage() {
             <div className="lg:col-span-2 space-y-3">
               {contactItems.map(({ Icon, label, value, href }, i) => (
                 <Reveal key={label} animation="left" delay={i * 70}>
-                  <div className="flex items-start gap-3 sm:gap-3.5 bg-white border border-gray-100 rounded-xl px-4 py-3.5 shadow-sm">
-                    <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-dq-50 border border-dq-100 flex items-center justify-center shrink-0">
+                  <div className={TW_CONTACT_INFO_ROW}>
+                    <div className={`${TW_FEATURE_ICON} mb-0 shrink-0`}>
                       <Icon size={14} className="text-dq-700" strokeWidth={1.75} />
                     </div>
                     <div className="min-w-0">
                       <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-gray-400 mb-0.5">{label}</p>
                       {href ? (
                         <Link href={href} target={href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer"
-                          className="text-[13px] text-slate-700 hover:text-dq-700 transition-colors break-all">
+                          className="inline-flex min-h-11 items-center text-[13px] text-slate-700 hover:text-dq-700 focus-visible:text-dq-700 transition-colors break-all">
                           {value}
                         </Link>
                       ) : (
@@ -101,13 +101,13 @@ export default async function ContactPage() {
                   <div className="flex gap-2 pt-1">
                     {settings?.facebook && (
                       <Link href={settings.facebook} target="_blank" rel="noopener noreferrer"
-                        className="flex items-center gap-1.5 text-[12px] font-medium text-gray-500 hover:text-dq-700 bg-white border border-gray-200 rounded-lg px-3 py-2 transition-colors">
+                        className={TW_CONTACT_SOCIAL_CHIP}>
                         <Globe size={13} /> فیس بک
                       </Link>
                     )}
                     {settings?.youtube && (
                       <Link href={settings.youtube} target="_blank" rel="noopener noreferrer"
-                        className="flex items-center gap-1.5 text-[12px] font-medium text-gray-500 hover:text-dq-700 bg-white border border-gray-200 rounded-lg px-3 py-2 transition-colors">
+                        className={TW_CONTACT_SOCIAL_CHIP}>
                         <Play size={13} /> یوٹیوب
                       </Link>
                     )}
@@ -127,6 +127,7 @@ export default async function ContactPage() {
                   submitLabel={submitLabel}
                   courses={courses ?? []}
                   services={services ?? []}
+                  subjects={subjects}
                   turnstileSiteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
                 />
               </div>

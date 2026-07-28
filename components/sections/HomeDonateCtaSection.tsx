@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import Reveal from '@/components/ui/Reveal'
 import type { HomepageSettingsDoc } from '@/lib/types'
-import { TW_CTA_ARROW, TW_CV_AUTO, TW_GOLD_CTA_DARK } from '@/lib/tailwind'
+import { TW_CONTAINER_PROSE, TW_CTA_ARROW, TW_CV_AUTO, TW_GOLD_CTA_DARK, TW_PAGE_SUBTITLE } from '@/lib/tailwind'
 
 type HomeDonateCtaSectionProps = {
   settings?: HomepageSettingsDoc | null
@@ -13,7 +13,7 @@ export default function HomeDonateCtaSection({ settings }: HomeDonateCtaSectionP
     <section className={`relative overflow-hidden bg-slate-50 border-y border-slate-200 py-10 sm:py-12 ${TW_CV_AUTO}`}>
       <div className="absolute inset-0 opacity-40 pointer-events-none bg-dot-grid-slate bg-size-dot-grid-sm" />
 
-      <Reveal animation="up" className="relative max-w-2xl mx-auto px-4 sm:px-6 text-center">
+      <Reveal animation="up" className={`relative ${TW_CONTAINER_PROSE} text-center`}>
         <div>
           <div className="inline-flex items-center gap-2.5 mb-4">
             <span className="w-6 h-px bg-amber-400" />
@@ -25,7 +25,7 @@ export default function HomeDonateCtaSection({ settings }: HomeDonateCtaSectionP
             {settings?.donateHeading || 'ہمارے مشن میں ساتھ دیں'}
           </h2>
 
-          <p className="text-[13.5px] text-gray-500 leading-relaxed mb-6 max-w-sm mx-auto">
+          <p className={`${TW_PAGE_SUBTITLE} mb-6 max-w-sm mx-auto`}>
             {settings?.donateText ||
               'آپ کا صدقہ اور چندہ ہمیں اہل بیت (ع) کی تعلیمات پھیلاتے رہنے میں مدد کرتا ہے'}
           </p>

@@ -12,7 +12,7 @@ import {
 import ContentCard from '@/components/ui/ContentCard'
 import ListingIndexShell, { ListingCardGrid, ListingEmptyState } from '@/components/layout/ListingIndexShell'
 import Reveal from '@/components/ui/Reveal'
-import { TW_BTN_PRIMARY, TW_SEARCH_INPUT } from '@/lib/tailwind'
+import { TW_BTN_PRIMARY, TW_PAGE_SUBTITLE, TW_SEARCH_INPUT } from '@/lib/tailwind'
 
 export const revalidate = 300
 
@@ -97,7 +97,7 @@ export default async function ArticlesPage({
       }
     >
       {query && (
-        <p className="text-[13px] text-gray-500 mb-6" role="status" aria-live="polite">
+        <p className={`${TW_PAGE_SUBTITLE} mb-6`} role="status" aria-live="polite">
           {filtered.length > 0
             ? `”${q}“ کے لیے ${filtered.length} نتائج`
             : `”${q}“ کے لیے کوئی نتیجہ نہیں ملا`}

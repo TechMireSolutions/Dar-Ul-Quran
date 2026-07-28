@@ -1,5 +1,12 @@
 import type { LabelDescItemDoc } from '@/lib/types'
-import { TW_SECTION_PY, TW_SECTION_TITLE } from '@/lib/tailwind'
+import CenteredSectionHeader from '@/components/ui/CenteredSectionHeader'
+import {
+  TW_BODY_MUTED,
+  TW_CARD_SURFACE,
+  TW_CONTAINER_NARROW,
+  TW_CONTAINER_PROSE,
+  TW_SECTION_PY,
+} from '@/lib/tailwind'
 
 type HowItWorksSectionProps = {
   heading?: string
@@ -8,8 +15,8 @@ type HowItWorksSectionProps = {
 }
 
 const MAX_WIDTH_CLASS = {
-  '2xl': 'max-w-2xl',
-  '3xl': 'max-w-3xl',
+  '2xl': TW_CONTAINER_PROSE,
+  '3xl': `${TW_CONTAINER_NARROW} lg:px-8`,
 } as const
 
 export default function HowItWorksSection({
@@ -21,17 +28,13 @@ export default function HowItWorksSection({
 
   return (
     <section className={`bg-dq-50 ${TW_SECTION_PY}`}>
-      <div className={`${MAX_WIDTH_CLASS[maxWidth]} mx-auto px-4 sm:px-6 lg:px-8`}>
-        <div className="text-center mb-12">
-          <h2 className={TW_SECTION_TITLE}>
-            {heading}
-          </h2>
-        </div>
+      <div className={MAX_WIDTH_CLASS[maxWidth]}>
+        <CenteredSectionHeader title={heading} />
         <ol className="space-y-4">
           {steps.map((step, i) => (
             <li
               key={i}
-              className="flex items-start gap-5 bg-white rounded-2xl px-6 py-5 border border-dq-100 shadow-sm"
+              className={`flex items-start gap-5 ${TW_CARD_SURFACE} px-6 py-5 border-dq-100 shadow-sm`}
             >
               <span className="shrink-0 w-9 h-9 rounded-full bg-dq-600 text-white text-[13px] font-bold flex items-center justify-center">
                 {i + 1}
@@ -39,7 +42,7 @@ export default function HowItWorksSection({
               <div className="pt-0.5">
                 <span className="font-bold text-slate-900 text-[15px]">{step.label}</span>
                 {step.desc && (
-                  <span className="text-gray-500 text-[14px]"> — {step.desc}</span>
+                  <span className={TW_BODY_MUTED}> — {step.desc}</span>
                 )}
               </div>
             </li>

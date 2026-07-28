@@ -7,7 +7,7 @@ import { Search, Menu, ChevronDown, ChevronLeft } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import type { NavNode } from '@/lib/types'
 import { nodeIsActive } from '@/lib/navigation'
-import { TW_CONTAINER_HEADER, TW_SEARCH_FORM } from '@/lib/tailwind'
+import { TW_CONTAINER_HEADER, TW_HEADER_SEARCH_INPUT, TW_HEADER_SEARCH_SUBMIT, TW_NAV_DROPDOWN, TW_NAV_MENU_ITEM, TW_SEARCH_FORM } from '@/lib/tailwind'
 
 const HeaderMobileMenu = dynamic(() => import('./HeaderMobileMenu'), { ssr: false })
 
@@ -71,7 +71,7 @@ function DesktopPanelRow({ node, onClose, depth }: DesktopPanelRowProps) {
         target={node.external ? '_blank' : undefined}
         rel={node.external ? 'noopener noreferrer' : undefined}
         onClick={onClose}
-        className={`flex items-center gap-2 px-4 py-2.5 text-[13px] transition-colors duration-150
+        className={`${TW_NAV_MENU_ITEM}
           hover:bg-dq-50 hover:text-dq-700
           ${isActive ? 'text-dq-700 bg-dq-50/60' : 'text-gray-600'}`}
       >
@@ -84,8 +84,8 @@ function DesktopPanelRow({ node, onClose, depth }: DesktopPanelRowProps) {
   return (
     <div className="relative" onMouseEnter={enter} onMouseLeave={leave}>
       {/* Row */}
-      <div className={`flex items-center justify-between gap-2 px-4 py-2.5 cursor-default
-        transition-colors duration-150 hover:bg-dq-50
+      <div className={`${TW_NAV_MENU_ITEM} justify-between cursor-default
+        hover:bg-dq-50
         ${isActive || flyOpen ? 'text-dq-700 bg-dq-50' : 'text-gray-600 hover:text-dq-700'}`}>
         {node.href && node.href !== '#' ? (
           <Link href={node.href} onClick={onClose} className="flex items-center gap-2 flex-1 text-[13px]">
@@ -109,8 +109,7 @@ function DesktopPanelRow({ node, onClose, depth }: DesktopPanelRowProps) {
       >
         <div
           role="menu"
-          className={`min-w-[200px] bg-white border border-gray-100 rounded-2xl
-            shadow-nav
+          className={`min-w-[200px] ${TW_NAV_DROPDOWN}
             transition-all duration-200 origin-top-right
             ${flyOpen
               ? 'opacity-100 scale-100 pointer-events-auto'
@@ -230,8 +229,7 @@ function DesktopNavItem({ node }: { node: NavNode }) {
           role="menu"
           aria-label={node.label}
           aria-hidden={!open}
-          className={`min-w-[210px] bg-white border border-gray-100
-            rounded-2xl shadow-nav
+          className={`min-w-[210px] ${TW_NAV_DROPDOWN}
             transition-all duration-200 origin-top
             ${open
               ? 'opacity-100 scale-y-100 translate-y-0 pointer-events-auto'
@@ -383,12 +381,15 @@ export default function Header({
                   type="search"
                   value={query}
                   onChange={e => setQuery(e.target.value)}
-                  onBlur={() => { if (!query) setSearchOpen(false) }}
+                  onBlur={(e) => {
+                    const next = e.relatedTarget as HTMLElement | null
+                    if (!query && next?.getAttribute('type') !== 'submit') setSearchOpen(false)
+                  }}
                   placeholder={searchPlaceholder}
-                  className="px-4 py-2 text-[13px] outline-none w-[180px] text-slate-700 placeholder:text-gray-400 bg-white"
+                  className={TW_HEADER_SEARCH_INPUT}
                 />
                 <button type="submit" aria-label="تلاش"
-                  className="bg-dq-500 hover:bg-dq-600 transition-colors px-3 py-2 flex items-center self-stretch">
+                  className={TW_HEADER_SEARCH_SUBMIT}>
                   <Search size={13} className="text-white" strokeWidth={2.5} />
                 </button>
               </form>
@@ -396,7 +397,7 @@ export default function Header({
               <button
                 onClick={() => setSearchOpen(true)}
                 aria-label="تلاش کھولیں"
-                className="w-11 h-11 rounded-full border border-dq-700 flex items-center justify-center text-white/60 hover:border-dq-400 hover:text-dq-400 transition-all duration-200"
+                className="w-11 h-11 rounded-full border border-dq-700 flex items-center justify-center text-white/60 hover:border-dq-400 hover:text-dq-400 focus-visible:border-dq-400 focus-visible:text-dq-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 transition-all duration-200"
               >
                 <Search size={15} strokeWidth={2} />
               </button>

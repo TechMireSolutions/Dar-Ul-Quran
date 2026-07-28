@@ -57,7 +57,10 @@ export default function Reveal({
     if (!el) return
 
     // Mobile: globals.css @media (max-width:767px) already shows content — skip JS DOM writes.
-    if (prefersReducedMotion() || isMobileViewport()) return
+    if (prefersReducedMotion() || isMobileViewport()) {
+      el.classList.add('rv-visible')
+      return
+    }
 
     if (delay) el.style.transitionDelay = `${delay}ms`
 

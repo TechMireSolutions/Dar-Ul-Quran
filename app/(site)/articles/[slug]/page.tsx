@@ -10,6 +10,7 @@ import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
 import WebPageSchema from '@/components/seo/WebPageSchema'
 import TopicClusterRelated from '@/components/content/TopicClusterRelated'
 import { TW_ARTICLE_TITLE, TW_BADGE, TW_CONTAINER_NARROW } from '@/lib/tailwind'
+import { formatPublishedDate } from '@/lib/format-date'
 import { pageMetadata } from '@/lib/seo'
 
 export const revalidate = 300
@@ -98,7 +99,7 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
           {post.publishedAt && (
             <span className="flex items-center gap-1.5">
               <CalendarDays size={13} strokeWidth={2} />
-              {new Date(post.publishedAt).toLocaleDateString('en-PK', { year: 'numeric', month: 'long', day: 'numeric' })}
+              {formatPublishedDate(post.publishedAt)}
             </span>
           )}
         </div>

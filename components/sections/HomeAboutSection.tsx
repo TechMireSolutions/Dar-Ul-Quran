@@ -3,6 +3,7 @@ import { ArrowRight } from 'lucide-react'
 import Reveal from '@/components/ui/Reveal'
 import type { HomepageSettingsDoc } from '@/lib/types'
 import {
+  TW_BODY_MUTED,
   TW_CONTAINER,
   TW_CTA_ARROW,
   TW_CV_AUTO,
@@ -25,20 +26,20 @@ export default function HomeAboutSection({ settings }: HomeAboutSectionProps) {
           <Reveal animation="up">
             <div>
               <p className={`${TW_EYEBROW} mb-3`}>
-                <span className={`${TW_EYEBROW_LINE} w-6`} />
+                <span className={`${TW_EYEBROW_LINE}`} />
                 {settings?.aboutEyebrow || 'ہم کون ہیں'}
               </p>
               <h2 className={`${TW_SECTION_TITLE} leading-tight mb-4`}>
                 {settings?.aboutHeading || 'دنیا کے ہر کونے میں شیعہ اسلامی علم پہنچانا'}
               </h2>
               {(settings?.aboutBody1 || true) && (
-                <p className="text-[14px] text-gray-500 leading-relaxed mb-4">
+                <p className={`${TW_BODY_MUTED} leading-relaxed mb-4`}>
                   {settings?.aboutBody1 ||
                     'دار القرآن ایک واحد مقصد کے ساتھ قائم کیا گیا — ہر مسلمان تک مستند شیعہ اسلامی تعلیم اور مذہبی خدمات کی رسائی، چاہے وہ کہیں بھی ہو۔'}
                 </p>
               )}
               {(settings?.aboutBody2 || true) && (
-                <p className="text-[14px] text-gray-500 leading-relaxed mb-7">
+                <p className={`${TW_BODY_MUTED} leading-relaxed mb-7`}>
                   {settings?.aboutBody2 ||
                     'اہل علماء کے آنلائن کورسز اور نیابت زیارت و اجارہ جیسی خدمات کے ذریعے ہم دنیا بھر میں ہزاروں خاندانوں کی خدمت کرتے ہیں۔'}
                 </p>

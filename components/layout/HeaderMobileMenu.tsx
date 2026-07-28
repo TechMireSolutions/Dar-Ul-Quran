@@ -17,6 +17,7 @@ import {
   TW_MOBILE_PANEL_NAV,
   TW_MOBILE_PANEL_SEARCH,
   TW_MOBILE_PANEL_SEARCH_LABEL,
+  TW_MOBILE_SEARCH_INPUT,
   TW_MOBILE_SEARCH_SUBMIT,
   TW_SEARCH_FORM_MOBILE,
 } from '@/lib/tailwind'
@@ -307,7 +308,7 @@ export default function HeaderMobileMenu({
               value={query}
               onChange={e => setQuery(e.target.value)}
               placeholder={searchPlaceholder}
-              className="min-h-11 flex-1 bg-white px-4 py-3 text-[14px] text-slate-700 outline-none placeholder:text-gray-400"
+              className={TW_MOBILE_SEARCH_INPUT}
             />
             <button type="submit" aria-label="تلاش" className={TW_MOBILE_SEARCH_SUBMIT}>
               <Search size={14} className="text-white" strokeWidth={2.5} aria-hidden="true" />

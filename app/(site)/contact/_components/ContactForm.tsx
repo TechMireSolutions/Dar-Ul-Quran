@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from 'react'
 import TurnstileField from '@/components/ui/TurnstileField'
-import { TW_FORM_INPUT, TW_FORM_PANEL, TW_FORM_SUBMIT } from '@/lib/tailwind'
+import { TW_FORM_INPUT, TW_FORM_PANEL, TW_FORM_SUBMIT, TW_GRID_2 } from '@/lib/tailwind'
 
 type ContactFormOption = { _id: string; title: string; parentTitle?: string }
 
@@ -10,6 +10,7 @@ type ContactFormProps = {
   submitLabel: string
   courses: ContactFormOption[]
   services: ContactFormOption[]
+  subjects?: string[]
   turnstileSiteKey?: string
 }
 
@@ -34,7 +35,13 @@ function optionLabel(option: ContactFormOption) {
   return option.parentTitle ? `${option.parentTitle} — ${option.title}` : option.title
 }
 
-export default function ContactForm({ submitLabel, courses, services, turnstileSiteKey }: ContactFormProps) {
+export default function ContactForm({
+  submitLabel,
+  courses,
+  services,
+  subjects = [],
+  turnstileSiteKey,
+}: ContactFormProps) {
   const [purpose,    setPurpose]    = useState<Purpose>('general')
   const [appliedFor, setAppliedFor] = useState('')
   const [status,     setStatus]     = useState<Status>('idle')
@@ -92,6 +99,12 @@ export default function ContactForm({ submitLabel, courses, services, turnstileS
     }
   }
 
+  const subjectRequired =
+    (purpose === 'general' || purpose === 'other') && subjects.length > 0
+  const selectionRequired =
+    purpose === 'course' || purpose === 'service' || subjectRequired
+  const missingSelection = selectionRequired && !appliedFor
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -112,7 +125,7 @@ export default function ContactForm({ submitLabel, courses, services, turnstileS
       </div>
 
       {/* پہلا نام + آخری نام */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className={TW_GRID_2}>
         <div>
           <FieldLabel required htmlFor="cf-first-name">پہلا نام</FieldLabel>
           <input id="cf-first-name" type="text" name="firstName" required autoComplete="given-name" placeholder="پہلا نام" className={TW_FORM_INPUT} />
@@ -138,6 +151,25 @@ export default function ContactForm({ submitLabel, courses, services, turnstileS
           <option value="other">دیگر</option>
         </select>
       </div>
+
+      {/* موضوع — CMS subjects for general / other */}
+      {(purpose === 'general' || purpose === 'other') && subjects.length > 0 && (
+        <div>
+          <FieldLabel required htmlFor="cf-subject">موضوع</FieldLabel>
+          <select
+            id="cf-subject"
+            required
+            value={appliedFor}
+            onChange={e => setAppliedFor(e.target.value)}
+            className={TW_FORM_INPUT}
+          >
+            <option value="" disabled>— موضوع منتخب کریں —</option>
+            {subjects.map(subject => (
+              <option key={subject} value={subject}>{subject}</option>
+            ))}
+          </select>
+        </div>
+      )}
 
       {/* کورس dropdown */}
       {purpose === 'course' && courses.length > 0 && (
@@ -178,7 +210,7 @@ export default function ContactForm({ submitLabel, courses, services, turnstileS
       )}
 
       {/* ای میل + فون */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className={TW_GRID_2}>
         <div>
           <FieldLabel required htmlFor="cf-email">ای میل</FieldLabel>
           <input id="cf-email" type="email" name="email" required autoComplete="email" placeholder="آپ کی ای میل" className={TW_FORM_INPUT} />
@@ -190,7 +222,7 @@ export default function ContactForm({ submitLabel, courses, services, turnstileS
       </div>
 
       {/* ملک + شہر */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className={TW_GRID_2}>
         <div>
           <FieldLabel required htmlFor="cf-country">ملک</FieldLabel>
           <input id="cf-country" type="text" name="country" required autoComplete="country-name" placeholder="مثلاً: پاکستان" className={TW_FORM_INPUT} />
@@ -237,12 +269,12 @@ export default function ContactForm({ submitLabel, courses, services, turnstileS
         type="submit"
         disabled={
           status === 'loading' ||
-          ((purpose === 'course' || purpose === 'service') && !appliedFor) ||
+          missingSelection ||
           (turnstileRequired && !turnstileToken)
         }
         aria-disabled={
           status === 'loading' ||
-          ((purpose === 'course' || purpose === 'service') && !appliedFor) ||
+          missingSelection ||
           (turnstileRequired && !turnstileToken)
         }
         className={TW_FORM_SUBMIT}
