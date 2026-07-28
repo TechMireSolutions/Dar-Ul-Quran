@@ -5,7 +5,7 @@ description: Scaffolds a shared or route-private React component with correct fo
 
 # New component
 
-Rules: `05-components.mdc` · `06-tailwind.mdc` · `15-naming.mdc` · `16-dry.mdc` · `03-rtl-urdu.mdc`
+Rules: `05-components.mdc` · `06-tailwind.mdc` · `15-naming.mdc` · `16-dry.mdc` · `03-rtl-urdu.mdc` · `18-mobile-first-responsive.mdc` · `19-ui-ux.mdc`
 
 ## Placement
 

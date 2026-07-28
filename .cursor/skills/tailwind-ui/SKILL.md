@@ -5,13 +5,14 @@ description: Applies pure Tailwind v4 and Nastaliq-safe typography when editing 
 
 # Tailwind UI
 
-Rules: `06-tailwind.mdc` · `03-rtl-urdu.mdc` · Tokens: `tailwind.config.ts` · `lib/tailwind.ts`
+Rules: `06-tailwind.mdc` · `03-rtl-urdu.mdc` · `18-mobile-first-responsive.mdc` · `19-ui-ux.mdc` · Tokens: `tailwind.config.ts` · `lib/tailwind.ts`
 
 ## Before editing
 
 1. Read `lib/tailwind.ts` — catalog in `06-tailwind.mdc`
 2. Prefer shells: `PageHeroHeader` · `LeafHero` · `SectionHeaderRow` · `CenteredSectionHeader` · `ListingIndexShell` · `ContentCard`
 3. Rich text → `RichTextBody` / `TW_RICH_TEXT_*`, not `prose-*`
+4. Mobile-first: base = phone; enhance with `sm:`/`md:`/`lg:` — see rule `18`
 
 ## Layout
 
@@ -38,7 +39,8 @@ Theme remaps: `tight`/`snug`/`relaxed` are already Nastaliq-safe in `tailwind.co
 Eyebrow → `TW_EYEBROW` + one `TW_EYEBROW_LINE`  
 CTAs → `TW_GOLD_CTA*` + `motion-reduce:hover:translate-y-0`  
 Forms/nav → `min-h-11` + `focus-visible` ring  
-Cards → single primary link (`ContentCard`)
+Cards → single primary link (`ContentCard`)  
+UX density / touch / forms → rule `19-ui-ux.mdc`
 
 ## Leaf pages
 

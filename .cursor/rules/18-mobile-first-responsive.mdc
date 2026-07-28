@@ -1,0 +1,56 @@
+---
+description: Mobile-first responsive layout — breakpoints, grids, containers, overflow
+globs: "{**/*.{tsx,jsx,css},app/globals.css,lib/tailwind.ts}"
+alwaysApply: false
+---
+
+# Mobile-first responsive
+
+**Authority for layout responsiveness.** CWV/PSI tactics → `09-technical-seo-mobile.mdc`. Tokens → `06-tailwind.mdc`.
+
+## Principle
+
+Style the **smallest screen first**, then enhance with `sm:` / `md:` / `lg:` (min-width). Never design desktop-first and hide with `max-*` overrides unless matching an existing LCP exception.
+
+| Prefix | Min width | Typical use |
+|--------|-----------|-------------|
+| (base) | 0 | Phone — default layout |
+| `sm:` | 640px | Large phone / small tablet |
+| `md:` | 768px | Tablet / hero image may appear |
+| `lg:` | 1024px | Desktop nav (`lg:flex`), wider grids |
+| `xl:` | 1280px | Rare — only if content truly needs it |
+
+## Layout patterns (use `TW_*`)
+
+| Need | Pattern |
+|------|---------|
+| Section shell | `TW_CONTAINER` + `TW_SECTION_PY` |
+| Card listing | `TW_CARD_GRID` → `1` / `sm:2` / `lg:3` |
+| Two-up form/features | `TW_GRID_2` → `1` / `sm:2` |
+| Prose | `TW_CONTAINER_NARROW` (+ `lg:px-8` when needed) |
+
+```tsx
+// ❌ BAD — desktop-first
+<div className="grid grid-cols-3 max-md:grid-cols-1">
+
+// ✅ GOOD — mobile-first (or TW_CARD_GRID)
+<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+```
+
+## Hard constraints
+
+- **No horizontal scroll** at 375px / 390px — wrap long Urdu titles; avoid fixed widths wider than viewport
+- Gutters via `TW_CONTAINER*` (`px-4 sm:px-6 lg:px-8`) — do not invent one-off padding scales
+- Images: explicit `sizes` reflecting real columns (`100vw` → `50vw` → `33vw` as breakpoints grow)
+- `viewport` in root layout: `device-width`, `initialScale: 1`, `viewportFit: 'cover'` — keep aligned
+- Safe areas: drawers/sticky chrome use `env(safe-area-inset-*)` (see `TW_MOBILE_PANEL*`)
+- **Content parity:** same primary content on mobile and desktop. `hidden md:block` only for decorative / LCP hero image exceptions (`09`)
+
+## Typography scale
+
+- Base readable size on phone; bump at `sm:`/`md:` only when hierarchy needs it
+- Nastaliq leading/tracking still → `03-rtl-urdu.mdc` (never shrink leading below 1.9 for body)
+
+## Verify
+
+Check 375 · 768 · 1440. Skills: `tailwind-ui` · `rtl-check` · CWV → `optimize-lcp` / `09`.

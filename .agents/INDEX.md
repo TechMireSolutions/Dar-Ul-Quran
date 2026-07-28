@@ -4,7 +4,7 @@
 
 | Old path | Replacement |
 |----------|-------------|
-| `.agents/rules/*` | `.cursor/rules/00`–`17` (see `00-mirror-sources.mdc`) |
+| `.agents/rules/*` | `.cursor/rules/00`–`19` (see `00-mirror-sources.mdc`) |
 | `.agents/skills/*` | `.cursor/skills/*/SKILL.md` (20 skills — see `AGENTS.md`) |
 | Stack reference | `techstack.md` |
 | Conventions map | `AGENTS.md` |
@@ -33,7 +33,9 @@
 | 15 | naming |
 | 16 | dry |
 | 17 | security |
+| 18 | mobile-first-responsive |
+| 19 | ui-ux |
 
-**Groups:** Core 00–01, 12 · Code 02–06, 13–16 · SEO 07–10 · Ops 11 · Security 17
+**Groups:** Core 00–01, 12 · Code 02–06, 13–16, 18–19 · SEO 07–10 · Ops 11 · Security 17
 
 Do not edit files here — update `.cursor/` sources only.

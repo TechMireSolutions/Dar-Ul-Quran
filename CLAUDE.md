@@ -16,7 +16,7 @@ npm run lint && npm run check:urdu && npm run test
 | Group | IDs | Files |
 |-------|-----|-------|
 | Core | 00, 01, 12 | mirror · project · production port |
-| Code | 02–06, 13–16 | coding · rtl · sanity · components · tailwind · deps · structure · naming · dry |
+| Code | 02–06, 13–16, 18–19 | coding · rtl · sanity · components · tailwind · deps · structure · naming · dry · mobile-first · ui/ux |
 | SEO | 07–10 | content · tech shared · mobile · desktop |
 | Ops | 11 | deploy |
 | Security | 17 | API, CSP, secrets |

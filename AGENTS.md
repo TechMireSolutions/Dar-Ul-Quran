@@ -31,6 +31,7 @@ Full layout: `14-file-structure.mdc`
 | | `12` | Production port 3001 |
 | **Code** | `02`–`06` | TS, RTL, Sanity, components, Tailwind |
 | | `13`–`16` | Dependencies, structure, naming, DRY |
+| | `18`–`19` | Mobile-first responsive · UI/UX |
 | **SEO** | `07`–`10` | Content + technical SEO |
 | **Ops** | `11` | Deploy & CI |
 | **Security** | `17` | API auth, CSP, secrets, contact hardening |

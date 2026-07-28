@@ -8,4 +8,5 @@ Next.js 16 · React 19 · Sanity v6 · Tailwind v4 · TypeScript strict · RTL U
 
 Key paths: `app/(site)/` · `sanity/lib/{queries,fetchers}.ts` · `lib/tailwind.ts` · `components/content/RichTextBody.tsx`  
 API: `/api/contact` · `/api/revalidate` — `17-security.mdc`  
-Ship: `preflight` skill (`lint` + `check:urdu` + `test`)
+Ship: `preflight` skill (`lint` + `check:urdu` + `test`)  
+Mobile-first / UX: `18-mobile-first-responsive.mdc` · `19-ui-ux.mdc`

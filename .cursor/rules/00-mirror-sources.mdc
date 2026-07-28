@@ -37,6 +37,8 @@ alwaysApply: true
 | 14 | `14-file-structure.mdc` | App Router layout & import boundaries |
 | 15 | `15-naming.mdc` | Files, folders, symbols, GROQ naming |
 | 16 | `16-dry.mdc` | Single source of truth, extraction rules |
+| 18 | `18-mobile-first-responsive.mdc` | Mobile-first layout, breakpoints, overflow |
+| 19 | `19-ui-ux.mdc` | Touch, forms, motion, hierarchy, UX patterns |
 
 ### SEO
 | ID | File | Scope |
@@ -67,6 +69,8 @@ alwaysApply: true
 | Urdu allow/deny list | `CLAUDE.md` § Urdu (03 summarizes) |
 | Content SEO narrative | `.antigravityrules` (07 points here) |
 | Technical SEO tactics | `08` → `09` mobile · `10` desktop |
+| Mobile-first layout | `18-mobile-first-responsive.mdc` |
+| UI/UX interaction patterns | `19-ui-ux.mdc` |
 | Deploy steps | `11-deploy-ops.mdc` + `deploy` skill |
 | CI audit severity | `critical` — `11-deploy-ops.mdc` + `.github/workflows/ci.yml` (+ `techstack.md`) |
 | CMS cache tags & fetch tagging | `04-sanity.mdc` + `lib/cache-tags.ts` |

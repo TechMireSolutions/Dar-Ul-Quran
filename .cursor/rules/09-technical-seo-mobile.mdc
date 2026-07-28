@@ -28,4 +28,5 @@ Font: `DeferredUrduFont` with `display=optional` — never block first paint wit
 - Carousel: sentinel `IntersectionObserver` for prev/next on desktop only; mobile uses touch scroll, no IO
 - Reveal: no JS on mobile (`globals.css` shows `.rv-*`); avoids forced reflow on homepage
 
+Layout/UX (non-CWV): `18-mobile-first-responsive.mdc` · `19-ui-ux.mdc`  
 Shared: `08-technical-seo-shared.mdc` · Skill: `optimize-lcp`

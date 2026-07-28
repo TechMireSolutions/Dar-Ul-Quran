@@ -5,7 +5,7 @@ description: Audits files for RTL spacing, Nastaliq line-height/tracking, Urdu c
 
 # RTL / Nastaliq check
 
-Rule: `03-rtl-urdu.mdc`
+Rule: `03-rtl-urdu.mdc` · Also: `18-mobile-first-responsive.mdc` · `19-ui-ux.mdc`
 
 Copy this checklist; mark each item:
 
@@ -17,9 +17,12 @@ Copy this checklist; mark each item:
 [ ] tracking-normal only — no tracking-tight/wide/negative on Urdu
 [ ] No Latin uppercase+wide tracking on Urdu eyebrows/badges
 [ ] Phone/email/URL islands use dir="ltr" or <bdi>
-[ ] Touch ≥44px (min-h-11) on controls
+[ ] Mobile-first grids/containers (TW_CARD_GRID / TW_CONTAINER*) — no desktop-first max-* hacks
+[ ] No horizontal scroll at 375px
+[ ] Touch ≥44px (min-h-11) on controls; gap between targets
 [ ] Visible :focus-visible rings
 [ ] motion-reduce respected on hover transforms
+[ ] Sticky/floating UI does not cover CTAs or form fields
 [ ] npm run check:urdu passes
 ```
 

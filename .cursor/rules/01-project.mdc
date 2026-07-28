@@ -49,6 +49,7 @@ docs/ deploy/ scripts/
 - Unit tests: `lib/**/*.test.ts` (`write-tests` skill)
 - Typography / RTL → **`03-rtl-urdu.mdc`** (Nastaliq leading ≥1.9, `tracking-normal`)
 - Accessibility: skip link `#main-content`, touch ≥44px, visible `focus-visible`
+- Mobile-first UI → **`18-mobile-first-responsive.mdc`** · UX patterns → **`19-ui-ux.mdc`**
 
 ## Key dependencies
 
