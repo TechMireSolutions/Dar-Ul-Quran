@@ -14,22 +14,27 @@ Rules: `05-components.mdc` · `06-tailwind.mdc` · `15-naming.mdc` · `16-dry.md
 | Shared | `components/{layout,ui,sections,content,seo}/` |
 | Route-only | `app/(site)/**/_components/` — never imported elsewhere |
 
+## Prefer existing shells
+
+Before scaffolding: `PageHeroHeader` · `LeafHero` · `SectionHeaderRow` · `CenteredSectionHeader` · `ListingIndexShell` · `ContentCard` · `NestedChildListing`
+
 ## Scaffold
 
 1. `type ComponentNameProps = { ... }` — default export matches filename
 2. Server Component default; `"use client"` only if state/effects/events
 3. Import `TW_*` from `lib/tailwind.ts` — no duplicated class strings  
-   Layout: `TW_CONTAINER` / `TW_CONTAINER_NARROW` / `TW_SECTION_PY` · copy: `TW_PAGE_SUBTITLE` / `TW_BODY_MUTED` · cards: `TW_CARD_SURFACE`
-4. Urdu user-visible strings; `aria-label` / `alt` in Urdu
-5. `ms-*` / `me-*` for spacing; `shrink-0` not `flex-shrink-0`
+   Layout: `TW_CONTAINER*` / `TW_SECTION_PY` · copy: `TW_PAGE_SUBTITLE` / `TW_BODY_MUTED` · cards: `TW_CARD_SURFACE*` / `TW_FEATURE_CARD*`
+4. Interactive: `min-h-11` + visible `focus-visible` ring; one primary link per card
+5. Urdu user-visible strings; `aria-label` / `alt` in Urdu
+6. Logical spacing (`ms-*` / `me-*` / `start-*` / `end-*`); `shrink-0`
 
-## SEO / layout components
+## SEO / layout
 
-- JSON-LD → `components/seo/*` (props typed in `lib/types/schema.ts`)
+- JSON-LD → `components/seo/*` (props in `lib/types/schema.ts`)
 - `role="menuitem"` only inside `role="menu"`
 
 ## Verify
 
-`tailwind-ui` skill patterns · `check-urdu` · `rtl-check` if nav/layout · `preflight`
+`tailwind-ui` · `check-urdu` · `rtl-check` if nav/layout · `preflight`
 
-Reference: `components/ui/PageHeroHeader.tsx`, `components/content/LeafCtaBanner.tsx`
+Reference: `PageHeroHeader` · `LeafHero` · `SectionHeaderRow` · `CenteredSectionHeader` · `LeafCtaBanner`

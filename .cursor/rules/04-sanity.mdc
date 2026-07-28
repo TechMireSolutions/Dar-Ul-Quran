@@ -10,18 +10,20 @@ Schema: `slug` (unique), `order`, inline `seo`, PT `body`, image `alt`, parent `
 
 GROQ in `queries.ts` only: draft filter, explicit fields (no top-level `...`), `slug { current }`, `seo { title, description }`
 
-DRY: one query per concern — fragments in `queries.ts`, access via `fetchers.ts` (`16-dry.mdc`).
+DRY: one query per concern — fragments in `queries.ts`, **route access only via** `fetchers.ts` `get*` (`16-dry.mdc`). Never call `safeFetch` from `app/` or `components/`.
 
 ## Cache & revalidation
 
-- All `safeFetch` calls tag **`cms`** — authority: `lib/cache-tags.ts` (see `16-dry.mdc`)
+- All `safeFetch` calls (inside fetchers only) tag **`cms`** — authority: `lib/cache-tags.ts` (see `16-dry.mdc`)
 - ISR fallback: `revalidate = 300` on public routes
 - On-demand: Sanity webhook → `/api/revalidate` — skill: **`setup-revalidation`**
 - Webhook filter, path map, new `_type` handling → this rule + `app/api/revalidate/route.ts`
 - Secret query param & env → **`17-security.mdc`** (do not duplicate auth rules here)
 
 ```ts
-const data = await safeFetch<T>(query, { slug }); if (!data) notFound()
+// In page.tsx — fetchers only
+const data = await getThingBySlug(slug)
+if (!data) notFound()
 ```
 
 Workflow: `add-sanity-query` → `add-fetcher` → route skills (`new-page` / `new-leaf-route`).

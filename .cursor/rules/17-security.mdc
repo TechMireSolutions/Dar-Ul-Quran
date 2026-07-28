@@ -58,10 +58,10 @@ Apache: HSTS + static cache — `deploy/apache-security-snippet.conf`
 2. Rate limit if public POST
 3. No secrets in responses or logs
 4. Server-only imports — never in `"use client"`
-5. Tests in `lib/*.test.ts` for schemas/helpers
+5. Tests in `lib/**/*.test.ts` for schemas/helpers
 
 ## CI
 
-`npm run test` · `npm audit --audit-level=high` · Dependabot weekly — see **`11-deploy-ops.mdc`**
+`npm run test` · `npm audit --audit-level=critical` · Dependabot weekly — see **`11-deploy-ops.mdc`**
 
 OSS: `LICENSE` · `SECURITY.md`

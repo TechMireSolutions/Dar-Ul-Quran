@@ -34,15 +34,17 @@ See **`14-file-structure.mdc`**. Summary:
 ```
 app/(site)/ api/ studio/
 components/{layout,ui,sections,content,seo}/
-lib/{types,cache-tags,contact-schema,rate-limit,tailwind.ts,…}/
+lib/{types,cache-tags,contact-schema,rate-limit,format-date,tailwind.ts,…}/
 sanity/{schemaTypes,lib}/
 docs/ deploy/ scripts/
 ```
 
 - Thin `page.tsx`; route-private UI in `app/**/_components/`
+- Shared shells: `LeafHero` · `SectionHeaderRow` · `CenteredSectionHeader` · `ListingIndexShell`
 - API routes: Zod + rate limit — **`17-security.mdc`**
 - CMS: `revalidate = 300` + webhook tags (`setup-revalidation` skill)
 - Fetch via `get*` in `sanity/lib/fetchers.ts`
+- Unit tests: `lib/**/*.test.ts` (`write-tests` skill)
 
 ## Key dependencies
 

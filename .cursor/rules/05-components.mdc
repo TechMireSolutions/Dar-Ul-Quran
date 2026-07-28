@@ -10,11 +10,22 @@ alwaysApply: false
 `layout/` · `ui/` · `sections/` · `content/` · `seo/` · `studio/`
 
 Route-private UI: `app/(site)/**/_components/` — never imported elsewhere  
-(e.g. `contact/_components/ContactForm.tsx`)
+(e.g. `contact/_components/ContactForm.tsx`, `*LeafPage.tsx`)
 
-Shared listings: `content/NestedChildListing`  
-Portable Text: `content/RichTextBody` (wraps `TW_RICH_TEXT_*` — not raw `PortableText` in pages)  
-Client forms: `ui/TurnstileField` · route-private `contact/_components/ContactForm`
+## Shared building blocks (prefer these)
+
+| Need | Component |
+|------|-----------|
+| Public page hero | `ui/PageHeroHeader` |
+| Dark course/service hero | `content/LeafHero` |
+| Homepage title + view-all | `ui/SectionHeaderRow` |
+| Centered section H2 | `ui/CenteredSectionHeader` |
+| Listing index shell | `layout/ListingIndexShell` (+ `ListingCardGrid` / `ListingEmptyState`) |
+| Nested CMS children | `content/NestedChildListing` |
+| Content cards | `ui/ContentCard` — **one** primary `<Link>` (no double tab stops) |
+| Portable Text | `content/RichTextBody` (`TW_RICH_TEXT_*`) |
+| Leaf FAQ / steps / CTA | `FaqAccordion` · `HowItWorksSection` · `LeafCtaBanner` |
+| Contact form | route-private `ContactForm` + `ui/TurnstileField` |
 
 ## Patterns
 - `Header` + lazy `HeaderMobileMenu` (`dynamic`, `ssr: false`)
@@ -22,8 +33,8 @@ Client forms: `ui/TurnstileField` · route-private `contact/_components/ContactF
 - `role="menuitem"` only inside dropdown `role="menu"`
 - LCP exception: hero native `<img fetchPriority="high">`
 - Pass Sanity data as props; batch layout reads in rAF
+- Reveal: mobile + reduced-motion + `@media (scripting: none)` keep content visible
 
-## Related rules & skills
-- Styling → `06-tailwind.mdc`
-- New component → `new-component` skill
-- RTL → `03-rtl-urdu.mdc`
+## Related
+- Styling → `06-tailwind.mdc` · DRY → `16-dry.mdc`
+- New component → `new-component` skill · RTL → `03-rtl-urdu.mdc`

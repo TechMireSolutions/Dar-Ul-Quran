@@ -32,7 +32,7 @@ alwaysApply: false
 npm outdated
 npm update                    # minor/patch within semver ranges
 # exact pins (next/react/eslint): edit package.json, then npm install
-npm run lint && npm run check:urdu && npm run build
+npm run lint && npm run check:urdu && npm run test && npm run build
 ```
 
 1. Read changelogs for `next`, `sanity`, `next-sanity`, Tailwind, ESLint

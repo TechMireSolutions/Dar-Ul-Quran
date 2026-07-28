@@ -13,7 +13,9 @@ Live: https://darulquran.pk · Port **3001** → `12-production-port.mdc`
 | `app/api/` | Contact + revalidation routes (`17-security.mdc`) |
 | `app/studio/` | Embedded Sanity |
 | `components/{layout,ui,sections,content,seo}` | Shared UI |
-| `lib/types/` | DTOs · `cache-tags.ts` · `contact-schema.ts` · `navigation.ts` |
+| `lib/types/` | CMS/UI DTOs (`cms.ts`, `navigation.ts`, …) |
+| `lib/*.ts` | Helpers — `cache-tags`, `contact-schema`, `format-date`, `navigation`, `paths`, `tailwind` |
+| `lib/**/*.test.ts` | Vitest unit tests (helpers/schemas only) — `write-tests` skill |
 | `lib/tailwind.ts` | Shared `TW_*` class strings — full catalog in `06-tailwind.mdc` |
 | `sanity/lib/` | GROQ, `safeFetch`, cached `fetchers` |
 | `docs/` | Ops docs (Sanity webhook) |
@@ -59,5 +61,6 @@ Authority table (no conflicts): `00-mirror-sources.mdc`
 | No `<img>` | LCP hero only |
 | Blocking font | `DeferredUrduFont` |
 | Eager mobile JS | `HeaderMobileMenu` dynamic |
+| English UI dates | Never — use `formatPublishedDate()` (`ur-PK`) |
 
 Commits only when user asks. Preflight: `lint` + `check:urdu` + `test` (+ `build` if deploy).

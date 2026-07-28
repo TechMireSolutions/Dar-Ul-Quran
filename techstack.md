@@ -30,7 +30,7 @@ This file is the single source of truth for stack versions, infrastructure, secu
 | Rich text | **@portabletext/react** | **7.0.1** | React 19 + React Compiler builds; no API change from v6 |
 | CMS custom input | **LtrStringInput** | `sanity/components/` | LTR override for emails, phones, URLs |
 | Validation | **Zod** | **4.4.3** | API payloads and contact forms |
-| Tests | **Vitest** | **4.1.10** | Unit tests under `lib/*.test.ts` |
+| Tests | **Vitest** | **4.1.10** | Unit tests under `lib/**/*.test.ts` |
 | Linting | **ESLint** + Urdu check | **9.39.4** (pin) + custom | `eslint-config-next@16.2.12` + `check-urdu.mjs` |
 
 ### Architecture patterns

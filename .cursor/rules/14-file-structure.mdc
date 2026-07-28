@@ -27,7 +27,9 @@ lib/
   types/           # Shared DTOs — one domain per file
   cache-tags.ts    # CMS revalidation tags
   contact-schema.ts · rate-limit.ts · turnstile.ts · contact-notify.ts  # contact API
+  format-date.ts   # Urdu published dates (`formatPublishedDate`)
   *.ts             # Pure helpers (seo, paths, tailwind, cmsPage, navigation, …)
+  *.test.ts        # Vitest unit tests — colocated next to helpers (see `write-tests`)
 docs/              # Ops docs (e.g. sanity-webhook.md)
 sanity/
   schemaTypes/     # One schema file per document type

@@ -67,8 +67,11 @@ alwaysApply: true
 | Content SEO narrative | `.antigravityrules` (07 points here) |
 | Technical SEO tactics | `08` → `09` mobile · `10` desktop |
 | Deploy steps | `11-deploy-ops.mdc` + `deploy` skill |
+| CI audit severity | `critical` — `11-deploy-ops.mdc` + `.github/workflows/ci.yml` (+ `techstack.md`) |
 | CMS cache tags & fetch tagging | `04-sanity.mdc` + `lib/cache-tags.ts` |
 | Revalidation webhook & path map | `04-sanity.mdc` + `setup-revalidation` skill + `docs/sanity-webhook.md` |
+| Published dates (UI) | `lib/format-date.ts` |
+| Unit tests | `lib/**/*.test.ts` + `write-tests` skill |
 | Revalidate API secret/auth | `17-security.mdc` |
 | Contact API security | `17-security.mdc` + `secure-api-route` skill |
 

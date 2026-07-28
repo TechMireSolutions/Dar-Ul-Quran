@@ -7,8 +7,8 @@ Next.js 16 · React 19 · Sanity v6 · Tailwind v4 · RTL Urdu · https://darulq
 
 ```bash
 npm run dev    # :3001
-npm run start  # production :3001 — see 12-production-port.mdc
-npm run build && npm run lint && npm run check:urdu && npm run test
+npm run lint && npm run check:urdu && npm run test
+# npm run build  — only if deploy / bundling changed (preflight skill)
 ```
 
 ## Rules registry (index only)
@@ -41,6 +41,8 @@ Details: `AGENTS.md` · env: `.env.example` · security: `SECURITY.md` · **full
 - Mobile nav: `dynamic(..., { ssr: false })`
 - Footer icons: inline SVG in RSC
 - Rich text: `rich-text` classes — not `@tailwindcss/typography`
+- Shared UI shells: `LeafHero` · `SectionHeaderRow` · `CenteredSectionHeader` (see `05-components.mdc`)
+- Published dates: `formatPublishedDate()` — not `en-PK` / English month names
 
 ## Urdu-First Frontend Rule
 

@@ -25,7 +25,7 @@ We aim to acknowledge reports within **72 hours** and provide a fix timeline whe
 - Contact API: Zod validation, rate limiting, optional Cloudflare Turnstile, honeypot
 - Security headers: CSP, HSTS (Apache), XFO, nosniff
 - Secrets via environment variables only — never committed
-- CI: ESLint, Urdu check, Vitest, high-severity `npm audit`
+- CI: ESLint, Urdu check, Vitest, critical-severity `npm audit`
 - Dependabot weekly dependency updates
 
 ## Secrets rotation

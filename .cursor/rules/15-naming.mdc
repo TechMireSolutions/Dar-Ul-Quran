@@ -28,6 +28,7 @@ No `utils/`, `helpers/`, or `misc/` — name by domain (`paths.ts`, `contact.ts`
 | React component | `PascalCase.tsx` | default export **same name** as file |
 | Lib / sanity lib | `camelCase.ts` | named exports |
 | Config | `kebab-case` or framework default | `next.config.ts`, `eslint.config.mjs` |
+| Unit test | `<module>.test.ts` next to source | `lib/paths.test.ts` — Vitest, `lib/**/*.test.ts` only |
 | Schema type | `camelCase.ts` | `export const course = defineType(...)` |
 | Route entry | `page.tsx`, `layout.tsx`, `route.ts` | App Router fixed names |
 
@@ -56,7 +57,8 @@ Prefer `type` over `interface` unless declaration merging is required.
 | `safeFetch` | Low-level GROQ with null fallback | `sanity/lib/client.ts` |
 | `fetch*` | Page-level orchestration | `lib/cmsPage.ts` |
 | `resolve*` | Fallback chains (SEO, contact, paths) | `lib/seo.ts`, `lib/contact.ts` |
-| `build*` | Construct structures (nav, JSON-LD items) | `lib/navigation.ts`, `lib/paths.ts` |
+| `format*` | Display formatting (dates, labels) | `lib/format-date.ts` |
+| `build*` | Construct structures (nav, JSON-LD items) | `lib/navigation.ts`, `lib/paths.ts`, `lib/schemaHelpers.ts` |
 | `nodeIsActive` | Nav active-state check | `lib/navigation.ts` |
 | `handle*` | Client event handlers | `"use client"` components only |
 | `generate*` | Next.js metadata/static APIs | `generateMetadata`, `generateStaticParams` |

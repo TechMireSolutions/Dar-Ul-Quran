@@ -10,16 +10,17 @@ Root: `lang="ur" dir="rtl"` on `<html>` — do not override without reason.
 
 ## Layout
 - Logical spacing: `ms-*` / `me-*` / `ps-*` / `pe-*` / `start-*` / `end-*` — **not** `ml-*` / `mr-*`
-- Directional icons: `rtl:rotate-180` on arrows/chevrons in nav
+- Directional icons: `rtl:rotate-180` on arrows/chevrons (or `TW_CTA_ARROW`)
 - Body text: `leading-[1.8]` minimum (Nastaliq glyphs)
-- Touch targets: `TW_TOUCH` (`min-h-11`) from `lib/tailwind.ts`
+- Touch targets: ≥44px — `TW_TOUCH` / `min-h-11` on links, buttons, form controls, nav rows
+- Focus: keep a visible `:focus-visible` ring — never bare `outline-none` alone
 
 ## Copy
 **All user-visible text in Urdu.** Run `npm run check:urdu`. False positive: `// urdu-ok`
 
-Full allow/deny table: `CLAUDE.md` § Urdu-First Frontend Rule.
+Full allow/deny table: `CLAUDE.md` § Urdu-First Frontend Rule. Dates in UI → `formatPublishedDate()` (`ur-PK`).
 
 ## Motion
-`prefers-reduced-motion` handled in `Reveal.tsx` and `globals.css`.
+`prefers-reduced-motion` in `Reveal.tsx` and `globals.css`. No-JS: `@media (scripting: none)` keeps Reveal content visible.
 
 Skill: `rtl-check` after nav/layout changes.

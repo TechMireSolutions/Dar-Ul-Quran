@@ -26,9 +26,11 @@ Never `rm -rf .next` while PM2 is serving.
 
 ## CI (GitHub Actions)
 
-On PR + `main`: `lint` → `check:urdu` → `test` → `npm audit --audit-level=high` → `build`
+On PR + `main`: `lint` → `check:urdu` → `test` → `npm audit --audit-level=critical` → `build`
 
 Dependabot: `.github/dependabot.yml` (weekly)
+
+Audit gate is **critical** (matches CI + `techstack.md`). Transitive **high** advisories in Sanity CLI / ESLint toolchain are accepted; never `npm audit fix --force` (downgrades Sanity to v5).
 
 ## Production env checklist
 
