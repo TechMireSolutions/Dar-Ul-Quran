@@ -18,8 +18,9 @@ Run after `add-sanity-query` skill.
    )
    ```
 2. Import query from `./queries`, types from `@/lib/types`
-3. Add or extend DTO in `lib/types/` if missing
+3. Add or extend DTO in `lib/types/` if missing — fields must match GROQ projection
 4. Pages call `get*` only — never import `queries.ts` or `safeFetch` from routes
+5. Dynamic routes that need SSG: export path list fetcher for `generateStaticParams`
 
 ## Patterns
 
@@ -29,6 +30,15 @@ Run after `add-sanity-query` skill.
 | By slug | `cache((slug: string) => safeFetch<T>(query, { slug }, { tags: [cmsTypeTag('type')] }))` |
 | Path list | `cache(() => safeFetch<SlugPathDoc[]>(allPathsQuery))` |
 | Nullable first row | `async` wrapper returning `rows?.[0] ?? null` |
+
+## Checklist
+
+```
+[ ] cache() wrapper
+[ ] cms / cmsTypeTag tags
+[ ] DTO aligned with query
+[ ] No safeFetch outside fetchers.ts
+```
 
 Rules: `04-sanity.mdc` · `16-dry.mdc`  
 Invalidation: `setup-revalidation` skill

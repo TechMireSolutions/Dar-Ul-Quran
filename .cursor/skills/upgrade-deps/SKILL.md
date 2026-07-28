@@ -1,11 +1,12 @@
 ---
 name: upgrade-deps
-description: Upgrades npm dependencies safely for Dar Ul Quran, respecting ESLint 9 and Sanity v6 constraints. Use when bumping packages or auditing outdated deps.
+description: Upgrades npm dependencies safely for Dar Ul Quran, respecting ESLint 9 and Sanity v6 constraints. Use when the user asks to bump packages, audit outdated deps, or align versions with techstack.md.
+disable-model-invocation: true
 ---
 
 # Upgrade dependencies
 
-Rule: **`13-dependencies.mdc`**
+Rule: **`13-dependencies.mdc`** · Versions: `techstack.md`
 
 ```bash
 npm outdated
@@ -13,7 +14,7 @@ npm update
 npm run lint && npm run check:urdu && npm run test && npm run build
 ```
 
-Keep package.json overrides.postcss at ^8.5.24. Never `npm audit fix --force`.
+Keep package.json overrides (postcss, sharp, etc.) per `13-dependencies.mdc`. Never `npm audit fix --force`.
 
 ## Constraints
 
@@ -23,12 +24,15 @@ Keep package.json overrides.postcss at ^8.5.24. Never `npm audit fix --force`.
 | `sanity` / `@sanity/*` / `next-sanity` | Latest **v6 / v7 / v13** — no v5 downgrade via `npm audit fix --force` |
 | `next` / `react` | Exact **16.2.12** / **19.2.8** — match `eslint-config-next` |
 | `zod` | Latest **4.x** — API validation |
-| `resend` | Latest — contact email |
+| `resend` / `nodemailer` | Latest — contact email path |
 | `vitest` | Latest — unit tests in CI |
 | Node | `>=22.12.0` — CI + production VPS **24.17.0** |
 | `@types/node` | Latest **26.x** |
 | React Compiler | `babel-plugin-react-compiler@1.0.0` + `reactCompiler: true` |
 
-After bump: read changelogs for `next-sanity`, Studio, Tailwind v4.
+## After bump
 
-Ship only after `preflight` skill (+ `build`).
+1. Read changelogs for `next`, `next-sanity`, Studio, Tailwind v4  
+2. Fix breaking API changes in one focused PR  
+3. Update `01-project.mdc` version line if stack versions changed materially  
+4. Ship only after `preflight` (+ `build`)

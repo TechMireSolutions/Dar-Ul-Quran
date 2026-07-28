@@ -1,9 +1,11 @@
 ---
 name: preflight
-description: Runs lint, Urdu check, Vitest, and optional build before shipping. Use before commits, deploys, or PRs.
+description: Runs lint, Urdu check, Vitest, and optional build before shipping. Use before commits, deploys, PRs, or when asked to verify the project is ready to ship.
 ---
 
 # Preflight
+
+Stop on first failure; fix before continuing.
 
 ```bash
 npm run lint && npm run check:urdu && npm run test
@@ -20,5 +22,14 @@ npm run lint && npm run check:urdu && npm run test
 | API / Zod / lib helpers | `write-tests` · `secure-api-route` if new API |
 | New shared UI | Prefer shells in `05-components.mdc` before scaffolding |
 | Deploy / chunks | `deploy` · `fix-chunk-mime` if MIME/404 |
+
+## Pass criteria
+
+```
+[ ] lint clean
+[ ] check:urdu clean
+[ ] test green
+[ ] build green (if required above)
+```
 
 Commit / push only when the user asks. Never commit secrets or `.env`.

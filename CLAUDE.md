@@ -44,6 +44,9 @@ Details: `AGENTS.md` · env: `.env.example` · security: `SECURITY.md` · **full
 - Shared UI shells: `LeafHero` · `SectionHeaderRow` · `CenteredSectionHeader` (see `05-components.mdc`)
 - Published dates: `formatPublishedDate()` — not `en-PK` / English month names
 - Nastaliq: body leading ≥1.9 · `tracking-normal` only — `03-rtl-urdu.mdc` · `rtl-check`
+- LTR islands: phone/email/URL via `dir="ltr"` / `<bdi>`; Studio → `LtrStringInput`
+- Global errors: `app/error.tsx` (Urdu) — no `middleware.ts` unless required
+- Ops skills (`deploy`, `fix-chunk-mime`, `upgrade-deps`, `setup-revalidation`): explicit invoke only
 
 ## Urdu-First Frontend Rule
 

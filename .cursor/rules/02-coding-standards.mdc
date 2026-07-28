@@ -6,24 +6,50 @@ alwaysApply: false
 
 # Coding standards
 
+## React / Next.js 16
+
 - Server Components default; `"use client"` only for state/effects/browser APIs
 - React Compiler enabled — **avoid** default `useMemo` / `useCallback` / manual memo unless profiling shows need
 - Prefer `useEffectEvent`, `startTransition`, `useDeferredValue` when already used / clearly beneficial — not by default
 - `await params` / `await searchParams` (Promises in Next 16)
-- `type` for props; strict TS; no `any`
+- Mutations today: **Route Handlers** (`app/api/*`) + Zod — see `17-security.mdc`
+- Server Actions (`"use server"`): only if product requires them; still Zod-validate inputs, never trust client
+- Do **not** adopt `"use cache"` / Cache Components unless the team explicitly migrates — stick to `revalidate` + tags
+- Failures: `notFound()` for missing CMS docs; root `app/error.tsx` for unexpected errors — keep copy Urdu
+
+```tsx
+// ❌ BAD — sync params in Next 16
+export default function Page({ params }: { params: { slug: string } }) { … }
+
+// ✅ GOOD
+export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  …
+}
+```
+
+## TypeScript & data
+
+- `type` for props; strict TS; no `any` (narrow with Zod / type guards)
+- Zod schemas live in `lib/` — API routes `safeParse`, never trust raw JSON
+- GROQ only in `sanity/lib/queries.ts`; pages call `get*` fetchers (`safeFetch`) — `04-sanity.mdc` · `16-dry.mdc`
+- No Sanity/nodemailer/secrets in client components
+
+## UI & a11y
+
 - `<Link>` / `<Image>` with explicit `sizes` — except LCP hero (`HeroSection` + `LcpImagePreload`)
 - `pageMetadata()` for all `generateMetadata`; `[...slug]` → `join('/')`
-- GROQ only in `sanity/lib/queries.ts`; pages call `get*` fetchers (which use `safeFetch`) — see `04-sanity.mdc` · `16-dry.mdc`
-- No Sanity/nodemailer/secrets in client components
-- Styling → `06-tailwind.mdc` · Nastaliq/RTL → `03-rtl-urdu.mdc`
-- Naming → `15-naming.mdc` · DRY → `16-dry.mdc` · Layout → `14-file-structure.mdc`
-- API routes → `17-security.mdc` · Zod schemas in `lib/`
 - Portable Text → `RichTextBody` + `TW_RICH_TEXT_*`
 - Cards: one interactive link (`ContentCard`) · leaf heroes → `LeafHero`
 - Interactive: `min-h-11` + visible `focus-visible`; respect `motion-reduce`
-- New pure `lib/` helpers → colocated `*.test.ts` (`write-tests` skill)
+- Hydration: no `Date.now()` / `Math.random()` / locale-differing markup without a client boundary
 
-Full naming: **`15-naming.mdc`**.
+## Cross-refs
+
+- Styling → `06-tailwind.mdc` · Nastaliq/RTL → `03-rtl-urdu.mdc`
+- Naming → `15-naming.mdc` · DRY → `16-dry.mdc` · Layout → `14-file-structure.mdc`
+- API routes → `17-security.mdc`
+- New pure `lib/` helpers → colocated `*.test.ts` (`write-tests` skill)
 
 ## Quick naming (see 15 for authority)
 

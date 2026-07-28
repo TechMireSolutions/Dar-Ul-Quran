@@ -104,6 +104,11 @@ Nastaliq leading tokens (theme): `leading-urdu` · `leading-urdu-display` · `le
 | `TW_RICH_TEXT*` | Portable Text wrappers |
 | `TW_CV_AUTO` / `TW_SCROLLBAR_HIDE` | Below-fold / carousels |
 
+## Theme posture
+- **Light site only** — no `dark:` UI variants or dark-mode class strategy for the public site
+- Brand colors via theme (`dq-*`) / `TW_*` — not ad-hoc CSS variables for brand
+- Inline `style` only for dynamic values (`--hero-delay`, LCP blur, `--nav-indent`)
+
 ## Do
 - Utilities in `className` only — no CSS-in-JS
 - Check `lib/tailwind.ts` before adding layout, section, or CTA classes
@@ -120,6 +125,7 @@ Nastaliq leading tokens (theme): `leading-urdu` · `leading-urdu-display` · `le
 - Duplicate: `max-w-* mx-auto px-*` → `TW_CONTAINER*` · `py-16 sm:py-20` → `TW_SECTION_PY` · eyebrow line → `TW_EYEBROW_LINE` · muted subtitle → `TW_PAGE_SUBTITLE`
 - Latin tracking on Urdu (`tracking-tight` / `tracking-wide` / negative tracking) — use `tracking-normal`
 - Body leading below **1.9** — prefer `leading-urdu` / `leading-relaxed`
+- Public-site `dark:` utilities or parallel dark theme
 
 ## Brand exceptions
 PayPal (`TW_PAYPAL_CTA`), WhatsApp float (`TW_WHATSAPP_FLOAT`) only.

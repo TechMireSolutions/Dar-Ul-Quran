@@ -16,6 +16,7 @@ alwaysApply: false
 | Data access | `sanity/lib/fetchers.ts` (`get*`) | Direct `safeFetch` in routes |
 | CMS types | `lib/types/` | Ad-hoc inline object shapes |
 | SEO metadata | `pageMetadata()` in `lib/seo.ts` | Hand-built `<meta>` tags |
+| JSON-LD | `components/seo/*` (+ `lib/schemaHelpers.ts`) | Inline `<script type="application/ld+json">` |
 | Canonical paths | `lib/paths.ts` | String-concat paths in components |
 | Tailwind patterns | `lib/tailwind.ts` (`TW_*`) | Same class string in 2+ files; raw `max-w-* mx-auto`, `py-16 sm:py-20`, eyebrow line |
 | Theme tokens | `tailwind.config.ts` | Raw hex/spacing; Latin line-heights without Nastaliq tokens |

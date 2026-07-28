@@ -66,4 +66,4 @@ Authority table (no conflicts): `00-mirror-sources.mdc`
 
 **Nastaliq:** body `leading-urdu` / `leading-relaxed` (≥1.9) · titles `leading-heading` — see `03-rtl-urdu.mdc` + `rtl-check`.
 
-Commits only when user asks. Preflight: `lint` + `check:urdu` + `test` (+ `build` if deploy).
+**Behavior (authority: `00-mirror-sources.mdc`):** smallest correct diff · read matching skill before scaffolding · prefer shells in `05` · Urdu/`rtl-check` after UI · ops skills (`deploy`, `fix-chunk-mime`, `upgrade-deps`, `setup-revalidation`) only when asked · commits only when user asks · preflight: `lint` + `check:urdu` + `test` (+ `build` if deploy).

@@ -1,6 +1,6 @@
 ---
 description: Component folders, shells, a11y, and client boundaries
-globs: "components/**/*.{ts,tsx}"
+globs: "{components/**/*.{ts,tsx},app/**/_components/**/*.{ts,tsx},app/error.tsx}"
 alwaysApply: false
 ---
 
@@ -36,7 +36,15 @@ Route-private UI: `app/(site)/**/_components/` — never imported elsewhere
 - Images: `next/image` + explicit `sizes`; `loading="lazy"` below fold; LCP exception: hero `<img fetchPriority="high">`
 - Pass Sanity data as props; batch layout reads in `requestAnimationFrame`
 - Reveal: mobile + reduced-motion + `@media (scripting: none)` keep content visible
+- Errors: root `app/error.tsx` (Urdu reset UI); route `loading.tsx` only for slow CMS shells
+- Optional heavy islands: wrap in `<Suspense>` with a light fallback — never block LCP
+
+## Accessibility (WCAG AA target)
+- Skip link → `#main-content`; one H1; landmark regions (`header`/`main`/`footer`/`nav`)
 - Interactive: `min-h-11` + visible `focus-visible`; forms use `aria-busy` / `aria-live` where status changes
+- Icon-only controls need Urdu `aria-label`; decorative images `alt=""`
+- Keyboard: dropdowns operable without hover; no focus trap bugs in mobile menu
+- Color: do not rely on color alone for state; keep contrast on gold/navy CTAs
 
 ## Related
 - Styling → `06-tailwind.mdc` · Nastaliq → `03-rtl-urdu.mdc` · DRY → `16-dry.mdc`

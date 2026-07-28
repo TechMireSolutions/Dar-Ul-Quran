@@ -1,6 +1,6 @@
 ---
 description: Sanity schema, GROQ, fetchers, cache tags, webhook path map
-globs: "{sanity/**/*,app/api/revalidate/**/*}"
+globs: "{sanity/**/*,app/api/revalidate/**/*,app/(site)/**/page.tsx,lib/types/**/*,lib/cache-tags.ts}"
 alwaysApply: false
 ---
 
@@ -8,11 +8,13 @@ alwaysApply: false
 
 Schema: `slug` (unique), `order`, inline `seo`, PT `body`, image `alt` (required for content images), parent `weak: false`
 
-GROQ in `queries.ts` only:
-- Draft filter: `!(_id in path("drafts.**"))`
+## GROQ (`queries.ts` only)
+
 - Explicit fields (no top-level `...`)
-- `slug { current }` · `seo { title, description }`
+- `slug { current }` · `seo { title, description }` (or project-specific SEO fields)
 - Image projections include `alt` + dimensions/LQIP when used for LCP
+- **Published content:** prefer `perspective: 'published'` on `sanity/lib/client.ts` when hardening — do **not** scatter `!(_id in path("drafts.**"))` into every query (existing queries omit it; match that pattern)
+- Production `useCdn: true` serves published; local `useCdn: false` can include drafts until perspective is set
 
 DRY: one query per concern — fragments in `queries.ts`, **route access only via** `fetchers.ts` `get*` (`16-dry.mdc`). Never call `safeFetch` from `app/` or `components/`.
 
@@ -21,6 +23,12 @@ DRY: one query per concern — fragments in `queries.ts`, **route access only vi
 - `sanity/lib/client.ts`: `useCdn: true` in production; `apiVersion` pinned (YYYY-MM-DD)
 - Images: `urlFor` / helpers in `sanity/lib/image.ts` — `.auto('format')`, explicit widths, `sizes`
 - DTOs in `lib/types/` — keep fetch return types aligned with GROQ projections
+- Studio LTR fields (email/phone/URL): `LtrStringInput`
+
+## Routes
+
+- Dynamic CMS routes: `generateStaticParams` + `getAll*Paths()` / `staticParamsFromPaths` (`lib/paths.ts`)
+- Missing doc → `notFound()`; `revalidate = 300` on public CMS pages
 
 ## Cache & revalidation
 

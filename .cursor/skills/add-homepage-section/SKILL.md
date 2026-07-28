@@ -18,14 +18,17 @@ Homepage: `app/(site)/page.tsx` · CMS: `homepageSettings` schema · helpers: `l
 4. LCP hero: keep `HeroSection` + `LcpImagePreload` — do not add competing above-fold images
 5. Nastaliq: titles `leading-heading` · body `leading-urdu` · `tracking-normal` (`03-rtl-urdu.mdc`)
 6. Urdu copy in JSX or Sanity fields · `check-urdu` after UI strings change
+7. One job per section — avoid stuffing stats/cards into the hero viewport
 
 ## Performance
 
 - Above-fold: Server Component, minimal JS
-- Carousels / heavy UI: dynamic import with skeleton
+- Carousels / heavy UI: dynamic import with skeleton / Suspense
 - Section wrappers: `TW_CV_AUTO` when below fold
 - Interactive: `min-h-11` + `focus-visible` · `motion-reduce` on hover lift
 
-Skills: `tailwind-ui` · `optimize-lcp` · `check-urdu` · `rtl-check` · `preflight`
+## Verify
+
+`tailwind-ui` · `optimize-lcp` · `check-urdu` · `rtl-check` · `preflight`
 
 Rules: `05-components.mdc` · `06-tailwind.mdc` · `03-rtl-urdu.mdc` · `09-technical-seo-mobile.mdc`

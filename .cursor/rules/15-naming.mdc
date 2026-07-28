@@ -31,6 +31,8 @@ No `utils/`, `helpers/`, or `misc/` — name by domain (`paths.ts`, `contact.ts`
 | Unit test | `<module>.test.ts` next to source | `lib/paths.test.ts` — Vitest, `lib/**/*.test.ts` only |
 | Schema type | `camelCase.ts` | `export const course = defineType(...)` |
 | Route entry | `page.tsx`, `layout.tsx`, `route.ts` | App Router fixed names |
+| Special App files | `error.tsx`, `loading.tsx`, `not-found.tsx`, `template.tsx` | Framework names only — never invent variants |
+| Unit test suite | `describe('moduleName')` | Match source module, not vague `describe('tests')` |
 
 One primary component per file. Co-locate tiny subcomponents in same file only if private and <30 lines.
 

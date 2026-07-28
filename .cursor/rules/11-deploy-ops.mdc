@@ -20,9 +20,10 @@ Port/runtime → **`12-production-port.mdc`** (do not duplicate port rules here)
 | Start | `pm2 start ecosystem.config.cjs --update-env` |
 | Health | curl `LOCAL_URL` from `deploy/runtime.cjs` + sample chunk |
 
-Critical: stop PM2 **before** touching `.next`. Verify chunk URL after restart. Apache serves `/_next/static/`. Failed deploy rolls back git + PM2.
+Critical: stop PM2 **before** touching `.next`. Verify chunk URL after restart. Apache serves `/_next/static/`.  
+Failed deploy: `remote-deploy.sh` rolls back git + restarts previous PM2 — confirm health URL before leaving the session.
 
-Never `rm -rf .next` while PM2 is serving.
+Never `rm -rf .next` while PM2 is serving. Confirm Node on VPS matches `engines` / CI (**24.17.x**).
 
 ## CI (GitHub Actions)
 

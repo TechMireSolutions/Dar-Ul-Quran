@@ -16,6 +16,9 @@ Primary Google index profile. PSI/Lighthouse **Mobile**.
 
 Touch ≥44px (`TW_TOUCH` / `min-h-11`) · visible `:focus-visible` · no horizontal scroll at 375px · manifest/viewport/theme_color · content parity with desktop · skip link works on small screens.
 
+Forms: `inputMode` / `type` for tel & email; sticky CTAs must not cover content or trap focus.  
+Font: `DeferredUrduFont` with `display=optional` — never block first paint with Nastaliq.
+
 ## Image rules (PSI)
 
 - Homepage hero: `lcpHeroImageProps()` in `sanity/lib/image.ts` — srcset + `LcpImagePreload` with `media="(min-width: 768px)"`

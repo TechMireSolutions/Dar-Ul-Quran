@@ -75,6 +75,7 @@ alwaysApply: true
 | Unit tests | `lib/**/*.test.ts` + `write-tests` skill |
 | Revalidate API secret/auth | `17-security.mdc` |
 | Contact API security | `17-security.mdc` + `secure-api-route` skill |
+| SEO metadata / JSON-LD | `lib/seo.ts` + `components/seo/*` |
 
 ## Skills registry (20 — each listed once)
 
@@ -91,7 +92,10 @@ Claude Code: `.claude/commands/<name>.md` → `.cursor/skills/<name>/SKILL.md`
 
 ## Behavior
 
-- Smallest correct diff; match existing patterns
-- Urdu UI only → `npm run check:urdu` after UI changes
+- Smallest correct diff; match existing patterns — prefer shells in `05-components.mdc` before new components
+- **Skills first:** before scaffolding (page, leaf, schema, API, SEO, deploy), **read** the matching `.cursor/skills/*/SKILL.md` and follow it
+- Urdu UI only → `npm run check:urdu` after UI changes; layout/type → `rtl-check`
 - Commit/push only when user asks; never commit secrets
 - Ship check → `preflight` skill (`lint` + `check:urdu` + `test` + `build` if deploy)
+- Do not invent parallel frameworks, design systems, or folders outside `14-file-structure.mdc`
+- Ops skills (`deploy`, `fix-chunk-mime`, `upgrade-deps`, `setup-revalidation`) — only when the user asks or a skill is named

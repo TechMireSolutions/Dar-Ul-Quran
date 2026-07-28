@@ -28,6 +28,8 @@ Security schemas → **`17-security.mdc`**
 - Locale: assert against same `Intl` options (or year), not English month names  
 - New `lib/*.ts` shipped with API/UI → colocated `*.test.ts` in the same PR  
 - Prefer `safeParse` for Zod; assert `success` and key `data` fields when useful  
+- `describe('moduleName')` matching the source module (`15-naming.mdc`)  
+- Do not add React/component tests here — Vitest scope is `lib/**/*.test.ts` only  
 
 ## Template
 

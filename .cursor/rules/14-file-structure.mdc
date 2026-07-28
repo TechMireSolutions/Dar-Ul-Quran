@@ -48,7 +48,10 @@ public/            # Static assets only — no CMS duplicates
 | `_components/` | Route-private UI — **never** imported outside that route tree |
 | `[...slug]` | Catch-all for nested CMS trees (courses, services) |
 | `layout.tsx` | Shared chrome only; no heavy data fetching unless layout-wide |
-| `loading.tsx` / `error.tsx` | Add when route has slow CMS or user-facing failure modes |
+| `error.tsx` | Root `app/error.tsx` exists (Urdu); add route-level only for scoped recovery |
+| `loading.tsx` | Optional — add when a route has slow CMS and needs a skeleton |
+| `not-found.tsx` | Prefer shared 404 UX; keep Urdu copy |
+| `middleware.ts` / `instrumentation.ts` | **Do not add** unless a concrete auth/observability need appears |
 | `revalidate` | `300` on CMS-backed public routes |
 
 ## Colocation

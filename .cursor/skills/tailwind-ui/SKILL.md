@@ -58,3 +58,10 @@ npm run lint && npm run check:urdu
 ```
 
 Then `rtl-check` · ship with `preflight`.
+
+## Anti-patterns
+
+- `prose-*` / `@tailwindcss/typography`
+- Public-site `dark:` theme
+- Duplicating `TW_*` class strings instead of importing
+- Latin tracking on Urdu text

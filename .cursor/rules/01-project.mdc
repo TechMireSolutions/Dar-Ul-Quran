@@ -7,7 +7,7 @@ alwaysApply: true
 
 Next.js **16.2.12** · React **19.2.8** · Sanity **v6** · Tailwind **v4.3** · TypeScript **6** · Node **≥22.12** (VPS **24.17**) · RTL Urdu/Nastaliq · React Compiler **1.0**
 
-Live: https://darulquran.pk · Runtime port **3001** → `12-production-port.mdc`  
+Live: https://darulquran.pk · Runtime port **3001** (dev + prod) → `12-production-port.mdc`  
 License: **MIT** · Stack reference: **`techstack.md`**
 
 ```bash
@@ -32,7 +32,7 @@ See **`.env.example`**. Never commit secrets. Security rule: **`17-security.mdc`
 See **`14-file-structure.mdc`**. Summary:
 
 ```
-app/(site)/ api/ studio/
+app/(site)/ api/ studio/ error.tsx
 components/{layout,ui,sections,content,seo}/
 lib/{types,cache-tags,contact-schema,rate-limit,format-date,tailwind.ts,…}/
 sanity/{schemaTypes,lib}/
@@ -41,6 +41,8 @@ docs/ deploy/ scripts/
 
 - Thin `page.tsx`; route-private UI in `app/**/_components/`
 - Shared shells: `LeafHero` · `SectionHeaderRow` · `CenteredSectionHeader` · `ListingIndexShell`
+- Global failure UI: `app/error.tsx` (Urdu) — add route-level `error.tsx` / `loading.tsx` only when needed
+- No `middleware.ts` / `instrumentation.ts` unless a concrete requirement appears
 - API routes: Zod + rate limit — **`17-security.mdc`**
 - CMS: `revalidate = 300` + webhook tags (`setup-revalidation` skill)
 - Fetch via `get*` in `sanity/lib/fetchers.ts` (CDN in production)

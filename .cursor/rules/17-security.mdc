@@ -24,6 +24,8 @@ Revalidation **auth** → this rule; webhook/path map → `04-sanity.mdc` + `set
 
 Full list: `.env.example` · rotation: `SECURITY.md`
 
+**Fail closed:** missing `REVALIDATE_SECRET` or email keys → reject the request / skip send — never silently succeed.
+
 ## Contact API (`/api/contact`)
 
 Authority: `lib/contact-schema.ts` · `lib/rate-limit.ts` · `lib/turnstile.ts` · `lib/contact-notify.ts`
@@ -32,6 +34,7 @@ Authority: `lib/contact-schema.ts` · `lib/rate-limit.ts` · `lib/turnstile.ts` 
 |-------|------|
 | Validation | Zod `contactBodySchema` — never trust raw JSON |
 | Rate limit | `rateLimitContact(ip)` — 5 / 15 min |
+| Client IP | First hop of `x-forwarded-for` or `x-real-ip` (see `clientIp` in route) |
 | Bot | Honeypot `website` + optional Turnstile |
 | Email | Resend first, nodemailer fallback |
 | Output | Escape HTML in notification emails |
@@ -53,6 +56,8 @@ Client: `ContactForm` + optional `TurnstileField` · Urdu error states.
 Site: CSP, XFO, nosniff, Referrer-Policy, Permissions-Policy  
 Studio (`/studio/*`): relaxed CSP with `wss://*.sanity.io`  
 Apache: HSTS + static cache — `deploy/apache-security-snippet.conf`
+
+**No custom CORS** on public APIs — same-origin form posts only. Do not add `Access-Control-Allow-Origin: *`.
 
 ## API route checklist
 

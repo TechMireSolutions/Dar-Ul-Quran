@@ -1,6 +1,6 @@
 ---
 name: optimize-lcp
-description: Optimizes LCP for the Dar Ul Quran hero and above-the-fold images. Use when fixing Lighthouse LCP or PageSpeed Insights scores.
+description: Optimizes LCP for the Dar Ul Quran hero and above-the-fold images. Use when fixing Lighthouse LCP, PageSpeed Insights scores, or hero loading regressions.
 ---
 
 # Optimize LCP
@@ -30,11 +30,12 @@ Rules: `09-technical-seo-mobile.mdc` · `10-technical-seo-desktop.mdc`
 - `DeferredUrduFont` — `display=optional`, idle callback; preconnect `fonts.googleapis.com` + `fonts.gstatic.com` in root layout
 - Lazy `HeaderMobileMenu` (`dynamic`, `ssr: false`)
 - Turnstile: IntersectionObserver before script inject (contact only)
+- Do not add competing above-fold images or eager third-party scripts
 
 ## Below-fold
 
 - `TW_CV_AUTO` on homepage sections, footer, listing body (desktop only)
-- Dynamic import carousels with skeleton placeholder
+- Dynamic import carousels with skeleton / Suspense
 - Carousel prev/next: sentinel `IntersectionObserver` on desktop only — mobile touch scroll, no IO
 - Reveal animations: CSS-only on mobile; no `useEffect` DOM writes below 768px
 

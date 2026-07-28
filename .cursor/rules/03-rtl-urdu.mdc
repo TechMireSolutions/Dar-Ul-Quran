@@ -13,6 +13,11 @@ Font: `Noto Nastaliq Urdu` via `DeferredUrduFont` + `fontFamily` in `tailwind.co
 - Spacing: `ms-*` / `me-*` / `ps-*` / `pe-*` / `start-*` / `end-*` — **not** `ml-*` / `mr-*` / physical `left-*`/`right-*` for directional UI
 - Icons: `rtl:rotate-180` on arrows/chevrons (or `TW_CTA_ARROW`)
 
+## LTR islands (mixed content)
+- Phone, email, URLs, Latin IDs, codes: wrap with `dir="ltr"` or `<bdi>` so digits/punctuation stay correct in RTL
+- Sanity Studio fields for email/phone/URL → `LtrStringInput` (`sanity/components/LtrStringInput.tsx`)
+- Do not set `dir="ltr"` on whole pages or large Urdu blocks
+
 ## Typography (Nastaliq)
 | Concern | Rule |
 |---------|------|
@@ -23,6 +28,7 @@ Font: `Noto Nastaliq Urdu` via `DeferredUrduFont` + `fontFamily` in `tailwind.co
 | Eyebrows / badges | No Latin `uppercase` + wide tracking on Urdu labels |
 | Features | Body uses `kern` / `liga` / `calt` in `globals.css` — do not disable |
 | Pill CTAs | Compact line-height OK (see button rules in `globals.css`) — body copy still ≥1.9 |
+| Dates / numbers in UI | `formatPublishedDate()` / `Intl` with `ur-PK` — not English month names |
 
 Authority for theme line-heights: `tailwind.config.ts` (`leading-urdu*`, remapped `tight`/`relaxed`).
 
@@ -30,7 +36,7 @@ Authority for theme line-heights: `tailwind.config.ts` (`leading-urdu*`, remappe
 - Touch ≥44px — `TW_TOUCH` / `min-h-11`
 - Visible `:focus-visible` ring — never bare `outline-none` alone
 - Decorative images: `alt=""`; content images: Urdu `alt`
-- Dates in UI → `formatPublishedDate()` (`ur-PK`)
+- Form tel/email: appropriate `type` + `inputMode` (`tel`, `email`)
 
 ## Copy
 **All user-visible text in Urdu.** Run `npm run check:urdu`. False positive: `// urdu-ok`  

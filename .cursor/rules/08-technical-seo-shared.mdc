@@ -1,6 +1,6 @@
 ---
 description: Technical SEO — crawl, index, metadata, schema
-globs: "{app/sitemap.ts,app/robots.ts,app/llms.txt/**/*,lib/seo.ts,components/seo/**/*}"
+globs: "{app/sitemap.ts,app/robots.ts,app/llms.txt/**/*,lib/seo.ts,components/seo/**/*,app/manifest.ts}"
 alwaysApply: false
 ---
 
@@ -11,19 +11,24 @@ One responsive URL (mobile-first index). Test **both** Lighthouse mobile + deskt
 ## Crawl & index
 
 - `robots.ts` + `sitemap.ts` + `pageMetadata({ path })` canonical on every page
+- Prefer `lastModified` on sitemap entries when CMS `_updatedAt` / published dates exist
 - `noIndex`: 404, `?q=` on listings (canonical stays base path)
+- No trailing-slash variants — keep paths consistent with `lib/paths.ts` helpers
 - `llms.txt` + AI crawler rules in `robots.ts` (English OK for llms)
 - Server-rendered primary content; no orphan URLs; internal links between pillars
+- `app/manifest.ts` — name, `lang: ur`, theme colors aligned with brand
 
 ## Metadata
 
 - Always `pageMetadata()` — title, description, OG/Twitter, `settings` for site defaults
+- OG image via `pageMetadata` / Sanity helpers — do not hand-roll conflicting tags
 - Articles: `publishedTime` / `modifiedTime` / authors when available
 - One H1 per page matching visible title; metadata must match content (no bait)
 
 ## Structured data
 
 - JSON-LD: `WebPageSchema` + type schema (`Article` / `Course` / `Service` / `ItemList`)
+- FAQPage: via leaf schemas when FAQ UI is present (`buildFaqPageSchema`)
 - `inLanguage: ur` · breadcrumbs via `BreadcrumbNav` on hierarchical pages
 - Org / `SearchAction` in root layout — must match working search URL
 - Schema must reflect visible UI (E-E-A-T → `07` / `.antigravityrules`)

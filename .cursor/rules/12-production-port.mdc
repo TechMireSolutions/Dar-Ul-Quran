@@ -9,9 +9,11 @@ PM2 app `darulquran-next` listens on **0.0.0.0:3001**. Apache at darulquran.pk â
 
 **Not configurable in production.** `deploy/runtime.cjs` forces port **3001** when `NODE_ENV=production`. Never use port **3000**.
 
+Local `npm run dev` / `npm run start` also bind **3001** via `scripts/run-next.mjs` â€” keep that aligned so docs and muscle memory match production.
+
 | Layer | File |
 |-------|------|
-| Source of truth | `deploy/runtime.cjs` |
+| Source of truth | `deploy/runtime.cjs` (`PORT`, `HOSTNAME`) |
 | npm dev/start | `scripts/run-next.mjs` |
 | PM2 | `ecosystem.config.cjs` |
 | Reverse proxy | `deploy/apache.conf.example`, `deploy/nginx.conf.example` |

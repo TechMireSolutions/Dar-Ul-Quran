@@ -1,6 +1,7 @@
 ---
 name: fix-chunk-mime
-description: Diagnoses and fixes Next.js static chunk 404s, MIME errors, or blank pages after deploy on darulquran.pk. Use when /_next/static/chunks fail or PM2 serves stale build.
+description: Diagnoses and fixes Next.js static chunk 404s, MIME errors, or blank pages after deploy on darulquran.pk. Use when the user reports /_next/static/chunks failures, Unexpected token '<', or PM2 serving a stale build.
+disable-model-invocation: true
 ---
 
 # Fix chunk / MIME errors
@@ -25,6 +26,14 @@ APP_PORT=$(node -e "console.log(require('./deploy/runtime.cjs').PORT)")
 curl -fsS "http://127.0.0.1:${APP_PORT}/" -o /dev/null
 curl -fsS "http://127.0.0.1:${APP_PORT}/_next/static/chunks/$(basename "$SAMPLE")" -o /dev/null
 sudo apache2ctl configtest && sudo systemctl reload apache2
+```
+
+## Verify
+
+```
+[ ] Homepage 200
+[ ] Chunk URL returns JavaScript (Content-Type JS, not text/html)
+[ ] Browser hard-refresh no longer shows MIME / Unexpected token errors
 ```
 
 Never `rm -rf .next` while PM2 is running.

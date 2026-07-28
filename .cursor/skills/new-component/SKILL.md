@@ -16,7 +16,9 @@ Rules: `05-components.mdc` · `06-tailwind.mdc` · `15-naming.mdc` · `16-dry.md
 
 ## Prefer existing shells
 
-`PageHeroHeader` · `LeafHero` · `SectionHeaderRow` · `CenteredSectionHeader` · `ListingIndexShell` · `ContentCard` · `NestedChildListing`
+`PageHeroHeader` · `LeafHero` · `SectionHeaderRow` · `CenteredSectionHeader` · `ListingIndexShell` · `ContentCard` · `NestedChildListing` · `RichTextBody`
+
+Extend an existing shell before creating a parallel component.
 
 ## Scaffold
 
@@ -29,6 +31,7 @@ Rules: `05-components.mdc` · `06-tailwind.mdc` · `15-naming.mdc` · `16-dry.md
 7. Urdu copy + `aria-label` / content `alt` in Urdu; decorative `alt=""`  
 8. Logical spacing; `shrink-0`; `motion-reduce` on hover translate  
 9. Images: `sizes` + lazy below fold  
+10. Phone/email/URL → `dir="ltr"` / `<bdi>`
 
 ## Verify
 

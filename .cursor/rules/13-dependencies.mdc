@@ -21,6 +21,8 @@ alwaysApply: false
 | `typescript` | Latest **6.x** — TS **7** blocked by `typescript-eslint` |
 | `zod` | Latest **4.x** — API validation |
 | `resend` | Latest — contact email |
+| `nodemailer` | Latest — SMTP fallback only (contact) |
+| `@upstash/redis` / `@upstash/ratelimit` | Latest — optional distributed rate limit |
 | `vitest` | Latest — unit tests (dev) |
 | `babel-plugin-react-compiler` | **1.0.0** — enables `reactCompiler: true` |
 | `eslint`, `eslint-config-next` | ESLint **9.39.4** pin; config-next **exact match** Next |
