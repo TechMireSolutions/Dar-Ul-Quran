@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import RichTextBody from '@/components/content/RichTextBody'
 import Reveal from '@/components/ui/Reveal'
+import { externalLinkAttrs } from '@/lib/contact'
 import { PATHS } from '@/lib/paths'
 import {
   TW_CTA_ARROW,
@@ -72,8 +73,7 @@ export default function DonateContent({
             {donateUrl ? (
               <a
                 href={donateUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+                {...externalLinkAttrs()}
                 className={TW_PAYPAL_CTA}
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">

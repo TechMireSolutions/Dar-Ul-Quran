@@ -35,6 +35,15 @@ const TOPIC_CLUSTER_PILLAR_FIELDS = `
   }
 `
 
+/** Portable Text FAQ → plain-text answers for JSON-LD. */
+const FAQ_ITEMS_PT = `"faqItems": faq[]{ question, "answer": pt::text(answer) }`
+
+const TITLE_DESC_ITEMS = `[]{ title, desc }`
+const LABEL_DESC_ITEMS = `[]{ label, desc }`
+
+const COURSE_CHILD_COUNT = `"childCount": count(*[_type == "course" && references(^._id)])`
+const SERVICE_CHILD_COUNT = `"childCount": count(*[_type == "service" && references(^._id)])`
+
 // ─── Posts / Articles ────────────────────────────────────────────────────────
 
 export const postsQuery = `
@@ -68,7 +77,7 @@ export const postSlugsQuery = `*[_type == "post" && defined(slug.current)]{ "slu
 export const topLevelCoursesQuery = `
   *[_type == "course" && !defined(parent)] | order(order asc) {
     _id, title, slug, excerpt, subject, featuredImage, price, duration, instructor,
-    "childCount": count(*[_type == "course" && references(^._id)])
+    ${COURSE_CHILD_COUNT}
   }
 `
 
@@ -76,15 +85,15 @@ export const courseBySlugDeepQuery = `
   *[_type == "course" && slug.current == $slug][0] {
     _id, title, slug, excerpt, body, subject, featuredImage,
     price, duration, instructor, enrollmentLink, faq,
-    "faqItems": faq[]{ question, "answer": pt::text(answer) },
+    ${FAQ_ITEMS_PT},
     "pricingMin": pricingTables[0].rows[0].feePerClass,
     "seoTitle": seoTitle, "seoDescription": seoDescription,
 
     heroSubtitle, heroCtaLabel,
     overviewHeading, overviewBody,
-    outcomesHeading, outcomes[]{ title, desc },
-    whyUsHeading, whyUs[]{ title, desc },
-    howItWorksHeading, howItWorks[]{ label, desc },
+    outcomesHeading, outcomes${TITLE_DESC_ITEMS},
+    whyUsHeading, whyUs${TITLE_DESC_ITEMS},
+    howItWorksHeading, howItWorks${LABEL_DESC_ITEMS},
     feeSummaryHeading, feeSummaryItems[]{ label, amount },
     pricingHeading,
     pricingTables[]{ label, rows[]{ plan, weeklyFrequency, monthlyClasses, feePerClass, monthlyTotal } },
@@ -95,7 +104,7 @@ export const courseBySlugDeepQuery = `
     ${PARENT_CHAIN_WITH_TITLES},
     "children": *[_type == "course" && references(^._id)] | order(order asc) {
       _id, title, "slug": slug.current, excerpt, featuredImage, price, duration,
-      "childCount": count(*[_type == "course" && references(^._id)])
+      ${COURSE_CHILD_COUNT}
     }
   }
 `
@@ -112,27 +121,27 @@ export const allCoursePathsQuery = `
 export const topLevelServicesQuery = `
   *[_type == "service" && !defined(parent)] | order(order asc) {
     _id, title, slug, excerpt, icon, price,
-    "childCount": count(*[_type == "service" && references(^._id)])
+    ${SERVICE_CHILD_COUNT}
   }
 `
 
 export const serviceBySlugDeepQuery = `
   *[_type == "service" && slug.current == $slug][0] {
     _id, title, slug, excerpt, body, icon, isBookable, price, faq,
-    "faqItems": faq[]{ question, "answer": pt::text(answer) },
+    ${FAQ_ITEMS_PT},
     "seoTitle": seoTitle, "seoDescription": seoDescription,
 
     heroImage, heroSubtitle, heroBody,
-    whyUsHeading, whyUsImage, whyUs[]{ title, desc },
-    commitmentHeading, commitment[]{ title, desc },
-    howItWorksHeading, howItWorks[]{ label, desc },
+    whyUsHeading, whyUsImage, whyUs${TITLE_DESC_ITEMS},
+    commitmentHeading, commitment${TITLE_DESC_ITEMS},
+    howItWorksHeading, howItWorks${LABEL_DESC_ITEMS},
     ctaHeading, ctaSubtitle, ctaBtn1Label, ctaBtn2Label,
     faqSectionHeading,
 
     ${PARENT_CHAIN_WITH_TITLES},
     "children": *[_type == "service" && references(^._id)] | order(order asc) {
       _id, title, "slug": slug.current, excerpt, icon, price,
-      "childCount": count(*[_type == "service" && references(^._id)])
+      ${SERVICE_CHILD_COUNT}
     }
   }
 `

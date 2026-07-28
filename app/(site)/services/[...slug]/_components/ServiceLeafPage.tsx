@@ -10,6 +10,7 @@ import CenteredSectionHeader from '@/components/ui/CenteredSectionHeader'
 import type { ServiceDetailDoc, TopicClusterDoc } from '@/lib/types'
 import type { FaqDisplayItem } from '@/lib/topicCluster'
 import { PATHS } from '@/lib/paths'
+import { DEFAULT_FAQ_HEADING } from '@/lib/seo'
 import { TW_CONTAINER_NARROW, TW_CONTAINER_WIDE, TW_HERO_CHIP_GOLD, TW_SECTION_PY, TW_SECTION_TITLE } from '@/lib/tailwind'
 
 type ServiceLeafPageProps = {
@@ -131,13 +132,13 @@ export default function ServiceLeafPage({
             primaryHref={PATHS.contact}
             primaryLabel={service.ctaBtn1Label || 'شروع کریں'}
             whatsappHref={whatsappLink}
-            whatsappLabel={service.ctaBtn2Label || 'واٹس ایپ کریں'}
+            whatsappLabel={service.ctaBtn2Label}
           />
 
           {service.body && <PortableTextSection value={service.body} />}
 
           <FaqAccordion
-            heading={service.faqSectionHeading || 'اکثر پوچھے گئے سوالات'}
+            heading={service.faqSectionHeading || DEFAULT_FAQ_HEADING}
             items={faqItems}
             icon="plus"
           />

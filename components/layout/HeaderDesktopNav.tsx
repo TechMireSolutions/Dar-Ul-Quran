@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { useState, useEffect, useRef } from 'react'
 import { ChevronDown, ChevronLeft } from 'lucide-react'
 import { usePathname } from 'next/navigation'
+import { externalLinkAttrs } from '@/lib/contact'
 import type { NavNode } from '@/lib/types'
 import { nodeIsActive } from '@/lib/navigation'
 import { TW_NAV_DROPDOWN, TW_NAV_MENU_ITEM } from '@/lib/tailwind'
@@ -48,8 +49,7 @@ function DesktopPanelRow({ node, onClose, depth }: DesktopPanelRowProps) {
       <Link
         href={node.href || '#'}
         role="menuitem"
-        target={node.external ? '_blank' : undefined}
-        rel={node.external ? 'noopener noreferrer' : undefined}
+        {...(node.external ? externalLinkAttrs(node.label) : {})}
         onClick={onClose}
         className={`${TW_NAV_MENU_ITEM}
           hover:bg-dq-50 hover:text-dq-700
@@ -140,9 +140,7 @@ export default function HeaderDesktopNav({ node }: { node: NavNode }) {
     return (
       <Link
         href={node.href || '#'}
-        target={node.external ? '_blank' : undefined}
-        rel={node.external ? 'noopener noreferrer' : undefined}
-        {...(node.external ? { 'aria-label': `${node.label} (نئی ونڈو میں کھلتا ہے)` } : {})}
+        {...(node.external ? externalLinkAttrs(node.label) : {})}
         className={`link-underline text-[13.5px] font-medium whitespace-nowrap transition-colors duration-150
           ${isActive ? 'text-dq-400 active' : 'text-white/70 hover:text-white'}`}
       >

@@ -3,6 +3,7 @@ import {
   buildFooterContactRows,
   buildFooterSocialLinks,
   CONTACT_EMPTY_MESSAGE,
+  CONTACT_KIND_LABELS,
   externalLinkAttrs,
   resolveWhatsappLink,
   telHref,
@@ -12,6 +13,13 @@ import {
 describe('CONTACT_EMPTY_MESSAGE', () => {
   it('is Urdu empty-state copy shared by footer and contact', () => {
     expect(CONTACT_EMPTY_MESSAGE).toContain('رابطہ')
+  })
+})
+
+describe('CONTACT_KIND_LABELS', () => {
+  it('exposes stable Urdu labels for contact rows', () => {
+    expect(CONTACT_KIND_LABELS.email).toBe('ای میل')
+    expect(CONTACT_KIND_LABELS.whatsapp).toBe('واٹس ایپ')
   })
 })
 

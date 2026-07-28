@@ -1,6 +1,6 @@
 import { buildFooterContactRows, buildFooterSocialLinks, CONTACT_EMPTY_MESSAGE, type FooterContactRow, type FooterSocialLink } from '@/lib/contact'
 import { flattenFooterQuickLinks, footerServiceLinks, withoutHref } from '@/lib/navigation'
-import { PATHS } from '@/lib/paths'
+import { PATHS, SECTION_LABELS } from '@/lib/paths'
 import {
   DEFAULT_DONATE_CTA_LABEL,
   DEFAULT_TAGLINE,
@@ -12,7 +12,7 @@ import type { FooterServiceDoc, NavNode, SiteSettingsDoc } from '@/lib/types'
 export const FOOTER_COPY = {
   landmark: 'ذیلی معلومات',
   quickLinks: 'فوری روابط',
-  services: 'خدمات',
+  services: SECTION_LABELS.services,
   contact: 'ہم سے رابطہ',
   contactEmpty: CONTACT_EMPTY_MESSAGE,
   whatsappPrefix: 'واٹس ایپ:',

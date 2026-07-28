@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
-import { Mail, Phone, MessageCircle, MapPin } from 'lucide-react'
+import { Mail, Phone, MessageCircle, MapPin, type LucideIcon } from 'lucide-react'
 import RichTextBody from '@/components/content/RichTextBody'
 import { cmsPageMetadata, fetchCmsPage, resolveSeoDescription, resolveSeoTitle } from '@/lib/cmsPage'
-import { whatsappHref, telHref } from '@/lib/contact'
-import { PATHS } from '@/lib/paths'
+import { buildFooterContactRows, CONTACT_KIND_LABELS, type FooterContactRow } from '@/lib/contact'
+import { PATHS, SECTION_LABELS } from '@/lib/paths'
 import { getCoursesForContactForm, getServicesForContactForm } from '@/sanity/lib/fetchers'
 import CmsPageShell from '@/components/layout/CmsPageShell'
 import ContactForm from './_components/ContactForm'
@@ -17,7 +17,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return cmsPageMetadata({
     slug: 'contact',
     path: PATHS.contact,
-    titleFallback: 'رابطہ کریں',
+    titleFallback: SECTION_LABELS.contact,
   })
 }
 
@@ -28,12 +28,18 @@ export default async function ContactPage() {
     getServicesForContactForm(),
   ])
 
-  const contactItems = [
-    settings?.email    && { Icon: Mail,          label: 'ای میل',   value: settings.email,    href: `mailto:${settings.email}` },
-    settings?.phone    && { Icon: Phone,         label: 'فون',      value: settings.phone,    href: telHref(settings.phone) },
-    settings?.whatsapp && { Icon: MessageCircle, label: 'واٹس ایپ', value: settings.whatsapp, href: whatsappHref(settings.whatsapp) },
-    settings?.address  && { Icon: MapPin,        label: 'پتہ',      value: settings.address,  href: null },
-  ].filter(Boolean) as ContactInfoItem[]
+  const contactIcons: Record<FooterContactRow['kind'], LucideIcon> = {
+    email: Mail,
+    phone: Phone,
+    whatsapp: MessageCircle,
+    address: MapPin,
+  }
+  const contactItems: ContactInfoItem[] = buildFooterContactRows(settings).map((row) => ({
+    Icon: contactIcons[row.kind],
+    label: CONTACT_KIND_LABELS[row.kind],
+    value: row.value,
+    href: row.href,
+  }))
 
   const subjects: string[] = settings?.contactFormSubjects?.length
     ? settings.contactFormSubjects
@@ -41,7 +47,7 @@ export default async function ContactPage() {
 
   const submitLabel: string = settings?.contactFormSubmitLabel || 'پیغام بھیجیں'
 
-  const pageTitle = resolveSeoTitle(page, 'ہم سے رابطہ کریں')
+  const pageTitle = resolveSeoTitle(page, SECTION_LABELS.contact)
   const pageDescription = resolveSeoDescription(page)
 
   return (
@@ -50,7 +56,7 @@ export default async function ContactPage() {
       schemaDescription={pageDescription}
       path={PATHS.contact}
       eyebrow={page?.eyebrow || 'رابطہ کیجیے'}
-      title={page?.title || 'ہم سے رابطہ کریں'}
+      title={page?.title || SECTION_LABELS.contact}
       subtitle={page?.subtitle || 'خدمات، کورسز یا عام پوچھ گچھ کے لیے ہم سے رابطہ کریں'}
       maxWidth="6xl"
     >

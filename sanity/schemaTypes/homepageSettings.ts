@@ -1,4 +1,6 @@
 import { defineField, defineType } from 'sanity'
+import { PATHS, SECTION_LABELS } from '@/lib/paths'
+import { DEFAULT_DONATE_CTA_LABEL, DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
 
 export const homepageSettings = defineType({
   name: 'homepageSettings',
@@ -6,22 +8,22 @@ export const homepageSettings = defineType({
   type: 'document',
   fields: [
     defineField({ name: 'heroArabicText', type: 'string', title: 'Arabic Bismillah / Header Text', initialValue: 'بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ' }),
-    defineField({ name: 'heroTitle', type: 'string', title: 'Hero Headline', initialValue: 'دار القرآن' }),
+    defineField({ name: 'heroTitle', type: 'string', title: 'Hero Headline', initialValue: DEFAULT_SITE_NAME_URDU }),
     defineField({ name: 'heroSubtitle', type: 'text', title: 'Hero Subtitle', rows: 3 }),
     defineField({ name: 'heroImage', type: 'image', title: 'Hero Background Image', options: { hotspot: true } }),
     defineField({ name: 'heroCta1Label', type: 'string', title: 'Primary CTA Label', initialValue: 'کورسز دیکھیں' }),
-    defineField({ name: 'heroCta1Link', type: 'string', title: 'Primary CTA Link', initialValue: '/online-courses' }),
+    defineField({ name: 'heroCta1Link', type: 'string', title: 'Primary CTA Link', initialValue: PATHS.onlineCourses }),
     defineField({ name: 'heroCta2Label', type: 'string', title: 'Secondary CTA Label', initialValue: 'ہماری خدمات' }),
-    defineField({ name: 'heroCta2Link', type: 'string', title: 'Secondary CTA Link', initialValue: '/services' }),
+    defineField({ name: 'heroCta2Link', type: 'string', title: 'Secondary CTA Link', initialValue: PATHS.services }),
     defineField({ name: 'servicesHeading', type: 'string', title: 'Services Section Heading', initialValue: 'ہماری خدمات' }),
     defineField({ name: 'servicesSubheading', type: 'string', title: 'Services Section Subheading' }),
-    defineField({ name: 'coursesHeading', type: 'string', title: 'Courses Section Heading', initialValue: 'آنلائن کورسز' }),
+    defineField({ name: 'coursesHeading', type: 'string', title: 'Courses Section Heading', initialValue: SECTION_LABELS.onlineCourses }),
     defineField({ name: 'coursesSubheading', type: 'string', title: 'Courses Section Subheading' }),
     defineField({ name: 'articlesHeading', type: 'string', title: 'Articles Section Heading', initialValue: 'تازہ ترین مضامین' }),
     defineField({ name: 'articlesSubheading', type: 'string', title: 'Articles Section Subheading' }),
     defineField({ name: 'donateHeading', type: 'string', title: 'Donate CTA Heading', initialValue: 'ہمارے مشن میں ساتھ دیں' }),
     defineField({ name: 'donateText', type: 'text', title: 'Donate CTA Text', rows: 2 }),
-    defineField({ name: 'donateCtaLabel', type: 'string', title: 'Donate CTA Button Label', initialValue: 'ابھی عطیہ دیں' }),
+    defineField({ name: 'donateCtaLabel', type: 'string', title: 'Donate CTA Button Label', initialValue: DEFAULT_DONATE_CTA_LABEL }),
     defineField({ name: 'donateQuote', type: 'text', title: 'Donate Quote', rows: 2, initialValue: 'صدقہ رب کے غضب کو بجھاتا اور بری موت کو دور کرتا ہے۔' }),
     defineField({ name: 'donateQuoteAttribution', type: 'string', title: 'Donate Quote Attribution', initialValue: 'امام صادق (ع)' }),
 

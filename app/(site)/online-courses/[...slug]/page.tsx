@@ -16,13 +16,13 @@ import {
   breadcrumbLabelsFromAncestry,
   buildBreadcrumbNavItems,
   PATHS,
+  SECTION_LABELS,
   sectionRelativePath,
   staticParamsFromPaths,
 } from '@/lib/paths'
-import { loadCatchAllLeaf } from '@/lib/leafRoute'
+import { loadCatchAllLeaf, mergeLeafFaqs } from '@/lib/leafRoute'
 import { resolveWhatsappLink } from '@/lib/contact'
-import { courseCtaLabel, resolveLeafDescription } from '@/lib/cmsPage'
-import { mergeFaqForDisplay, mergeFaqItems } from '@/lib/topicCluster'
+import { courseCtaLabel, defaultCourseDescription, resolveLeafDescription } from '@/lib/cmsPage'
 import { pageMetadata, DEFAULT_SITE_NAME_URDU, resolveOgImage } from '@/lib/seo'
 
 export const revalidate = 300
@@ -44,10 +44,7 @@ export async function generateMetadata(
   ])
   const courseTitle = course.title ?? 'کورس'
   const title = course.seoTitle || courseTitle
-  const description = resolveLeafDescription(
-    course,
-    `آن لائن ${courseTitle}${course.subject ? ` — ${course.subject}` : ''}۔ پاکستان اور دنیا بھر کے شیعہ خاندانوں کے لیے مستند اسلامی تعلیم۔`,
-  )
+  const description = resolveLeafDescription(course, defaultCourseDescription(course))
   const image = resolveOgImage(
     course.featuredImage ? ogImageUrl(course.featuredImage) : null,
     defaultOgImage(settings),
@@ -99,13 +96,16 @@ export default async function CourseCatchAllPage(
 
   const enrollHref = course.enrollmentLink || PATHS.contact
   const whatsappLink = resolveWhatsappLink(site?.whatsapp)
-  const faqItems = mergeFaqItems(course.faqItems, cluster?.faqItems)
-  const faqDisplayItems = mergeFaqForDisplay(course.faq, cluster?.faqItems)
+  const { faqItems, faqDisplayItems } = mergeLeafFaqs(
+    course.faq,
+    course.faqItems,
+    cluster?.faqItems,
+  )
 
   const courseTitle = course.title ?? 'کورس'
   const pageDescription = resolveLeafDescription(
     course,
-    `آن لائن ${courseTitle}${course.subject ? ` — ${course.subject}` : ''}۔`,
+    defaultCourseDescription(course, { short: true }),
   )
 
   return (
@@ -130,7 +130,7 @@ export default async function CourseCatchAllPage(
       />
 
       <BreadcrumbNav
-        sectionLabel="آنلائن کورسز"
+        sectionLabel={SECTION_LABELS.onlineCourses}
         sectionHref={SECTION_PATH}
         items={buildBreadcrumbNavItems(SECTION_PATH, ancestry, courseTitle)}
       />

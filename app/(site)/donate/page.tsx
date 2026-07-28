@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import { cmsPageMetadata, fetchCmsPage, resolveSeoDescription, resolveSeoTitle } from '@/lib/cmsPage'
 import CmsPageShell from '@/components/layout/CmsPageShell'
 import DonateContent from './_components/DonateContent'
-import { PATHS } from '@/lib/paths'
-import { DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
+import { PATHS, SECTION_LABELS } from '@/lib/paths'
+import { DEFAULT_DONATE_CAUSES } from '@/lib/seo'
 import { TW_CONTAINER_NARROW, TW_PAGE_BODY } from '@/lib/tailwind'
 
 export const revalidate = 300
@@ -12,23 +12,18 @@ export async function generateMetadata(): Promise<Metadata> {
   return cmsPageMetadata({
     slug: 'donate',
     path: PATHS.donate,
-    titleFallback: 'عطیہ',
+    titleFallback: SECTION_LABELS.donate,
   })
 }
 
 export default async function DonatePage() {
   const { page, settings } = await fetchCmsPage('donate')
 
-  const causes: { title: string; desc: string }[] = settings?.donateCauses?.length
+  const causes = settings?.donateCauses?.length
     ? settings.donateCauses
-    : [
-        { title: 'عمومی عطیہ', desc: `${DEFAULT_SITE_NAME_URDU} کے مجموعی مشن میں معاونت` },
-        { title: 'قرآنی تعلیم', desc: 'بچوں کی مفت قرآنی کلاسوں کی مالی معاونت' },
-        { title: 'محرم پروگرامز', desc: 'مجالس اور عزاداری کی تقاریب منظم کرنے میں مدد' },
-        { title: `${DEFAULT_SITE_NAME_URDU} معاونت`, desc: 'ہمارے قرآنی ادارے میں حصہ ڈالیں' },
-      ]
+    : DEFAULT_DONATE_CAUSES
 
-  const pageTitle = resolveSeoTitle(page, 'عطیہ')
+  const pageTitle = resolveSeoTitle(page, SECTION_LABELS.donate)
   const pageDescription = resolveSeoDescription(page)
 
   return (
@@ -37,7 +32,7 @@ export default async function DonatePage() {
       schemaDescription={pageDescription}
       path={PATHS.donate}
       eyebrow={page?.eyebrow || 'عطا کیجیے'}
-      title={page?.title || 'عطیہ'}
+      title={page?.title || SECTION_LABELS.donate}
       subtitle={page?.subtitle || 'آپ کی سخاوت اہل بیت (ع) کے نور کو زندہ رکھتی ہے۔ ہر عطیہ — چھوٹا یا بڑا — فرق ڈالتا ہے۔'}
       maxWidth="5xl"
       align="center"

@@ -2,7 +2,12 @@ import Link from 'next/link'
 import type { LucideIcon } from 'lucide-react'
 import { Globe, Play } from 'lucide-react'
 import Reveal from '@/components/ui/Reveal'
-import { CONTACT_EMPTY_MESSAGE } from '@/lib/contact'
+import {
+  buildFooterSocialLinks,
+  CONTACT_EMPTY_MESSAGE,
+  CONTACT_KIND_LABELS,
+  externalLinkAttrs,
+} from '@/lib/contact'
 import { TW_CONTACT_INFO_ROW, TW_CONTACT_SOCIAL_CHIP, TW_FEATURE_ICON } from '@/lib/tailwind'
 
 export type ContactInfoItem = {
@@ -18,7 +23,23 @@ type ContactInfoProps = {
   youtube?: string | null
 }
 
+const LTR_LABELS = new Set([
+  CONTACT_KIND_LABELS.email,
+  CONTACT_KIND_LABELS.phone,
+  CONTACT_KIND_LABELS.whatsapp,
+])
+
+const SOCIAL_ICONS = {
+  facebook: Globe,
+  youtube: Play,
+} as const
+
 export default function ContactInfo({ items, facebook, youtube }: ContactInfoProps) {
+  const socialLinks = buildFooterSocialLinks({
+    facebook: facebook ?? undefined,
+    youtube: youtube ?? undefined,
+  }).filter((link) => link.kind === 'facebook' || link.kind === 'youtube')
+
   return (
     <div className="lg:col-span-2 space-y-3">
       {items.map(({ Icon, label, value, href }, i) => (
@@ -32,10 +53,9 @@ export default function ContactInfo({ items, facebook, youtube }: ContactInfoPro
               {href ? (
                 <Link
                   href={href}
-                  target={href.startsWith('http') ? '_blank' : undefined}
-                  rel="noopener noreferrer"
+                  {...(href.startsWith('http') ? externalLinkAttrs() : {})}
                   className="inline-flex min-h-11 items-center text-[13px] text-slate-700 hover:text-dq-700 focus-visible:text-dq-700 transition-colors break-all"
-                  {...(label === 'ای میل' || label === 'فون' || label === 'واٹس ایپ' ? { dir: 'ltr' as const } : {})}
+                  {...(LTR_LABELS.has(label) ? { dir: 'ltr' as const } : {})}
                 >
                   <bdi>{value}</bdi>
                 </Link>
@@ -47,19 +67,22 @@ export default function ContactInfo({ items, facebook, youtube }: ContactInfoPro
         </Reveal>
       ))}
 
-      {(facebook || youtube) && (
+      {socialLinks.length > 0 && (
         <Reveal animation="up" delay={items.length * 70}>
           <div className="flex gap-2 pt-1">
-            {facebook && (
-              <Link href={facebook} target="_blank" rel="noopener noreferrer" className={TW_CONTACT_SOCIAL_CHIP}>
-                <Globe size={13} /> فیس بک
-              </Link>
-            )}
-            {youtube && (
-              <Link href={youtube} target="_blank" rel="noopener noreferrer" className={TW_CONTACT_SOCIAL_CHIP}>
-                <Play size={13} /> یوٹیوب
-              </Link>
-            )}
+            {socialLinks.map((link) => {
+              const Icon = SOCIAL_ICONS[link.kind as 'facebook' | 'youtube']
+              return (
+                <Link
+                  key={link.kind}
+                  href={link.href}
+                  {...externalLinkAttrs(link.label)}
+                  className={TW_CONTACT_SOCIAL_CHIP}
+                >
+                  <Icon size={13} /> {link.label}
+                </Link>
+              )
+            })}
           </div>
         </Reveal>
       )}

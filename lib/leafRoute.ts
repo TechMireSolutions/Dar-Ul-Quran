@@ -4,6 +4,8 @@ import {
   resolveLeafCanonical,
   type BreadcrumbAncestryItem,
 } from '@/lib/paths'
+import { mergeFaqForDisplay, mergeFaqItems, type FaqDisplayItem } from '@/lib/topicCluster'
+import type { FaqSchemaItem } from '@/lib/types'
 
 type LeafDoc = {
   slug?: { current?: string }
@@ -42,5 +44,20 @@ export async function loadCatchAllLeaf<T extends LeafDoc>(
     leafSlug: resolved.leafSlug,
     ancestry: resolved.ancestry,
     canonicalPath: resolved.canonicalPath,
+  }
+}
+
+/** Merge page + cluster FAQs for JSON-LD and visible accordion (same question set). */
+export function mergeLeafFaqs(
+  pageFaq: FaqDisplayItem[] | undefined,
+  pageFaqItems: FaqSchemaItem[] | undefined,
+  clusterFaq: FaqSchemaItem[] | undefined,
+): {
+  faqItems: FaqSchemaItem[] | undefined
+  faqDisplayItems: FaqDisplayItem[]
+} {
+  return {
+    faqItems: mergeFaqItems(pageFaqItems, clusterFaq),
+    faqDisplayItems: mergeFaqForDisplay(pageFaq, clusterFaq),
   }
 }

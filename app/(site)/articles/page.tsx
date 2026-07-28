@@ -3,18 +3,18 @@ import { getPosts } from '@/sanity/lib/fetchers'
 import { cardImageUrl } from '@/sanity/lib/image'
 import {
   cmsPageMetadata,
+  DEFAULT_ARTICLES_DESCRIPTION,
   fetchCmsPage,
   hasPublishedSlug,
   resolveSeoDescription,
   resolveSeoTitle,
   toItemListEntries,
 } from '@/lib/cmsPage'
-import ContentCard from '@/components/ui/ContentCard'
-import ListingIndexShell, { ListingCardGrid, ListingEmptyState } from '@/components/layout/ListingIndexShell'
-import Reveal from '@/components/ui/Reveal'
+import ListingIndexShell, { ListingContentCards, ListingEmptyState } from '@/components/layout/ListingIndexShell'
 import ArticlesSearchForm from './_components/ArticlesSearchForm'
 import { TW_PAGE_SUBTITLE } from '@/lib/tailwind'
-import { articlePath, PATHS } from '@/lib/paths'
+import { articlePath, PATHS, SECTION_LABELS } from '@/lib/paths'
+import { DEFAULT_ARTICLE_CTA } from '@/lib/seo'
 
 export const revalidate = 300
 
@@ -30,8 +30,8 @@ export async function generateMetadata({
   return cmsPageMetadata({
     slug: PAGE_SLUG,
     path: PAGE_PATH,
-    titleFallback: 'مضامین',
-    descriptionFallback: 'اسلامی علم، خبریں اور مطالعات',
+    titleFallback: SECTION_LABELS.articles,
+    descriptionFallback: DEFAULT_ARTICLES_DESCRIPTION,
     noIndex: Boolean(q?.trim()),
   })
 }
@@ -58,8 +58,8 @@ export default async function ArticlesPage({
       )
     : posts
 
-  const title = resolveSeoTitle(page, 'مضامین')
-  const description = resolveSeoDescription(page, 'اسلامی علم، خبریں اور مطالعات')
+  const title = resolveSeoTitle(page, SECTION_LABELS.articles)
+  const description = resolveSeoDescription(page, DEFAULT_ARTICLES_DESCRIPTION)
   const listItems = toItemListEntries(filtered.filter(hasPublishedSlug), PAGE_PATH)
 
   return (
@@ -67,11 +67,11 @@ export default async function ArticlesPage({
       title={title}
       description={description}
       path={PAGE_PATH}
-      itemListName="مضامین"
+      itemListName={SECTION_LABELS.articles}
       listItems={listItems}
       eyebrow={page?.eyebrow || 'علم'}
-      pageTitle={page?.title || 'مضامین'}
-      pageSubtitle={page?.subtitle || 'اسلامی علم، خبریں اور مطالعات'}
+      pageTitle={page?.title || SECTION_LABELS.articles}
+      pageSubtitle={page?.subtitle || DEFAULT_ARTICLES_DESCRIPTION}
       heroChildren={<ArticlesSearchForm defaultQuery={q ?? ''} />}
     >
       {query && (
@@ -86,20 +86,17 @@ export default async function ArticlesPage({
           message={query ? 'کوئی مضمون نہیں ملا۔ دوسرا لفظ آزمائیں۔' : 'ابھی تک کوئی مضمون شائع نہیں ہوا۔'}
         />
       ) : (
-        <ListingCardGrid>
-          {filtered.map((post, i) => (
-            <Reveal key={post._id} animation="up" delay={i * 70}>
-              <ContentCard
-                href={articlePath(post.slug?.current ?? '')}
-                image={post.mainImage ? cardImageUrl(post.mainImage) : null}
-                title={post.title ?? ''}
-                description={post.excerpt || null}
-                badge={post.categories?.[0]?.title || null}
-                ctaLabel="مزید پڑھیں"
-              />
-            </Reveal>
-          ))}
-        </ListingCardGrid>
+        <ListingContentCards
+          items={filtered.map((post) => ({
+            id: post._id,
+            href: articlePath(post.slug?.current ?? ''),
+            image: post.mainImage ? cardImageUrl(post.mainImage) : null,
+            title: post.title ?? '',
+            description: post.excerpt || null,
+            badge: post.categories?.[0]?.title || null,
+            ctaLabel: DEFAULT_ARTICLE_CTA,
+          }))}
+        />
       )}
     </ListingIndexShell>
   )

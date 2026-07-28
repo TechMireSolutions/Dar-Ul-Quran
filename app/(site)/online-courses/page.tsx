@@ -4,6 +4,8 @@ import { cardImageUrl } from '@/sanity/lib/image'
 import {
   cmsPageMetadata,
   courseCtaLabel,
+  DEFAULT_COURSES_DESCRIPTION,
+  DEFAULT_COURSES_SUBTITLE,
   fetchCmsPage,
   hasPublishedSlug,
   resolveSeoDescription,
@@ -11,10 +13,8 @@ import {
   toItemListEntries,
 } from '@/lib/cmsPage'
 import { DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
-import ContentCard from '@/components/ui/ContentCard'
-import ListingIndexShell, { ListingCardGrid, ListingEmptyState } from '@/components/layout/ListingIndexShell'
-import Reveal from '@/components/ui/Reveal'
-import { coursePath, PATHS } from '@/lib/paths'
+import ListingIndexShell, { ListingContentCards, ListingEmptyState } from '@/components/layout/ListingIndexShell'
+import { coursePath, PATHS, SECTION_LABELS } from '@/lib/paths'
 
 export const revalidate = 300
 
@@ -25,8 +25,8 @@ export async function generateMetadata(): Promise<Metadata> {
   return cmsPageMetadata({
     slug: PAGE_SLUG,
     path: PAGE_PATH,
-    titleFallback: 'آنلائن کورسز',
-    descriptionFallback: 'اہل علماء سے قرآن، فقہ، اخلاق اور تاریخ سیکھیں۔',
+    titleFallback: SECTION_LABELS.onlineCourses,
+    descriptionFallback: DEFAULT_COURSES_DESCRIPTION,
     keywords: ['آن لائن قرآن کورسز', 'Online Shia Quran classes', DEFAULT_SITE_NAME_URDU],
   })
 }
@@ -38,11 +38,8 @@ export default async function CoursesPage() {
   ])
   const courses = coursesRaw ?? []
 
-  const title = resolveSeoTitle(page, 'آنلائن کورسز')
-  const description = resolveSeoDescription(
-    page,
-    'اہل علماء سے قرآن، فقہ، اخلاق اور تاریخ سیکھیں۔',
-  )
+  const title = resolveSeoTitle(page, SECTION_LABELS.onlineCourses)
+  const description = resolveSeoDescription(page, DEFAULT_COURSES_DESCRIPTION)
   const listItems = toItemListEntries(courses.filter(hasPublishedSlug), PAGE_PATH)
 
   return (
@@ -50,28 +47,26 @@ export default async function CoursesPage() {
       title={title}
       description={description}
       path={PAGE_PATH}
-      itemListName="آن لائن کورسز"
+      itemListName={SECTION_LABELS.onlineCourses}
       listItems={listItems}
       eyebrow={page?.eyebrow || 'تعلیم'}
-      pageTitle={page?.title || 'آنلائن کورسز'}
-      pageSubtitle={page?.subtitle || 'اہل علماء سے سیکھیں — قرآن، نہج البلاغہ، فقہ، اخلاق اور تاریخ۔'}
+      pageTitle={page?.title || SECTION_LABELS.onlineCourses}
+      pageSubtitle={page?.subtitle || DEFAULT_COURSES_SUBTITLE}
     >
       {courses.length === 0 ? (
         <ListingEmptyState message="کورسز جلد آ رہے ہیں۔" />
       ) : (
-        <ListingCardGrid>
-          {courses.map((course, i) => (
-            <Reveal key={course._id} animation="up" delay={i * 70}>
-              <ContentCard
-                href={coursePath(course.slug?.current ?? '')}
-                image={course.featuredImage ? cardImageUrl(course.featuredImage) : null}
-                title={course.title ?? ''}
-                description={course.excerpt || [course.price, course.duration].filter(Boolean).join(' · ') || null}
-                ctaLabel={courseCtaLabel(course.childCount ?? 0)}
-              />
-            </Reveal>
-          ))}
-        </ListingCardGrid>
+        <ListingContentCards
+          items={courses.map((course) => ({
+            id: course._id,
+            href: coursePath(course.slug?.current ?? ''),
+            image: course.featuredImage ? cardImageUrl(course.featuredImage) : null,
+            title: course.title ?? '',
+            description:
+              course.excerpt || [course.price, course.duration].filter(Boolean).join(' · ') || null,
+            ctaLabel: courseCtaLabel(course.childCount ?? 0),
+          }))}
+        />
       )}
     </ListingIndexShell>
   )

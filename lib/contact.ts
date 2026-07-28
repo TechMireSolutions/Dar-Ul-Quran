@@ -9,6 +9,14 @@ export function telHref(number: string): string {
 /** Empty-state copy when no contact details are configured (footer + contact page). */
 export const CONTACT_EMPTY_MESSAGE = 'رابطہ کی معلومات جلد دستیاب ہوں گی'
 
+/** Urdu labels for contact row kinds (footer + contact page). */
+export const CONTACT_KIND_LABELS = {
+  email: 'ای میل',
+  phone: 'فون',
+  whatsapp: 'واٹس ایپ',
+  address: 'پتہ',
+} as const
+
 /** target/rel (+ optional Urdu aria) for links that open a new tab. */
 export function externalLinkAttrs(label?: string): {
   target: '_blank'

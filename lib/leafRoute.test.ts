@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import { loadCatchAllLeaf } from '@/lib/leafRoute'
+import { loadCatchAllLeaf, mergeLeafFaqs } from '@/lib/leafRoute'
 
 vi.mock('next/navigation', () => ({
   notFound: () => {
@@ -47,5 +47,20 @@ describe('loadCatchAllLeaf', () => {
     await expect(
       loadCatchAllLeaf(['wrong-parent', 'nazra'], sectionPath, async () => doc),
     ).rejects.toThrow('NEXT_NOT_FOUND')
+  })
+})
+
+describe('mergeLeafFaqs', () => {
+  it('keeps page Portable Text answers and appends cluster FAQs', () => {
+    const pageFaq = [{ question: 'فیس؟', answer: [{ _type: 'block' }] }]
+    const pageItems = [{ question: 'فیس؟', answer: 'ماہانہ' }]
+    const cluster = [
+      { question: 'فیس؟', answer: 'dup' },
+      { question: 'داخلہ؟', answer: 'رابطہ' },
+    ]
+    expect(mergeLeafFaqs(pageFaq, pageItems, cluster)).toEqual({
+      faqItems: [...pageItems, { question: 'داخلہ؟', answer: 'رابطہ' }],
+      faqDisplayItems: [...pageFaq, { question: 'داخلہ؟', answer: 'رابطہ' }],
+    })
   })
 })

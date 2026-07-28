@@ -25,6 +25,26 @@ export const DEFAULT_SITE_DESCRIPTION = 'اسلامی علم، آنلائن کو
 export const DEFAULT_HOME_DESCRIPTION =
   'اسلامی علم، آنلائن کورسز اور خدمات — دنیا بھر میں شیعہ خاندانوں کے لیے مستند تعلیم۔'
 
+/** Leaf FAQ accordion heading when CMS field is empty. */
+export const DEFAULT_FAQ_HEADING = 'اکثر پوچھے گئے سوالات'
+
+/** WhatsApp CTA on leaf banners. */
+export const DEFAULT_WHATSAPP_CTA_LABEL = 'واٹس ایپ کریں'
+
+/** Header / articles search placeholder. */
+export const DEFAULT_SEARCH_PLACEHOLDER = 'مضامین تلاش کریں…'
+
+/** Article listing card CTA. */
+export const DEFAULT_ARTICLE_CTA = 'مزید پڑھیں'
+
+/** Donate page causes when CMS `donateCauses` is empty. */
+export const DEFAULT_DONATE_CAUSES: { title: string; desc: string }[] = [
+  { title: 'عمومی عطیہ', desc: `${DEFAULT_SITE_NAME_URDU} کے مجموعی مشن میں معاونت` },
+  { title: 'قرآنی تعلیم', desc: 'بچوں کی مفت قرآنی کلاسوں کی مالی معاونت' },
+  { title: 'محرم پروگرامز', desc: 'مجالس اور عزاداری کی تقاریب منظم کرنے میں مدد' },
+  { title: `${DEFAULT_SITE_NAME_URDU} معاونت`, desc: 'ہمارے قرآنی ادارے میں حصہ ڈالیں' },
+]
+
 /** Resolve Urdu display name from CMS (UI chrome, titles, manifest). */
 export function resolveSiteNameUrdu(siteName?: string | null): string {
   const trimmed = siteName?.trim()

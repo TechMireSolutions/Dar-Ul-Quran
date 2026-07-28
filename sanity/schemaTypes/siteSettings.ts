@@ -1,4 +1,5 @@
 import { defineField, defineType } from 'sanity'
+import { DEFAULT_DONATE_CAUSES, DEFAULT_FAQ_HEADING, DEFAULT_SEARCH_PLACEHOLDER, DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
 import { LtrStringInput } from '../components/LtrStringInput'
 
 export const siteSettings = defineType({
@@ -6,7 +7,7 @@ export const siteSettings = defineType({
   title: 'Site Settings',
   type: 'document',
   fields: [
-    defineField({ name: 'siteName', type: 'string', initialValue: 'دار القرآن' }),
+    defineField({ name: 'siteName', type: 'string', initialValue: DEFAULT_SITE_NAME_URDU }),
     defineField({ name: 'logo',    type: 'image', options: { hotspot: true } }),
     defineField({
       name:        'favicon',
@@ -35,8 +36,8 @@ export const siteSettings = defineType({
     defineField({ name: 'donateUrl', type: 'url', title: 'Donate / Payment Link' }),
 
     // ── Shared UI labels ──────────────────────────────────────────────────────
-    defineField({ name: 'searchPlaceholder',     type: 'string', title: 'Search Placeholder Text',      initialValue: 'مضامین تلاش کریں…' }),
-    defineField({ name: 'faqHeading',            type: 'string', title: 'FAQ Section Heading',          initialValue: 'اکثر پوچھے گئے سوالات' }),
+    defineField({ name: 'searchPlaceholder',     type: 'string', title: 'Search Placeholder Text',      initialValue: DEFAULT_SEARCH_PLACEHOLDER }),
+    defineField({ name: 'faqHeading',            type: 'string', title: 'FAQ Section Heading',          initialValue: DEFAULT_FAQ_HEADING }),
     defineField({ name: 'serviceBookCtaLabel',   type: 'string', title: 'Service — Book CTA Label',     initialValue: 'یہ خدمت بک کریں' }),
     defineField({ name: 'serviceAllCtaLabel',    type: 'string', title: 'Service — Back Link Label',    initialValue: 'تمام خدمات' }),
     defineField({ name: 'courseEnrollCtaLabel',  type: 'string', title: 'Course — Enroll CTA Label',    initialValue: 'ابھی داخلہ لیں' }),
@@ -64,12 +65,7 @@ export const siteSettings = defineType({
         defineField({ name: 'title', type: 'string', title: 'Cause Title' }),
         defineField({ name: 'desc',  type: 'string', title: 'Cause Description' }),
       ]}],
-      initialValue: [
-        { title: 'عمومی عطیہ',        desc: 'دار القرآن کے مجموعی مشن میں معاونت' },
-        { title: 'قرآنی تعلیم',       desc: 'بچوں کی مفت قرآنی کلاسوں کی مالی معاونت' },
-        { title: 'محرم پروگرامز',     desc: 'مجالس اور عزاداری کی تقاریب منظم کرنے میں مدد' },
-        { title: 'دار القرآن معاونت', desc: 'ہمارے قرآنی ادارے میں حصہ ڈالیں' },
-      ],
+      initialValue: DEFAULT_DONATE_CAUSES,
     }),
   ],
   preview: {

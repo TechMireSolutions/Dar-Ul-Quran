@@ -1,5 +1,6 @@
 import { BookOpen, Heart, Star } from 'lucide-react'
 import Reveal from '@/components/ui/Reveal'
+import { SECTION_LABELS } from '@/lib/paths'
 import {
   TW_FEATURE_CARD,
   TW_FEATURE_CARD_DESC,
@@ -9,7 +10,7 @@ import {
 
 const FEATURES = [
   { Icon: BookOpen, title: 'تعلیم', desc: 'اہل علماء سے قرآن، فقہ، اخلاق اور تاریخ کے آنلائن کورسز' },
-  { Icon: Heart, title: 'خدمات', desc: 'مستند مذہبی خدمات — نیابت زیارت، زکوٰۃ، خمس اور مزید' },
+  { Icon: Heart, title: SECTION_LABELS.services, desc: 'مستند مذہبی خدمات — نیابت زیارت، زکوٰۃ، خمس اور مزید' },
   { Icon: Star, title: 'برادری', desc: 'مجالس، پروگرامز اور امت کے لیے قابل اعتماد اسلامی مواد' },
 ] as const
 
@@ -43,9 +44,9 @@ export default function AboutFallback({ siteName }: AboutFallbackProps) {
 
       <Reveal animation="up" delay={80}>
         <div className={TW_FEATURE_CARD}>
-          <h3 className="font-semibold text-slate-900 mb-2 text-[15px] leading-urdu-tight">دار القرآن</h3>
+          <h3 className="font-semibold text-slate-900 mb-2 text-[15px] leading-urdu-tight">{siteName}</h3>
           <p className="text-[13.5px] text-gray-600 leading-urdu">
-            ہم <strong className="text-slate-800">دار القرآن</strong> سے وابستہ ہیں، جو ہمارا خصوصی قرآنی ادارہ ہے اور ہر عمر کے طلبہ کے لیے منظم قرآنی تعلیمی پروگرام فراہم کرتا ہے۔
+            ہم <strong className="text-slate-800">{siteName}</strong> سے وابستہ ہیں، جو ہمارا خصوصی قرآنی ادارہ ہے اور ہر عمر کے طلبہ کے لیے منظم قرآنی تعلیمی پروگرام فراہم کرتا ہے۔
           </p>
         </div>
       </Reveal>

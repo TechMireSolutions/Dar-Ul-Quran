@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useState, useId } from 'react'
 import { ChevronDown } from 'lucide-react'
 import { usePathname } from 'next/navigation'
+import { externalLinkAttrs } from '@/lib/contact'
 import type { NavNode } from '@/lib/types'
 import { nodeIsActive } from '@/lib/navigation'
 import { TW_MOBILE_NAV_ROW, TW_MOBILE_NAV_ROW_ACTIVE } from '@/lib/tailwind'
@@ -54,8 +55,7 @@ export default function HeaderMobileNavNode({
     return (
       <Link
         href={node.href || '#'}
-        target={node.external ? '_blank' : undefined}
-        rel={node.external ? 'noopener noreferrer' : undefined}
+        {...(node.external ? externalLinkAttrs(node.label) : {})}
         onClick={onClose}
         style={indentStyle}
         className={`${TW_MOBILE_NAV_ROW} mb-0.5 ${rowActive}`}

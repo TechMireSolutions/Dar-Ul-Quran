@@ -1,5 +1,6 @@
 import { PATHS } from '@/lib/paths'
 import { TW_BTN_PRIMARY, TW_SEARCH_INPUT } from '@/lib/tailwind'
+import { DEFAULT_SEARCH_PLACEHOLDER } from '@/lib/seo'
 
 type ArticlesSearchFormProps = {
   defaultQuery?: string
@@ -17,7 +18,7 @@ export default function ArticlesSearchForm({ defaultQuery = '' }: ArticlesSearch
           name="q"
           type="search"
           defaultValue={defaultQuery}
-          placeholder="مضمون تلاش کریں…"
+          placeholder={DEFAULT_SEARCH_PLACEHOLDER}
           enterKeyHint="search"
           autoComplete="off"
           className={TW_SEARCH_INPUT}

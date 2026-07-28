@@ -3,6 +3,7 @@ import { getTopLevelServices } from '@/sanity/lib/fetchers'
 import { cardImageUrl } from '@/sanity/lib/image'
 import {
   cmsPageMetadata,
+  DEFAULT_SERVICES_DESCRIPTION,
   fetchCmsPage,
   hasPublishedSlug,
   resolveSeoDescription,
@@ -10,10 +11,8 @@ import {
   serviceCtaLabel,
   toItemListEntries,
 } from '@/lib/cmsPage'
-import ContentCard from '@/components/ui/ContentCard'
-import ListingIndexShell, { ListingCardGrid, ListingEmptyState } from '@/components/layout/ListingIndexShell'
-import Reveal from '@/components/ui/Reveal'
-import { PATHS, servicePath } from '@/lib/paths'
+import ListingIndexShell, { ListingContentCards, ListingEmptyState } from '@/components/layout/ListingIndexShell'
+import { PATHS, SECTION_LABELS, servicePath } from '@/lib/paths'
 
 export const revalidate = 300
 
@@ -24,8 +23,8 @@ export async function generateMetadata(): Promise<Metadata> {
   return cmsPageMetadata({
     slug: PAGE_SLUG,
     path: PAGE_PATH,
-    titleFallback: 'خدمات',
-    descriptionFallback: 'اخلاص کے ساتھ پیش کی گئی مذہبی خدمات — نیابت زیارت، زکوٰۃ، خمس اور مزید۔',
+    titleFallback: SECTION_LABELS.services,
+    descriptionFallback: DEFAULT_SERVICES_DESCRIPTION,
   })
 }
 
@@ -36,11 +35,8 @@ export default async function ServicesPage() {
   ])
   const services = servicesRaw ?? []
 
-  const title = resolveSeoTitle(page, 'خدمات')
-  const description = resolveSeoDescription(
-    page,
-    'اخلاص کے ساتھ پیش کی گئی مذہبی خدمات — نیابت زیارت، زکوٰۃ، خمس اور مزید۔',
-  )
+  const title = resolveSeoTitle(page, SECTION_LABELS.services)
+  const description = resolveSeoDescription(page, DEFAULT_SERVICES_DESCRIPTION)
   const listItems = toItemListEntries(services.filter(hasPublishedSlug), PAGE_PATH)
 
   return (
@@ -48,28 +44,25 @@ export default async function ServicesPage() {
       title={title}
       description={description}
       path={PAGE_PATH}
-      itemListName="خدمات"
+      itemListName={SECTION_LABELS.services}
       listItems={listItems}
       eyebrow={page?.eyebrow || 'ہم کیا پیش کرتے ہیں'}
-      pageTitle={page?.title || 'خدمات'}
-      pageSubtitle={page?.subtitle || 'اخلاص کے ساتھ پیش کی گئی مذہبی خدمات — نیابت زیارت، زکوٰۃ، خمس اور مزید۔'}
+      pageTitle={page?.title || SECTION_LABELS.services}
+      pageSubtitle={page?.subtitle || DEFAULT_SERVICES_DESCRIPTION}
     >
       {services.length === 0 ? (
         <ListingEmptyState message="خدمات جلد آ رہی ہیں۔" />
       ) : (
-        <ListingCardGrid>
-          {services.map((service, i) => (
-            <Reveal key={service._id} animation="up" delay={i * 70}>
-              <ContentCard
-                href={servicePath(service.slug?.current ?? '')}
-                image={service.icon ? cardImageUrl(service.icon) : null}
-                title={service.title ?? ''}
-                description={service.excerpt || null}
-                ctaLabel={serviceCtaLabel(service.childCount ?? 0)}
-              />
-            </Reveal>
-          ))}
-        </ListingCardGrid>
+        <ListingContentCards
+          items={services.map((service) => ({
+            id: service._id,
+            href: servicePath(service.slug?.current ?? ''),
+            image: service.icon ? cardImageUrl(service.icon) : null,
+            title: service.title ?? '',
+            description: service.excerpt || null,
+            ctaLabel: serviceCtaLabel(service.childCount ?? 0),
+          }))}
+        />
       )}
     </ListingIndexShell>
   )

@@ -1,6 +1,8 @@
 import type { ReactNode } from 'react'
 import Link from 'next/link'
 import { ArrowRight, MessageCircle } from 'lucide-react'
+import { externalLinkAttrs } from '@/lib/contact'
+import { DEFAULT_WHATSAPP_CTA_LABEL } from '@/lib/seo'
 import { TW_CONTAINER_NARROW, TW_CTA_ARROW, TW_GOLD_CTA, TW_LEAF_WHATSAPP_CTA, TW_SECTION_PY, TW_SECTION_TITLE } from '@/lib/tailwind'
 
 type LeafCtaBannerProps = {
@@ -21,7 +23,7 @@ export default function LeafCtaBanner({
   primaryLabel,
   primaryExternal = false,
   whatsappHref,
-  whatsappLabel = 'واٹس ایپ کریں',
+  whatsappLabel = DEFAULT_WHATSAPP_CTA_LABEL,
   footer,
 }: LeafCtaBannerProps) {
   if (!heading && !subtitle) return null
@@ -40,8 +42,7 @@ export default function LeafCtaBanner({
         <div className={`flex flex-wrap justify-center gap-3${footer ? ' mb-8' : ''}`}>
           <Link
             href={primaryHref}
-            target={primaryExternal ? '_blank' : undefined}
-            rel={primaryExternal ? 'noopener noreferrer' : undefined}
+            {...(primaryExternal ? externalLinkAttrs() : {})}
             className={TW_GOLD_CTA}
           >
             {primaryLabel}
@@ -49,8 +50,7 @@ export default function LeafCtaBanner({
           </Link>
           <Link
             href={whatsappHref}
-            target="_blank"
-            rel="noopener noreferrer"
+            {...externalLinkAttrs()}
             className={TW_LEAF_WHATSAPP_CTA}
           >
             <MessageCircle size={14} />

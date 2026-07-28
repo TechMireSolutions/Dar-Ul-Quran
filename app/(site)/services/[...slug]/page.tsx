@@ -11,14 +11,14 @@ import {
   breadcrumbLabelsFromAncestry,
   buildBreadcrumbNavItems,
   PATHS,
+  SECTION_LABELS,
   sectionRelativePath,
   staticParamsFromPaths,
 } from '@/lib/paths'
-import { loadCatchAllLeaf } from '@/lib/leafRoute'
+import { loadCatchAllLeaf, mergeLeafFaqs } from '@/lib/leafRoute'
 import { resolveWhatsappLink } from '@/lib/contact'
-import { resolveLeafDescription, serviceCtaLabel } from '@/lib/cmsPage'
-import { mergeFaqForDisplay, mergeFaqItems } from '@/lib/topicCluster'
-import { pageMetadata, DEFAULT_SITE_NAME_URDU, resolveOgImage } from '@/lib/seo'
+import { defaultServiceDescription, resolveLeafDescription, serviceCtaLabel } from '@/lib/cmsPage'
+import { pageMetadata, resolveOgImage } from '@/lib/seo'
 
 export const revalidate = 300
 
@@ -38,10 +38,7 @@ export async function generateMetadata(
     getSiteSettings(),
   ])
   const title = service.seoTitle || service.title || 'خدمت'
-  const description = resolveLeafDescription(
-    service,
-    `${title} — ${DEFAULT_SITE_NAME_URDU} کی مذہبی خدمات۔`,
-  )
+  const description = resolveLeafDescription(service, defaultServiceDescription(service))
   const image = resolveOgImage(
     service.heroImage
       ? ogImageUrl(service.heroImage)
@@ -82,13 +79,16 @@ export default async function ServiceCatchAllPage(
   const heroImageUrl = service.heroImage ? leafHeroImageUrl(service.heroImage) : null
   const whyUsImageUrl = service.whyUsImage ? leafSquareImageUrl(service.whyUsImage) : null
   const whatsappLink = resolveWhatsappLink(site?.whatsapp)
-  const faqItems = mergeFaqItems(service.faqItems, cluster?.faqItems)
-  const faqDisplayItems = mergeFaqForDisplay(service.faq, cluster?.faqItems)
+  const { faqItems, faqDisplayItems } = mergeLeafFaqs(
+    service.faq,
+    service.faqItems,
+    cluster?.faqItems,
+  )
 
   const serviceTitle = service.title ?? 'خدمت'
   const pageDescription = resolveLeafDescription(
     service,
-    `${serviceTitle} — ${DEFAULT_SITE_NAME_URDU} کی مذہبی خدمات۔`,
+    defaultServiceDescription(service),
   )
 
   return (
@@ -109,14 +109,14 @@ export default async function ServiceCatchAllPage(
       />
 
       <BreadcrumbNav
-        sectionLabel="خدمات"
+        sectionLabel={SECTION_LABELS.services}
         sectionHref={SECTION_PATH}
         items={buildBreadcrumbNavItems(SECTION_PATH, ancestry, serviceTitle)}
       />
 
       {hasChildren ? (
         <NestedChildListing
-          eyebrow="خدمات"
+          eyebrow={SECTION_LABELS.services}
           title={serviceTitle}
           excerpt={service.excerpt}
           basePath={currentPath}

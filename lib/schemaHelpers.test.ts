@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { SITE_URL, DEFAULT_SITE_NAME } from '@/lib/seo'
+import { HOME_LABEL, SECTION_LABELS } from '@/lib/paths'
 import {
   buildBreadcrumbSchema,
   buildFaqPageSchema,
@@ -8,13 +9,13 @@ import {
 
 describe('buildFaqPageSchema', () => {
   it('builds FAQPage JSON-LD', () => {
-    const schema = buildFaqPageSchema('https://darulquran.pk/about', [
+    const schema = buildFaqPageSchema(`${SITE_URL}/about`, [
       { question: 'سوال؟', answer: 'جواب' },
     ])
     expect(schema).toMatchObject({
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
-      '@id': 'https://darulquran.pk/about#faq',
+      '@id': `${SITE_URL}/about#faq`,
       mainEntity: [
         {
           '@type': 'Question',
@@ -37,12 +38,16 @@ describe('buildOrganizationProvider', () => {
     })
   })
 
-  it('allows name and description overrides', () => {
+  it('allows Organization publisher without description', () => {
     expect(
-      buildOrganizationProvider({ name: 'دار القرآن', description: 'تفصیل' }),
+      buildOrganizationProvider({
+        type: 'Organization',
+        logoUrl: `${SITE_URL}/logo.png`,
+        includeDescription: false,
+      }),
     ).toMatchObject({
-      name: 'دار القرآن',
-      description: 'تفصیل',
+      '@type': 'Organization',
+      logo: { '@type': 'ImageObject', url: `${SITE_URL}/logo.png` },
     })
   })
 })
@@ -52,7 +57,7 @@ describe('buildBreadcrumbSchema', () => {
     const schema = buildBreadcrumbSchema({
       pageUrl: `${SITE_URL}/online-courses/quran/nazra`,
       sectionPath: '/online-courses',
-      sectionLabel: 'آنلائن کورسز',
+      sectionLabel: SECTION_LABELS.onlineCourses,
       slugPath: 'quran/nazra',
       title: 'نظریہ',
       breadcrumbLabels: { quran: 'قرآن' },
@@ -60,11 +65,11 @@ describe('buildBreadcrumbSchema', () => {
 
     expect(schema['@type']).toBe('BreadcrumbList')
     expect(schema.itemListElement).toEqual([
-      { '@type': 'ListItem', position: 1, name: 'صفحۂ اول', item: SITE_URL },
+      { '@type': 'ListItem', position: 1, name: HOME_LABEL, item: SITE_URL },
       {
         '@type': 'ListItem',
         position: 2,
-        name: 'آنلائن کورسز',
+        name: SECTION_LABELS.onlineCourses,
         item: `${SITE_URL}/online-courses`,
       },
       {

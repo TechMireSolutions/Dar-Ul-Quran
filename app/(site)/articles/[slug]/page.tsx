@@ -7,7 +7,7 @@ import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
 import WebPageSchema from '@/components/seo/WebPageSchema'
 import ArticleDetail from './_components/ArticleDetail'
 import { resolveLeafDescription } from '@/lib/cmsPage'
-import { articlePath, PATHS } from '@/lib/paths'
+import { articlePath, PATHS, SECTION_LABELS } from '@/lib/paths'
 import { pageMetadata } from '@/lib/seo'
 
 export const revalidate = 300
@@ -66,7 +66,7 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
       />
 
       <BreadcrumbNav
-        sectionLabel="مضامین"
+        sectionLabel={SECTION_LABELS.articles}
         sectionHref={PATHS.articles}
         items={[{ label: pageTitle }]}
       />

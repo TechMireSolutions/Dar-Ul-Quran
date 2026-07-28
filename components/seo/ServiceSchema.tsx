@@ -1,10 +1,11 @@
 import JsonLdScripts from '@/components/seo/JsonLdScripts'
 import { SITE_URL } from '@/lib/seo'
-import { PATHS } from '@/lib/paths'
+import { PATHS, SECTION_LABELS } from '@/lib/paths'
 import {
   buildBreadcrumbSchema,
   buildFaqPageSchema,
   buildOrganizationProvider,
+  defaultServiceSchemaDescription,
 } from '@/lib/schemaHelpers'
 import type { ServiceSchemaData } from '@/lib/types'
 
@@ -13,7 +14,7 @@ function buildSchemas(data: ServiceSchemaData): object[] {
   const description =
     data.seoDescription ??
     data.excerpt ??
-    `${data.title} — مستند شیعہ اسلامی خدمات، آن لائن اور عالمی سطح پر دستیاب۔`
+    defaultServiceSchemaDescription(data.title)
 
   const serviceSchema: Record<string, unknown> = {
     '@context': 'https://schema.org',
@@ -28,11 +29,7 @@ function buildSchemas(data: ServiceSchemaData): object[] {
       { '@type': 'Country', name: 'Pakistan' },
       { '@type': 'Place', name: 'Worldwide' },
     ],
-    provider: buildOrganizationProvider({
-      name: data.orgName,
-      description:
-        'دار القرآن ایک شیعہ اسلامی تعلیمی و خدماتی ادارہ ہے جو قرآن، فقہ اور مذہبی خدمات دنیا بھر میں پیش کرتا ہے۔',
-    }),
+    provider: buildOrganizationProvider({ name: data.orgName }),
     ...(data.isBookable
       ? {
           offers: {
@@ -55,7 +52,7 @@ function buildSchemas(data: ServiceSchemaData): object[] {
     buildBreadcrumbSchema({
       pageUrl: serviceUrl,
       sectionPath: PATHS.services,
-      sectionLabel: 'خدمات',
+      sectionLabel: SECTION_LABELS.services,
       slugPath: data.slugPath,
       title: data.title,
       breadcrumbLabels: data.breadcrumbLabels,

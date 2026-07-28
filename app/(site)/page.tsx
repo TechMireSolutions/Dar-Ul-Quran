@@ -15,7 +15,7 @@ import {
   resolveHomeCopy,
   servicesToCarouselItems,
 } from '@/lib/homepage'
-import { PATHS } from '@/lib/paths'
+import { PATHS, SECTION_LABELS } from '@/lib/paths'
 import WebPageSchema from '@/components/seo/WebPageSchema'
 import LcpImagePreload from '@/components/seo/LcpImagePreload'
 import HeroSection from '@/components/sections/HeroSection'
@@ -109,7 +109,7 @@ export default async function HomePage() {
       {courseItems.length > 0 && (
         <CarouselSection
           eyebrow="تعلیم"
-          title={homepageSettings?.coursesHeading || 'آنلائن کورسز'}
+          title={homepageSettings?.coursesHeading || SECTION_LABELS.onlineCourses}
           subtitle={homepageSettings?.coursesSubheading || 'اہل علماء سے سیکھیں — قرآن، فقہ، اخلاق اور مزید'}
           items={courseItems}
           viewAllHref={PATHS.onlineCourses}

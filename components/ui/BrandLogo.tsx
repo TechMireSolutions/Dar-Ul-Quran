@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { PATHS } from '@/lib/paths'
 import { TW_BRAND_LOGO_FALLBACK, TW_BRAND_LOGO_RING } from '@/lib/tailwind'
 
 type BrandLogoVariant = 'header' | 'footer' | 'drawer'
@@ -53,7 +54,7 @@ export default function BrandLogo({
 
   return (
     <Link
-      href="/"
+      href={PATHS.home}
       aria-label={siteName}
       onClick={onNavigate}
       className={`group inline-flex min-h-11 min-w-0 items-center gap-2.5 shrink-0 ${className ?? ''}`}

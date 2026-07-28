@@ -1,7 +1,8 @@
 import JsonLdScripts from '@/components/seo/JsonLdScripts'
 import { ogImageUrl } from '@/sanity/lib/image'
-import { SITE_URL, DEFAULT_SITE_NAME } from '@/lib/seo'
-import { articlePath, PATHS } from '@/lib/paths'
+import { SITE_URL } from '@/lib/seo'
+import { articlePath, PATHS, SECTION_LABELS } from '@/lib/paths'
+import { buildBreadcrumbSchema, buildOrganizationProvider } from '@/lib/schemaHelpers'
 
 type ArticlePost = {
   title?: string
@@ -20,13 +21,14 @@ type ArticleSchemaProps = {
 
 export default function ArticleSchema({ post, slug, publisherLogoUrl }: ArticleSchemaProps) {
   const articleUrl = `${SITE_URL}${articlePath(slug)}`
+  const title = post.title ?? ''
 
   const schemas = [
     {
       '@context': 'https://schema.org',
       '@type': 'Article',
       '@id': `${articleUrl}#article`,
-      headline: post.title ?? '',
+      headline: title,
       description: post.excerpt,
       url: articleUrl,
       mainEntityOfPage: { '@type': 'WebPage', '@id': articleUrl },
@@ -37,23 +39,19 @@ export default function ArticleSchema({ post, slug, publisherLogoUrl }: ArticleS
       ...(post.author?.name
         ? { author: { '@type': 'Person', name: post.author.name } }
         : {}),
-      publisher: {
-        '@type': 'Organization',
-        name: DEFAULT_SITE_NAME,
-        url: SITE_URL,
-        ...(publisherLogoUrl ? { logo: { '@type': 'ImageObject', url: publisherLogoUrl } } : {}),
-      },
+      publisher: buildOrganizationProvider({
+        type: 'Organization',
+        logoUrl: publisherLogoUrl,
+        includeDescription: false,
+      }),
     },
-    {
-      '@context': 'https://schema.org',
-      '@type': 'BreadcrumbList',
-      '@id': `${articleUrl}#breadcrumb`,
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'صفحۂ اول', item: SITE_URL },
-        { '@type': 'ListItem', position: 2, name: 'مضامین', item: `${SITE_URL}${PATHS.articles}` },
-        { '@type': 'ListItem', position: 3, name: post.title, item: articleUrl },
-      ],
-    },
+    buildBreadcrumbSchema({
+      pageUrl: articleUrl,
+      sectionPath: PATHS.articles,
+      sectionLabel: SECTION_LABELS.articles,
+      slugPath: slug,
+      title,
+    }),
   ]
 
   return <JsonLdScripts schemas={schemas} />

@@ -1,19 +1,19 @@
 import type { NavNode, RawNavItem } from '@/lib/types/navigation'
 import type { FooterServiceDoc } from '@/lib/types/cms'
-import { normalizeHref, PATHS, servicePath } from '@/lib/paths'
+import { NAV_LABELS, normalizeHref, PATHS, servicePath } from '@/lib/paths'
 
 /** Used when Sanity header navigation is empty. */
 export const FALLBACK_HEADER_NAV: NavNode[] = [
-  { label: 'آنلائن کلاسز', href: PATHS.onlineCourses },
-  { label: 'خدمات', href: PATHS.services },
-  { label: 'مضامین', href: PATHS.articles },
-  { label: 'عطیات', href: PATHS.donate },
-  { label: 'ہمارے بارے میں', href: PATHS.about },
-  { label: 'رابطہ', href: PATHS.contact },
+  { label: NAV_LABELS.onlineCourses, href: PATHS.onlineCourses },
+  { label: NAV_LABELS.services, href: PATHS.services },
+  { label: NAV_LABELS.articles, href: PATHS.articles },
+  { label: NAV_LABELS.donate, href: PATHS.donate },
+  { label: NAV_LABELS.about, href: PATHS.about },
+  { label: NAV_LABELS.contact, href: PATHS.contact },
 ]
 
 /** Footer fallback when nav is empty — includes Home. */
-const HOME_NAV_NODE: NavNode = { label: 'ہوم', href: PATHS.home }
+const HOME_NAV_NODE: NavNode = { label: NAV_LABELS.home, href: PATHS.home }
 
 export const FALLBACK_QUICK_LINKS: NavNode[] = [
   HOME_NAV_NODE,
@@ -21,8 +21,8 @@ export const FALLBACK_QUICK_LINKS: NavNode[] = [
 ]
 
 const PRIMARY_NAV_LINKS: Array<{ href: string; label: string; insertAt?: 'start' | 'end' }> = [
-  { href: PATHS.onlineCourses, label: 'آنلائن کلاسز', insertAt: 'start' },
-  { href: PATHS.contact, label: 'رابطہ', insertAt: 'end' },
+  { href: PATHS.onlineCourses, label: NAV_LABELS.onlineCourses, insertAt: 'start' },
+  { href: PATHS.contact, label: NAV_LABELS.contact, insertAt: 'end' },
 ]
 
 export function toNavNode(item: RawNavItem): NavNode {

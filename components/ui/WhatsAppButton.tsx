@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import { whatsappHref } from '@/lib/contact'
+import { externalLinkAttrs, whatsappHref } from '@/lib/contact'
 import { TW_WHATSAPP_FLOAT } from '@/lib/tailwind'
 
 type WhatsAppButtonProps = {
@@ -15,8 +15,7 @@ export default function WhatsAppButton({ number }: WhatsAppButtonProps) {
   return (
     <Link
       href={href}
-      target="_blank"
-      rel="noopener noreferrer"
+      {...externalLinkAttrs('واٹس ایپ')}
       aria-label="واٹس ایپ پر چیٹ کریں"
       className={TW_WHATSAPP_FLOAT}
     >

@@ -11,6 +11,35 @@ export const PATHS = {
   contact: '/contact',
 } as const
 
+/** Urdu label for the home crumb / empty-state home CTA. */
+export const HOME_LABEL = 'صفحۂ اول'
+
+/**
+ * Canonical Urdu section titles (breadcrumbs, ItemList, listing fallbacks).
+ * Keep spelling consistent — do not re-hardcode these strings in pages/schemas.
+ */
+export const SECTION_LABELS = {
+  onlineCourses: 'آنلائن کورسز',
+  services: 'خدمات',
+  articles: 'مضامین',
+  donate: 'عطیہ',
+  about: 'ہمارے بارے میں',
+  contact: 'ہم سے رابطہ کریں',
+} as const
+
+/**
+ * Header/footer nav labels (may differ from section page titles, e.g. کلاسز vs کورسز).
+ */
+export const NAV_LABELS = {
+  onlineCourses: 'آنلائن کلاسز',
+  services: SECTION_LABELS.services,
+  articles: SECTION_LABELS.articles,
+  donate: 'عطیات',
+  about: SECTION_LABELS.about,
+  contact: 'رابطہ',
+  home: 'ہوم',
+} as const
+
 type AncestryNode = { title: string; slug: string; parent?: AncestryNode | null }
 
 /** Build catch-all static params from Sanity parent chains. */

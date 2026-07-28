@@ -4,6 +4,7 @@ import Reveal from '@/components/ui/Reveal'
 import SectionHeaderRow from '@/components/ui/SectionHeaderRow'
 import type { HomepageSettingsDoc, PostListItemDoc } from '@/lib/types'
 import { articlePath, PATHS } from '@/lib/paths'
+import { DEFAULT_ARTICLE_CTA } from '@/lib/seo'
 import { TW_CARD_GRID, TW_CONTAINER, TW_CV_AUTO } from '@/lib/tailwind'
 
 type HomeArticlesSectionProps = {
@@ -35,7 +36,7 @@ export default function HomeArticlesSection({ posts, settings }: HomeArticlesSec
                 title={post.title ?? ''}
                 description={post.excerpt || null}
                 badge={post.categories?.[0]?.title || null}
-                ctaLabel="مزید پڑھیں"
+                ctaLabel={DEFAULT_ARTICLE_CTA}
               />
             </Reveal>
           ))}

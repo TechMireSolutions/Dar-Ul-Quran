@@ -5,12 +5,14 @@ import HowItWorksSection from '@/components/content/HowItWorksSection'
 import LeafCtaBanner from '@/components/content/LeafCtaBanner'
 import LeafHero from '@/components/content/LeafHero'
 import LeafTopicClusterBlock from '@/components/content/LeafTopicClusterBlock'
+import LeafProseSection from '@/components/content/LeafProseSection'
 import PortableTextSection from '@/components/content/PortableTextSection'
 import CenteredSectionHeader from '@/components/ui/CenteredSectionHeader'
 import type { CourseDetailDoc, SiteSettingsDoc, TopicClusterDoc } from '@/lib/types'
 import type { FaqDisplayItem } from '@/lib/topicCluster'
-import { telHref } from '@/lib/contact'
-import { TW_CARD_GRID, TW_CARD_SURFACE, TW_CARD_SURFACE_PADDED, TW_CONTAINER_NARROW, TW_CONTAINER_PRICING, TW_CONTAINER_PROSE, TW_CONTAINER_WIDE, TW_CTA_ARROW, TW_EYEBROW_LINE, TW_FEATURE_ICON, TW_GOLD_CTA, TW_HERO_CHIP_GOLD, TW_HERO_CHIP_MUTED, TW_PAGE_SUBTITLE, TW_SECTION_PY, TW_SECTION_TITLE } from '@/lib/tailwind'
+import { externalLinkAttrs, telHref } from '@/lib/contact'
+import { DEFAULT_FAQ_HEADING } from '@/lib/seo'
+import { TW_CARD_GRID, TW_CARD_SURFACE, TW_CARD_SURFACE_PADDED, TW_CONTAINER_PRICING, TW_CONTAINER_PROSE, TW_CONTAINER_WIDE, TW_CTA_ARROW, TW_EYEBROW_LINE, TW_FEATURE_ICON, TW_GOLD_CTA, TW_HERO_CHIP_GOLD, TW_HERO_CHIP_MUTED, TW_PAGE_SUBTITLE, TW_SECTION_PY } from '@/lib/tailwind'
 
 type CourseLeafPageProps = {
   course: CourseDetailDoc
@@ -60,8 +62,7 @@ export default function CourseLeafPage({
               <div className="flex flex-wrap justify-center gap-3">
                 <Link
                   href={enrollHref}
-                  target={course.enrollmentLink ? '_blank' : undefined}
-                  rel={course.enrollmentLink ? 'noopener noreferrer' : undefined}
+                  {...(course.enrollmentLink ? externalLinkAttrs() : {})}
                   className={`${TW_GOLD_CTA} shadow-gold-lg`}
                 >
                   {course.heroCtaLabel || 'ابھی داخلہ لیں'}
@@ -72,20 +73,7 @@ export default function CourseLeafPage({
           />
 
           {/* ── 2. OVERVIEW ──────────────────────────────────────────────────── */}
-          {(course.overviewHeading || course.overviewBody) && (
-            <section className={`bg-white ${TW_SECTION_PY}`}>
-              <div className={`${TW_CONTAINER_NARROW} text-center`}>
-                {course.overviewHeading && (
-                  <h2 className={`${TW_SECTION_TITLE} mb-5`}>
-                    {course.overviewHeading}
-                  </h2>
-                )}
-                {course.overviewBody && (
-                  <p className="text-[16px] text-gray-600 leading-urdu">{course.overviewBody}</p>
-                )}
-              </div>
-            </section>
-          )}
+          <LeafProseSection heading={course.overviewHeading} body={course.overviewBody} />
 
           {/* ── 3. WHAT YOU'LL ACHIEVE ───────────────────────────────────────── */}
           {(course.outcomes?.length ?? 0) > 0 && (
@@ -242,7 +230,7 @@ export default function CourseLeafPage({
             primaryLabel={course.ctaBtn1Label || 'ابھی شامل ہوں'}
             primaryExternal={Boolean(course.enrollmentLink)}
             whatsappHref={whatsappLink}
-            whatsappLabel={course.ctaBtn2Label || 'واٹس ایپ کریں'}
+            whatsappLabel={course.ctaBtn2Label}
             footer={
               (site?.email || site?.phone) ? (
                 <div className="flex flex-wrap justify-center gap-6 text-[13px] text-slate-500">
@@ -264,23 +252,10 @@ export default function CourseLeafPage({
           />
 
           {/* ── 8. OUR PROMISE ───────────────────────────────────────────────── */}
-          {(course.promiseHeading || course.promiseBody) && (
-            <section className={`bg-white ${TW_SECTION_PY}`}>
-              <div className={`${TW_CONTAINER_NARROW} text-center`}>
-                {course.promiseHeading && (
-                  <h2 className={`${TW_SECTION_TITLE} mb-5`}>
-                    {course.promiseHeading}
-                  </h2>
-                )}
-                {course.promiseBody && (
-                  <p className="text-[15px] text-gray-600 leading-urdu">{course.promiseBody}</p>
-                )}
-              </div>
-            </section>
-          )}
+          <LeafProseSection heading={course.promiseHeading} body={course.promiseBody} />
 
           <FaqAccordion
-            heading={course.faqSectionHeading || 'اکثر پوچھے گئے سوالات'}
+            heading={course.faqSectionHeading || DEFAULT_FAQ_HEADING}
             items={faqItems}
           />
 

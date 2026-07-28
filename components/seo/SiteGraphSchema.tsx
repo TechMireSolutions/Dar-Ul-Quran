@@ -1,6 +1,7 @@
 import JsonLdScripts from '@/components/seo/JsonLdScripts'
 import { PATHS } from '@/lib/paths'
 import { SITE_URL, DEFAULT_SITE_DESCRIPTION, resolveSiteNameUrdu } from '@/lib/seo'
+import { buildOrganizationProvider } from '@/lib/schemaHelpers'
 
 type SiteGraphSchemaProps = {
   siteName?: string | null
@@ -25,16 +26,14 @@ export default function SiteGraphSchema({
     '@context': 'https://schema.org',
     '@graph': [
       {
-        '@type': 'EducationalOrganization',
-        '@id': `${SITE_URL}#organization`,
-        name,
-        url: SITE_URL,
-        logo: { '@type': 'ImageObject', url: logoUrl },
-        description: desc,
+        ...buildOrganizationProvider({
+          name,
+          description: desc,
+          logoUrl,
+          email,
+          phone,
+        }),
         inLanguage: 'ur',
-        address: { '@type': 'PostalAddress', addressCountry: 'PK' },
-        ...(email ? { email } : {}),
-        ...(phone ? { telephone: phone } : {}),
       },
       {
         '@type': 'WebSite',

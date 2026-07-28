@@ -6,7 +6,7 @@ import { Search, Menu } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import type { NavNode } from '@/lib/types'
 import { ensurePrimaryNav } from '@/lib/navigation'
-import { DEFAULT_RELATED_SITE_LABEL, DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
+import { DEFAULT_RELATED_SITE_LABEL, DEFAULT_SEARCH_PLACEHOLDER, DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
 import { PATHS } from '@/lib/paths'
 import BrandLogo from '@/components/ui/BrandLogo'
 import HeaderDesktopNav from './HeaderDesktopNav'
@@ -23,7 +23,7 @@ type HeaderProps = {
 }
 
 export default function Header({
-  darulQuranUrl, siteName = DEFAULT_SITE_NAME_URDU, logoUrl, navItems, searchPlaceholder = 'مضامین تلاش کریں…',
+  darulQuranUrl, siteName = DEFAULT_SITE_NAME_URDU, logoUrl, navItems, searchPlaceholder = DEFAULT_SEARCH_PLACEHOLDER,
 }: HeaderProps) {
   const [menuOpen,   setMenuOpen]   = useState(false)
   const [mobileMenuMounted, setMobileMenuMounted] = useState(false)

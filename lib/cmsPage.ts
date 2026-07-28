@@ -1,8 +1,20 @@
 import type { Metadata } from 'next'
-import { pageMetadata } from '@/lib/seo'
+import { DEFAULT_SITE_NAME_URDU, pageMetadata } from '@/lib/seo'
 import { defaultOgImage } from '@/sanity/lib/image'
 import { getPageBySlug, getSiteSettings } from '@/sanity/lib/fetchers'
 import type { SiteSettingsDoc, PageDoc, CmsPageDoc, SlugListItem } from '@/lib/types'
+
+/** Listing index meta/subtitle fallbacks. */
+export const DEFAULT_COURSES_DESCRIPTION =
+  'اہل علماء سے قرآن، فقہ، اخلاق اور تاریخ سیکھیں۔'
+
+export const DEFAULT_SERVICES_DESCRIPTION =
+  'اخلاص کے ساتھ پیش کی گئی مذہبی خدمات — نیابت زیارت، زکوٰۃ، خمس اور مزید۔'
+
+export const DEFAULT_ARTICLES_DESCRIPTION = 'اسلامی علم، خبریں اور مطالعات'
+
+export const DEFAULT_COURSES_SUBTITLE =
+  'اہل علماء سے سیکھیں — قرآن، نہج البلاغہ، فقہ، اخلاق اور تاریخ۔'
 
 export function resolveSeoTitle(doc: CmsPageDoc | null | undefined, fallback: string): string {
   return doc?.seoTitle || doc?.title || fallback
@@ -13,6 +25,28 @@ export function resolveSeoDescription(
   fallback?: string,
 ): string | undefined {
   return doc?.seoDescription || doc?.subtitle || fallback
+}
+
+
+/** Default course leaf description (metadata + WebPage + JSON-LD). */
+export function defaultCourseDescription(
+  doc: { title?: string; subject?: string } | null | undefined,
+  options?: { short?: boolean },
+): string {
+  const title = doc?.title ?? 'کورس'
+  const subject = doc?.subject ? ` — ${doc.subject}` : ''
+  if (options?.short) {
+    return `آن لائن ${title}${subject}۔`
+  }
+  return `آن لائن ${title}${subject}۔ پاکستان اور دنیا بھر کے شیعہ خاندانوں کے لیے مستند اسلامی تعلیم۔`
+}
+
+/** Default service leaf description (metadata + WebPage + JSON-LD). */
+export function defaultServiceDescription(
+  doc: { title?: string } | null | undefined,
+): string {
+  const title = doc?.title || 'خدمت'
+  return `${title} — ${DEFAULT_SITE_NAME_URDU} کی مذہبی خدمات۔`
 }
 
 /** Leaf course/service description: SEO → excerpt → fallback. */

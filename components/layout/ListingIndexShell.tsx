@@ -1,8 +1,11 @@
 import type { ReactNode } from 'react'
 import Link from 'next/link'
-import WebPageSchema from '@/components/seo/WebPageSchema'
+import ContentCard from '@/components/ui/ContentCard'
 import ItemListSchema from '@/components/seo/ItemListSchema'
 import PageHeroHeader from '@/components/ui/PageHeroHeader'
+import Reveal from '@/components/ui/Reveal'
+import WebPageSchema from '@/components/seo/WebPageSchema'
+import { HOME_LABEL, PATHS } from '@/lib/paths'
 import { TW_BODY_MUTED, TW_BTN_PRIMARY, TW_CARD_GRID, TW_CONTAINER, TW_CV_AUTO, TW_PAGE_BODY } from '@/lib/tailwind'
 
 type ListingIndexShellProps = {
@@ -52,12 +55,42 @@ export function ListingCardGrid({ children }: { children: ReactNode }) {
   return <div className={TW_CARD_GRID}>{children}</div>
 }
 
+export type ListingCardItem = {
+  id: string
+  href: string
+  title: string
+  description?: string | null
+  image?: string | null
+  badge?: string | null
+  ctaLabel: string
+}
+
+/** Shared Reveal + ContentCard grid for listing indexes. */
+export function ListingContentCards({ items }: { items: ListingCardItem[] }) {
+  return (
+    <ListingCardGrid>
+      {items.map((item, i) => (
+        <Reveal key={item.id} animation="up" delay={i * 70}>
+          <ContentCard
+            href={item.href}
+            image={item.image}
+            title={item.title}
+            description={item.description}
+            badge={item.badge}
+            ctaLabel={item.ctaLabel}
+          />
+        </Reveal>
+      ))}
+    </ListingCardGrid>
+  )
+}
+
 export function ListingEmptyState({ message }: { message: string }) {
   return (
     <div className="flex flex-col items-center justify-center gap-5 py-24 text-center">
       <p className={`${TW_BODY_MUTED} text-[15px]`}>{message}</p>
-      <Link href="/" className={TW_BTN_PRIMARY}>
-        صفحۂ اول پر جائیں
+      <Link href={PATHS.home} className={TW_BTN_PRIMARY}>
+        {HOME_LABEL} پر جائیں
       </Link>
     </div>
   )

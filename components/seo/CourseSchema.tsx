@@ -1,10 +1,11 @@
 import JsonLdScripts from '@/components/seo/JsonLdScripts'
 import { SITE_URL, DEFAULT_SITE_NAME } from '@/lib/seo'
-import { PATHS } from '@/lib/paths'
+import { PATHS, SECTION_LABELS } from '@/lib/paths'
 import {
   buildBreadcrumbSchema,
   buildFaqPageSchema,
   buildOrganizationProvider,
+  defaultCourseSchemaDescription,
 } from '@/lib/schemaHelpers'
 import type { CourseSchemaData } from '@/lib/types'
 
@@ -20,7 +21,7 @@ function buildSchemas(data: CourseSchemaData): object[] {
   const description =
     data.seoDescription ??
     data.excerpt ??
-    `${data.title} — مستند شیعہ قرآن و اسلامی تعلیم، آن لائن — پاکستان اور دنیا بھر کے خاندانوں کے لیے۔`
+    defaultCourseSchemaDescription(data.title)
   const orgName = data.orgName ?? DEFAULT_SITE_NAME
 
   const courseSchema: Record<string, unknown> = {
@@ -96,7 +97,7 @@ function buildSchemas(data: CourseSchemaData): object[] {
     buildBreadcrumbSchema({
       pageUrl: courseUrl,
       sectionPath: PATHS.onlineCourses,
-      sectionLabel: 'آن لائن کورسز',
+      sectionLabel: SECTION_LABELS.onlineCourses,
       slugPath,
       title: data.title,
       breadcrumbLabels: data.breadcrumbLabels,

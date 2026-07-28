@@ -2,12 +2,15 @@ import { describe, expect, it } from 'vitest'
 import {
   hasPublishedSlug,
   courseCtaLabel,
+  defaultCourseDescription,
+  defaultServiceDescription,
   resolveLeafDescription,
   resolveSeoDescription,
   resolveSeoTitle,
   serviceCtaLabel,
   toItemListEntries,
 } from '@/lib/cmsPage'
+import { DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
 
 describe('resolveSeoTitle / resolveSeoDescription', () => {
   it('prefers seoTitle then title then fallback', () => {
@@ -81,5 +84,18 @@ describe('toItemListEntries', () => {
         '/online-courses/rozana',
       ),
     ).toEqual([{ name: 'نظریہ', url: '/online-courses/rozana/nazra' }])
+  })
+})
+
+describe('defaultCourseDescription / defaultServiceDescription', () => {
+  it('builds course fallbacks with optional short form', () => {
+    expect(defaultCourseDescription({ title: 'نظریہ', subject: 'قرآن' })).toContain('نظریہ')
+    expect(defaultCourseDescription({ title: 'نظریہ' }, { short: true })).toBe('آن لائن نظریہ۔')
+  })
+
+  it('builds service fallback with site name', () => {
+    expect(defaultServiceDescription({ title: 'زکوٰۃ' })).toBe(
+      `زکوٰۃ — ${DEFAULT_SITE_NAME_URDU} کی مذہبی خدمات۔`,
+    )
   })
 })
