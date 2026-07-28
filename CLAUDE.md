@@ -39,9 +39,10 @@ Details: `AGENTS.md` · env: `.env.example` · security: `SECURITY.md` · **full
 - LCP hero: native `<img fetchPriority="high">` + `LcpImagePreload`
 - Font: `DeferredUrduFont` (not blocking root layout)
 - Mobile nav: `dynamic(..., { ssr: false })`
-- Footer icons: inline SVG in RSC
+- Footer icons: `components/layout/FooterIcons` (inline SVG in RSC)
 - Rich text: `rich-text` classes — not `@tailwindcss/typography`
-- Shared UI shells: `LeafHero` · `SectionHeaderRow` · `CenteredSectionHeader` (see `05-components.mdc`)
+- Shared UI shells: `LeafHero` · `SectionHeaderRow` · `CenteredSectionHeader` · `BrandLogo` (see `05-components.mdc`)
+- Footer chrome: `buildFooterModel()` / `FOOTER_COPY` in `lib/footer.ts` — not reassembled in `Footer.tsx`
 - Published dates: `formatPublishedDate()` — not `en-PK` / English month names
 - Nastaliq: body leading ≥1.9 · `tracking-normal` only — `03-rtl-urdu.mdc` · `rtl-check`
 - LTR islands: phone/email/URL via `dir="ltr"` / `<bdi>`; Studio → `LtrStringInput`

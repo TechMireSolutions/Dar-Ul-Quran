@@ -80,6 +80,10 @@ alwaysApply: true
 | Revalidate API secret/auth | `17-security.mdc` |
 | Contact API security | `17-security.mdc` + `secure-api-route` skill |
 | SEO metadata / JSON-LD | `lib/seo.ts` + `components/seo/*` |
+| Canonical paths | `lib/paths.ts` (`PATHS`) |
+| Footer chrome model | `lib/footer.ts` (`buildFooterModel`, `FOOTER_COPY`) |
+| Site brand mark | `components/ui/BrandLogo` |
+| Contact / tel / external link helpers | `lib/contact.ts` |
 
 ## Skills registry (20 — each listed once)
 

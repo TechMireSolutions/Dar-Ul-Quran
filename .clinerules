@@ -13,4 +13,4 @@ npm run lint && npm run check:urdu && npm run test
 Next.js 16 App Router · Sanity v6 · Tailwind v4 · RTL Urdu · GROQ in `sanity/lib/queries.ts` only · `pageMetadata()` for SEO · port **3001** (`12-production-port.mdc`)
 
 Skills: `.cursor/skills/` · Urdu: `CLAUDE.md` § Urdu · Ship: `preflight` skill  
-Mobile-first / UX: `18-mobile-first-responsive.mdc` · `19-ui-ux.mdc`
+Mobile-first / UX: `18-mobile-first-responsive.mdc` · `19-ui-ux.mdc` · DRY paths/footer: `16-dry.mdc` (`PATHS`, `buildFooterModel`)

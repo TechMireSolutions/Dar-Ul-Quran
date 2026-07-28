@@ -16,9 +16,9 @@ Rules: `05-components.mdc` · `06-tailwind.mdc` · `15-naming.mdc` · `16-dry.md
 
 ## Prefer existing shells
 
-`PageHeroHeader` · `LeafHero` · `SectionHeaderRow` · `CenteredSectionHeader` · `ListingIndexShell` · `ContentCard` · `NestedChildListing` · `RichTextBody`
+`PageHeroHeader` · `LeafHero` · `SectionHeaderRow` · `CenteredSectionHeader` · `ListingIndexShell` · `ContentCard` · `NestedChildListing` · `RichTextBody` · `BrandLogo` · `Footer` / `FooterParts`
 
-Extend an existing shell before creating a parallel component.
+Extend an existing shell before creating a parallel component. Do not fork logo or footer chrome — reuse `BrandLogo`, `buildFooterModel` / `PATHS` / `lib/contact` helpers (`16-dry.mdc`).
 
 ## Scaffold
 

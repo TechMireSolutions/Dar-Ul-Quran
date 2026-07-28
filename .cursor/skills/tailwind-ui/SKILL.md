@@ -10,9 +10,10 @@ Rules: `06-tailwind.mdc` · `03-rtl-urdu.mdc` · `18-mobile-first-responsive.mdc
 ## Before editing
 
 1. Read `lib/tailwind.ts` — catalog in `06-tailwind.mdc`
-2. Prefer shells: `PageHeroHeader` · `LeafHero` · `SectionHeaderRow` · `CenteredSectionHeader` · `ListingIndexShell` · `ContentCard`
+2. Prefer shells: `PageHeroHeader` · `LeafHero` · `SectionHeaderRow` · `CenteredSectionHeader` · `ListingIndexShell` · `ContentCard` · `BrandLogo`
 3. Rich text → `RichTextBody` / `TW_RICH_TEXT_*`, not `prose-*`
 4. Mobile-first: base = phone; enhance with `sm:`/`md:`/`lg:` — see rule `18`
+5. Footer styling → existing `TW_FOOTER_*` / `TW_BRAND_LOGO_*` only (see `06`); Urdu chrome strings → `FOOTER_COPY` in `lib/footer.ts`
 
 ## Layout
 

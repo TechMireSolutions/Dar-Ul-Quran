@@ -24,7 +24,7 @@ Route-private UI: `app/(site)/**/_components/` — never imported elsewhere
 | Nested CMS children | `content/NestedChildListing` |
 | Content cards | `ui/ContentCard` — **one** primary `<Link>` (no double tab stops) |
 | Site brand mark | `ui/BrandLogo` — header / footer / mobile drawer |
-| Footer chrome | `layout/Footer` + `buildFooterModel()` · parts in `FooterParts` / `FooterIcons` |
+| Footer chrome | `layout/Footer` + `buildFooterModel()` / `FOOTER_COPY` (`lib/footer.ts`) · `FooterParts` / `FooterIcons` · link attrs via `lib/contact` (`externalLinkAttrs`) |
 | Portable Text | `content/RichTextBody` (`TW_RICH_TEXT_*`) |
 | Leaf FAQ / steps / CTA | `FaqAccordion` · `HowItWorksSection` · `LeafCtaBanner` |
 | Contact form | route-private `ContactForm` + `ui/TurnstileField` |
@@ -33,7 +33,7 @@ Route-private UI: `app/(site)/**/_components/` — never imported elsewhere
 - Server Components default; `"use client"` only for state/effects/browser APIs
 - React Compiler on — **no** default `useMemo` / `useCallback` unless measuring a real issue
 - `Header` + lazy `HeaderMobileMenu` (`dynamic`, `ssr: false`)
-- Footer: inline SVG in RSC; lucide in client components only
+- Footer icons: `FooterIcons` inline SVG in RSC; lucide only in client components
 - `role="menuitem"` only inside `role="menu"`
 - Images: `next/image` + explicit `sizes`; `loading="lazy"` below fold; LCP exception: hero `<img fetchPriority="high">`
 - Pass Sanity data as props; batch layout reads in `requestAnimationFrame`

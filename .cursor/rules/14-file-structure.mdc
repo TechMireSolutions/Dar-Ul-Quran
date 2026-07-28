@@ -17,8 +17,8 @@ app/
   api/             # Route handlers — contact, revalidate (see 17-security)
   globals.css      # Tailwind entry + minimal global layers
 components/
-  layout/          # Header, Footer, shells
-  ui/              # Primitives (buttons, cards, Reveal, images)
+  layout/          # Header, Footer, FooterParts, FooterIcons, listing shells
+  ui/              # Primitives (BrandLogo, buttons, cards, Reveal, images)
   sections/        # Full-width homepage/marketing blocks
   content/         # CMS blocks — RichTextBody, FAQ, listings
   seo/             # JSON-LD, breadcrumbs, LCP preload
@@ -27,8 +27,12 @@ lib/
   types/           # Shared DTOs — one domain per file
   cache-tags.ts    # CMS revalidation tags
   contact-schema.ts · rate-limit.ts · turnstile.ts · contact-notify.ts  # contact API
+  contact.ts       # telHref, externalLinkAttrs, footer contact/social builders
+  footer.ts        # buildFooterModel, FOOTER_COPY, FOOTER_IDS
   format-date.ts   # Urdu published dates (`formatPublishedDate`)
-  *.ts             # Pure helpers (seo, paths, tailwind, cmsPage, navigation, …)
+  paths.ts         # PATHS + path helpers
+  seo.ts           # pageMetadata, resolveSiteNameUrdu, DEFAULT_* copy
+  *.ts             # Pure helpers (tailwind, cmsPage, navigation, …)
   *.test.ts        # Vitest unit tests — colocated next to helpers (see `write-tests`)
 docs/              # Ops docs (e.g. sanity-webhook.md)
 sanity/
@@ -58,7 +62,7 @@ public/            # Static assets only — no CMS duplicates
 
 - New route-specific UI → `app/(site)/<route>/_components/`
 - Reused twice+ across routes → promote to `components/{ui,content,sections}/`
-- Prefer existing shells before new files: `LeafHero` · `PageHeroHeader` · `SectionHeaderRow` · `CenteredSectionHeader` · `ListingIndexShell` · `ContentCard`
+- Prefer existing shells before new files: `LeafHero` · `PageHeroHeader` · `SectionHeaderRow` · `CenteredSectionHeader` · `ListingIndexShell` · `ContentCard` · `BrandLogo` · `Footer` / `FooterParts` (do not invent parallel footer chrome)
 - New Sanity type → `schemaTypes/<name>.ts` + query + fetcher + type DTO
 
 ## Import boundaries (strict)

@@ -14,7 +14,7 @@ Live: https://darulquran.pk · Port **3001** → `12-production-port.mdc`
 | `app/studio/` | Embedded Sanity |
 | `components/{layout,ui,sections,content,seo}` | Shared UI |
 | `lib/types/` | CMS/UI DTOs (`cms.ts`, `navigation.ts`, …) |
-| `lib/*.ts` | Helpers — `cache-tags`, `contact-schema`, `format-date`, `navigation`, `paths`, `tailwind` |
+| `lib/*.ts` | Helpers — `cache-tags`, `contact` / `contact-schema`, `footer`, `format-date`, `navigation`, `paths` (`PATHS`), `seo`, `tailwind` |
 | `lib/**/*.test.ts` | Vitest unit tests (helpers/schemas only) — `write-tests` skill |
 | `lib/tailwind.ts` | Shared `TW_*` class strings — full catalog in `06-tailwind.mdc` |
 | `sanity/lib/` | GROQ, `safeFetch`, cached `fetchers` |
@@ -62,6 +62,9 @@ Authority table (no conflicts): `00-mirror-sources.mdc`
 | No `<img>` | LCP hero only |
 | Blocking font | `DeferredUrduFont` |
 | Eager mobile JS | `HeaderMobileMenu` dynamic |
+| Footer icons | `FooterIcons` inline SVG in RSC |
+| Site brand mark | `BrandLogo` — not duplicated in Header/Footer/drawer |
+| Footer chrome model | `buildFooterModel()` / `FOOTER_COPY` in `lib/footer.ts` |
 | English UI dates | Never — use `formatPublishedDate()` (`ur-PK`) |
 | Latin tracking | Never on Urdu — `tracking-normal` only (`03-rtl-urdu.mdc`) |
 

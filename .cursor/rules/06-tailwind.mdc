@@ -80,7 +80,7 @@ Nastaliq leading tokens (theme): `leading-urdu` · `leading-urdu-display` · `le
 | `TW_BTN_PRIMARY` / `_SECONDARY` | Error/404 actions |
 | `TW_CTA_ARROW` | RTL-aware CTA arrow |
 | `TW_CARD_LINK` / `TW_VIEW_ALL_LINK` | Card footer / “view all” |
-| `TW_FOOTER_DONATE_CTA` / `_CONTACT_LINK` / `_SOCIAL` / `_GRID` / `_COL_HEADING` / `_NAV_LINK` / `_NAV_CHEVRON` / `_RELATED` / `_TAGLINE` / `_COPY` / `_BODY` / `_SOCIAL_LIST` / `_CONTACT_GRID` / `_ICON` / `_ADDRESS` / `_EMPTY` / `_NAV_LIST` / `_BOTTOM` / `_BOTTOM_INNER` / `_PAD_Y` / `_SHELL` / `_FAB_PAD` | Footer |
+| `TW_FOOTER_DONATE_CTA` / `_CONTACT_LINK` / `_SOCIAL` / `_GRID` / `_COL_HEADING` / `_NAV_LINK` / `_NAV_CHEVRON` / `_RELATED` / `_TAGLINE` / `_COPY` / `_BODY` / `_SOCIAL_LIST` / `_CONTACT_GRID` / `_ICON` / `_ADDRESS` / `_EMPTY` / `_NAV_LIST` / `_BOTTOM` / `_BOTTOM_INNER` / `_PAD_Y` / `_SHELL` / `_FAB_PAD` | Footer classes (`TW_FOOTER_COPY` = copyright **CSS**; Urdu chrome strings → `FOOTER_COPY` in `lib/footer.ts`) |
 | `TW_BRAND_LOGO_RING` / `_FALLBACK` | Shared brand mark (`BrandLogo`) |
 | `TW_MOBILE_NAV_ROW*` / `TW_MOBILE_PANEL*` | Mobile drawer |
 | `TW_MOBILE_SEARCH_INPUT` / `_SUBMIT` | Mobile search field |

@@ -18,7 +18,9 @@ Security schemas → **`17-security.mdc`**
 
 ## Existing coverage (extend)
 
-`contact-schema` · `cache-tags` · `contact` · `paths` · `navigation` · `cmsPage` · `format-date` · `topicCluster` · `schemaHelpers` · `rate-limit`
+`contact-schema` · `cache-tags` · `contact` · `footer` · `seo` · `paths` · `navigation` · `cmsPage` · `format-date` · `topicCluster` · `schemaHelpers` · `rate-limit`
+
+Footer / SEO helpers: cover `buildFooterModel` / `FOOTER_COPY` fallbacks and `resolveSiteNameUrdu` / `DEFAULT_*` in colocated `lib/*.test.ts`.
 
 ## Guidelines
 

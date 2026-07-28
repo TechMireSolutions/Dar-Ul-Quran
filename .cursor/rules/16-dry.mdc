@@ -18,7 +18,9 @@ alwaysApply: false
 | SEO metadata | `pageMetadata()` in `lib/seo.ts` | Hand-built `<meta>` tags |
 | JSON-LD | `components/seo/*` (+ `lib/schemaHelpers.ts`) | Inline `<script type="application/ld+json">` |
 | Canonical paths | `PATHS` + helpers in `lib/paths.ts` | String-concat paths in components |
-| Footer chrome model | `buildFooterModel()` in `lib/footer.ts` | Reassemble nav/contact/social in `Footer.tsx` |
+| Footer chrome model | `buildFooterModel()` + `FOOTER_COPY` / `FOOTER_IDS` in `lib/footer.ts` | Reassemble nav/contact/social or hardcode footer Urdu chrome in `Footer.tsx` |
+| Footer/contact link helpers | `telHref` · `externalLinkAttrs` · `buildFooterContactRows` · `buildFooterSocialLinks` in `lib/contact.ts` | Inline `tel:` / `target=_blank` / contact-row assembly in layout |
+| Site brand mark | `components/ui/BrandLogo` (+ `TW_BRAND_LOGO_*`) | Duplicate logo markup in Header / Footer / drawer |
 | Tailwind patterns | `lib/tailwind.ts` (`TW_*`) | Same class string in 2+ files; raw `max-w-* mx-auto`, `py-16 sm:py-20`, eyebrow line |
 | Theme tokens | `tailwind.config.ts` | Raw hex/spacing; Latin line-heights without Nastaliq tokens |
 | Nastaliq leading / tracking | `tailwind.config.ts` + `03-rtl-urdu.mdc` | Ad-hoc `leading-tight` / negative tracking on Urdu |
@@ -35,6 +37,7 @@ alwaysApply: false
 | Portable Text wrapper | `RichTextBody.tsx` | Inline `PortableText` + duplicate `TW_RICH_TEXT_*` |
 | Org name fallback | `DEFAULT_SITE_NAME` (EN email/schema) · `resolveSiteNameUrdu()` / `DEFAULT_SITE_NAME_URDU` (UI) in `lib/seo.ts` | Hardcoded org name in chrome / metadata |
 | Tagline / donate / related-site labels | `DEFAULT_TAGLINE` · `DEFAULT_DONATE_CTA_LABEL` · `DEFAULT_RELATED_SITE_LABEL` in `lib/seo.ts` | Duplicate marketing strings in layout |
+| Meta / home description fallbacks | `DEFAULT_SITE_DESCRIPTION` · `DEFAULT_HOME_DESCRIPTION` in `lib/seo.ts` | Hardcoded description strings in metadata |
 | Urdu allowlist | `CLAUDE.md` § Urdu | Parallel English-copy rules elsewhere |
 
 ## When to extract

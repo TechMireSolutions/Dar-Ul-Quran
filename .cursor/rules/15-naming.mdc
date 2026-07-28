@@ -45,7 +45,7 @@ One primary component per file. Co-locate tiny subcomponents in same file only i
 | Props / locals | `camelCase` | `siteSettings`, `breadcrumbItems` |
 | Booleans | `is` / `has` / `should` prefix | `isOpen`, `hasChildren` |
 | React components | `PascalCase` function | `export default function Footer()` |
-| Constants (config) | `SCREAMING_SNAKE` | `SITE_URL`, `REVALIDATE_SECONDS` |
+| Constants (config) | `SCREAMING_SNAKE` | `PATHS` · `FOOTER_COPY` / `FOOTER_IDS` · `DEFAULT_*` in `lib/paths.ts`, `lib/footer.ts`, `lib/seo.ts` |
 | Tailwind bundles | `TW_` prefix | `TW_SECTION_TITLE` in `lib/tailwind.ts` |
 | Brand tokens | `dq-` CSS prefix | `dq-gold`, `dq-navy` in Tailwind theme |
 
@@ -60,7 +60,7 @@ Prefer `type` over `interface` unless declaration merging is required.
 | `fetch*` | Page-level orchestration | `lib/cmsPage.ts` |
 | `resolve*` | Fallback chains (SEO, contact, paths) | `lib/seo.ts`, `lib/contact.ts` |
 | `format*` | Display formatting (dates, labels) | `lib/format-date.ts` |
-| `build*` | Construct structures (nav, JSON-LD items) | `lib/navigation.ts`, `lib/paths.ts`, `lib/schemaHelpers.ts` |
+| `build*` | Construct structures (nav, footer model, JSON-LD) | `lib/navigation.ts`, `lib/footer.ts`, `lib/contact.ts`, `lib/paths.ts`, `lib/schemaHelpers.ts` |
 | `nodeIsActive` | Nav active-state check | `lib/navigation.ts` |
 | `handle*` | Client event handlers | `"use client"` components only |
 | `generate*` | Next.js metadata/static APIs | `generateMetadata`, `generateStaticParams` |
