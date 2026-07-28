@@ -67,3 +67,67 @@ export function servicesToCarouselItems(
       }
     })
 }
+
+export type HomeHeroModel = {
+  subtitle?: string
+  title?: string
+  description?: string
+  heroImage: string | null
+  heroImageSrcSet?: string
+  heroImageSizes?: string
+  heroImageBlur?: string
+  preloadHref: string | null
+  cta1Label?: string
+  cta1Link?: string
+  cta2Label?: string
+  cta2Link?: string
+  stats: Array<{ value: string; label: string }>
+}
+
+type LcpHeroImageProps = {
+  src: string
+  srcSet: string
+  sizes: string
+  preloadHref: string
+}
+
+/** Assemble homepage HeroSection props from CMS settings. */
+export function buildHomeHeroModel(
+  homepageSettings: HomepageSettingsDoc | null | undefined,
+  lcpProps: ((source: SanityImageAsset) => LcpHeroImageProps) | null,
+): HomeHeroModel {
+  const heroImage = homepageSettings?.heroImage && lcpProps
+    ? lcpProps(homepageSettings.heroImage)
+    : null
+
+  return {
+    subtitle: homepageSettings?.heroArabicText || undefined,
+    title: homepageSettings?.heroTitle
+      ? homepageSettings.heroTitle.replace(/\\n/g, '\n')
+      : undefined,
+    description: homepageSettings?.heroSubtitle || undefined,
+    heroImage: heroImage?.src ?? null,
+    heroImageSrcSet: heroImage?.srcSet,
+    heroImageSizes: heroImage?.sizes,
+    heroImageBlur: homepageSettings?.heroImageLqip ?? undefined,
+    preloadHref: heroImage?.preloadHref ?? null,
+    cta1Label: homepageSettings?.heroCta1Label || undefined,
+    cta1Link: homepageSettings?.heroCta1Link || undefined,
+    cta2Label: homepageSettings?.heroCta2Label || undefined,
+    cta2Link: homepageSettings?.heroCta2Link || undefined,
+    stats: [
+      {
+        value: homepageSettings?.aboutStat1Value ?? '',
+        label: homepageSettings?.aboutStat1Label ?? '',
+      },
+      {
+        value: homepageSettings?.aboutStat2Value ?? '',
+        label: homepageSettings?.aboutStat2Label ?? '',
+      },
+      {
+        value: homepageSettings?.aboutStat3Value ?? '',
+        label: homepageSettings?.aboutStat3Label ?? '',
+      },
+    ],
+  }
+}

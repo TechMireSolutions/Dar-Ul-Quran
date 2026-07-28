@@ -9,7 +9,7 @@ import { ensurePrimaryNav } from '@/lib/navigation'
 import { DEFAULT_RELATED_SITE_LABEL, DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
 import { PATHS } from '@/lib/paths'
 import BrandLogo from '@/components/ui/BrandLogo'
-import DesktopNavItem from './HeaderDesktopNav'
+import HeaderDesktopNav from './HeaderDesktopNav'
 import { TW_CONTAINER_HEADER, TW_HEADER_SEARCH_INPUT, TW_HEADER_SEARCH_SUBMIT, TW_SEARCH_FORM } from '@/lib/tailwind'
 
 const HeaderMobileMenu = dynamic(() => import('./HeaderMobileMenu'), { ssr: false })
@@ -118,7 +118,7 @@ export default function Header({
 
           <nav aria-label="مرکزی نیویگیشن" className="hidden lg:flex flex-1 items-center justify-center gap-7">
             {navLinks.map(node => (
-              <DesktopNavItem key={node.label} node={node} />
+              <HeaderDesktopNav key={node.label} node={node} />
             ))}
           </nav>
 

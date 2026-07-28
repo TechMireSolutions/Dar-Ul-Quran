@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { mergeFaqItems } from '@/lib/topicCluster'
+import { mergeFaqForDisplay, mergeFaqItems } from '@/lib/topicCluster'
 
 describe('mergeFaqItems', () => {
   const page = [
@@ -31,5 +31,32 @@ describe('mergeFaqItems', () => {
       ...page,
       { question: 'کیسے داخلہ لیں؟', answer: 'رابطہ کریں' },
     ])
+  })
+})
+
+describe('mergeFaqForDisplay', () => {
+  const pageBlocks = [
+    { question: 'فیس کتنی ہے؟', answer: [{ _type: 'block', children: [] }] },
+  ]
+  const cluster = [
+    { question: 'فیس کتنی ہے؟', answer: 'کلسٹر جواب' },
+    { question: 'کیسے داخلہ لیں؟', answer: 'رابطہ کریں' },
+  ]
+
+  it('keeps Portable Text page answers and appends new cluster FAQs', () => {
+    expect(mergeFaqForDisplay(pageBlocks, cluster)).toEqual([
+      pageBlocks[0],
+      { question: 'کیسے داخلہ لیں؟', answer: 'رابطہ کریں' },
+    ])
+  })
+
+  it('returns cluster-only when page FAQ is empty', () => {
+    expect(mergeFaqForDisplay(undefined, cluster)).toEqual(cluster)
+    expect(mergeFaqForDisplay([], cluster)).toEqual(cluster)
+  })
+
+  it('returns page-only when cluster is empty', () => {
+    expect(mergeFaqForDisplay(pageBlocks, undefined)).toEqual(pageBlocks)
+    expect(mergeFaqForDisplay(pageBlocks, [])).toEqual(pageBlocks)
   })
 })

@@ -7,9 +7,9 @@ import {
   hasPublishedSlug,
   resolveSeoDescription,
   resolveSeoTitle,
+  serviceCtaLabel,
   toItemListEntries,
 } from '@/lib/cmsPage'
-import { serviceCtaLabel } from '@/lib/cmsPage'
 import ContentCard from '@/components/ui/ContentCard'
 import ListingIndexShell, { ListingCardGrid, ListingEmptyState } from '@/components/layout/ListingIndexShell'
 import Reveal from '@/components/ui/Reveal'

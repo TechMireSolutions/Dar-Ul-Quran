@@ -12,7 +12,7 @@ export function navNodeKey(node: NavNode): string {
   return `${node.label}::${node.href ?? ''}`
 }
 
-type MobileNavNodeProps = {
+type HeaderMobileNavNodeProps = {
   node: NavNode
   onClose: () => void
   depth?: number
@@ -20,13 +20,13 @@ type MobileNavNodeProps = {
   setTopLevelOpenKey?: (key: string | null) => void
 }
 
-export default function MobileNavNode({
+export default function HeaderMobileNavNode({
   node,
   onClose,
   depth = 0,
   topLevelOpenKey = null,
   setTopLevelOpenKey,
-}: MobileNavNodeProps) {
+}: HeaderMobileNavNodeProps) {
   const [localOpen, setLocalOpen] = useState(false)
   const pathname = usePathname()
   const isActive = nodeIsActive(node, pathname)
@@ -114,7 +114,7 @@ export default function MobileNavNode({
             </Link>
           )}
           {node.children.map(child => (
-            <MobileNavNode
+            <HeaderMobileNavNode
               key={navNodeKey(child)}
               node={child}
               onClose={onClose}

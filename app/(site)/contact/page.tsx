@@ -5,8 +5,7 @@ import { cmsPageMetadata, fetchCmsPage, resolveSeoDescription, resolveSeoTitle }
 import { whatsappHref, telHref } from '@/lib/contact'
 import { PATHS } from '@/lib/paths'
 import { getCoursesForContactForm, getServicesForContactForm } from '@/sanity/lib/fetchers'
-import WebPageSchema from '@/components/seo/WebPageSchema'
-import PageHeroHeader from '@/components/ui/PageHeroHeader'
+import CmsPageShell from '@/components/layout/CmsPageShell'
 import ContactForm from './_components/ContactForm'
 import ContactInfo, { type ContactInfoItem } from './_components/ContactInfo'
 import Reveal from '@/components/ui/Reveal'
@@ -46,18 +45,17 @@ export default async function ContactPage() {
   const pageDescription = resolveSeoDescription(page)
 
   return (
-    <div>
-      <WebPageSchema title={pageTitle} description={pageDescription} path={PATHS.contact} />
-      <PageHeroHeader
-        eyebrow={page?.eyebrow || 'رابطہ کیجیے'}
-        title={page?.title || 'ہم سے رابطہ کریں'}
-        subtitle={page?.subtitle || 'خدمات، کورسز یا عام پوچھ گچھ کے لیے ہم سے رابطہ کریں'}
-        maxWidth="6xl"
-      />
-
+    <CmsPageShell
+      schemaTitle={pageTitle}
+      schemaDescription={pageDescription}
+      path={PATHS.contact}
+      eyebrow={page?.eyebrow || 'رابطہ کیجیے'}
+      title={page?.title || 'ہم سے رابطہ کریں'}
+      subtitle={page?.subtitle || 'خدمات، کورسز یا عام پوچھ گچھ کے لیے ہم سے رابطہ کریں'}
+      maxWidth="6xl"
+    >
       <div className={TW_PAGE_BODY}>
         <div className={TW_CONTAINER_WIDE}>
-
           {page?.body && (
             <Reveal animation="fade">
               <RichTextBody value={page.body} size="sm" className="max-w-2xl mb-8" />
@@ -85,6 +83,6 @@ export default async function ContactPage() {
           </div>
         </div>
       </div>
-    </div>
+    </CmsPageShell>
   )
 }

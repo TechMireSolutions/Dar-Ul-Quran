@@ -5,7 +5,7 @@ import { Search, X } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import type { NavNode } from '@/lib/types'
 import BrandLogo from '@/components/ui/BrandLogo'
-import MobileNavNode, { navNodeKey } from './HeaderMobileNavNode'
+import HeaderMobileNavNode, { navNodeKey } from './HeaderMobileNavNode'
 import {
   TW_MOBILE_PANEL,
   TW_MOBILE_PANEL_BACKDROP,
@@ -194,7 +194,7 @@ export default function HeaderMobileMenu({
           className={`${TW_MOBILE_PANEL_NAV} pb-[max(1rem,env(safe-area-inset-bottom))]`}
         >
           {navLinks.map(node => (
-            <MobileNavNode
+            <HeaderMobileNavNode
               key={navNodeKey(node)}
               node={node}
               onClose={handleClose}

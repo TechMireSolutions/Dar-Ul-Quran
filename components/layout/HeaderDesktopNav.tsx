@@ -100,7 +100,7 @@ function DesktopPanelRow({ node, onClose, depth }: DesktopPanelRowProps) {
   )
 }
 
-export default function DesktopNavItem({ node }: { node: NavNode }) {
+export default function HeaderDesktopNav({ node }: { node: NavNode }) {
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)

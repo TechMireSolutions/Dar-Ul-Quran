@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
 import { unstable_noStore as noStore } from 'next/cache'
 import { ogImageUrl, leafHeroImageUrl, defaultOgImage } from '@/sanity/lib/image'
 import {
@@ -16,9 +15,7 @@ import CourseLeafPage from './_components/CourseLeafPage'
 import {
   breadcrumbLabelsFromAncestry,
   buildBreadcrumbNavItems,
-  parseCatchAllSlug,
   PATHS,
-  resolveLeafCanonical,
   sectionRelativePath,
   staticParamsFromPaths,
 } from '@/lib/paths'
@@ -41,17 +38,10 @@ export async function generateMetadata(
   { params }: { params: Promise<{ slug: string | string[] }> }
 ): Promise<Metadata> {
   const { slug: rawSlug } = await params
-  const { segments, leafSlug } = parseCatchAllSlug(rawSlug)
-  if (!leafSlug) notFound()
-  const [course, settings] = await Promise.all([
-    getCourseBySlug(leafSlug),
+  const [{ doc: course, canonicalPath }, settings] = await Promise.all([
+    loadCatchAllLeaf(rawSlug, SECTION_PATH, getCourseBySlug),
     getSiteSettings(),
   ])
-  if (!course) notFound()
-
-  const resolved = resolveLeafCanonical(SECTION_PATH, segments, course)
-  if (!resolved) notFound()
-  const { canonicalPath } = resolved
   const courseTitle = course.title ?? 'کورس'
   const title = course.seoTitle || courseTitle
   const description = resolveLeafDescription(

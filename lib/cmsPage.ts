@@ -40,15 +40,18 @@ export function hasPublishedSlug<T extends SlugListItem>(
   return Boolean(item.title && item.slug?.current)
 }
 
-/** Map slugged list items to ItemListSchema entries. */
+/** Map list items to ItemListSchema entries (`slug` as string or `{ current }`). */
 export function toItemListEntries(
-  items: Array<{ title: string; slug: { current: string } }>,
+  items: Array<{ title: string; slug: string | { current: string } }>,
   basePath: string,
 ): { name: string; url: string }[] {
-  return items.map((item) => ({
-    name: item.title,
-    url: `${basePath}/${item.slug.current}`,
-  }))
+  return items.map((item) => {
+    const slug = typeof item.slug === 'string' ? item.slug : item.slug.current
+    return {
+      name: item.title,
+      url: `${basePath}/${slug}`,
+    }
+  })
 }
 
 /** Page-level CMS orchestration (see `15-naming.mdc` — `fetch*` lives here). */

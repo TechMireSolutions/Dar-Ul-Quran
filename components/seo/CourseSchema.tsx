@@ -1,7 +1,11 @@
 import JsonLdScripts from '@/components/seo/JsonLdScripts'
 import { SITE_URL, DEFAULT_SITE_NAME } from '@/lib/seo'
 import { PATHS } from '@/lib/paths'
-import { buildBreadcrumbSchema, buildFaqPageSchema } from '@/lib/schemaHelpers'
+import {
+  buildBreadcrumbSchema,
+  buildFaqPageSchema,
+  buildOrganizationProvider,
+} from '@/lib/schemaHelpers'
 import type { CourseSchemaData } from '@/lib/types'
 
 function resolveSlugPath(data: CourseSchemaData): string {
@@ -17,6 +21,7 @@ function buildSchemas(data: CourseSchemaData): object[] {
     data.seoDescription ??
     data.excerpt ??
     `${data.title} — مستند شیعہ قرآن و اسلامی تعلیم، آن لائن — پاکستان اور دنیا بھر کے خاندانوں کے لیے۔`
+  const orgName = data.orgName ?? DEFAULT_SITE_NAME
 
   const courseSchema: Record<string, unknown> = {
     '@context': 'https://schema.org',
@@ -26,15 +31,7 @@ function buildSchemas(data: CourseSchemaData): object[] {
     description,
     url: courseUrl,
 
-    provider: {
-      '@type': 'EducationalOrganization',
-      '@id': `${SITE_URL}#organization`,
-      name: data.orgName ?? DEFAULT_SITE_NAME,
-      url: SITE_URL,
-      description:
-        'دار القرآن ایک شیعہ اسلامی تعلیمی ادارہ ہے جو مستند جعفری فقہ پر مبنی قرآن و اسلامی تعلیم پاکستان اور عالمی سطح پر پیش کرتا ہے۔',
-      address: { '@type': 'PostalAddress', addressCountry: 'PK' },
-    },
+    provider: buildOrganizationProvider({ name: data.orgName }),
 
     hasCourseInstance: [
       {
@@ -49,7 +46,7 @@ function buildSchemas(data: CourseSchemaData): object[] {
                 name: data.instructor,
                 worksFor: {
                   '@type': 'EducationalOrganization',
-                  name: data.orgName ?? DEFAULT_SITE_NAME,
+                  name: orgName,
                 },
               },
             }

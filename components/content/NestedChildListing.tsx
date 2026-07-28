@@ -1,9 +1,10 @@
 import ContentCard from '@/components/ui/ContentCard'
+import ItemListSchema from '@/components/seo/ItemListSchema'
 import PageHeroHeader from '@/components/ui/PageHeroHeader'
-import { ListingCardGrid } from '@/components/layout/ListingIndexShell'
+import { toItemListEntries } from '@/lib/cmsPage'
 import { cardImageUrl } from '@/sanity/lib/image'
 import type { SanityImageAsset } from '@/lib/types'
-import { TW_CONTAINER, TW_CV_AUTO, TW_PAGE_BODY } from '@/lib/tailwind'
+import { TW_CARD_GRID, TW_CONTAINER, TW_CV_AUTO, TW_PAGE_BODY } from '@/lib/tailwind'
 
 type NestedChild = {
   _id: string
@@ -41,10 +42,11 @@ export default function NestedChildListing({
 }: NestedChildListingProps) {
   return (
     <>
+      <ItemListSchema name={title} path={basePath} items={toItemListEntries(items, basePath)} />
       <PageHeroHeader eyebrow={eyebrow} title={title} subtitle={excerpt} />
       <div className={`${TW_PAGE_BODY} min-h-[50vh] ${TW_CV_AUTO}`}>
         <div className={TW_CONTAINER}>
-          <ListingCardGrid>
+          <div className={TW_CARD_GRID}>
             {items.map((child) => {
               const imageSource = child[imageField]
               const meta = [child.price, child.duration].filter(Boolean).join(' · ')
@@ -62,7 +64,7 @@ export default function NestedChildListing({
                 />
               )
             })}
-          </ListingCardGrid>
+          </div>
         </div>
       </div>
     </>

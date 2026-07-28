@@ -73,4 +73,13 @@ describe('toItemListEntries', () => {
       { name: 'فقہ', url: '/online-courses/fiqh' },
     ])
   })
+
+  it('accepts plain string slugs for nested children', () => {
+    expect(
+      toItemListEntries(
+        [{ title: 'نظریہ', slug: 'nazra' }],
+        '/online-courses/rozana',
+      ),
+    ).toEqual([{ name: 'نظریہ', url: '/online-courses/rozana/nazra' }])
+  })
 })

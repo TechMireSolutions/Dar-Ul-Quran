@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { cmsPageMetadata, fetchCmsPage, resolveSeoDescription, resolveSeoTitle } from '@/lib/cmsPage'
-import WebPageSchema from '@/components/seo/WebPageSchema'
-import PageHeroHeader from '@/components/ui/PageHeroHeader'
+import CmsPageShell from '@/components/layout/CmsPageShell'
 import DonateContent from './_components/DonateContent'
 import { PATHS } from '@/lib/paths'
 import { DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
@@ -33,21 +32,21 @@ export default async function DonatePage() {
   const pageDescription = resolveSeoDescription(page)
 
   return (
-    <div>
-      <WebPageSchema title={pageTitle} description={pageDescription} path={PATHS.donate} />
-      <PageHeroHeader
-        topContent={
-          <p className="text-[20px] sm:text-[22px] text-dq-700 mb-3 leading-none">
-            {settings?.donateArabicVerse || 'بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ'}
-          </p>
-        }
-        eyebrow={page?.eyebrow || 'عطا کیجیے'}
-        title={page?.title || 'عطیہ'}
-        subtitle={page?.subtitle || 'آپ کی سخاوت اہل بیت (ع) کے نور کو زندہ رکھتی ہے۔ ہر عطیہ — چھوٹا یا بڑا — فرق ڈالتا ہے۔'}
-        maxWidth="5xl"
-        align="center"
-      />
-
+    <CmsPageShell
+      schemaTitle={pageTitle}
+      schemaDescription={pageDescription}
+      path={PATHS.donate}
+      eyebrow={page?.eyebrow || 'عطا کیجیے'}
+      title={page?.title || 'عطیہ'}
+      subtitle={page?.subtitle || 'آپ کی سخاوت اہل بیت (ع) کے نور کو زندہ رکھتی ہے۔ ہر عطیہ — چھوٹا یا بڑا — فرق ڈالتا ہے۔'}
+      maxWidth="5xl"
+      align="center"
+      topContent={
+        <p className="text-[20px] sm:text-[22px] text-dq-700 mb-3 leading-none">
+          {settings?.donateArabicVerse || 'بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ'}
+        </p>
+      }
+    >
       <div className={TW_PAGE_BODY}>
         <div className={`${TW_CONTAINER_NARROW} lg:px-8`}>
           <DonateContent
@@ -62,6 +61,6 @@ export default async function DonatePage() {
           />
         </div>
       </div>
-    </div>
+    </CmsPageShell>
   )
 }

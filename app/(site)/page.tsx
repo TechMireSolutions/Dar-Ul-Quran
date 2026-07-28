@@ -9,7 +9,12 @@ import {
   getTestimonials,
 } from '@/sanity/lib/fetchers'
 import { pageMetadata, DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
-import { coursesToCarouselItems, resolveHomeCopy, servicesToCarouselItems } from '@/lib/homepage'
+import {
+  buildHomeHeroModel,
+  coursesToCarouselItems,
+  resolveHomeCopy,
+  servicesToCarouselItems,
+} from '@/lib/homepage'
 import { PATHS } from '@/lib/paths'
 import WebPageSchema from '@/components/seo/WebPageSchema'
 import LcpImagePreload from '@/components/seo/LcpImagePreload'
@@ -73,48 +78,30 @@ export default async function HomePage() {
   ])
 
   const { title: homeTitle, description: homeDescription } = resolveHomeCopy(settings, homepageSettings)
-
-  const heroImage = homepageSettings?.heroImage
-    ? lcpHeroImageProps(homepageSettings.heroImage)
-    : null
-  const heroImageBlur = homepageSettings?.heroImageLqip ?? undefined
-
+  const hero = buildHomeHeroModel(homepageSettings, lcpHeroImageProps)
   const courseItems = coursesToCarouselItems(courses, carouselImageUrl)
   const serviceItems = servicesToCarouselItems(services, carouselImageUrl)
 
   return (
     <>
-      {heroImage && (
-        <LcpImagePreload href={heroImage.preloadHref} media="(min-width: 768px)" />
+      {hero.preloadHref && (
+        <LcpImagePreload href={hero.preloadHref} media="(min-width: 768px)" />
       )}
       <WebPageSchema title={homeTitle} description={homeDescription} path={PATHS.home} />
 
       <HeroSection
-        subtitle={homepageSettings?.heroArabicText || undefined}
-        title={homepageSettings?.heroTitle ? homepageSettings.heroTitle.replace(/\\n/g, '\n') : undefined}
-        description={homepageSettings?.heroSubtitle || undefined}
-        heroImage={heroImage?.src ?? null}
-        heroImageSrcSet={heroImage?.srcSet}
-        heroImageSizes={heroImage?.sizes}
-        heroImageBlur={heroImageBlur}
-        cta1Label={homepageSettings?.heroCta1Label || undefined}
-        cta1Link={homepageSettings?.heroCta1Link || undefined}
-        cta2Label={homepageSettings?.heroCta2Label || undefined}
-        cta2Link={homepageSettings?.heroCta2Link || undefined}
-        stats={[
-          {
-            value: homepageSettings?.aboutStat1Value ?? '',
-            label: homepageSettings?.aboutStat1Label ?? '',
-          },
-          {
-            value: homepageSettings?.aboutStat2Value ?? '',
-            label: homepageSettings?.aboutStat2Label ?? '',
-          },
-          {
-            value: homepageSettings?.aboutStat3Value ?? '',
-            label: homepageSettings?.aboutStat3Label ?? '',
-          },
-        ]}
+        subtitle={hero.subtitle}
+        title={hero.title}
+        description={hero.description}
+        heroImage={hero.heroImage}
+        heroImageSrcSet={hero.heroImageSrcSet}
+        heroImageSizes={hero.heroImageSizes}
+        heroImageBlur={hero.heroImageBlur}
+        cta1Label={hero.cta1Label}
+        cta1Link={hero.cta1Link}
+        cta2Label={hero.cta2Label}
+        cta2Link={hero.cta2Link}
+        stats={hero.stats}
       />
 
       <HomeAboutSection settings={homepageSettings} />

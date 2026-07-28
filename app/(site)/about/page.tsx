@@ -4,8 +4,7 @@ import { ArrowRight } from 'lucide-react'
 import { cmsPageMetadata, fetchCmsPage, resolveSeoDescription, resolveSeoTitle } from '@/lib/cmsPage'
 import { PATHS } from '@/lib/paths'
 import { resolveSiteNameUrdu } from '@/lib/seo'
-import WebPageSchema from '@/components/seo/WebPageSchema'
-import PageHeroHeader from '@/components/ui/PageHeroHeader'
+import CmsPageShell from '@/components/layout/CmsPageShell'
 import RichTextBody from '@/components/content/RichTextBody'
 import Reveal from '@/components/ui/Reveal'
 import AboutFallback from './_components/AboutFallback'
@@ -31,23 +30,21 @@ export default async function AboutPage() {
   const { page, settings } = await fetchCmsPage('about')
 
   const siteName = resolveSiteNameUrdu(settings?.siteName)
-
   const pageTitle = resolveSeoTitle(page, 'ہمارے بارے میں')
   const pageDescription = resolveSeoDescription(page)
 
   return (
-    <div>
-      <WebPageSchema title={pageTitle} description={pageDescription} path={PATHS.about} />
-      <PageHeroHeader
-        eyebrow={page?.eyebrow || 'ہماری کہانی'}
-        title={page?.title || 'ہمارے بارے میں'}
-        subtitle={page?.subtitle || 'ہم کون ہیں اور ہمارا مقصد کیا ہے'}
-        maxWidth="3xl"
-      />
-
+    <CmsPageShell
+      schemaTitle={pageTitle}
+      schemaDescription={pageDescription}
+      path={PATHS.about}
+      eyebrow={page?.eyebrow || 'ہماری کہانی'}
+      title={page?.title || 'ہمارے بارے میں'}
+      subtitle={page?.subtitle || 'ہم کون ہیں اور ہمارا مقصد کیا ہے'}
+      maxWidth="3xl"
+    >
       <div className={`${TW_PAGE_BODY} bg-white`}>
         <div className={`${TW_CONTAINER_NARROW} lg:px-8`}>
-
           {page?.body ? (
             <Reveal animation="fade">
               <RichTextBody value={page.body} />
@@ -67,9 +64,8 @@ export default async function AboutPage() {
               </Link>
             </div>
           </Reveal>
-
         </div>
       </div>
-    </div>
+    </CmsPageShell>
   )
 }

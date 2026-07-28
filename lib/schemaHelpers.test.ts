@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest'
-import { SITE_URL } from '@/lib/seo'
-import { buildBreadcrumbSchema, buildFaqPageSchema } from '@/lib/schemaHelpers'
+import { SITE_URL, DEFAULT_SITE_NAME } from '@/lib/seo'
+import {
+  buildBreadcrumbSchema,
+  buildFaqPageSchema,
+  buildOrganizationProvider,
+} from '@/lib/schemaHelpers'
 
 describe('buildFaqPageSchema', () => {
   it('builds FAQPage JSON-LD', () => {
@@ -18,6 +22,27 @@ describe('buildFaqPageSchema', () => {
           acceptedAnswer: { '@type': 'Answer', text: 'جواب' },
         },
       ],
+    })
+  })
+})
+
+describe('buildOrganizationProvider', () => {
+  it('builds EducationalOrganization with defaults', () => {
+    expect(buildOrganizationProvider()).toMatchObject({
+      '@type': 'EducationalOrganization',
+      '@id': `${SITE_URL}#organization`,
+      name: DEFAULT_SITE_NAME,
+      url: SITE_URL,
+      address: { '@type': 'PostalAddress', addressCountry: 'PK' },
+    })
+  })
+
+  it('allows name and description overrides', () => {
+    expect(
+      buildOrganizationProvider({ name: 'دار القرآن', description: 'تفصیل' }),
+    ).toMatchObject({
+      name: 'دار القرآن',
+      description: 'تفصیل',
     })
   })
 })

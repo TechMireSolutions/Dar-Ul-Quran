@@ -4,20 +4,37 @@ import { TW_CONTAINER_NARROW } from '@/lib/tailwind'
 
 type LeafTopicClusterBlockProps = {
   cluster: TopicClusterDoc | null
+  /** Exclude the current article from related links. */
+  currentSlug?: string
+  /**
+   * When true, skip the outer section/container — use inside article prose
+   * that already provides layout.
+   */
+  inline?: boolean
 }
 
-export default function LeafTopicClusterBlock({ cluster }: LeafTopicClusterBlockProps) {
+export default function LeafTopicClusterBlock({
+  cluster,
+  currentSlug,
+  inline = false,
+}: LeafTopicClusterBlockProps) {
   if (!cluster) return null
+
+  const related = (
+    <TopicClusterRelated
+      clusterName={cluster.clusterName}
+      pillarKeyword={cluster.pillarKeyword}
+      pillarPage={cluster.pillarPage}
+      relatedArticles={cluster.relatedArticles}
+      currentSlug={currentSlug}
+    />
+  )
+
+  if (inline) return related
 
   return (
     <section className="bg-white pb-12 sm:pb-16">
-      <div className={TW_CONTAINER_NARROW}>
-        <TopicClusterRelated
-          clusterName={cluster.clusterName}
-          pillarKeyword={cluster.pillarKeyword}
-          relatedArticles={cluster.relatedArticles}
-        />
-      </div>
+      <div className={TW_CONTAINER_NARROW}>{related}</div>
     </section>
   )
 }

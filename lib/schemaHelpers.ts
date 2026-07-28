@@ -1,6 +1,24 @@
-import { SITE_URL } from '@/lib/seo'
+import { SITE_URL, DEFAULT_SITE_NAME } from '@/lib/seo'
 
 import type { FaqSchemaItem } from '@/lib/types'
+
+const DEFAULT_ORG_DESCRIPTION =
+  'دار القرآن ایک شیعہ اسلامی تعلیمی ادارہ ہے جو مستند جعفری فقہ پر مبنی قرآن و اسلامی تعلیم پاکستان اور عالمی سطح پر پیش کرتا ہے۔'
+
+/** Shared EducationalOrganization provider referenced by Course / Service JSON-LD. */
+export function buildOrganizationProvider(options?: {
+  name?: string | null
+  description?: string
+}) {
+  return {
+    '@type': 'EducationalOrganization',
+    '@id': `${SITE_URL}#organization`,
+    name: options?.name || DEFAULT_SITE_NAME,
+    url: SITE_URL,
+    description: options?.description ?? DEFAULT_ORG_DESCRIPTION,
+    address: { '@type': 'PostalAddress', addressCountry: 'PK' },
+  }
+}
 
 export function buildFaqPageSchema(pageUrl: string, faqItems: FaqSchemaItem[]) {
   return {

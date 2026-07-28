@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
 import { unstable_noStore as noStore } from 'next/cache'
 import { ogImageUrl, leafHeroImageUrl, leafSquareImageUrl, defaultOgImage } from '@/sanity/lib/image'
 import { getServiceBySlug, getSiteSettings, getTopicClusterForPillar, getAllServicePaths } from '@/sanity/lib/fetchers'
@@ -11,9 +10,7 @@ import ServiceLeafPage from './_components/ServiceLeafPage'
 import {
   breadcrumbLabelsFromAncestry,
   buildBreadcrumbNavItems,
-  parseCatchAllSlug,
   PATHS,
-  resolveLeafCanonical,
   sectionRelativePath,
   staticParamsFromPaths,
 } from '@/lib/paths'
@@ -36,17 +33,10 @@ export async function generateMetadata(
   { params }: { params: Promise<{ slug: string | string[] }> }
 ): Promise<Metadata> {
   const { slug: rawSlug } = await params
-  const { segments, leafSlug } = parseCatchAllSlug(rawSlug)
-  if (!leafSlug) notFound()
-  const [service, settings] = await Promise.all([
-    getServiceBySlug(leafSlug),
+  const [{ doc: service, canonicalPath }, settings] = await Promise.all([
+    loadCatchAllLeaf(rawSlug, SECTION_PATH, getServiceBySlug),
     getSiteSettings(),
   ])
-  if (!service) notFound()
-
-  const resolved = resolveLeafCanonical(SECTION_PATH, segments, service)
-  if (!resolved) notFound()
-  const { canonicalPath } = resolved
   const title = service.seoTitle || service.title || 'خدمت'
   const description = resolveLeafDescription(
     service,

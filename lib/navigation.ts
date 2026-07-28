@@ -107,7 +107,7 @@ export function withoutHref(links: NavNode[], href?: string | null): NavNode[] {
 }
 
 /** Top-level service slugs for footer when CMS list is empty. */
-export const FALLBACK_FOOTER_SERVICES: FooterServiceDoc[] = [
+const FALLBACK_FOOTER_SERVICES: FooterServiceDoc[] = [
   { _id: '1', title: 'قربانی', slug: 'qurbani' },
   { _id: '2', title: 'خمس', slug: 'khums' },
   { _id: '3', title: 'نیابت زیارت', slug: 'niyabat-ziyarat' },

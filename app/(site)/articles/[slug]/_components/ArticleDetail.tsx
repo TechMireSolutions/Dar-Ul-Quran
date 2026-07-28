@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { CalendarDays, User } from 'lucide-react'
 import RichTextBody from '@/components/content/RichTextBody'
-import TopicClusterRelated from '@/components/content/TopicClusterRelated'
+import LeafTopicClusterBlock from '@/components/content/LeafTopicClusterBlock'
 import { TW_ARTICLE_TITLE, TW_BADGE, TW_CONTAINER_NARROW } from '@/lib/tailwind'
 import { formatPublishedDate } from '@/lib/format-date'
 import { articleFeaturedImageUrl } from '@/sanity/lib/image'
@@ -63,13 +63,7 @@ export default function ArticleDetail({ post, slug, cluster }: ArticleDetailProp
 
       {post.body && <RichTextBody value={post.body} />}
 
-      <TopicClusterRelated
-        clusterName={cluster?.clusterName}
-        pillarKeyword={cluster?.pillarKeyword}
-        pillarPage={cluster?.pillarPage}
-        relatedArticles={cluster?.relatedArticles}
-        currentSlug={slug}
-      />
+      <LeafTopicClusterBlock cluster={cluster} currentSlug={slug} inline />
     </article>
   )
 }

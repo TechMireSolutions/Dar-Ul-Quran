@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from 'next'
 import { getSiteSettings } from '@/sanity/lib/fetchers'
 import { urlFor, defaultOgImage } from '@/sanity/lib/image'
+import SiteGraphSchema from '@/components/seo/SiteGraphSchema'
 import { SITE_URL, DEFAULT_SITE_NAME_URDU, DEFAULT_SITE_DESCRIPTION, resolveSiteNameUrdu } from '@/lib/seo'
-import { PATHS } from '@/lib/paths'
 import './globals.css'
 
 export const viewport: Viewport = {
@@ -87,52 +87,21 @@ export default async function RootLayout({ children }: RootLayoutProps) {
       ? urlFor(settings.favicon).width(512).height(512).url()
       : `${SITE_URL}/favicon.ico`
 
-  const structuredData = {
-    '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@type': 'EducationalOrganization',
-        '@id': `${SITE_URL}#organization`,
-        name: resolveSiteNameUrdu(settings?.siteName),
-        url: SITE_URL,
-        logo: { '@type': 'ImageObject', url: orgLogoUrl },
-        description: settings?.description ?? DEFAULT_SITE_DESCRIPTION,
-        inLanguage: 'ur',
-        address: { '@type': 'PostalAddress', addressCountry: 'PK' },
-        ...(settings?.email ? { email: settings.email } : {}),
-        ...(settings?.phone ? { telephone: settings.phone } : {}),
-      },
-      {
-        '@type': 'WebSite',
-        '@id': `${SITE_URL}#website`,
-        name: resolveSiteNameUrdu(settings?.siteName),
-        url: SITE_URL,
-        inLanguage: 'ur',
-        publisher: { '@id': `${SITE_URL}#organization` },
-        potentialAction: {
-          '@type': 'SearchAction',
-          target: {
-            '@type': 'EntryPoint',
-            urlTemplate: `${SITE_URL}${PATHS.articles}?q={search_term_string}`,
-          },
-          'query-input': 'required name=search_term_string',
-        },
-      },
-    ],
-  }
-
   return (
     <html lang="ur" dir="rtl" data-scroll-behavior="smooth">
       <head>
         <link rel="preconnect" href="https://cdn.sanity.io" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-        />
       </head>
       <body className="antialiased" suppressHydrationWarning>
+        <SiteGraphSchema
+          siteName={settings?.siteName}
+          description={settings?.description}
+          email={settings?.email}
+          phone={settings?.phone}
+          logoUrl={orgLogoUrl}
+        />
         {children}
       </body>
     </html>

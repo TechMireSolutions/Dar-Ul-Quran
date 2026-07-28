@@ -1,7 +1,11 @@
 import JsonLdScripts from '@/components/seo/JsonLdScripts'
-import { SITE_URL, DEFAULT_SITE_NAME } from '@/lib/seo'
+import { SITE_URL } from '@/lib/seo'
 import { PATHS } from '@/lib/paths'
-import { buildBreadcrumbSchema, buildFaqPageSchema } from '@/lib/schemaHelpers'
+import {
+  buildBreadcrumbSchema,
+  buildFaqPageSchema,
+  buildOrganizationProvider,
+} from '@/lib/schemaHelpers'
 import type { ServiceSchemaData } from '@/lib/types'
 
 function buildSchemas(data: ServiceSchemaData): object[] {
@@ -24,15 +28,11 @@ function buildSchemas(data: ServiceSchemaData): object[] {
       { '@type': 'Country', name: 'Pakistan' },
       { '@type': 'Place', name: 'Worldwide' },
     ],
-    provider: {
-      '@type': 'EducationalOrganization',
-      '@id': `${SITE_URL}#organization`,
-      name: data.orgName ?? DEFAULT_SITE_NAME,
-      url: SITE_URL,
+    provider: buildOrganizationProvider({
+      name: data.orgName,
       description:
         'دار القرآن ایک شیعہ اسلامی تعلیمی و خدماتی ادارہ ہے جو قرآن، فقہ اور مذہبی خدمات دنیا بھر میں پیش کرتا ہے۔',
-      address: { '@type': 'PostalAddress', addressCountry: 'PK' },
-    },
+    }),
     ...(data.isBookable
       ? {
           offers: {

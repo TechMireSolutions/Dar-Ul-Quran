@@ -3,13 +3,13 @@ import { getTopLevelCourses } from '@/sanity/lib/fetchers'
 import { cardImageUrl } from '@/sanity/lib/image'
 import {
   cmsPageMetadata,
+  courseCtaLabel,
   fetchCmsPage,
   hasPublishedSlug,
   resolveSeoDescription,
   resolveSeoTitle,
   toItemListEntries,
 } from '@/lib/cmsPage'
-import { courseCtaLabel } from '@/lib/cmsPage'
 import { DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
 import ContentCard from '@/components/ui/ContentCard'
 import ListingIndexShell, { ListingCardGrid, ListingEmptyState } from '@/components/layout/ListingIndexShell'
