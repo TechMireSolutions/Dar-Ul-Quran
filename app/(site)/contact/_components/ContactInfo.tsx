@@ -23,7 +23,7 @@ type ContactInfoProps = {
   youtube?: string | null
 }
 
-const LTR_LABELS = new Set([
+const LTR_LABELS = new Set<string>([
   CONTACT_KIND_LABELS.email,
   CONTACT_KIND_LABELS.phone,
   CONTACT_KIND_LABELS.whatsapp,
