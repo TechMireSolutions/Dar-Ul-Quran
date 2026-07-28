@@ -45,6 +45,7 @@ npm run lint && npm run check:urdu && npm run build
 - **Next / eslint-config-next 16.2.12** — exact matched pair (July 2026 security alignment)
 - **React / react-dom 19.2.8** — exact pair with Next
 - **ESLint 9.39.4** — exact pin + `overrides.eslint`; ESLint 10 crashes `eslint-config-next` (`getFilename()`). Dependabot ignores ESLint major bumps.
+- **TypeScript 6.0.3** — exact pin + `overrides.typescript`; TS 7 breaks `typescript-eslint` (peer `<6.1.0`). Dependabot ignores TypeScript major bumps.
 - **`postcss@^8.5.24` override** — patched PostCSS under Next/Tailwind
 - **`sharp@^0.35.3` override** — patched libvips CVEs for Next image pipeline
 - **`adm-zip@0.6.0` override** — Sanity CLI ZIP advisory

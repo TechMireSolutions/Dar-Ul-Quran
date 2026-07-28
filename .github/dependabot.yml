@@ -9,6 +9,9 @@ updates:
       # ESLint 10 breaks eslint-config-next (eslint-plugin-react getFilename API).
       - dependency-name: eslint
         update-types: ["version-update:semver-major"]
+      # TypeScript 7 breaks typescript-eslint (peer: typescript <6.1.0).
+      - dependency-name: typescript
+        update-types: ["version-update:semver-major"]
     groups:
       sanity:
         patterns:
