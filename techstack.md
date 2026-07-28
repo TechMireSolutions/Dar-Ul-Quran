@@ -108,12 +108,13 @@ July 2026 security-aligned direct dependencies:
     "eslint-config-next": "16.2.12",
     "postcss": "^8.5.24",
     "tailwindcss": "^4.3.3",
-    "typescript": "^6.0.3",
+    "typescript": "6.0.3",
     "vitest": "^4.1.10"
   },
   "overrides": {
     "postcss": "^8.5.24",
     "eslint": "9.39.4",
+    "typescript": "6.0.3",
     "sharp": "^0.35.3",
     "adm-zip": "0.6.0",
     "js-yaml": "^4.3.0",
