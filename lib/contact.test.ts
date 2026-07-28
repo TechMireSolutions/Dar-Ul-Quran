@@ -6,6 +6,7 @@ import {
   CONTACT_KIND_LABELS,
   externalLinkAttrs,
   resolveWhatsappLink,
+  SOCIAL_KIND_LABELS,
   telHref,
   whatsappHref,
 } from '@/lib/contact'
@@ -20,6 +21,13 @@ describe('CONTACT_KIND_LABELS', () => {
   it('exposes stable Urdu labels for contact rows', () => {
     expect(CONTACT_KIND_LABELS.email).toBe('ای میل')
     expect(CONTACT_KIND_LABELS.whatsapp).toBe('واٹس ایپ')
+  })
+})
+
+describe('SOCIAL_KIND_LABELS', () => {
+  it('exposes stable Urdu labels for social chips', () => {
+    expect(SOCIAL_KIND_LABELS.facebook).toBe('فیس بک')
+    expect(SOCIAL_KIND_LABELS.youtube).toBe('یوٹیوب')
   })
 })
 
@@ -71,7 +79,7 @@ describe('buildFooterSocialLinks', () => {
         'متعلقہ ویب سائٹ',
       ),
     ).toEqual([
-      { kind: 'facebook', href: 'https://fb.example', label: 'فیس بک' },
+      { kind: 'facebook', href: 'https://fb.example', label: SOCIAL_KIND_LABELS.facebook },
       { kind: 'related', href: 'https://aabtaab.com', label: 'متعلقہ ویب سائٹ' },
     ])
   })

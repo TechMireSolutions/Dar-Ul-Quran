@@ -1,6 +1,7 @@
 import {
   TW_CONTAINER,
   TW_FOOTER_BODY,
+  TW_FOOTER_BODY_FAB,
   TW_FOOTER_BOTTOM,
   TW_FOOTER_BOTTOM_INNER,
   TW_FOOTER_COPY,
@@ -29,7 +30,7 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
 
   return (
     <footer aria-label={model.copy.landmark} className={TW_FOOTER_SHELL}>
-      <div className={`${TW_CONTAINER} ${TW_FOOTER_BODY}`}>
+      <div className={`${TW_CONTAINER} ${model.showFabPad ? TW_FOOTER_BODY_FAB : TW_FOOTER_BODY}`}>
         <div className={TW_FOOTER_GRID}>
           <FooterBrandColumn
             siteName={model.siteName}
@@ -60,7 +61,12 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
         <div
           className={`${TW_CONTAINER} ${model.showFabPad ? TW_FOOTER_FAB_PAD : TW_FOOTER_PAD_Y} ${TW_FOOTER_BOTTOM_INNER}`}
         >
-          <p className={TW_FOOTER_COPY}>{model.copyright}</p>
+          <p className={TW_FOOTER_COPY}>
+            <span dir="ltr" className="inline-block">
+              © {model.year}
+            </span>
+            {` ${model.siteName}۔ ${model.copy.rights}`}
+          </p>
         </div>
       </div>
     </footer>

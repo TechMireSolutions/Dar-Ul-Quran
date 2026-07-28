@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { PATHS } from '@/lib/paths'
-import { TW_BRAND_LOGO_FALLBACK, TW_BRAND_LOGO_RING } from '@/lib/tailwind'
+import { TW_BRAND_LOGO_FALLBACK, TW_BRAND_LOGO_LINK, TW_BRAND_LOGO_RING } from '@/lib/tailwind'
 
 type BrandLogoVariant = 'header' | 'footer' | 'drawer'
 
@@ -22,6 +22,7 @@ const VARIANT = {
     sizes: '42px',
     fallbackText: 'text-lg',
     nameDefault: 'font-bold text-[17px] text-white tracking-normal hidden md:block',
+    ringOffset: 'focus-visible:ring-offset-dq-900',
   },
   footer: {
     box: 'w-10 h-10 sm:w-[52px] sm:h-[52px]',
@@ -29,6 +30,7 @@ const VARIANT = {
     sizes: '(min-width: 640px) 52px, 40px',
     fallbackText: 'text-lg sm:text-xl',
     nameDefault: 'font-bold text-[16px] sm:text-[18px] text-white tracking-normal',
+    ringOffset: 'focus-visible:ring-offset-dq-900',
   },
   drawer: {
     box: 'size-10',
@@ -36,6 +38,7 @@ const VARIANT = {
     sizes: '40px',
     fallbackText: 'text-lg',
     nameDefault: 'truncate font-bold text-[16px] text-slate-900 tracking-normal',
+    ringOffset: 'focus-visible:ring-offset-white',
   },
 } as const
 
@@ -57,7 +60,7 @@ export default function BrandLogo({
       href={PATHS.home}
       aria-label={siteName}
       onClick={onNavigate}
-      className={`group inline-flex min-h-11 min-w-0 items-center gap-2.5 shrink-0 ${className ?? ''}`}
+      className={`${TW_BRAND_LOGO_LINK} ${v.ringOffset} ${className ?? ''}`}
     >
       <div className={`${v.box} ${TW_BRAND_LOGO_RING}`}>
         {logoUrl ? (

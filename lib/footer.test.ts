@@ -39,11 +39,17 @@ describe('buildFooterModel', () => {
     expect(model.donateHref).toBe(PATHS.donate)
     expect(model.donateLabel).toBe(DEFAULT_DONATE_CTA_LABEL)
     expect(model.copy).toEqual(FOOTER_COPY)
-    expect(model.copyright).toContain(DEFAULT_SITE_NAME_URDU)
+    expect(model.copyright).toBe(
+      formatFooterCopyright(model.year, DEFAULT_SITE_NAME_URDU, FOOTER_COPY.rights),
+    )
     expect(model.quickLinks[0]?.href).toBe(PATHS.home)
     expect(model.services.length).toBeGreaterThan(0)
     expect(model.contactRows).toEqual([])
     expect(model.showFabPad).toBe(false)
+  })
+
+  it('sets showFabPad when WhatsApp is configured', () => {
+    expect(buildFooterModel({ settings: { whatsapp: '+92 300' } }).showFabPad).toBe(true)
   })
 
   it('wires settings and drops donate + related URLs from quick links', () => {

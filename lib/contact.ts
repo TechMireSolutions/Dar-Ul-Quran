@@ -17,6 +17,12 @@ export const CONTACT_KIND_LABELS = {
   address: 'پتہ',
 } as const
 
+/** Social network labels (footer chips + contact page). */
+export const SOCIAL_KIND_LABELS = {
+  facebook: 'فیس بک',
+  youtube: 'یوٹیوب',
+} as const
+
 /** target/rel (+ optional Urdu aria) for links that open a new tab. */
 export function externalLinkAttrs(label?: string): {
   target: '_blank'
@@ -56,8 +62,8 @@ export function buildFooterContactRows(settings: FooterContactSource): FooterCon
 }
 
 export type FooterSocialLink =
-  | { kind: 'facebook'; href: string; label: 'فیس بک' }
-  | { kind: 'youtube'; href: string; label: 'یوٹیوب' }
+  | { kind: 'facebook'; href: string; label: typeof SOCIAL_KIND_LABELS.facebook }
+  | { kind: 'youtube'; href: string; label: typeof SOCIAL_KIND_LABELS.youtube }
   | { kind: 'related'; href: string; label: string }
 
 type FooterSocialSource = {
@@ -72,8 +78,12 @@ export function buildFooterSocialLinks(
   relatedLabel: string = DEFAULT_RELATED_SITE_LABEL,
 ): FooterSocialLink[] {
   const links: FooterSocialLink[] = []
-  if (settings?.facebook) links.push({ kind: 'facebook', href: settings.facebook, label: 'فیس بک' })
-  if (settings?.youtube) links.push({ kind: 'youtube', href: settings.youtube, label: 'یوٹیوب' })
+  if (settings?.facebook) {
+    links.push({ kind: 'facebook', href: settings.facebook, label: SOCIAL_KIND_LABELS.facebook })
+  }
+  if (settings?.youtube) {
+    links.push({ kind: 'youtube', href: settings.youtube, label: SOCIAL_KIND_LABELS.youtube })
+  }
   if (settings?.darulQuranUrl) {
     links.push({ kind: 'related', href: settings.darulQuranUrl, label: relatedLabel })
   }

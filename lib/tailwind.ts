@@ -209,7 +209,7 @@ export const TW_PAYPAL_CTA =
 
 /** Floating WhatsApp button */
 export const TW_WHATSAPP_FLOAT =
-  'fixed bottom-5 end-5 z-50 group flex items-center gap-2 bg-[#25D366] hover:bg-[#20bc5a] focus-visible:bg-[#20bc5a] text-white rounded-full shadow-[0_4px_20px_rgb(37_211_102/0.45)] hover:shadow-[0_6px_28px_rgb(37_211_102/0.6)] transition-all duration-300 hover:-translate-y-0.5 focus-visible:-translate-y-0.5 size-[52px] hover:w-auto focus-visible:w-auto overflow-hidden ps-0 hover:ps-3.5 focus-visible:ps-3.5 pe-0 hover:pe-4 focus-visible:pe-4 justify-center hover:justify-start focus-visible:justify-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60'
+  'fixed bottom-5 end-5 z-50 group flex items-center gap-2 bg-[#25D366] hover:bg-[#20bc5a] focus-visible:bg-[#20bc5a] text-white rounded-full shadow-[0_4px_20px_rgb(37_211_102/0.45)] hover:shadow-[0_6px_28px_rgb(37_211_102/0.6)] transition-all duration-300 hover:-translate-y-0.5 focus-visible:-translate-y-0.5 motion-reduce:hover:translate-y-0 motion-reduce:focus-visible:translate-y-0 size-[52px] hover:w-auto focus-visible:w-auto overflow-hidden ps-0 hover:ps-3.5 focus-visible:ps-3.5 pe-0 hover:pe-4 focus-visible:pe-4 justify-center hover:justify-start focus-visible:justify-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60'
 
 /** Page hero H1 in PageHeroHeader */
 export const TW_PAGE_TITLE =
@@ -233,7 +233,7 @@ export const TW_OUTLINE_PILL =
 
 /** CTA arrow icon */
 export const TW_CTA_ARROW =
-  'rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform duration-150 shrink-0'
+  'rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 motion-reduce:group-hover:translate-x-0 transition-transform duration-150 shrink-0'
 
 /** WCAG touch target minimum */
 export const TW_TOUCH = 'min-h-11'
@@ -307,7 +307,14 @@ export const TW_FOOTER_COPY =
 /** Main footer padding inside container */
 export const TW_FOOTER_BODY = 'py-6 sm:py-10 lg:py-12'
 
-/** Social chip row */
+/**
+ * Extra mobile bottom padding when WhatsApp FAB is present so the donate CTA
+ * is not covered by the fixed chip (`bottom-5 end-5`).
+ */
+export const TW_FOOTER_BODY_FAB =
+  'pt-6 pb-[max(5.5rem,calc(env(safe-area-inset-bottom)+4.5rem))] sm:pt-10 sm:pb-10 lg:pt-12 lg:pb-12'
+
+/** Social chip row — ≥8px between tap targets */
 export const TW_FOOTER_SOCIAL_LIST =
   'flex items-center gap-2 flex-wrap list-none p-0 m-0'
 
@@ -325,8 +332,8 @@ export const TW_FOOTER_ADDRESS =
 /** Empty contact fallback */
 export const TW_FOOTER_EMPTY = 'text-[12px] text-gray-400 leading-urdu'
 
-/** Nav column list spacing */
-export const TW_FOOTER_NAV_LIST = 'space-y-1.5 sm:space-y-2.5'
+/** Nav column list spacing — ≥8px between tap targets */
+export const TW_FOOTER_NAV_LIST = 'space-y-2 sm:space-y-2.5'
 
 /** Bottom bar row (with optional FAB clearance applied separately) */
 export const TW_FOOTER_BOTTOM_INNER =
@@ -349,6 +356,10 @@ export const TW_FOOTER_PAD_Y =
 /** Brand logo ring shared by header / footer / drawer */
 export const TW_BRAND_LOGO_RING =
   'rounded-full overflow-hidden border-2 border-dq-400 shrink-0 transition-transform duration-200 group-hover:scale-105 motion-reduce:group-hover:scale-100'
+
+/** Brand home link — shared focus ring (header / footer / drawer) */
+export const TW_BRAND_LOGO_LINK =
+  'group inline-flex min-h-11 min-w-0 items-center gap-2.5 shrink-0 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/60 focus-visible:ring-offset-2'
 
 /** Gradient letter fallback when logo asset is missing */
 export const TW_BRAND_LOGO_FALLBACK =

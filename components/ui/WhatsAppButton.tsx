@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import { externalLinkAttrs, whatsappHref } from '@/lib/contact'
+import { CONTACT_KIND_LABELS, externalLinkAttrs, whatsappHref } from '@/lib/contact'
 import { TW_WHATSAPP_FLOAT } from '@/lib/tailwind'
 
 type WhatsAppButtonProps = {
@@ -8,6 +8,7 @@ type WhatsAppButtonProps = {
 }
 
 const WHATSAPP_PREFILL = 'السلام علیکم، میں آپ کی خدمات کے بارے میں پوچھنا چاہتا ہوں۔'
+const WHATSAPP_CHAT_ARIA = `${CONTACT_KIND_LABELS.whatsapp} پر چیٹ کریں`
 
 export default function WhatsAppButton({ number }: WhatsAppButtonProps) {
   const href = whatsappHref(number, WHATSAPP_PREFILL)
@@ -15,8 +16,8 @@ export default function WhatsAppButton({ number }: WhatsAppButtonProps) {
   return (
     <Link
       href={href}
-      {...externalLinkAttrs('واٹس ایپ')}
-      aria-label="واٹس ایپ پر چیٹ کریں"
+      {...externalLinkAttrs(CONTACT_KIND_LABELS.whatsapp)}
+      aria-label={WHATSAPP_CHAT_ARIA}
       className={TW_WHATSAPP_FLOAT}
     >
       <svg
@@ -33,7 +34,7 @@ export default function WhatsAppButton({ number }: WhatsAppButtonProps) {
         className="text-[13.5px] font-semibold whitespace-nowrap max-w-0 group-hover:max-w-[120px] group-focus-visible:max-w-[120px] overflow-hidden opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-all duration-300"
         aria-hidden="true"
       >
-        واٹس ایپ
+        {CONTACT_KIND_LABELS.whatsapp}
       </span>
     </Link>
   )
