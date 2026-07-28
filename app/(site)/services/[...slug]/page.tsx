@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
-import { notFound, permanentRedirect } from 'next/navigation'
-import { connection } from 'next/server'
+import { notFound } from 'next/navigation'
 import { urlFor, ogImageUrl, leafHeroImageUrl } from '@/sanity/lib/image'
 import { getServiceBySlug, getSiteSettings, getTopicClusterForPillar, getAllServicePaths } from '@/sanity/lib/fetchers'
 import ServiceSchema from '@/components/seo/ServiceSchema'
@@ -85,10 +84,7 @@ export default async function ServiceCatchAllPage(
   if (!service) notFound()
 
   const { leafSlug, ancestry, canonicalPath: currentPath } = serviceCanonical(slug, service)
-  if (!assertSlugAncestry(slug, ancestry, leafSlug)) {
-    await connection()
-    permanentRedirect(currentPath)
-  }
+  if (!assertSlugAncestry(slug, ancestry, leafSlug)) notFound()
 
   const [site, cluster] = await Promise.all([
     getSiteSettings(),
