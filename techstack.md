@@ -399,14 +399,13 @@ npm run lint && npm run check:urdu && npm run test && npm run build
 
 ### Optional future work
 
-| Area | When |
-|------|------|
-| ESLint 10 | Blocked — `eslint-plugin-react` peers still exclude ESLint 10 (`typescript-eslint` already allows it) |
-| TypeScript 7 | Blocked — `typescript-eslint` peer is `typescript <6.1.0` (no TS 7 yet) |
-| Next 16.3 | Still preview/canary — wait for stable `latest` |
-| Cloudflare edge | Global TTFB / DDoS |
-| Playwright | E2E in CI |
-| Separate Studio host | Smaller public bundle |
+| Area | Latest on npm | Why not installed yet |
+|------|---------------|------------------------|
+| **ESLint 10.8** | Stable | Breaks with `eslint-config-next` / `eslint-plugin-react` (`getFilename` removed; also `scopeManager.addGlobals`). Pin **9.39.4**. |
+| **TypeScript 7.0.2** | Stable | No Compiler API until **TS 7.1** — `typescript-eslint` (used by Next) cannot run. Pin **6.0.3**. |
+| **Next 16.3** | Preview/canary only | Wait for `next@latest` to leave 16.2.x. |
+
+All other direct dependencies are already on the latest **stable** release that works with this Next.js 16 app.
 
 ---
 
