@@ -37,7 +37,7 @@ function buildSchemas(data: ServiceSchemaData): object[] {
       ? {
           offers: {
             '@type': 'Offer',
-            url: `${SITE_URL}/contact`,
+            url: `${SITE_URL}${PATHS.contact}`,
             availability: 'https://schema.org/InStock',
             ...(data.price ? { price: data.price, priceCurrency: 'PKR' } : {}),
           },
@@ -54,7 +54,7 @@ function buildSchemas(data: ServiceSchemaData): object[] {
   schemas.push(
     buildBreadcrumbSchema({
       pageUrl: serviceUrl,
-      sectionPath: '/services',
+      sectionPath: PATHS.services,
       sectionLabel: 'خدمات',
       slugPath: data.slugPath,
       title: data.title,

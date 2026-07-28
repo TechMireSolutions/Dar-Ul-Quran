@@ -79,7 +79,7 @@ function buildSchemas(data: CourseSchemaData): object[] {
             priceCurrency: 'PKR',
             price: String(data.pricingMin),
             availability: 'https://schema.org/InStock',
-            url: `${SITE_URL}/contact`,
+            url: `${SITE_URL}${PATHS.contact}`,
           },
         }
       : {}),
@@ -98,7 +98,7 @@ function buildSchemas(data: CourseSchemaData): object[] {
   schemas.push(
     buildBreadcrumbSchema({
       pageUrl: courseUrl,
-      sectionPath: '/online-courses',
+      sectionPath: PATHS.onlineCourses,
       sectionLabel: 'آن لائن کورسز',
       slugPath,
       title: data.title,

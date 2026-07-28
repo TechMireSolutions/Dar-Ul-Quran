@@ -1,6 +1,7 @@
 import JsonLdScripts from '@/components/seo/JsonLdScripts'
 import { urlFor } from '@/sanity/lib/image'
 import { SITE_URL, DEFAULT_SITE_NAME } from '@/lib/seo'
+import { PATHS } from '@/lib/paths'
 
 type ArticlePost = {
   title?: string
@@ -18,7 +19,7 @@ type ArticleSchemaProps = {
 }
 
 export default function ArticleSchema({ post, slug, publisherLogoUrl }: ArticleSchemaProps) {
-  const articleUrl = `${SITE_URL}/articles/${slug}`
+  const articleUrl = `${SITE_URL}${PATHS.articles}/${slug}`
 
   const schemas = [
     {
@@ -51,7 +52,7 @@ export default function ArticleSchema({ post, slug, publisherLogoUrl }: ArticleS
       '@id': `${articleUrl}#breadcrumb`,
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'صفحۂ اول', item: SITE_URL },
-        { '@type': 'ListItem', position: 2, name: 'مضامین', item: `${SITE_URL}/articles` },
+        { '@type': 'ListItem', position: 2, name: 'مضامین', item: `${SITE_URL}${PATHS.articles}` },
         { '@type': 'ListItem', position: 3, name: post.title, item: articleUrl },
       ],
     },
