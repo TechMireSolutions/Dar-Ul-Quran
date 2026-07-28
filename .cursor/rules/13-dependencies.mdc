@@ -49,6 +49,8 @@ npm run lint && npm run check:urdu && npm run build
 - **`sharp@^0.35.3` override** — patched libvips CVEs for Next image pipeline
 - **`adm-zip@0.6.0` override** — Sanity CLI ZIP advisory
 - **`js-yaml@^4.3.0` override** — nested Sanity CLI / Vercel frameworks advisory
+- **`smol-toml@^1.7.1` override** — nested Vercel frameworks DoS advisory
+- **`typeid-js` → `uuid@^11.1.1`** — nested uuid buffer bounds advisory
 - **`minimatch@>=9` → brace-expansion `^5.0.8`** — do not globally override brace-expansion (breaks ESLint minimatch@3)
 - **babel-plugin-react-compiler 1.0.0** — required for React Compiler in `next.config.ts`
 - No other pins unless an upstream blocker is documented in this file

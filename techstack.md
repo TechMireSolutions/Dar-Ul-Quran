@@ -117,6 +117,10 @@ July 2026 security-aligned direct dependencies:
     "sharp": "^0.35.3",
     "adm-zip": "0.6.0",
     "js-yaml": "^4.3.0",
+    "smol-toml": "^1.7.1",
+    "typeid-js": {
+      "uuid": "^11.1.1"
+    },
     "minimatch@>=9": {
       "brace-expansion": "^5.0.8"
     }
@@ -128,11 +132,13 @@ July 2026 security-aligned direct dependencies:
 |----------------|-----|
 | `next` / `eslint-config-next` **16.2.12** exact | Security-aligned LTS pair |
 | `react` / `react-dom` **19.2.8** exact | Stable pair with Next 16.2 |
-| `eslint` **9.39.4** exact + override | ESLint 10 breaks `eslint-config-next` (`getFilename`) |
+| `eslint` **9.39.4** exact + override | ESLint 10 breaks `eslint-plugin-react` peers |
 | `postcss@^8.5.24` override | Patched PostCSS (source-map path traversal) |
 | `sharp@^0.35.3` override | Patched libvips CVEs under Next image pipeline |
 | `adm-zip@0.6.0` override | Sanity CLI ZIP memory advisory |
 | `js-yaml@^4.3.0` override | Prototype pollution / merge DoS under Sanity CLI |
+| `smol-toml@^1.7.1` override | Nested Vercel frameworks DoS advisory |
+| `typeid-js` → `uuid@^11.1.1` | Nested uuid buffer bounds advisory |
 | `minimatch@>=9` → `brace-expansion@^5.0.8` | Patched brace-expansion without breaking ESLint’s minimatch@3 |
 | `babel-plugin-react-compiler@1.0.0` | Required for `reactCompiler: true` in `next.config.ts` |
 
@@ -174,7 +180,7 @@ Internet ──► Apache (HTTPS / HTTP/2)
 | Port | **3001** locked — `deploy/runtime.cjs` |
 | Listen host | `0.0.0.0` (Apache proxies to `127.0.0.1:3001`) |
 | Remote deploy | `deploy/remote-deploy.sh` **v8** — `npm ci`, build, health, rollback |
-| CI | Node **24** — `actions/checkout@v5` + `actions/setup-node@v5`; lint → urdu → test → audit(critical) → build |
+| CI | Node **24** — `actions/checkout@v7` + `actions/setup-node@v7`; lint → urdu → test → audit(critical) → build |
 | Deploy | After CI success (`workflow_run`) — `appleboy/ssh-action@v1.2.5` |
 
 ### Environment (`.env.example` / VPS `.env`)
@@ -394,8 +400,9 @@ npm run lint && npm run check:urdu && npm run test && npm run build
 
 | Area | When |
 |------|------|
-| ESLint 10 | When `eslint-config-next` / `eslint-plugin-react` support it |
-| TypeScript 7 | Blocked — `typescript-eslint` (via eslint-config-next) does not support TS 7.0 yet |
+| ESLint 10 | Blocked — `eslint-plugin-react` peers still exclude ESLint 10 (`typescript-eslint` already allows it) |
+| TypeScript 7 | Blocked — `typescript-eslint` peer is `typescript <6.1.0` (no TS 7 yet) |
+| Next 16.3 | Still preview/canary — wait for stable `latest` |
 | Cloudflare edge | Global TTFB / DDoS |
 | Playwright | E2E in CI |
 | Separate Studio host | Smaller public bundle |
