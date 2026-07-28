@@ -1,7 +1,16 @@
 import { describe, expect, it } from 'vitest'
+import { CONTACT_KIND_LABELS } from '@/lib/contact'
 import { buildFooterModel, FOOTER_COPY, formatFooterCopyright, resolveTagline } from '@/lib/footer'
 import { DEFAULT_DONATE_CTA_LABEL, DEFAULT_SITE_NAME_URDU, DEFAULT_TAGLINE } from '@/lib/seo'
-import { PATHS } from '@/lib/paths'
+import { PATHS, SECTION_LABELS } from '@/lib/paths'
+
+describe('FOOTER_COPY', () => {
+  it('derives services and WhatsApp labels from shared authorities', () => {
+    expect(FOOTER_COPY.services).toBe(SECTION_LABELS.services)
+    expect(FOOTER_COPY.whatsappPrefix).toBe(`${CONTACT_KIND_LABELS.whatsapp}:`)
+    expect(FOOTER_COPY.contactEmpty.length).toBeGreaterThan(0)
+  })
+})
 
 describe('resolveTagline', () => {
   it('uses CMS tagline when present', () => {

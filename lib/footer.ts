@@ -1,4 +1,11 @@
-import { buildFooterContactRows, buildFooterSocialLinks, CONTACT_EMPTY_MESSAGE, type FooterContactRow, type FooterSocialLink } from '@/lib/contact'
+import {
+  buildFooterContactRows,
+  buildFooterSocialLinks,
+  CONTACT_EMPTY_MESSAGE,
+  CONTACT_KIND_LABELS,
+  type FooterContactRow,
+  type FooterSocialLink,
+} from '@/lib/contact'
 import { flattenFooterQuickLinks, footerServiceLinks, withoutHref } from '@/lib/navigation'
 import { PATHS, SECTION_LABELS } from '@/lib/paths'
 import {
@@ -15,7 +22,8 @@ export const FOOTER_COPY = {
   services: SECTION_LABELS.services,
   contact: 'ہم سے رابطہ',
   contactEmpty: CONTACT_EMPTY_MESSAGE,
-  whatsappPrefix: 'واٹس ایپ:',
+  /** Derived from CONTACT_KIND_LABELS — do not hardcode separately. */
+  whatsappPrefix: `${CONTACT_KIND_LABELS.whatsapp}:`,
   rights: 'تمام حقوق محفوظ ہیں۔',
 } as const
 

@@ -264,17 +264,17 @@ export const TW_FORM_INPUT =
 export const TW_FORM_SUBMIT =
   'w-full min-h-11 bg-dq-600 hover:bg-dq-700 disabled:opacity-60 disabled:cursor-not-allowed text-white text-[13.5px] font-semibold py-3 rounded-lg shadow-gold-sm hover:shadow-gold-hover transition-all duration-200 hover:-translate-y-px active:translate-y-0 motion-reduce:hover:translate-y-0'
 
-/** Compact footer donate pill — keep ≥44px touch target */
+/** Compact footer donate pill — keep ≥44px touch target + visible focus */
 export const TW_FOOTER_DONATE_CTA =
-  'group inline-flex items-center gap-1.5 mt-4 min-h-11 px-5 py-2.5 sm:mt-5 bg-dq-500 hover:bg-dq-600 text-white text-[13px] font-semibold rounded-full shadow-gold-sm hover:shadow-gold-hover transition-all duration-200 hover:-translate-y-px active:translate-y-0 motion-reduce:hover:translate-y-0'
+  'group inline-flex items-center gap-1.5 mt-4 min-h-11 px-5 py-2.5 sm:mt-5 bg-dq-500 hover:bg-dq-600 text-white text-[13px] font-semibold rounded-full shadow-gold-sm hover:shadow-gold-hover transition-all duration-200 hover:-translate-y-px active:translate-y-0 motion-reduce:hover:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-dq-900'
 
 /** Footer contact row (email / phone / WhatsApp) */
 export const TW_FOOTER_CONTACT_LINK =
-  'flex min-h-11 items-center gap-2 text-[12px] sm:text-[12.5px] text-gray-300 hover:text-dq-400 focus-visible:text-dq-400 transition-colors duration-150'
+  'flex min-h-11 items-center gap-2 rounded-md text-[12px] sm:text-[12.5px] text-gray-300 hover:text-dq-400 focus-visible:text-dq-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-dq-900 transition-colors duration-150'
 
-/** Footer social icon button */
+/** Footer social icon button — ≥44px on mobile */
 export const TW_FOOTER_SOCIAL =
-  'inline-flex w-11 h-11 sm:w-10 sm:h-10 rounded-lg bg-dq-800 border border-dq-700 items-center justify-center text-gray-300 hover:border-dq-400 hover:text-dq-300 focus-visible:border-dq-400 focus-visible:text-dq-300 active:brightness-95 transition-all duration-200'
+  'inline-flex size-11 sm:size-10 rounded-lg bg-dq-800 border border-dq-700 items-center justify-center text-gray-300 hover:border-dq-400 hover:text-dq-300 focus-visible:border-dq-400 focus-visible:text-dq-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 active:brightness-95 transition-all duration-200'
 
 /** Footer main column grid */
 export const TW_FOOTER_GRID =
@@ -286,7 +286,7 @@ export const TW_FOOTER_COL_HEADING =
 
 /** Footer quick-link / service row */
 export const TW_FOOTER_NAV_LINK =
-  'group flex min-h-11 items-center gap-1.5 text-[12px] sm:text-[13px] text-gray-300 hover:text-dq-400 focus-visible:text-dq-400 transition-colors duration-150'
+  'group flex min-h-11 items-center gap-1.5 rounded-md text-[12px] sm:text-[13px] text-gray-300 hover:text-dq-400 focus-visible:text-dq-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-dq-900 transition-colors duration-150'
 
 /** Reserved-width hover chevron (no layout shift) */
 export const TW_FOOTER_NAV_CHEVRON =
@@ -294,7 +294,7 @@ export const TW_FOOTER_NAV_CHEVRON =
 
 /** Related-site chip next to social icons */
 export const TW_FOOTER_RELATED =
-  'inline-flex items-center gap-1 min-h-11 text-[11px] font-medium text-gray-300 hover:text-dq-400 focus-visible:text-dq-400 bg-dq-800 border border-dq-700 hover:border-dq-400 focus-visible:border-dq-400 rounded-lg px-2.5 py-1.5 transition-all duration-200'
+  'inline-flex items-center gap-1 min-h-11 text-[11px] font-medium text-gray-300 hover:text-dq-400 focus-visible:text-dq-400 bg-dq-800 border border-dq-700 hover:border-dq-400 focus-visible:border-dq-400 rounded-lg px-2.5 py-1.5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50'
 
 /** Brand tagline under footer logo */
 export const TW_FOOTER_TAGLINE =
@@ -334,7 +334,7 @@ export const TW_FOOTER_BOTTOM_INNER =
 
 /** Extra bottom padding when WhatsApp FAB is present (safe-area aware). */
 export const TW_FOOTER_FAB_PAD =
-  'pt-4 pb-[max(4rem,env(safe-area-inset-bottom))] sm:py-4'
+  'pt-4 pb-[max(4rem,calc(env(safe-area-inset-bottom)+1rem))] sm:pt-4 sm:pb-[max(1rem,env(safe-area-inset-bottom))]'
 
 /** Footer shell */
 export const TW_FOOTER_SHELL = `bg-dq-900 border-t border-dq-800 ${TW_CV_AUTO}`
@@ -342,8 +342,9 @@ export const TW_FOOTER_SHELL = `bg-dq-900 border-t border-dq-800 ${TW_CV_AUTO}`
 /** Bottom legal bar shell */
 export const TW_FOOTER_BOTTOM = 'border-t border-dq-950 bg-dq-950'
 
-/** Bottom bar padding when FAB is absent */
-export const TW_FOOTER_PAD_Y = 'py-4'
+/** Bottom bar padding when FAB is absent (safe-area aware). */
+export const TW_FOOTER_PAD_Y =
+  'pt-4 pb-[max(1rem,env(safe-area-inset-bottom))]'
 
 /** Brand logo ring shared by header / footer / drawer */
 export const TW_BRAND_LOGO_RING =
