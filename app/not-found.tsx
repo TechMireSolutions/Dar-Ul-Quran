@@ -8,6 +8,7 @@ export const metadata: Metadata = pageMetadata({
   description: 'یہ صفحہ موجود نہیں ہے۔ دار القرآن کی دیگر صفحات دیکھیں۔',
   path: '/404',
   noIndex: true,
+  siteName: 'دار القرآن',
 })
 
 export default function NotFound() {

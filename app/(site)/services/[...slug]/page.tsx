@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
+import { notFound, permanentRedirect } from 'next/navigation'
 import { urlFor, ogImageUrl, leafHeroImageUrl } from '@/sanity/lib/image'
 import { getServiceBySlug, getSiteSettings, getTopicClusterForPillar, getAllServicePaths } from '@/sanity/lib/fetchers'
 import ServiceSchema from '@/components/seo/ServiceSchema'
@@ -28,6 +28,19 @@ export async function generateStaticParams() {
   return staticParamsFromPaths(paths)
 }
 
+function resolveServicePath(
+  slug: string[],
+  service: { slug?: { current?: string }; parent?: Parameters<typeof ancestryFromParent>[0]['parent'] },
+) {
+  const leafSlug = service.slug?.current ?? slug[slug.length - 1]
+  const ancestry = ancestryFromParent(service)
+  const canonicalPath = expectedPathFromAncestry(SECTION_PATH, ancestry, leafSlug)
+  if (!assertSlugAncestry(slug, ancestry, leafSlug)) {
+    permanentRedirect(canonicalPath)
+  }
+  return { leafSlug, ancestry, canonicalPath }
+}
+
 export async function generateMetadata(
   { params }: { params: Promise<{ slug: string[] }> }
 ): Promise<Metadata> {
@@ -39,11 +52,7 @@ export async function generateMetadata(
   ])
   if (!service) notFound()
 
-  const leafSlug = service.slug?.current ?? currentSlug
-  const ancestry = ancestryFromParent(service)
-  if (!assertSlugAncestry(slug, ancestry, leafSlug)) notFound()
-
-  const canonicalPath = expectedPathFromAncestry(SECTION_PATH, ancestry, leafSlug)
+  const { canonicalPath } = resolveServicePath(slug, service)
   const title = service.seoTitle || service.title || 'خدمت'
   const description =
     service.seoDescription ||
@@ -74,9 +83,7 @@ export default async function ServiceCatchAllPage(
   const service = await getServiceBySlug(currentSlug)
   if (!service) notFound()
 
-  const leafSlug = service.slug?.current ?? currentSlug
-  const ancestry = ancestryFromParent(service)
-  if (!assertSlugAncestry(slug, ancestry, leafSlug)) notFound()
+  const { ancestry, canonicalPath: currentPath } = resolveServicePath(slug, service)
 
   const [site, cluster] = await Promise.all([
     getSiteSettings(),
@@ -84,7 +91,6 @@ export default async function ServiceCatchAllPage(
   ])
 
   const hasChildren = (service.children?.length ?? 0) > 0
-  const currentPath = expectedPathFromAncestry(SECTION_PATH, ancestry, leafSlug)
   const heroImageUrl = service.heroImage ? leafHeroImageUrl(service.heroImage) : null
   const whyUsImageUrl = service.whyUsImage ? urlFor(service.whyUsImage).width(700).height(700).auto('format').url() : null
   const whatsappLink = resolveWhatsappLink(site?.whatsapp)

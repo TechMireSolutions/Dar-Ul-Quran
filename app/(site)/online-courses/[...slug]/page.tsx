@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
-import { urlFor, ogImageUrl, leafHeroImageUrl } from '@/sanity/lib/image'
+import { notFound, permanentRedirect } from 'next/navigation'
+import { ogImageUrl, leafHeroImageUrl } from '@/sanity/lib/image'
 import {
   getCourseBySlug,
   getCourseSchema,
@@ -34,6 +34,19 @@ export async function generateStaticParams() {
   return staticParamsFromPaths(paths)
 }
 
+function resolveCoursePath(
+  slug: string[],
+  course: { slug?: { current?: string }; parent?: Parameters<typeof ancestryFromParent>[0]['parent'] },
+) {
+  const leafSlug = course.slug?.current ?? slug[slug.length - 1]
+  const ancestry = ancestryFromParent(course)
+  const canonicalPath = expectedPathFromAncestry(SECTION_PATH, ancestry, leafSlug)
+  if (!assertSlugAncestry(slug, ancestry, leafSlug)) {
+    permanentRedirect(canonicalPath)
+  }
+  return { leafSlug, ancestry, canonicalPath }
+}
+
 export async function generateMetadata(
   { params }: { params: Promise<{ slug: string[] }> }
 ): Promise<Metadata> {
@@ -45,12 +58,8 @@ export async function generateMetadata(
   ])
   if (!course) notFound()
 
-  const leafSlug = course.slug?.current ?? currentSlug
-  const ancestry = ancestryFromParent(course)
-  if (!assertSlugAncestry(slug, ancestry, leafSlug)) notFound()
-
+  const { canonicalPath } = resolveCoursePath(slug, course)
   const courseTitle = course.title ?? 'کورس'
-  const canonicalPath = expectedPathFromAncestry(SECTION_PATH, ancestry, leafSlug)
   const title = course.seoTitle || courseTitle
   const description =
     course.seoDescription ||
@@ -89,9 +98,7 @@ export default async function CourseCatchAllPage(
   const course = await getCourseBySlug(currentSlug)
   if (!course) notFound()
 
-  const leafSlug = course.slug?.current ?? currentSlug
-  const ancestry = ancestryFromParent(course)
-  if (!assertSlugAncestry(slug, ancestry, leafSlug)) notFound()
+  const { ancestry, canonicalPath: currentPath } = resolveCoursePath(slug, course)
 
   const [site, schemaData, cluster] = await Promise.all([
     getSiteSettings(),
@@ -100,7 +107,6 @@ export default async function CourseCatchAllPage(
   ])
 
   const hasChildren = (course.children?.length ?? 0) > 0
-  const currentPath = expectedPathFromAncestry(SECTION_PATH, ancestry, leafSlug)
   const heroImageUrl = course.featuredImage
     ? leafHeroImageUrl(course.featuredImage)
     : null
