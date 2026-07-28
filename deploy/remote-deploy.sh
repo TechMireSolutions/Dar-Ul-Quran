@@ -57,7 +57,8 @@ if [ ! -f .next/BUILD_ID ]; then
   exit 1
 fi
 
-SAMPLE_CHUNK="$(find .next/static/chunks -maxdepth 1 -name '*.js' -type f | head -1)"
+# -print -quit: avoid `find | head` SIGPIPE under pipefail when many chunks exist
+SAMPLE_CHUNK="$(find .next/static/chunks -maxdepth 1 -name '*.js' -type f -print -quit)"
 if [ -z "$SAMPLE_CHUNK" ]; then
   echo "ERROR: No JS chunks in .next/static/chunks"
   exit 1
