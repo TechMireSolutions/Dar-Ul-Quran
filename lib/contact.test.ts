@@ -1,5 +1,16 @@
 import { describe, expect, it } from 'vitest'
-import { resolveWhatsappLink, whatsappHref } from '@/lib/contact'
+import { resolveWhatsappLink, telHref, whatsappHref } from '@/lib/contact'
+
+describe('telHref', () => {
+  it('strips spaces and punctuation from phone numbers', () => {
+    expect(telHref('+92 348 1000767')).toBe('tel:+923481000767')
+    expect(telHref('+92-348-1000767')).toBe('tel:+923481000767')
+  })
+
+  it('keeps a leading plus', () => {
+    expect(telHref(' +92 300 ')).toBe('tel:+92300')
+  })
+})
 
 describe('whatsappHref', () => {
   it('strips non-digits from the number', () => {

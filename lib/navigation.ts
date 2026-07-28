@@ -5,9 +5,15 @@ export const FALLBACK_HEADER_NAV: NavNode[] = [
   { label: 'آنلائن کلاسز', href: '/online-courses' },
   { label: 'خدمات', href: '/services' },
   { label: 'مضامین', href: '/articles' },
-  { label: 'عطیہ', href: '/donate' },
+  { label: 'عطیات', href: '/donate' },
   { label: 'ہمارے بارے میں', href: '/about' },
   { label: 'رابطہ', href: '/contact' },
+]
+
+/** Footer fallback when nav is empty — includes Home. */
+export const FALLBACK_QUICK_LINKS: NavNode[] = [
+  { label: 'ہوم', href: '/' },
+  ...FALLBACK_HEADER_NAV,
 ]
 
 const PRIMARY_NAV_LINKS: Array<{ href: string; label: string; insertAt?: 'start' | 'end' }> = [
@@ -61,4 +67,30 @@ export function nodeIsActive(node: NavNode, pathname: string): boolean {
     return true
   }
   return node.children?.some((child) => nodeIsActive(child, pathname)) ?? false
+}
+
+/** Flat footer quick links — expands nested nav, keeps external flags, ensures Home. */
+export function flattenFooterQuickLinks(items?: NavNode[] | null): NavNode[] {
+  const out: NavNode[] = []
+
+  const walk = (nodes: NavNode[]) => {
+    for (const node of nodes) {
+      if (node.href && node.href !== '#') {
+        out.push({
+          label: node.label,
+          href: node.href,
+          ...(node.external ? { external: true } : {}),
+        })
+      }
+      if (node.children?.length) walk(node.children)
+    }
+  }
+
+  walk(items?.length ? items : FALLBACK_QUICK_LINKS)
+
+  if (!out.some((n) => n.href === '/')) {
+    out.unshift({ label: 'ہوم', href: '/' })
+  }
+
+  return out
 }

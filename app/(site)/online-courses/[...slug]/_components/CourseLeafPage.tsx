@@ -8,6 +8,7 @@ import LeafTopicClusterBlock from '@/components/content/LeafTopicClusterBlock'
 import PortableTextSection from '@/components/content/PortableTextSection'
 import CenteredSectionHeader from '@/components/ui/CenteredSectionHeader'
 import type { CourseDetailDoc, SiteSettingsDoc, TopicClusterDoc } from '@/lib/types'
+import { telHref } from '@/lib/contact'
 import { TW_CARD_GRID, TW_CARD_SURFACE, TW_CARD_SURFACE_PADDED, TW_CONTAINER_NARROW, TW_CONTAINER_PRICING, TW_CONTAINER_PROSE, TW_CONTAINER_WIDE, TW_CTA_ARROW, TW_EYEBROW_LINE, TW_FEATURE_ICON, TW_GOLD_CTA, TW_HERO_CHIP_GOLD, TW_HERO_CHIP_MUTED, TW_PAGE_SUBTITLE, TW_SECTION_PY, TW_SECTION_TITLE } from '@/lib/tailwind'
 
 type CourseLeafPageProps = {
@@ -249,7 +250,7 @@ export default function CourseLeafPage({
                     </a>
                   )}
                   {site?.phone && (
-                    <a href={`tel:${site.phone}`} className="flex items-center gap-1.5 hover:text-dq-700 transition-colors" dir="ltr">
+                    <a href={telHref(site.phone)} className="flex items-center gap-1.5 hover:text-dq-700 transition-colors" dir="ltr">
                       <Phone size={12} className="text-slate-600" />
                       <bdi>{site.phone}</bdi>
                     </a>

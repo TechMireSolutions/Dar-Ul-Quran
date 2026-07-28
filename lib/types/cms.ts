@@ -15,8 +15,6 @@ export type SiteSettingsDoc = {
   favicon?: SanityImageAsset
   logo?: SanityImageAsset
   facebook?: string
-  instagram?: string
-  twitter?: string
   youtube?: string
   darulQuranUrl?: string
   searchPlaceholder?: string

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { buildNavTree, ensurePrimaryNav, FALLBACK_HEADER_NAV, nodeIsActive, toNavNode } from '@/lib/navigation'
+import { buildNavTree, ensurePrimaryNav, FALLBACK_HEADER_NAV, FALLBACK_QUICK_LINKS, flattenFooterQuickLinks, nodeIsActive, toNavNode } from '@/lib/navigation'
 import type { NavNode, RawNavItem } from '@/lib/types/navigation'
 
 describe('toNavNode / buildNavTree', () => {
@@ -89,5 +89,34 @@ describe('nodeIsActive', () => {
     }
     expect(nodeIsActive(parentOnly, '/contact')).toBe(true)
     expect(nodeIsActive(parentOnly, '/about')).toBe(false)
+  })
+})
+
+describe('flattenFooterQuickLinks', () => {
+  it('falls back to quick links with Home when empty', () => {
+    expect(flattenFooterQuickLinks(undefined)).toEqual(FALLBACK_QUICK_LINKS)
+    expect(flattenFooterQuickLinks([])[0]).toEqual({ label: 'ہوم', href: '/' })
+  })
+
+  it('flattens nested children and keeps external', () => {
+    const links = flattenFooterQuickLinks([
+      {
+        label: 'خدمات',
+        href: '/services',
+        children: [{ label: 'قربانی', href: '/services/qurbani' }],
+      },
+      { label: 'بیرونی', href: 'https://example.com', external: true },
+    ])
+    expect(links).toEqual([
+      { label: 'ہوم', href: '/' },
+      { label: 'خدمات', href: '/services' },
+      { label: 'قربانی', href: '/services/qurbani' },
+      { label: 'بیرونی', href: 'https://example.com', external: true },
+    ])
+  })
+
+  it('does not duplicate Home when already present', () => {
+    const links = flattenFooterQuickLinks([{ label: 'ہوم', href: '/' }, { label: 'رابطہ', href: '/contact' }])
+    expect(links.filter((n) => n.href === '/')).toHaveLength(1)
   })
 })

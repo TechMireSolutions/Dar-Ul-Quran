@@ -202,8 +202,8 @@ export const testimonialsQuery = `
 
 export const siteSettingsQuery = `
   *[_type == "siteSettings"][0] {
-    siteName, description, tagline, email, phone, whatsapp,
-    favicon, logo, facebook, instagram, twitter, youtube,
+    siteName, description, tagline, email, phone, whatsapp, address,
+    favicon, logo, facebook, youtube,
     darulQuranUrl, searchPlaceholder
   }
 `

@@ -268,8 +268,8 @@ export default function HeaderMobileMenu({
           <Link href="/" onClick={handleClose} className="flex min-h-11 min-w-0 items-center gap-2.5">
             <div className="size-10 shrink-0 overflow-hidden rounded-full border-2 border-dq-400">
               {logoUrl
-                ? <Image src={logoUrl} alt="" width={40} height={40} className="size-full object-cover" />
-                : <div className="flex size-full items-center justify-center bg-gradient-to-br from-dq-100 to-dq-200 select-none" aria-hidden="true">⛵</div>}
+                ? <Image src={logoUrl} alt="" width={40} height={40} sizes="40px" className="size-full object-cover" />
+                : <div className="flex size-full items-center justify-center bg-gradient-to-br from-dq-100 to-dq-200 text-dq-800 text-lg font-bold select-none" aria-hidden="true">د</div>}
             </div>
             <span id={titleId} className="truncate font-bold text-[16px] text-slate-900 tracking-normal">
               {siteName}

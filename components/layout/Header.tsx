@@ -348,10 +348,10 @@ export default function Header({
 
           {/* Logo */}
           <Link href="/" aria-label={siteName} className="shrink-0 flex items-center gap-3 group">
-            <div className="w-[42px] h-[42px] rounded-full overflow-hidden border-2 border-dq-400 shrink-0 transition-transform duration-200 group-hover:scale-105">
+            <div className="w-[42px] h-[42px] rounded-full overflow-hidden border-2 border-dq-400 shrink-0 transition-transform duration-200 group-hover:scale-105 motion-reduce:group-hover:scale-100">
               {logoUrl
                 ? <Image src={logoUrl} alt="" width={42} height={42} sizes="42px" className="object-cover w-full h-full" />
-                : <div className="w-full h-full bg-gradient-to-br from-dq-100 to-dq-200 flex items-center justify-center text-lg select-none" aria-hidden="true">⛵</div>}
+                : <div className="w-full h-full bg-gradient-to-br from-dq-100 to-dq-200 flex items-center justify-center text-dq-800 text-lg font-bold select-none" aria-hidden="true">د</div>}
             </div>
             <span className="font-bold text-[17px] text-white tracking-normal hidden md:block">{siteName}</span>
           </Link>

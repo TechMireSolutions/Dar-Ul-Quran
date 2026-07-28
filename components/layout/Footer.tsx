@@ -3,13 +3,13 @@ import {
   TW_CONTAINER,
   TW_CTA_ARROW,
   TW_CV_AUTO,
-  TW_FOOTER_BAR_LINK,
   TW_FOOTER_CONTACT_LINK,
   TW_FOOTER_DONATE_CTA,
   TW_FOOTER_SOCIAL,
 } from '@/lib/tailwind'
 import Image from 'next/image'
-import { whatsappHref } from '@/lib/contact'
+import { telHref, whatsappHref } from '@/lib/contact'
+import { flattenFooterQuickLinks } from '@/lib/navigation'
 import type { NavNode, SiteSettingsDoc, FooterServiceDoc } from '@/lib/types'
 import Reveal from '@/components/ui/Reveal'
 
@@ -80,23 +80,13 @@ type FooterProps = {
   footerServices?: FooterServiceDoc[] | null
 }
 
-const FALLBACK_QUICK_LINKS: NavNode[] = [
-  { label: 'ہوم',              href: '/' },
-  { label: 'آنلائن کلاسز',    href: '/online-courses' },
-  { label: 'خدمات',           href: '/services' },
-  { label: 'مضامین',          href: '/articles' },
-  { label: 'عطیہ',            href: '/donate' },
-  { label: 'ہمارے بارے میں', href: '/about' },
-  { label: 'رابطہ',           href: '/contact' },
-]
-
 /** Top-level service slugs that match live CMS — avoid inventing paths that 404. */
 const FALLBACK_SERVICES: FooterServiceDoc[] = [
   { _id: '1', title: 'قربانی',       slug: 'qurbani' },
   { _id: '2', title: 'خمس',         slug: 'khums' },
   { _id: '3', title: 'نیابت زیارت', slug: 'niyabat-ziyarat' },
   { _id: '4', title: 'اجارہ',       slug: 'ijarah' },
-  { _id: '5', title: 'زکوٰۃ',       slug: 'Zakat' },
+  { _id: '5', title: 'زکوٰۃ',       slug: 'zakat' },
   { _id: '6', title: 'کفارہ',       slug: 'kaffara' },
 ]
 
@@ -108,17 +98,35 @@ function ColHeading({ children }: { children: React.ReactNode }) {
   )
 }
 
-function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
+function NavLink({
+  href,
+  label,
+  external,
+}: {
+  href: string
+  label: string
+  external?: boolean
+}) {
   return (
     <li>
       <Link
         href={href}
+        {...(external
+          ? {
+              target: '_blank',
+              rel: 'noopener noreferrer',
+              'aria-label': `${label} (نئی ونڈو میں کھلتا ہے)`,
+            }
+          : {})}
         className="group flex min-h-11 items-center gap-0 text-[12px] sm:text-[13px] text-gray-300 hover:text-dq-400 focus-visible:text-dq-400 transition-colors duration-150"
       >
-        <span className="inline-block w-0 overflow-hidden group-hover:w-3 group-focus-visible:w-3 transition-all duration-150 text-dq-400 text-[11px] leading-none" aria-hidden="true">
+        <span
+          className="inline-block w-0 overflow-hidden group-hover:w-3 group-focus-visible:w-3 transition-all duration-150 text-dq-400 text-[11px] leading-none rtl:rotate-180"
+          aria-hidden="true"
+        >
           ›
         </span>
-        {children}
+        {label}
       </Link>
     </li>
   )
@@ -146,36 +154,55 @@ function ContactLink({
   )
 }
 
+function serviceHref(slug: string): string {
+  return `/services/${slug.toLowerCase()}`
+}
+
 export default function Footer({ settings, logoUrl, navItems, footerServices }: FooterProps) {
   const siteName   = settings?.siteName || 'دار القرآن'
   const tagline    = settings?.tagline  || 'اہل بیت (ع) کے نور کو تعلیم، مستند مواد اور روحانی خدمات کے ذریعے پھیلانا۔'
-  const quickLinks = navItems?.length       ? navItems       : FALLBACK_QUICK_LINKS
-  const services   = footerServices?.length ? footerServices.map(s => ({ label: s.title, href: `/services/${s.slug}` })) : FALLBACK_SERVICES.map(s => ({ label: s.title, href: `/services/${s.slug}` }))
+  const relatedUrl = settings?.darulQuranUrl?.replace(/\/$/, '') || null
+  const quickLinks = flattenFooterQuickLinks(navItems).filter(
+    (link) => !relatedUrl || link.href.replace(/\/$/, '') !== relatedUrl,
+  )
+  const services   = (footerServices?.length ? footerServices : FALLBACK_SERVICES).map((s) => ({
+    label: s.title,
+    href: serviceHref(s.slug),
+  }))
+  const hasContact =
+    Boolean(settings?.email || settings?.phone || settings?.whatsapp || settings?.address)
+  const fabClearance = settings?.whatsapp ? 'pt-4 pb-16 sm:py-4' : 'py-4'
 
   return (
     <footer className={`bg-dq-900 border-t border-dq-800 ${TW_CV_AUTO}`}>
 
       {/* ── Main body ── */}
       <div className={`${TW_CONTAINER} py-6 sm:py-10 lg:py-12`}>
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-6 sm:gap-8 lg:gap-10">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-6 sm:gap-8 lg:gap-10">
 
           {/* Col 1 — Logo + Brand (full width on mobile) */}
           <Reveal animation="up" delay={0} className="col-span-2 lg:col-span-1">
             <div>
               <Link href="/" aria-label={siteName} className="inline-flex items-center gap-2.5 mb-3 group">
-                {logoUrl ? (
-                  <Image
-                    src={logoUrl}
-                    alt=""
-                    width={40}
-                    height={40}
-                    className="rounded-full border-2 border-dq-400 object-cover transition-transform duration-200 group-hover:scale-105 sm:w-[52px] sm:h-[52px]"
-                  />
-                ) : (
-                  <div className="w-10 h-10 sm:w-[52px] sm:h-[52px] rounded-full bg-gradient-to-br from-dq-100 to-dq-200 border-2 border-dq-400 flex items-center justify-center text-xl sm:text-2xl select-none transition-transform duration-200 group-hover:scale-105" aria-hidden="true">
-                    ⛵
-                  </div>
-                )}
+                <div className="w-10 h-10 sm:w-[52px] sm:h-[52px] rounded-full overflow-hidden border-2 border-dq-400 shrink-0 transition-transform duration-200 group-hover:scale-105 motion-reduce:group-hover:scale-100">
+                  {logoUrl ? (
+                    <Image
+                      src={logoUrl}
+                      alt=""
+                      width={52}
+                      height={52}
+                      sizes="(min-width: 640px) 52px, 40px"
+                      className="object-cover w-full h-full"
+                    />
+                  ) : (
+                    <div
+                      className="w-full h-full bg-gradient-to-br from-dq-100 to-dq-200 flex items-center justify-center text-dq-800 text-lg sm:text-xl font-bold select-none"
+                      aria-hidden="true"
+                    >
+                      د
+                    </div>
+                  )}
+                </div>
                 <span className="font-bold text-[16px] sm:text-[18px] text-white tracking-normal">{siteName}</span>
               </Link>
 
@@ -199,9 +226,9 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
                 )}
                 {settings?.darulQuranUrl && (
                   <Link href={settings.darulQuranUrl} target="_blank" rel="noopener noreferrer"
-                    aria-label="دار القرآن (نئی ونڈو میں کھلتا ہے)"
-                    className="flex items-center gap-1 text-[11px] font-medium text-gray-300 hover:text-dq-400 bg-dq-800 border border-dq-700 hover:border-dq-400 rounded-lg px-2 py-1 sm:px-2.5 sm:py-1.5 transition-all duration-200">
-                    دار القرآن <IconExternalLink size={9} />
+                    aria-label="متعلقہ ویب سائٹ (نئی ونڈو میں کھلتا ہے)"
+                    className="flex items-center gap-1 min-h-11 text-[11px] font-medium text-gray-300 hover:text-dq-400 focus-visible:text-dq-400 bg-dq-800 border border-dq-700 hover:border-dq-400 focus-visible:border-dq-400 rounded-lg px-2.5 py-1.5 transition-all duration-200">
+                    متعلقہ ویب سائٹ <IconExternalLink size={9} />
                   </Link>
                 )}
               </div>
@@ -213,8 +240,8 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
             <nav aria-label="فوری روابط">
               <ColHeading>فوری روابط</ColHeading>
               <ul className="space-y-1.5 sm:space-y-2.5">
-                {quickLinks.map(({ label, href }) => (
-                  <NavLink key={href} href={href}>{label}</NavLink>
+                {quickLinks.map(({ label, href, external }) => (
+                  <NavLink key={`${href}-${label}`} href={href} label={label} external={external} />
                 ))}
               </ul>
             </nav>
@@ -226,7 +253,7 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
               <ColHeading>خدمات</ColHeading>
               <ul className="space-y-1.5 sm:space-y-2.5">
                 {services.map(({ label, href }) => (
-                  <NavLink key={href} href={href}>{label}</NavLink>
+                  <NavLink key={href} href={href} label={label} />
                 ))}
               </ul>
             </nav>
@@ -243,7 +270,7 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
                 </ContactLink>
               )}
               {settings?.phone && (
-                <ContactLink href={`tel:${settings.phone}`}>
+                <ContactLink href={telHref(settings.phone)}>
                   <IconPhone size={12} className="text-dq-400 shrink-0" />
                   <span dir="ltr"><bdi>{settings.phone}</bdi></span>
                 </ContactLink>
@@ -255,15 +282,15 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
                 </ContactLink>
               )}
               {settings?.address && (
-                <li className="flex items-start gap-2">
-                  <IconMapPin size={12} className="text-dq-400 shrink-0 mt-0.5" />
-                  <p className="text-[12px] sm:text-[12.5px] text-gray-300 leading-urdu whitespace-pre-line">
+                <li className="flex items-start gap-2 min-h-11">
+                  <IconMapPin size={12} className="text-dq-400 shrink-0 mt-3" />
+                  <p className="text-[12px] sm:text-[12.5px] text-gray-300 leading-urdu whitespace-pre-line py-2">
                     {settings.address}
                   </p>
                 </li>
               )}
-              {!settings?.email && !settings?.phone && !settings?.address && (
-                <li className="text-[12px] text-gray-400 italic">
+              {!hasContact && (
+                <li className="text-[12px] text-gray-400 leading-urdu">
                   رابطہ کی معلومات جلد دستیاب ہوں گی
                 </li>
               )}
@@ -286,17 +313,10 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
 
       {/* ── Bottom bar ── */}
       <div className="border-t border-dq-950 bg-dq-950">
-        <div className={`${TW_CONTAINER} py-4 flex flex-col sm:flex-row items-center justify-between gap-2`}>
-          <p className="text-[11.5px] text-gray-300">
+        <div className={`${TW_CONTAINER} ${fabClearance} flex items-center justify-center sm:justify-start`}>
+          <p className="text-[11.5px] text-gray-300 text-center sm:text-start">
             &copy; {new Date().getFullYear()} {siteName}۔ تمام حقوق محفوظ ہیں۔
           </p>
-          <div className="flex items-center gap-1 text-dq-400">
-            <Link href="/about" className={TW_FOOTER_BAR_LINK}>ہمارے بارے میں</Link>
-            <span className="text-dq-400">·</span>
-            <Link href="/contact" className={TW_FOOTER_BAR_LINK}>رابطہ</Link>
-            <span className="text-dq-400">·</span>
-            <Link href="/donate" className={TW_FOOTER_BAR_LINK}>عطیہ</Link>
-          </div>
         </div>
       </div>
     </footer>

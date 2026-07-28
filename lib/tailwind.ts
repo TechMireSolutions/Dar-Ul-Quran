@@ -276,10 +276,6 @@ export const TW_FOOTER_CONTACT_LINK =
 export const TW_FOOTER_SOCIAL =
   'inline-flex w-11 h-11 sm:w-10 sm:h-10 rounded-lg bg-dq-800 border border-dq-700 items-center justify-center text-gray-300 hover:border-dq-400 hover:text-dq-300 focus-visible:border-dq-400 focus-visible:text-dq-300 transition-all duration-200'
 
-/** Footer bottom legal bar link */
-export const TW_FOOTER_BAR_LINK =
-  'inline-flex min-h-11 items-center px-3 text-[12px] text-gray-300 hover:text-white focus-visible:text-white transition-colors'
-
 /** Desktop nav dropdown row */
 export const TW_NAV_MENU_ITEM =
   'flex min-h-11 items-center gap-2 px-4 py-2.5 text-[13px] transition-colors duration-150'

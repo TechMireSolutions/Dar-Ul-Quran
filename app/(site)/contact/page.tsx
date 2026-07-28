@@ -4,7 +4,7 @@ import type { LucideIcon } from 'lucide-react'
 import { Mail, Phone, MessageCircle, MapPin, Globe, Play } from 'lucide-react'
 import RichTextBody from '@/components/content/RichTextBody'
 import { cmsPageMetadata, fetchCmsPage, resolveSeoDescription, resolveSeoTitle } from '@/lib/cmsPage'
-import { whatsappHref } from '@/lib/contact'
+import { telHref, whatsappHref } from '@/lib/contact'
 import { getCoursesForContactForm, getServicesForContactForm } from '@/sanity/lib/fetchers'
 import WebPageSchema from '@/components/seo/WebPageSchema'
 import PageHeroHeader from '@/components/ui/PageHeroHeader'
@@ -38,7 +38,7 @@ export default async function ContactPage() {
 
   const contactItems = [
     settings?.email    && { Icon: Mail,          label: 'ای میل',   value: settings.email,    href: `mailto:${settings.email}` },
-    settings?.phone    && { Icon: Phone,         label: 'فون',      value: settings.phone,    href: `tel:${settings.phone}` },
+    settings?.phone    && { Icon: Phone,         label: 'فون',      value: settings.phone,    href: telHref(settings.phone) },
     settings?.whatsapp && { Icon: MessageCircle, label: 'واٹس ایپ', value: settings.whatsapp, href: whatsappHref(settings.whatsapp) },
     settings?.address  && { Icon: MapPin,        label: 'پتہ',      value: settings.address,  href: null },
   ].filter(Boolean) as ContactInfoItem[]
