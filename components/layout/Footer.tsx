@@ -90,13 +90,14 @@ const FALLBACK_QUICK_LINKS: NavNode[] = [
   { label: 'رابطہ',           href: '/contact' },
 ]
 
+/** Top-level service slugs that match live CMS — avoid inventing paths that 404. */
 const FALLBACK_SERVICES: FooterServiceDoc[] = [
-  { _id: '1', title: 'نیابت زیارت', slug: 'niyabat-ziarat' },
-  { _id: '2', title: 'زکوٰۃ',       slug: 'zakat' },
-  { _id: '3', title: 'خمس',         slug: 'khums' },
-  { _id: '4', title: 'اجارہ',       slug: 'ijara' },
-  { _id: '5', title: 'کفارہ',       slug: 'expiation' },
-  { _id: '6', title: 'قربانی',      slug: 'sacrifice' },
+  { _id: '1', title: 'قربانی',       slug: 'qurbani' },
+  { _id: '2', title: 'خمس',         slug: 'khums' },
+  { _id: '3', title: 'نیابت زیارت', slug: 'niyabat-ziyarat' },
+  { _id: '4', title: 'اجارہ',       slug: 'ijarah' },
+  { _id: '5', title: 'زکوٰۃ',       slug: 'Zakat' },
+  { _id: '6', title: 'کفارہ',       slug: 'kaffara' },
 ]
 
 function ColHeading({ children }: { children: React.ReactNode }) {

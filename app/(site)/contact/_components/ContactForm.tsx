@@ -15,7 +15,7 @@ type ContactFormProps = {
 }
 
 type Purpose = 'general' | 'course' | 'service' | 'other'
-type Status  = 'idle' | 'loading' | 'success' | 'error'
+type Status  = 'idle' | 'loading' | 'success' | 'error' | 'rateLimited'
 
 function FieldLabel({ children, required, htmlFor }: { children: React.ReactNode; required?: boolean; htmlFor: string }) {
   return (
@@ -93,7 +93,7 @@ export default function ContactForm({
       setAppliedFor('')
       setTurnstileToken(null)
     } else if (res.status === 429) {
-      setStatus('error')
+      setStatus('rateLimited')
     } else {
       setStatus('error')
     }
@@ -115,6 +115,11 @@ export default function ContactForm({
       {status === 'success' && (
         <div role="status" className="bg-green-50 border border-green-200 text-green-700 text-[13px] rounded-lg px-4 py-3 mb-4">
           آپ کا پیغام کامیابی سے بھیج دیا گیا۔ ہم جلد آپ سے رابطہ کریں گے۔
+        </div>
+      )}
+      {status === 'rateLimited' && (
+        <div role="alert" className="bg-amber-50 border border-amber-200 text-amber-800 text-[13px] rounded-lg px-4 py-3 mb-4">
+          آپ نے بہت زیادہ کوششیں کی ہیں۔ کچھ دیر بعد دوبارہ کوشش کریں۔
         </div>
       )}
       {status === 'error' && (

@@ -8,6 +8,8 @@ import { ArrowRight, BookOpen, Heart, Star } from 'lucide-react'
 import Reveal from '@/components/ui/Reveal'
 import { TW_CONTAINER_NARROW, TW_CTA_ARROW, TW_FEATURE_CARD, TW_FEATURE_CARD_DESC, TW_FEATURE_CARD_TITLE, TW_FEATURE_ICON, TW_GOLD_CTA_DARK, TW_OUTLINE_PILL, TW_PAGE_BODY } from '@/lib/tailwind'
 
+export const revalidate = 300
+
 export async function generateMetadata(): Promise<Metadata> {
   return cmsPageMetadata({
     slug: 'about',
