@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { unstable_noStore as noStore } from 'next/cache'
-import { urlFor, ogImageUrl, leafHeroImageUrl, defaultOgImage } from '@/sanity/lib/image'
+import { ogImageUrl, leafHeroImageUrl, leafSquareImageUrl, defaultOgImage } from '@/sanity/lib/image'
 import { getServiceBySlug, getSiteSettings, getTopicClusterForPillar, getAllServicePaths } from '@/sanity/lib/fetchers'
 import ServiceSchema from '@/components/seo/ServiceSchema'
 import WebPageSchema from '@/components/seo/WebPageSchema'
@@ -17,9 +17,10 @@ import {
   sectionRelativePath,
   staticParamsFromPaths,
 } from '@/lib/paths'
+import { loadCatchAllLeaf } from '@/lib/leafRoute'
 import { resolveWhatsappLink } from '@/lib/contact'
 import { resolveLeafDescription, serviceCtaLabel } from '@/lib/cmsPage'
-import { mergeFaqItems } from '@/lib/topicCluster'
+import { mergeFaqForDisplay, mergeFaqItems } from '@/lib/topicCluster'
 import { pageMetadata, DEFAULT_SITE_NAME_URDU, resolveOgImage } from '@/lib/seo'
 
 export const revalidate = 300
@@ -76,15 +77,11 @@ export default async function ServiceCatchAllPage(
   // Prevent wrong-parent URLs from sharing a statically cached leaf response.
   noStore()
   const { slug: rawSlug } = await params
-  const { segments, leafSlug } = parseCatchAllSlug(rawSlug)
-  if (!leafSlug) notFound()
-
-  const service = await getServiceBySlug(leafSlug)
-  if (!service) notFound()
-
-  const resolved = resolveLeafCanonical(SECTION_PATH, segments, service)
-  if (!resolved) notFound()
-  const { ancestry, canonicalPath: currentPath } = resolved
+  const {
+    doc: service,
+    ancestry,
+    canonicalPath: currentPath,
+  } = await loadCatchAllLeaf(rawSlug, SECTION_PATH, getServiceBySlug)
 
   const [site, cluster] = await Promise.all([
     getSiteSettings(),
@@ -93,8 +90,10 @@ export default async function ServiceCatchAllPage(
 
   const hasChildren = (service.children?.length ?? 0) > 0
   const heroImageUrl = service.heroImage ? leafHeroImageUrl(service.heroImage) : null
-  const whyUsImageUrl = service.whyUsImage ? urlFor(service.whyUsImage).width(700).height(700).auto('format').url() : null
+  const whyUsImageUrl = service.whyUsImage ? leafSquareImageUrl(service.whyUsImage) : null
   const whatsappLink = resolveWhatsappLink(site?.whatsapp)
+  const faqItems = mergeFaqItems(service.faqItems, cluster?.faqItems)
+  const faqDisplayItems = mergeFaqForDisplay(service.faq, cluster?.faqItems)
 
   const serviceTitle = service.title ?? 'خدمت'
   const pageDescription = resolveLeafDescription(
@@ -113,7 +112,7 @@ export default async function ServiceCatchAllPage(
           slugPath: sectionRelativePath(SECTION_PATH, currentPath),
           price: service.price,
           isBookable: service.isBookable,
-          faqItems: mergeFaqItems(service.faqItems, cluster?.faqItems),
+          faqItems,
           orgName: site?.siteName,
           breadcrumbLabels: breadcrumbLabelsFromAncestry(ancestry),
         }}
@@ -143,6 +142,7 @@ export default async function ServiceCatchAllPage(
           heroImageUrl={heroImageUrl}
           whyUsImageUrl={whyUsImageUrl}
           whatsappLink={whatsappLink}
+          faqItems={faqDisplayItems}
         />
       )}
     </div>

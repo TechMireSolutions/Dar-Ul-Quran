@@ -204,7 +204,8 @@ export type SlugPathDoc = {
 
 type AncestryNode = { title: string; slug: string; parent?: AncestryNode | null }
 
-export type CourseChildDoc = {
+/** Nested course/service child card on parent listings. */
+export type NestedChildDoc = {
   _id: string
   title: string
   slug: string
@@ -215,6 +216,8 @@ export type CourseChildDoc = {
   duration?: string
   childCount?: number
 }
+
+export type CourseChildDoc = NestedChildDoc
 
 export type CourseDetailDoc = {
   _id: string
@@ -233,6 +236,8 @@ export type CourseDetailDoc = {
   parent?: AncestryNode | null
   children?: CourseChildDoc[]
   faq?: FaqBlockItemDoc[]
+  faqItems?: FaqSchemaItem[]
+  pricingMin?: string
   heroSubtitle?: string
   heroCtaLabel?: string
   overviewHeading?: string
@@ -256,7 +261,7 @@ export type CourseDetailDoc = {
   faqSectionHeading?: string
 }
 
-export type ServiceChildDoc = CourseChildDoc
+export type ServiceChildDoc = NestedChildDoc
 
 export type ServiceDetailDoc = {
   _id: string

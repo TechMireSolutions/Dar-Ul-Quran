@@ -8,6 +8,7 @@ import LeafTopicClusterBlock from '@/components/content/LeafTopicClusterBlock'
 import PortableTextSection from '@/components/content/PortableTextSection'
 import CenteredSectionHeader from '@/components/ui/CenteredSectionHeader'
 import type { ServiceDetailDoc, TopicClusterDoc } from '@/lib/types'
+import type { FaqDisplayItem } from '@/lib/topicCluster'
 import { PATHS } from '@/lib/paths'
 import { TW_CONTAINER_NARROW, TW_CONTAINER_WIDE, TW_HERO_CHIP_GOLD, TW_SECTION_PY, TW_SECTION_TITLE } from '@/lib/tailwind'
 
@@ -17,6 +18,7 @@ type ServiceLeafPageProps = {
   heroImageUrl: string | null
   whyUsImageUrl: string | null
   whatsappLink: string
+  faqItems: FaqDisplayItem[]
 }
 
 export default function ServiceLeafPage({
@@ -25,6 +27,7 @@ export default function ServiceLeafPage({
   heroImageUrl,
   whyUsImageUrl,
   whatsappLink,
+  faqItems,
 }: ServiceLeafPageProps) {
   const serviceTitle = service.title ?? 'خدمت'
 
@@ -135,7 +138,7 @@ export default function ServiceLeafPage({
 
           <FaqAccordion
             heading={service.faqSectionHeading || 'اکثر پوچھے گئے سوالات'}
-            items={service.faq ?? []}
+            items={faqItems}
             icon="plus"
           />
 

@@ -55,6 +55,11 @@ export function leafHeroImageUrl(source: SanityImageSource): string {
   return urlFor(source).width(1200).height(600).fit('crop').auto('format').quality(70).url()
 }
 
+/** Square supporting image on leaf pages (e.g. service why-us). */
+export function leafSquareImageUrl(source: SanityImageSource): string {
+  return urlFor(source).width(700).height(700).auto('format').url()
+}
+
 /** Article inline featured image (below H1). */
 export function articleFeaturedImageUrl(source: SanityImageSource): string {
   return urlFor(source).width(900).height(500).fit('crop').auto('format').quality(80).url()

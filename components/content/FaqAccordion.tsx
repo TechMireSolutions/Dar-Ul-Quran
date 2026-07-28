@@ -15,6 +15,26 @@ type FaqAccordionProps = {
   icon?: 'chevron' | 'plus'
 }
 
+function FaqAnswer({ answer }: { answer?: unknown }) {
+  if (Array.isArray(answer) && answer.length > 0) {
+    return (
+      <div className="px-6 pb-5 pt-1 text-sm text-gray-600 leading-urdu border-t border-gray-50">
+        <RichTextBody value={answer as PortableTextBlock[]} size="sm" />
+      </div>
+    )
+  }
+
+  if (typeof answer === 'string' && answer.trim()) {
+    return (
+      <div className="px-6 pb-5 pt-1 text-sm text-gray-600 leading-urdu border-t border-gray-50">
+        <p className="leading-urdu tracking-normal">{answer}</p>
+      </div>
+    )
+  }
+
+  return null
+}
+
 export default function FaqAccordion({ heading, items, icon = 'chevron' }: FaqAccordionProps) {
   if (!items.length) return null
 
@@ -38,11 +58,7 @@ export default function FaqAccordion({ heading, items, icon = 'chevron' }: FaqAc
                 {item.question}
                 <Icon size={icon === 'plus' ? 16 : 15} strokeWidth={icon === 'plus' ? 2 : undefined} className={iconClass} />
               </summary>
-              {Array.isArray(item.answer) && item.answer.length > 0 && (
-                <div className="px-6 pb-5 pt-1 text-sm text-gray-600 leading-urdu border-t border-gray-50">
-                  <RichTextBody value={item.answer as PortableTextBlock[]} size="sm" />
-                </div>
-              )}
+              <FaqAnswer answer={item.answer} />
             </details>
           ))}
         </div>

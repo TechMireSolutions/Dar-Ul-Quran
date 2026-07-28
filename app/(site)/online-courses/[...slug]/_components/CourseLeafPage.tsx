@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ArrowRight, Check, Mail, Phone } from 'lucide-react'
+import { ArrowRight, Check, Mail, Phone, Wallet } from 'lucide-react'
 import FaqAccordion from '@/components/content/FaqAccordion'
 import HowItWorksSection from '@/components/content/HowItWorksSection'
 import LeafCtaBanner from '@/components/content/LeafCtaBanner'
@@ -8,6 +8,7 @@ import LeafTopicClusterBlock from '@/components/content/LeafTopicClusterBlock'
 import PortableTextSection from '@/components/content/PortableTextSection'
 import CenteredSectionHeader from '@/components/ui/CenteredSectionHeader'
 import type { CourseDetailDoc, SiteSettingsDoc, TopicClusterDoc } from '@/lib/types'
+import type { FaqDisplayItem } from '@/lib/topicCluster'
 import { telHref } from '@/lib/contact'
 import { TW_CARD_GRID, TW_CARD_SURFACE, TW_CARD_SURFACE_PADDED, TW_CONTAINER_NARROW, TW_CONTAINER_PRICING, TW_CONTAINER_PROSE, TW_CONTAINER_WIDE, TW_CTA_ARROW, TW_EYEBROW_LINE, TW_FEATURE_ICON, TW_GOLD_CTA, TW_HERO_CHIP_GOLD, TW_HERO_CHIP_MUTED, TW_PAGE_SUBTITLE, TW_SECTION_PY, TW_SECTION_TITLE } from '@/lib/tailwind'
 
@@ -18,6 +19,7 @@ type CourseLeafPageProps = {
   heroImageUrl: string | null
   enrollHref: string
   whatsappLink: string
+  faqItems: FaqDisplayItem[]
 }
 
 export default function CourseLeafPage({
@@ -27,6 +29,7 @@ export default function CourseLeafPage({
   heroImageUrl,
   enrollHref,
   whatsappLink,
+  faqItems,
 }: CourseLeafPageProps) {
   const courseTitle = course.title ?? 'کورس'
 
@@ -150,7 +153,7 @@ export default function CourseLeafPage({
                   tight
                   topContent={
                     <div className="inline-flex items-center justify-center size-14 rounded-2xl mb-4 bg-gradient-to-br from-dq-50 to-dq-100 border border-dq-400/30">
-                      <span className="text-2xl leading-none" aria-hidden="true">💰</span>
+                      <Wallet size={22} strokeWidth={1.75} className="text-dq-700" aria-hidden="true" />
                     </div>
                   }
                 />
@@ -278,7 +281,7 @@ export default function CourseLeafPage({
 
           <FaqAccordion
             heading={course.faqSectionHeading || 'اکثر پوچھے گئے سوالات'}
-            items={course.faq ?? []}
+            items={faqItems}
           />
 
           {course.body && <PortableTextSection value={course.body} />}

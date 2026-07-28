@@ -76,6 +76,8 @@ export const courseBySlugDeepQuery = `
   *[_type == "course" && slug.current == $slug][0] {
     _id, title, slug, excerpt, body, subject, featuredImage,
     price, duration, instructor, enrollmentLink, faq,
+    "faqItems": faq[]{ question, "answer": pt::text(answer) },
+    "pricingMin": pricingTables[0].rows[0].feePerClass,
     "seoTitle": seoTitle, "seoDescription": seoDescription,
 
     heroSubtitle, heroCtaLabel,
@@ -219,26 +221,6 @@ export const allCoursesForFormQuery = `
 export const allServicesForFormQuery = `
   *[_type == "service"] | order(order asc) {
     _id, title, "parentTitle": parent->title
-  }
-`
-
-// ─── Course JSON-LD / Schema.org ──────────────────────────────────────────────
-
-export const courseSchemaQuery = `
-  *[_type == "course" && slug.current == $slug][0] {
-    title,
-    seoTitle,
-    seoDescription,
-    excerpt,
-    subject,
-    duration,
-    instructor,
-    "faqItems": faq[]{ question, "answer": pt::text(answer) },
-    "pricingMin": pricingTables[0].rows[0].feePerClass,
-    "slug": slug.current,
-    "parentSlug": parent->slug.current,
-    "outcomes": outcomes[]{ title },
-    "orgName": *[_type == "siteSettings"][0].siteName
   }
 `
 

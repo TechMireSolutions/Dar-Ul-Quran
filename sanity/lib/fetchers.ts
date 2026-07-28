@@ -17,7 +17,6 @@ import {
   courseBySlugDeepQuery,
   serviceBySlugDeepQuery,
   postBySlugQuery,
-  courseSchemaQuery,
   topicClusterForPostQuery,
   topicClusterForPillarQuery,
   allCoursePathsQuery,
@@ -27,7 +26,6 @@ import {
   llmFeedQuery,
 } from './queries'
 import type {
-  CourseSchemaData,
   PageDoc,
   SiteSettingsDoc,
   HeaderNavDoc,
@@ -95,12 +93,6 @@ export const getServiceBySlug = cache((slug: string) =>
 export const getPostBySlug = cache((slug: string) =>
   safeFetch<PostDoc>(postBySlugQuery, { slug }, {
     tags: [cmsTypeTag('post'), postTag(slug)],
-  }),
-)
-
-export const getCourseSchema = cache((slug: string) =>
-  safeFetch<CourseSchemaData>(courseSchemaQuery, { slug }, {
-    tags: [cmsTypeTag('course'), courseTag(slug)],
   }),
 )
 

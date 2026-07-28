@@ -4,7 +4,6 @@ import { unstable_noStore as noStore } from 'next/cache'
 import { ogImageUrl, leafHeroImageUrl, defaultOgImage } from '@/sanity/lib/image'
 import {
   getCourseBySlug,
-  getCourseSchema,
   getSiteSettings,
   getTopicClusterForPillar,
   getAllCoursePaths,
@@ -23,9 +22,10 @@ import {
   sectionRelativePath,
   staticParamsFromPaths,
 } from '@/lib/paths'
+import { loadCatchAllLeaf } from '@/lib/leafRoute'
 import { resolveWhatsappLink } from '@/lib/contact'
 import { courseCtaLabel, resolveLeafDescription } from '@/lib/cmsPage'
-import { mergeFaqItems } from '@/lib/topicCluster'
+import { mergeFaqForDisplay, mergeFaqItems } from '@/lib/topicCluster'
 import { pageMetadata, DEFAULT_SITE_NAME_URDU, resolveOgImage } from '@/lib/seo'
 
 export const revalidate = 300
@@ -91,19 +91,14 @@ export default async function CourseCatchAllPage(
   // Prevent wrong-parent URLs from sharing a statically cached leaf response.
   noStore()
   const { slug: rawSlug } = await params
-  const { segments, leafSlug } = parseCatchAllSlug(rawSlug)
-  if (!leafSlug) notFound()
+  const {
+    doc: course,
+    ancestry,
+    canonicalPath: currentPath,
+  } = await loadCatchAllLeaf(rawSlug, SECTION_PATH, getCourseBySlug)
 
-  const course = await getCourseBySlug(leafSlug)
-  if (!course) notFound()
-
-  const resolved = resolveLeafCanonical(SECTION_PATH, segments, course)
-  if (!resolved) notFound()
-  const { ancestry, canonicalPath: currentPath } = resolved
-
-  const [site, schemaData, cluster] = await Promise.all([
+  const [site, cluster] = await Promise.all([
     getSiteSettings(),
-    getCourseSchema(leafSlug),
     getTopicClusterForPillar(course._id),
   ])
 
@@ -114,6 +109,8 @@ export default async function CourseCatchAllPage(
 
   const enrollHref = course.enrollmentLink || PATHS.contact
   const whatsappLink = resolveWhatsappLink(site?.whatsapp)
+  const faqItems = mergeFaqItems(course.faqItems, cluster?.faqItems)
+  const faqDisplayItems = mergeFaqForDisplay(course.faq, cluster?.faqItems)
 
   const courseTitle = course.title ?? 'کورس'
   const pageDescription = resolveLeafDescription(
@@ -124,16 +121,23 @@ export default async function CourseCatchAllPage(
   return (
     <div>
       <WebPageSchema title={courseTitle} description={pageDescription} path={currentPath} />
-      {schemaData && (
-        <CourseSchema
-          data={{
-            ...schemaData,
-            slugPath: sectionRelativePath(SECTION_PATH, currentPath),
-            breadcrumbLabels: breadcrumbLabelsFromAncestry(ancestry),
-            faqItems: mergeFaqItems(schemaData.faqItems, cluster?.faqItems),
-          }}
-        />
-      )}
+      <CourseSchema
+        data={{
+          title: courseTitle,
+          seoTitle: course.seoTitle,
+          seoDescription: course.seoDescription,
+          excerpt: course.excerpt,
+          subject: course.subject,
+          duration: course.duration,
+          instructor: course.instructor,
+          pricingMin: course.pricingMin,
+          outcomes: course.outcomes?.map((o) => ({ title: o.title ?? '' })),
+          slugPath: sectionRelativePath(SECTION_PATH, currentPath),
+          breadcrumbLabels: breadcrumbLabelsFromAncestry(ancestry),
+          faqItems,
+          orgName: site?.siteName,
+        }}
+      />
 
       <BreadcrumbNav
         sectionLabel="آنلائن کورسز"
@@ -159,6 +163,7 @@ export default async function CourseCatchAllPage(
           heroImageUrl={heroImageUrl}
           enrollHref={enrollHref}
           whatsappLink={whatsappLink}
+          faqItems={faqDisplayItems}
         />
       )}
     </div>
