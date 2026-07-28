@@ -9,6 +9,8 @@ import {
   expectedPathFromAncestry,
   expectedSlugSegmentsFromAncestry,
   normalizeCatchAllSlug,
+  normalizeHref,
+  PATHS,
   pillarPagePath,
   servicePath,
   staticParamsFromPaths,
@@ -24,6 +26,27 @@ describe('coursePath / servicePath', () => {
   it('builds service paths with optional parent', () => {
     expect(servicePath('zakat')).toBe('/services/zakat')
     expect(servicePath('fitrana', 'zakat')).toBe('/services/zakat/fitrana')
+  })
+
+  it('normalizes service slug casing', () => {
+    expect(servicePath('Zakat')).toBe('/services/zakat')
+    expect(servicePath('Fitrana', 'Zakat')).toBe('/services/zakat/fitrana')
+  })
+})
+
+describe('PATHS', () => {
+  it('exposes stable public route roots', () => {
+    expect(PATHS.donate).toBe('/donate')
+    expect(PATHS.home).toBe('/')
+    expect(PATHS.contact).toBe('/contact')
+  })
+})
+
+describe('normalizeHref', () => {
+  it('strips trailing slashes except root', () => {
+    expect(normalizeHref('/')).toBe('/')
+    expect(normalizeHref('https://aabtaab.com/')).toBe('https://aabtaab.com')
+    expect(normalizeHref('/about/')).toBe('/about')
   })
 })
 

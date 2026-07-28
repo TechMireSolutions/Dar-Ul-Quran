@@ -1,24 +1,28 @@
 import type { NavNode, RawNavItem } from '@/lib/types/navigation'
+import type { FooterServiceDoc } from '@/lib/types/cms'
+import { normalizeHref, PATHS, servicePath } from '@/lib/paths'
 
 /** Used when Sanity header navigation is empty. */
 export const FALLBACK_HEADER_NAV: NavNode[] = [
-  { label: 'آنلائن کلاسز', href: '/online-courses' },
-  { label: 'خدمات', href: '/services' },
-  { label: 'مضامین', href: '/articles' },
-  { label: 'عطیات', href: '/donate' },
-  { label: 'ہمارے بارے میں', href: '/about' },
-  { label: 'رابطہ', href: '/contact' },
+  { label: 'آنلائن کلاسز', href: PATHS.onlineCourses },
+  { label: 'خدمات', href: PATHS.services },
+  { label: 'مضامین', href: PATHS.articles },
+  { label: 'عطیات', href: PATHS.donate },
+  { label: 'ہمارے بارے میں', href: PATHS.about },
+  { label: 'رابطہ', href: PATHS.contact },
 ]
 
 /** Footer fallback when nav is empty — includes Home. */
+export const HOME_NAV_NODE: NavNode = { label: 'ہوم', href: PATHS.home }
+
 export const FALLBACK_QUICK_LINKS: NavNode[] = [
-  { label: 'ہوم', href: '/' },
+  HOME_NAV_NODE,
   ...FALLBACK_HEADER_NAV,
 ]
 
 const PRIMARY_NAV_LINKS: Array<{ href: string; label: string; insertAt?: 'start' | 'end' }> = [
-  { href: '/online-courses', label: 'آنلائن کلاسز', insertAt: 'start' },
-  { href: '/contact', label: 'رابطہ', insertAt: 'end' },
+  { href: PATHS.onlineCourses, label: 'آنلائن کلاسز', insertAt: 'start' },
+  { href: PATHS.contact, label: 'رابطہ', insertAt: 'end' },
 ]
 
 export function toNavNode(item: RawNavItem): NavNode {
@@ -88,9 +92,34 @@ export function flattenFooterQuickLinks(items?: NavNode[] | null): NavNode[] {
 
   walk(items?.length ? items : FALLBACK_QUICK_LINKS)
 
-  if (!out.some((n) => n.href === '/')) {
-    out.unshift({ label: 'ہوم', href: '/' })
+  if (!out.some((n) => n.href === PATHS.home)) {
+    out.unshift({ ...HOME_NAV_NODE })
   }
 
   return out
+}
+
+/** Drop links that match an href (e.g. related-site URL already shown as a chip). */
+export function withoutHref(links: NavNode[], href?: string | null): NavNode[] {
+  if (!href) return links
+  const target = normalizeHref(href)
+  return links.filter((link) => normalizeHref(link.href) !== target)
+}
+
+/** Top-level service slugs for footer when CMS list is empty. */
+export const FALLBACK_FOOTER_SERVICES: FooterServiceDoc[] = [
+  { _id: '1', title: 'قربانی', slug: 'qurbani' },
+  { _id: '2', title: 'خمس', slug: 'khums' },
+  { _id: '3', title: 'نیابت زیارت', slug: 'niyabat-ziyarat' },
+  { _id: '4', title: 'اجارہ', slug: 'ijarah' },
+  { _id: '5', title: 'زکوٰۃ', slug: 'zakat' },
+  { _id: '6', title: 'کفارہ', slug: 'kaffara' },
+]
+
+/** Footer services column — CMS list or fallback, via servicePath. */
+export function footerServiceLinks(
+  services?: FooterServiceDoc[] | null,
+): Array<{ label: string; href: string }> {
+  const list = services?.length ? services : FALLBACK_FOOTER_SERVICES
+  return list.map((s) => ({ label: s.title, href: servicePath(s.slug) }))
 }

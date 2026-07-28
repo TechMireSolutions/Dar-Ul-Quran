@@ -6,6 +6,8 @@ import { ArrowRight } from 'lucide-react'
 import WebPageSchema from '@/components/seo/WebPageSchema'
 import PageHeroHeader from '@/components/ui/PageHeroHeader'
 import Reveal from '@/components/ui/Reveal'
+import { PATHS } from '@/lib/paths'
+import { DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
 import { TW_CONTAINER_NARROW, TW_CTA_ARROW, TW_FEATURE_CARD, TW_FEATURE_CARD_DESC, TW_FEATURE_CARD_TITLE, TW_FEATURE_ICON, TW_GRID_2, TW_OUTLINE_PILL, TW_PAGE_BODY, TW_PAYPAL_CTA } from '@/lib/tailwind'
 
 export const revalidate = 300
@@ -13,7 +15,7 @@ export const revalidate = 300
 export async function generateMetadata(): Promise<Metadata> {
   return cmsPageMetadata({
     slug: 'donate',
-    path: '/donate',
+    path: PATHS.donate,
     titleFallback: 'عطیہ',
   })
 }
@@ -24,10 +26,10 @@ export default async function DonatePage() {
   const causes: { title: string; desc: string }[] = settings?.donateCauses?.length
     ? settings.donateCauses
     : [
-        { title: 'عمومی عطیہ',      desc: 'دار القرآن کے مجموعی مشن میں معاونت' },
+        { title: 'عمومی عطیہ',      desc: `${DEFAULT_SITE_NAME_URDU} کے مجموعی مشن میں معاونت` },
         { title: 'قرآنی تعلیم',     desc: 'بچوں کی مفت قرآنی کلاسوں کی مالی معاونت' },
         { title: 'محرم پروگرامز',   desc: 'مجالس اور عزاداری کی تقاریب منظم کرنے میں مدد' },
-        { title: 'دار القرآن معاونت', desc: 'ہمارے قرآنی ادارے میں حصہ ڈالیں' },
+        { title: `${DEFAULT_SITE_NAME_URDU} معاونت`, desc: 'ہمارے قرآنی ادارے میں حصہ ڈالیں' },
       ]
 
   const pageTitle = resolveSeoTitle(page, 'عطیہ')
@@ -35,7 +37,7 @@ export default async function DonatePage() {
 
   return (
     <div>
-      <WebPageSchema title={pageTitle} description={pageDescription} path="/donate" />
+      <WebPageSchema title={pageTitle} description={pageDescription} path={PATHS.donate} />
       <PageHeroHeader
         topContent={
           <p className="text-[20px] sm:text-[22px] text-dq-700 mb-3 leading-none">

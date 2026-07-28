@@ -8,7 +8,7 @@ import {
   getTopLevelCourses,
   getTestimonials,
 } from '@/sanity/lib/fetchers'
-import { pageMetadata } from '@/lib/seo'
+import { pageMetadata, resolveSiteNameUrdu, DEFAULT_SITE_NAME_URDU, DEFAULT_HOME_DESCRIPTION } from '@/lib/seo'
 import { coursesToCarouselItems, servicesToCarouselItems } from '@/lib/homepage'
 import WebPageSchema from '@/components/seo/WebPageSchema'
 import LcpImagePreload from '@/components/seo/LcpImagePreload'
@@ -38,11 +38,11 @@ export async function generateMetadata(): Promise<Metadata> {
     getHomepageSettings(),
   ])
 
-  const title = settings?.siteName || 'دار القرآن'
+  const title = resolveSiteNameUrdu(settings?.siteName)
   const description =
     settings?.description ||
     homepageSettings?.heroSubtitle ||
-    'اسلامی علم، آنلائن کورسز اور خدمات — دنیا بھر میں شیعہ خاندانوں کے لیے مستند تعلیم۔'
+    DEFAULT_HOME_DESCRIPTION
 
   const ogImage = homepageSettings?.heroImage
     ? urlFor(homepageSettings.heroImage).width(1200).height(630).fit('crop').auto('format').quality(80).url()
@@ -58,7 +58,7 @@ export async function generateMetadata(): Promise<Metadata> {
     imageAlt: title,
     settings,
     keywords: [
-      'دار القرآن',
+      DEFAULT_SITE_NAME_URDU,
       'آن لائن قرآن کورسز',
       'شیعہ اسلامی تعلیم',
       'Online Quran classes',
@@ -77,11 +77,11 @@ export default async function HomePage() {
     getSiteSettings(),
   ])
 
-  const homeTitle = settings?.siteName || 'دار القرآن'
+  const homeTitle = resolveSiteNameUrdu(settings?.siteName)
   const homeDescription =
     settings?.description ||
     homepageSettings?.heroSubtitle ||
-    'اسلامی علم، آن لائن کورسز اور خدمات — دنیا بھر میں شیعہ خاندانوں کے لیے مستند تعلیم۔'
+    DEFAULT_HOME_DESCRIPTION
 
   const heroImage = homepageSettings?.heroImage
     ? lcpHeroImageProps(homepageSettings.heroImage)

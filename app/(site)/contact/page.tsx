@@ -4,7 +4,8 @@ import type { LucideIcon } from 'lucide-react'
 import { Mail, Phone, MessageCircle, MapPin, Globe, Play } from 'lucide-react'
 import RichTextBody from '@/components/content/RichTextBody'
 import { cmsPageMetadata, fetchCmsPage, resolveSeoDescription, resolveSeoTitle } from '@/lib/cmsPage'
-import { telHref, whatsappHref } from '@/lib/contact'
+import { FOOTER_COPY } from '@/lib/footer'
+import { whatsappHref, telHref } from '@/lib/contact'
 import { getCoursesForContactForm, getServicesForContactForm } from '@/sanity/lib/fetchers'
 import WebPageSchema from '@/components/seo/WebPageSchema'
 import PageHeroHeader from '@/components/ui/PageHeroHeader'
@@ -117,7 +118,7 @@ export default async function ContactPage() {
               )}
 
               {contactItems.length === 0 && (
-                <p className="text-[13px] text-gray-400 italic">رابطہ کی تفصیلات جلد دستیاب ہوں گی۔</p>
+                <p className="text-[13px] text-gray-400 leading-urdu">{FOOTER_COPY.contactEmpty}</p>
               )}
             </div>
 

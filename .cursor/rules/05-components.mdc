@@ -23,6 +23,8 @@ Route-private UI: `app/(site)/**/_components/` — never imported elsewhere
 | Listing index shell | `layout/ListingIndexShell` (+ `ListingCardGrid` / `ListingEmptyState`) |
 | Nested CMS children | `content/NestedChildListing` |
 | Content cards | `ui/ContentCard` — **one** primary `<Link>` (no double tab stops) |
+| Site brand mark | `ui/BrandLogo` — header / footer / mobile drawer |
+| Footer chrome | `layout/Footer` + `buildFooterModel()` · parts in `FooterParts` / `FooterIcons` |
 | Portable Text | `content/RichTextBody` (`TW_RICH_TEXT_*`) |
 | Leaf FAQ / steps / CTA | `FaqAccordion` · `HowItWorksSection` · `LeafCtaBanner` |
 | Contact form | route-private `ContactForm` + `ui/TurnstileField` |
@@ -48,4 +50,5 @@ Route-private UI: `app/(site)/**/_components/` — never imported elsewhere
 
 ## Related
 - Styling → `06-tailwind.mdc` · Nastaliq → `03-rtl-urdu.mdc` · DRY → `16-dry.mdc`
+- Responsive → `18-mobile-first-responsive.mdc` · UX → `19-ui-ux.mdc`
 - New component → `new-component` skill

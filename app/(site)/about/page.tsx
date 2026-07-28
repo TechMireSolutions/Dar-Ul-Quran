@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { cmsPageMetadata, fetchCmsPage, resolveSeoDescription, resolveSeoTitle } from '@/lib/cmsPage'
+import { resolveSiteNameUrdu } from '@/lib/seo'
 import WebPageSchema from '@/components/seo/WebPageSchema'
 import PageHeroHeader from '@/components/ui/PageHeroHeader'
 import RichTextBody from '@/components/content/RichTextBody'
@@ -21,7 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function AboutPage() {
   const { page, settings } = await fetchCmsPage('about')
 
-  const siteName = settings?.siteName || 'دار القرآن'
+  const siteName = resolveSiteNameUrdu(settings?.siteName)
 
   const features = [
     { Icon: BookOpen, title: 'تعلیم',    desc: 'اہل علماء سے قرآن، فقہ، اخلاق اور تاریخ کے آنلائن کورسز' },

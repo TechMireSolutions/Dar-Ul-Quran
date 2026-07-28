@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { getSiteSettings } from '@/sanity/lib/fetchers'
 import { urlFor } from '@/sanity/lib/image'
-import { SITE_URL, DEFAULT_SITE_NAME, defaultOgImage } from '@/lib/seo'
+import { SITE_URL, DEFAULT_SITE_NAME_URDU, DEFAULT_SITE_DESCRIPTION, defaultOgImage, resolveSiteNameUrdu } from '@/lib/seo'
 import './globals.css'
 
 export const viewport: Viewport = {
@@ -16,9 +16,9 @@ export async function generateMetadata(): Promise<Metadata> {
   try {
     const settings = await getSiteSettings()
 
-    const siteName   = settings?.siteName   || DEFAULT_SITE_NAME
+    const siteName   = resolveSiteNameUrdu(settings?.siteName)
     const faviconUrl = settings?.favicon ? urlFor(settings.favicon).width(256).height(256).url() : undefined
-    const description = settings?.description || 'اسلامی علم، آنلائن کورسز اور خدمات'
+    const description = settings?.description || DEFAULT_SITE_DESCRIPTION
     const ogImageUrl = defaultOgImage(settings)
 
     return {
@@ -57,20 +57,20 @@ export async function generateMetadata(): Promise<Metadata> {
   } catch {
     return {
       metadataBase: baseUrl,
-      title:       { default: 'دار القرآن', template: '%s | دار القرآن' },
-      description: 'اسلامی علم، آنلائن کورسز اور خدمات',
+      title:       { default: DEFAULT_SITE_NAME_URDU, template: `%s | ${DEFAULT_SITE_NAME_URDU}` },
+      description: DEFAULT_SITE_DESCRIPTION,
       verification: { google: 'HlwG4YjRAkH3E4L7nQg1wNUk4Qy8b8LCSd9ccfxgZto' },
       openGraph: {
-        title: 'دار القرآن',
-        description: 'اسلامی علم، آنلائن کورسز اور خدمات',
-        siteName: 'دار القرآن',
+        title: DEFAULT_SITE_NAME_URDU,
+        description: DEFAULT_SITE_DESCRIPTION,
+        siteName: DEFAULT_SITE_NAME_URDU,
         locale: 'ur_PK',
         type: 'website',
       },
       twitter: {
         card: 'summary_large_image',
-        title: 'دار القرآن',
-        description: 'اسلامی علم، آنلائن کورسز اور خدمات',
+        title: DEFAULT_SITE_NAME_URDU,
+        description: DEFAULT_SITE_DESCRIPTION,
       },
     }
   }
@@ -92,10 +92,10 @@ export default async function RootLayout({ children }: RootLayoutProps) {
       {
         '@type': 'EducationalOrganization',
         '@id': `${SITE_URL}#organization`,
-        name: settings?.siteName ?? DEFAULT_SITE_NAME,
+        name: resolveSiteNameUrdu(settings?.siteName),
         url: SITE_URL,
         logo: { '@type': 'ImageObject', url: orgLogoUrl },
-        description: settings?.description ?? 'اسلامی علم، آنلائن کورسز اور خدمات',
+        description: settings?.description ?? DEFAULT_SITE_DESCRIPTION,
         inLanguage: 'ur',
         address: { '@type': 'PostalAddress', addressCountry: 'PK' },
         ...(settings?.email ? { email: settings.email } : {}),
@@ -104,7 +104,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
       {
         '@type': 'WebSite',
         '@id': `${SITE_URL}#website`,
-        name: settings?.siteName ?? DEFAULT_SITE_NAME,
+        name: resolveSiteNameUrdu(settings?.siteName),
         url: SITE_URL,
         inLanguage: 'ur',
         publisher: { '@id': `${SITE_URL}#organization` },

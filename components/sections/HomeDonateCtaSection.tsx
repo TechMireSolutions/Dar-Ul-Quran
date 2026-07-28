@@ -2,6 +2,8 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import Reveal from '@/components/ui/Reveal'
 import type { HomepageSettingsDoc } from '@/lib/types'
+import { DEFAULT_DONATE_CTA_LABEL } from '@/lib/seo'
+import { PATHS } from '@/lib/paths'
 import { TW_CONTAINER_PROSE, TW_CTA_ARROW, TW_CV_AUTO, TW_GOLD_CTA_DARK, TW_PAGE_SUBTITLE } from '@/lib/tailwind'
 
 type HomeDonateCtaSectionProps = {
@@ -46,8 +48,8 @@ export default function HomeDonateCtaSection({ settings }: HomeDonateCtaSectionP
             </div>
           </div>
 
-          <Link href="/donate" className={TW_GOLD_CTA_DARK}>
-            {settings?.donateCtaLabel || 'ابھی عطیہ دیں'}
+          <Link href={PATHS.donate} className={TW_GOLD_CTA_DARK}>
+            {settings?.donateCtaLabel || DEFAULT_DONATE_CTA_LABEL}
             <ArrowRight size={13} strokeWidth={2.5} className={TW_CTA_ARROW} />
           </Link>
         </div>

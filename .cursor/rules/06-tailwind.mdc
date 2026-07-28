@@ -80,7 +80,8 @@ Nastaliq leading tokens (theme): `leading-urdu` · `leading-urdu-display` · `le
 | `TW_BTN_PRIMARY` / `_SECONDARY` | Error/404 actions |
 | `TW_CTA_ARROW` | RTL-aware CTA arrow |
 | `TW_CARD_LINK` / `TW_VIEW_ALL_LINK` | Card footer / “view all” |
-| `TW_FOOTER_DONATE_CTA` / `_CONTACT_LINK` / `_SOCIAL` / `_BAR_LINK` | Footer |
+| `TW_FOOTER_DONATE_CTA` / `_CONTACT_LINK` / `_SOCIAL` / `_GRID` / `_COL_HEADING` / `_NAV_LINK` / `_NAV_CHEVRON` / `_RELATED` / `_TAGLINE` / `_COPY` / `_BODY` / `_SOCIAL_LIST` / `_CONTACT_GRID` / `_ICON` / `_ADDRESS` / `_EMPTY` / `_NAV_LIST` / `_BOTTOM` / `_BOTTOM_INNER` / `_PAD_Y` / `_SHELL` / `_FAB_PAD` | Footer |
+| `TW_BRAND_LOGO_RING` / `_FALLBACK` | Shared brand mark (`BrandLogo`) |
 | `TW_MOBILE_NAV_ROW*` / `TW_MOBILE_PANEL*` | Mobile drawer |
 | `TW_MOBILE_SEARCH_INPUT` / `_SUBMIT` | Mobile search field |
 | `TW_SEARCH_FORM*` / `TW_SEARCH_INPUT` | Articles search |
@@ -130,4 +131,5 @@ Nastaliq leading tokens (theme): `leading-urdu` · `leading-urdu-display` · `le
 ## Brand exceptions
 PayPal (`TW_PAYPAL_CTA`), WhatsApp float (`TW_WHATSAPP_FLOAT`) only.
 
+Responsive layout → `18-mobile-first-responsive.mdc` · UX → `19-ui-ux.mdc`  
 Skill: `tailwind-ui` · verify: `preflight` + `rtl-check` after Urdu UI.

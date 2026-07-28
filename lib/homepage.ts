@@ -1,6 +1,7 @@
 import type { CarouselItem } from '@/lib/types/ui'
 import { carouselImageUrl } from '@/sanity/lib/image'
 import { hasPublishedSlug, toItemListEntries } from '@/lib/cmsPage'
+import { coursePath, servicePath } from '@/lib/paths'
 import type { CourseListItemDoc, ServiceListItemDoc } from '@/lib/types'
 
 export { hasPublishedSlug, toItemListEntries }
@@ -13,7 +14,7 @@ export function coursesToCarouselItems(courses: CourseListItemDoc[] | null | und
       image: course.featuredImage ? carouselImageUrl(course.featuredImage) : null,
       title: course.title,
       description: [course.price, course.duration].filter(Boolean).join(' · ') || null,
-      href: `/online-courses/${course.slug.current}`,
+      href: coursePath(course.slug.current),
       badge: course.subject ?? null,
       ctaLabel: (course.childCount ?? 0) > 0 ? 'کورسز دیکھیں' : 'ابھی داخلہ لیں',
     }))
@@ -34,7 +35,7 @@ export function servicesToCarouselItems(services: ServiceListItemDoc[] | null | 
         image: service.icon ? carouselImageUrl(service.icon) : null,
         title: service.title,
         description: childCount > 0 ? childTitles || null : service.price || null,
-        href: `/services/${service.slug.current}`,
+        href: servicePath(service.slug.current),
         badge: null,
         ctaLabel: childCount > 0 ? 'خدمات دیکھیں' : 'ابھی بک کریں',
       }

@@ -17,7 +17,8 @@ alwaysApply: false
 | CMS types | `lib/types/` | Ad-hoc inline object shapes |
 | SEO metadata | `pageMetadata()` in `lib/seo.ts` | Hand-built `<meta>` tags |
 | JSON-LD | `components/seo/*` (+ `lib/schemaHelpers.ts`) | Inline `<script type="application/ld+json">` |
-| Canonical paths | `lib/paths.ts` | String-concat paths in components |
+| Canonical paths | `PATHS` + helpers in `lib/paths.ts` | String-concat paths in components |
+| Footer chrome model | `buildFooterModel()` in `lib/footer.ts` | Reassemble nav/contact/social in `Footer.tsx` |
 | Tailwind patterns | `lib/tailwind.ts` (`TW_*`) | Same class string in 2+ files; raw `max-w-* mx-auto`, `py-16 sm:py-20`, eyebrow line |
 | Theme tokens | `tailwind.config.ts` | Raw hex/spacing; Latin line-heights without Nastaliq tokens |
 | Nastaliq leading / tracking | `tailwind.config.ts` + `03-rtl-urdu.mdc` | Ad-hoc `leading-tight` / negative tracking on Urdu |
@@ -32,7 +33,8 @@ alwaysApply: false
 | Section headers | `SectionHeaderRow` / `CenteredSectionHeader` | Copy-paste eyebrow+title blocks |
 | Leaf dark heroes | `LeafHero` | Per-route hero markup |
 | Portable Text wrapper | `RichTextBody.tsx` | Inline `PortableText` + duplicate `TW_RICH_TEXT_*` |
-| Org name fallback | `DEFAULT_SITE_NAME` in `lib/seo.ts` | Hardcoded English org name in schemas |
+| Org name fallback | `DEFAULT_SITE_NAME` (EN email/schema) · `resolveSiteNameUrdu()` / `DEFAULT_SITE_NAME_URDU` (UI) in `lib/seo.ts` | Hardcoded org name in chrome / metadata |
+| Tagline / donate / related-site labels | `DEFAULT_TAGLINE` · `DEFAULT_DONATE_CTA_LABEL` · `DEFAULT_RELATED_SITE_LABEL` in `lib/seo.ts` | Duplicate marketing strings in layout |
 | Urdu allowlist | `CLAUDE.md` § Urdu | Parallel English-copy rules elsewhere |
 
 ## When to extract
@@ -69,4 +71,4 @@ alwaysApply: false
 
 ## Related
 
-`06-tailwind.mdc` · `15-naming.mdc` · `14-file-structure.mdc` · skills: `tailwind-ui`, `add-fetcher`, `add-sanity-query`, `write-tests`
+`06-tailwind.mdc` · `15-naming.mdc` · `14-file-structure.mdc` · `18-mobile-first-responsive.mdc` · `19-ui-ux.mdc` · skills: `tailwind-ui`, `add-fetcher`, `add-sanity-query`, `write-tests`

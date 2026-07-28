@@ -1,77 +1,43 @@
 import Link from 'next/link'
 import {
   TW_CONTAINER,
-  TW_CTA_ARROW,
-  TW_CV_AUTO,
-  TW_FOOTER_CONTACT_LINK,
-  TW_FOOTER_DONATE_CTA,
+  TW_FOOTER_ADDRESS,
+  TW_FOOTER_BODY,
+  TW_FOOTER_BOTTOM,
+  TW_FOOTER_BOTTOM_INNER,
+  TW_FOOTER_CONTACT_GRID,
+  TW_FOOTER_COPY,
+  TW_FOOTER_EMPTY,
+  TW_FOOTER_FAB_PAD,
+  TW_FOOTER_GRID,
+  TW_FOOTER_ICON,
+  TW_FOOTER_PAD_Y,
+  TW_FOOTER_RELATED,
+  TW_FOOTER_SHELL,
   TW_FOOTER_SOCIAL,
+  TW_FOOTER_SOCIAL_LIST,
+  TW_FOOTER_TAGLINE,
 } from '@/lib/tailwind'
-import Image from 'next/image'
-import { telHref, whatsappHref } from '@/lib/contact'
-import { flattenFooterQuickLinks } from '@/lib/navigation'
+import { externalLinkAttrs } from '@/lib/contact'
+import { buildFooterModel } from '@/lib/footer'
 import type { NavNode, SiteSettingsDoc, FooterServiceDoc } from '@/lib/types'
+import BrandLogo from '@/components/ui/BrandLogo'
 import Reveal from '@/components/ui/Reveal'
-
-function IconFacebook({ size = 12 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M24 12.073C24 5.446 18.627 0 12 0S0 5.446 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047v-2.66c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.971H15.83c-1.491 0-1.956.932-1.956 1.888v2.262h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/>
-    </svg>
-  )
-}
-
-function IconYoutube({ size = 12 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088C19.535 3.6 12 3.6 12 3.6s-7.535 0-9.407.517A3.007 3.007 0 0 0 .505 6.205 31.247 31.247 0 0 0 0 12a31.247 31.247 0 0 0 .505 5.795 3.007 3.007 0 0 0 2.088 2.088C4.465 20.4 12 20.4 12 20.4s7.535 0 9.407-.517a3.007 3.007 0 0 0 2.088-2.088A31.247 31.247 0 0 0 24 12a31.247 31.247 0 0 0-.505-5.795zM9.609 15.601V8.408L15.873 12z"/>
-    </svg>
-  )
-}
-
-function IconMail({ size = 12, className }: { size?: number; className?: string }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
-      <rect width="20" height="16" x="2" y="4" rx="2" />
-      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-    </svg>
-  )
-}
-
-function IconPhone({ size = 12, className }: { size?: number; className?: string }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
-      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-    </svg>
-  )
-}
-
-function IconMapPin({ size = 12, className }: { size?: number; className?: string }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
-      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-      <circle cx="12" cy="10" r="3" />
-    </svg>
-  )
-}
-
-function IconMessageCircle({ size = 12, className }: { size?: number; className?: string }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
-      <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
-    </svg>
-  )
-}
-
-function IconExternalLink({ size = 9 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M15 3h6v6" />
-      <path d="M10 14 21 3" />
-      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-    </svg>
-  )
-}
+import {
+  FooterColHeading,
+  FooterContactLink,
+  FooterDonateCta,
+  FooterNavColumn,
+} from '@/components/layout/FooterParts'
+import {
+  IconExternalLink,
+  IconFacebook,
+  IconMail,
+  IconMapPin,
+  IconMessageCircle,
+  IconPhone,
+  IconYoutube,
+} from '@/components/layout/FooterIcons'
 
 type FooterProps = {
   settings?:       SiteSettingsDoc | null
@@ -80,243 +46,138 @@ type FooterProps = {
   footerServices?: FooterServiceDoc[] | null
 }
 
-/** Top-level service slugs that match live CMS — avoid inventing paths that 404. */
-const FALLBACK_SERVICES: FooterServiceDoc[] = [
-  { _id: '1', title: 'قربانی',       slug: 'qurbani' },
-  { _id: '2', title: 'خمس',         slug: 'khums' },
-  { _id: '3', title: 'نیابت زیارت', slug: 'niyabat-ziyarat' },
-  { _id: '4', title: 'اجارہ',       slug: 'ijarah' },
-  { _id: '5', title: 'زکوٰۃ',       slug: 'zakat' },
-  { _id: '6', title: 'کفارہ',       slug: 'kaffara' },
-]
+const CONTACT_ICON = {
+  email: IconMail,
+  phone: IconPhone,
+  whatsapp: IconMessageCircle,
+} as const
 
-function ColHeading({ children }: { children: React.ReactNode }) {
-  return (
-    <h3 className="text-[13px] font-bold text-dq-400 mb-2.5 sm:mb-4">
-      {children}
-    </h3>
-  )
-}
-
-function NavLink({
-  href,
-  label,
-  external,
-}: {
-  href: string
-  label: string
-  external?: boolean
-}) {
-  return (
-    <li>
-      <Link
-        href={href}
-        {...(external
-          ? {
-              target: '_blank',
-              rel: 'noopener noreferrer',
-              'aria-label': `${label} (نئی ونڈو میں کھلتا ہے)`,
-            }
-          : {})}
-        className="group flex min-h-11 items-center gap-0 text-[12px] sm:text-[13px] text-gray-300 hover:text-dq-400 focus-visible:text-dq-400 transition-colors duration-150"
-      >
-        <span
-          className="inline-block w-0 overflow-hidden group-hover:w-3 group-focus-visible:w-3 transition-all duration-150 text-dq-400 text-[11px] leading-none rtl:rotate-180"
-          aria-hidden="true"
-        >
-          ›
-        </span>
-        {label}
-      </Link>
-    </li>
-  )
-}
-
-function ContactLink({
-  href,
-  children,
-  external,
-}: {
-  href: string
-  children: React.ReactNode
-  external?: boolean
-}) {
-  return (
-    <li>
-      <Link
-        href={href}
-        {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-        className={TW_FOOTER_CONTACT_LINK}
-      >
-        {children}
-      </Link>
-    </li>
-  )
-}
-
-function serviceHref(slug: string): string {
-  return `/services/${slug.toLowerCase()}`
-}
+const SOCIAL_ICON = {
+  facebook: IconFacebook,
+  youtube: IconYoutube,
+} as const
 
 export default function Footer({ settings, logoUrl, navItems, footerServices }: FooterProps) {
-  const siteName   = settings?.siteName || 'دار القرآن'
-  const tagline    = settings?.tagline  || 'اہل بیت (ع) کے نور کو تعلیم، مستند مواد اور روحانی خدمات کے ذریعے پھیلانا۔'
-  const relatedUrl = settings?.darulQuranUrl?.replace(/\/$/, '') || null
-  const quickLinks = flattenFooterQuickLinks(navItems).filter(
-    (link) => !relatedUrl || link.href.replace(/\/$/, '') !== relatedUrl,
-  )
-  const services   = (footerServices?.length ? footerServices : FALLBACK_SERVICES).map((s) => ({
-    label: s.title,
-    href: serviceHref(s.slug),
-  }))
-  const hasContact =
-    Boolean(settings?.email || settings?.phone || settings?.whatsapp || settings?.address)
-  const fabClearance = settings?.whatsapp ? 'pt-4 pb-16 sm:py-4' : 'py-4'
+  const model = buildFooterModel({ settings, navItems, footerServices })
 
   return (
-    <footer className={`bg-dq-900 border-t border-dq-800 ${TW_CV_AUTO}`}>
+    <footer aria-label={model.copy.landmark} className={TW_FOOTER_SHELL}>
+      <div className={`${TW_CONTAINER} ${TW_FOOTER_BODY}`}>
+        <div className={TW_FOOTER_GRID}>
 
-      {/* ── Main body ── */}
-      <div className={`${TW_CONTAINER} py-6 sm:py-10 lg:py-12`}>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-6 sm:gap-8 lg:gap-10">
-
-          {/* Col 1 — Logo + Brand (full width on mobile) */}
           <Reveal animation="up" delay={0} className="col-span-2 lg:col-span-1">
             <div>
-              <Link href="/" aria-label={siteName} className="inline-flex items-center gap-2.5 mb-3 group">
-                <div className="w-10 h-10 sm:w-[52px] sm:h-[52px] rounded-full overflow-hidden border-2 border-dq-400 shrink-0 transition-transform duration-200 group-hover:scale-105 motion-reduce:group-hover:scale-100">
-                  {logoUrl ? (
-                    <Image
-                      src={logoUrl}
-                      alt=""
-                      width={52}
-                      height={52}
-                      sizes="(min-width: 640px) 52px, 40px"
-                      className="object-cover w-full h-full"
-                    />
-                  ) : (
-                    <div
-                      className="w-full h-full bg-gradient-to-br from-dq-100 to-dq-200 flex items-center justify-center text-dq-800 text-lg sm:text-xl font-bold select-none"
-                      aria-hidden="true"
-                    >
-                      د
-                    </div>
-                  )}
-                </div>
-                <span className="font-bold text-[16px] sm:text-[18px] text-white tracking-normal">{siteName}</span>
-              </Link>
+              <BrandLogo
+                siteName={model.siteName}
+                logoUrl={logoUrl}
+                variant="footer"
+                className="mb-3"
+              />
 
-              <p className="text-[12px] sm:text-[13px] text-gray-300 leading-urdu mb-3 sm:mb-5 max-w-[280px] line-clamp-2 sm:line-clamp-none">
-                {tagline}
-              </p>
+              <p className={TW_FOOTER_TAGLINE}>{model.tagline}</p>
 
-              {/* Social + external links */}
-              <div className="flex items-center gap-2 flex-wrap">
-                {settings?.facebook && (
-                  <Link href={settings.facebook} target="_blank" rel="noopener noreferrer" aria-label="فیس بک"
-                    className={TW_FOOTER_SOCIAL}>
-                    <IconFacebook size={14} />
-                  </Link>
-                )}
-                {settings?.youtube && (
-                  <Link href={settings.youtube} target="_blank" rel="noopener noreferrer" aria-label="یوٹیوب"
-                    className={TW_FOOTER_SOCIAL}>
-                    <IconYoutube size={12} />
-                  </Link>
-                )}
-                {settings?.darulQuranUrl && (
-                  <Link href={settings.darulQuranUrl} target="_blank" rel="noopener noreferrer"
-                    aria-label="متعلقہ ویب سائٹ (نئی ونڈو میں کھلتا ہے)"
-                    className="flex items-center gap-1 min-h-11 text-[11px] font-medium text-gray-300 hover:text-dq-400 focus-visible:text-dq-400 bg-dq-800 border border-dq-700 hover:border-dq-400 focus-visible:border-dq-400 rounded-lg px-2.5 py-1.5 transition-all duration-200">
-                    متعلقہ ویب سائٹ <IconExternalLink size={9} />
-                  </Link>
-                )}
-              </div>
+              {model.socialLinks.length > 0 && (
+                <ul className={TW_FOOTER_SOCIAL_LIST}>
+                  {model.socialLinks.map((link) => {
+                    if (link.kind === 'related') {
+                      return (
+                        <li key={link.kind}>
+                          <Link
+                            href={link.href}
+                            {...externalLinkAttrs(link.label)}
+                            className={TW_FOOTER_RELATED}
+                          >
+                            {link.label}
+                            <IconExternalLink size={9} />
+                          </Link>
+                        </li>
+                      )
+                    }
+
+                    const Icon = SOCIAL_ICON[link.kind]
+                    return (
+                      <li key={link.kind}>
+                        <Link
+                          href={link.href}
+                          {...externalLinkAttrs(link.label)}
+                          className={TW_FOOTER_SOCIAL}
+                        >
+                          <Icon size={link.kind === 'facebook' ? 14 : 12} />
+                        </Link>
+                      </li>
+                    )
+                  })}
+                </ul>
+              )}
             </div>
           </Reveal>
 
-          {/* Col 2 — Quick Links */}
-          <Reveal animation="up" delay={80}>
-            <nav aria-label="فوری روابط">
-              <ColHeading>فوری روابط</ColHeading>
-              <ul className="space-y-1.5 sm:space-y-2.5">
-                {quickLinks.map(({ label, href, external }) => (
-                  <NavLink key={`${href}-${label}`} href={href} label={label} external={external} />
-                ))}
+          <FooterNavColumn
+            id={model.ids.quickLinks}
+            title={model.copy.quickLinks}
+            links={model.quickLinks}
+            delay={80}
+          />
+
+          <FooterNavColumn
+            id={model.ids.services}
+            title={model.copy.services}
+            links={model.services}
+            delay={160}
+          />
+
+          <Reveal animation="up" delay={240} className="col-span-2 lg:col-span-1">
+            <div>
+              <FooterColHeading id={model.ids.contact}>{model.copy.contact}</FooterColHeading>
+              <ul
+                aria-labelledby={model.ids.contact}
+                className={TW_FOOTER_CONTACT_GRID}
+              >
+                {model.contactRows.map((row) => {
+                  if (row.kind === 'address') {
+                    return (
+                      <li key="address" className="flex items-start gap-2 min-h-11">
+                        <IconMapPin size={12} className={`${TW_FOOTER_ICON} mt-3`} />
+                        <p className={TW_FOOTER_ADDRESS}>{row.value}</p>
+                      </li>
+                    )
+                  }
+
+                  const Icon = CONTACT_ICON[row.kind]
+                  return (
+                    <FooterContactLink
+                      key={row.kind}
+                      href={row.href}
+                      external={row.kind === 'whatsapp'}
+                    >
+                      <Icon size={12} className={TW_FOOTER_ICON} />
+                      {row.kind === 'whatsapp' ? (
+                        <span>{model.copy.whatsappPrefix} <bdi dir="ltr">{row.value}</bdi></span>
+                      ) : (
+                        <span className={row.kind === 'email' ? 'truncate' : undefined} dir="ltr">
+                          <bdi>{row.value}</bdi>
+                        </span>
+                      )}
+                    </FooterContactLink>
+                  )
+                })}
+                {model.contactRows.length === 0 && (
+                  <li className={TW_FOOTER_EMPTY}>{model.copy.contactEmpty}</li>
+                )}
               </ul>
-            </nav>
+
+              <FooterDonateCta href={model.donateHref} label={model.donateLabel} />
+            </div>
           </Reveal>
-
-          {/* Col 3 — Services */}
-          <Reveal animation="up" delay={160}>
-            <nav aria-label="خدمات">
-              <ColHeading>خدمات</ColHeading>
-              <ul className="space-y-1.5 sm:space-y-2.5">
-                {services.map(({ label, href }) => (
-                  <NavLink key={href} href={href} label={label} />
-                ))}
-              </ul>
-            </nav>
-          </Reveal>
-
-          {/* Col 4 — Contact (full width on mobile) */}
-          <Reveal animation="up" delay={240} className="col-span-2 lg:col-span-1"><div>
-            <ColHeading>ہم سے رابطہ</ColHeading>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-x-4 gap-y-2 sm:gap-y-3">
-              {settings?.email && (
-                <ContactLink href={`mailto:${settings.email}`}>
-                  <IconMail size={12} className="text-dq-400 shrink-0" />
-                  <span className="truncate" dir="ltr"><bdi>{settings.email}</bdi></span>
-                </ContactLink>
-              )}
-              {settings?.phone && (
-                <ContactLink href={telHref(settings.phone)}>
-                  <IconPhone size={12} className="text-dq-400 shrink-0" />
-                  <span dir="ltr"><bdi>{settings.phone}</bdi></span>
-                </ContactLink>
-              )}
-              {settings?.whatsapp && (
-                <ContactLink href={whatsappHref(settings.whatsapp)} external>
-                  <IconMessageCircle size={12} className="text-dq-400 shrink-0" />
-                  <span>واٹس ایپ: <bdi dir="ltr">{settings.whatsapp}</bdi></span>
-                </ContactLink>
-              )}
-              {settings?.address && (
-                <li className="flex items-start gap-2 min-h-11">
-                  <IconMapPin size={12} className="text-dq-400 shrink-0 mt-3" />
-                  <p className="text-[12px] sm:text-[12.5px] text-gray-300 leading-urdu whitespace-pre-line py-2">
-                    {settings.address}
-                  </p>
-                </li>
-              )}
-              {!hasContact && (
-                <li className="text-[12px] text-gray-400 leading-urdu">
-                  رابطہ کی معلومات جلد دستیاب ہوں گی
-                </li>
-              )}
-            </ul>
-
-            <Link
-              href="/donate"
-              className={TW_FOOTER_DONATE_CTA}
-            >
-              ابھی عطیہ دیں
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"
-                className={TW_CTA_ARROW}>
-                <path d="M2.5 6h7M6.5 3l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </Link>
-          </div></Reveal>
 
         </div>
       </div>
 
-      {/* ── Bottom bar ── */}
-      <div className="border-t border-dq-950 bg-dq-950">
-        <div className={`${TW_CONTAINER} ${fabClearance} flex items-center justify-center sm:justify-start`}>
-          <p className="text-[11.5px] text-gray-300 text-center sm:text-start">
-            &copy; {new Date().getFullYear()} {siteName}۔ تمام حقوق محفوظ ہیں۔
-          </p>
+      <div className={TW_FOOTER_BOTTOM}>
+        <div
+          className={`${TW_CONTAINER} ${model.showFabPad ? TW_FOOTER_FAB_PAD : TW_FOOTER_PAD_Y} ${TW_FOOTER_BOTTOM_INNER}`}
+        >
+          <p className={TW_FOOTER_COPY}>{model.copyright}</p>
         </div>
       </div>
     </footer>

@@ -1,12 +1,13 @@
 'use client'
 import Link from 'next/link'
-import Image from 'next/image'
 import dynamic from 'next/dynamic'
 import { useState, useEffect, useRef } from 'react'
 import { Search, Menu, ChevronDown, ChevronLeft } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import type { NavNode } from '@/lib/types'
 import { ensurePrimaryNav, nodeIsActive } from '@/lib/navigation'
+import { DEFAULT_RELATED_SITE_LABEL, DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
+import BrandLogo from '@/components/ui/BrandLogo'
 import { TW_CONTAINER_HEADER, TW_HEADER_SEARCH_INPUT, TW_HEADER_SEARCH_SUBMIT, TW_NAV_DROPDOWN, TW_NAV_MENU_ITEM, TW_SEARCH_FORM } from '@/lib/tailwind'
 
 const HeaderMobileMenu = dynamic(() => import('./HeaderMobileMenu'), { ssr: false })
@@ -253,7 +254,7 @@ function DesktopNavItem({ node }: { node: NavNode }) {
    ══════════════════════════════════════════════════════════════════════════ */
 
 export default function Header({
-  darulQuranUrl, siteName = 'دار القرآن', logoUrl, navItems, searchPlaceholder = 'مضامین تلاش کریں…',
+  darulQuranUrl, siteName = DEFAULT_SITE_NAME_URDU, logoUrl, navItems, searchPlaceholder = 'مضامین تلاش کریں…',
 }: HeaderProps) {
   const [menuOpen,   setMenuOpen]   = useState(false)
   const [mobileMenuMounted, setMobileMenuMounted] = useState(false)
@@ -300,7 +301,7 @@ export default function Header({
     darulQuranUrl &&
     !navLinks.some((node) => node.href === darulQuranUrl || node.external)
   ) {
-    navLinks.push({ label: 'دار القرآن', href: darulQuranUrl, external: true })
+    navLinks.push({ label: DEFAULT_RELATED_SITE_LABEL, href: darulQuranUrl, external: true })
   }
 
   function closeMobileMenu() {
@@ -347,14 +348,7 @@ export default function Header({
           </button>
 
           {/* Logo */}
-          <Link href="/" aria-label={siteName} className="shrink-0 flex items-center gap-3 group">
-            <div className="w-[42px] h-[42px] rounded-full overflow-hidden border-2 border-dq-400 shrink-0 transition-transform duration-200 group-hover:scale-105 motion-reduce:group-hover:scale-100">
-              {logoUrl
-                ? <Image src={logoUrl} alt="" width={42} height={42} sizes="42px" className="object-cover w-full h-full" />
-                : <div className="w-full h-full bg-gradient-to-br from-dq-100 to-dq-200 flex items-center justify-center text-dq-800 text-lg font-bold select-none" aria-hidden="true">د</div>}
-            </div>
-            <span className="font-bold text-[17px] text-white tracking-normal hidden md:block">{siteName}</span>
-          </Link>
+          <BrandLogo siteName={siteName} logoUrl={logoUrl} variant="header" />
 
           {/* Desktop nav */}
           <nav aria-label="مرکزی نیویگیشن" className="hidden lg:flex flex-1 items-center justify-center gap-7">

@@ -1,3 +1,14 @@
+/** Canonical public paths — prefer these over string literals. */
+export const PATHS = {
+  home: '/',
+  onlineCourses: '/online-courses',
+  services: '/services',
+  articles: '/articles',
+  donate: '/donate',
+  about: '/about',
+  contact: '/contact',
+} as const
+
 type ParentSlugNode = { slug: string; parent?: ParentSlugNode | null } | null | undefined
 
 type AncestryNode = { title: string; slug: string; parent?: AncestryNode | null }
@@ -42,8 +53,16 @@ export function coursePath(
 }
 
 export function servicePath(slug: string, parentSlug?: string | null): string {
-  if (parentSlug) return `/services/${parentSlug}/${slug}`
-  return `/services/${slug}`
+  const leaf = slug.toLowerCase()
+  const parent = parentSlug?.toLowerCase()
+  if (parent) return `/services/${parent}/${leaf}`
+  return `/services/${leaf}`
+}
+
+/** Strip trailing slashes for href equality (keeps `/`). */
+export function normalizeHref(href: string): string {
+  if (!href || href === '/') return href || '/'
+  return href.replace(/\/+$/, '')
 }
 
 export function breadcrumbHref(basePath: string, ancestry: { slug: string }[], index: number): string {

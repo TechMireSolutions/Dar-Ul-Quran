@@ -1,14 +1,14 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { pageMetadata } from '@/lib/seo'
+import { pageMetadata, DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
 import { TW_BODY_MUTED, TW_BTN_PRIMARY, TW_EYEBROW, TW_PAGE_TITLE } from '@/lib/tailwind'
 
 export const metadata: Metadata = pageMetadata({
   title: 'صفحہ نہیں ملا',
-  description: 'یہ صفحہ موجود نہیں ہے۔ دار القرآن کی دیگر صفحات دیکھیں۔',
+  description: `یہ صفحہ موجود نہیں ہے۔ ${DEFAULT_SITE_NAME_URDU} کی دیگر صفحات دیکھیں۔`,
   path: '/404',
   noIndex: true,
-  siteName: 'دار القرآن',
+  siteName: DEFAULT_SITE_NAME_URDU,
 })
 
 export default function NotFound() {

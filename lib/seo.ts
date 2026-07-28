@@ -6,6 +6,32 @@ export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://darulquran.
 /** Default org name when Sanity siteSettings is unavailable (JSON-LD, metadata). */
 export const DEFAULT_SITE_NAME = 'Dar Ul Quran'
 
+/** Urdu display name for UI chrome (header, footer, titles). */
+export const DEFAULT_SITE_NAME_URDU = 'دار القرآن'
+
+/** Default footer / brand tagline when CMS tagline is empty. */
+export const DEFAULT_TAGLINE =
+  'اہل بیت (ع) کے نور کو تعلیم، مستند مواد اور روحانی خدمات کے ذریعے پھیلانا۔'
+
+/** Default donate CTA label (footer / homepage fallback). */
+export const DEFAULT_DONATE_CTA_LABEL = 'ابھی عطیہ دیں'
+
+/** External related-site chip label (footer). */
+export const DEFAULT_RELATED_SITE_LABEL = 'متعلقہ ویب سائٹ'
+
+/** Short meta description when CMS description is empty. */
+export const DEFAULT_SITE_DESCRIPTION = 'اسلامی علم، آنلائن کورسز اور خدمات'
+
+/** Longer homepage description fallback. */
+export const DEFAULT_HOME_DESCRIPTION =
+  'اسلامی علم، آنلائن کورسز اور خدمات — دنیا بھر میں شیعہ خاندانوں کے لیے مستند تعلیم۔'
+
+/** Resolve Urdu display name from CMS (UI chrome, titles, manifest). */
+export function resolveSiteNameUrdu(siteName?: string | null): string {
+  const trimmed = siteName?.trim()
+  return trimmed || DEFAULT_SITE_NAME_URDU
+}
+
 type SanityImage = SanityImageAsset
 
 export type SiteSettingsOg = {
@@ -97,7 +123,7 @@ export function pageMetadata({
 }: PageMetadataOptions): Metadata {
   const url = path === '/' ? SITE_URL : `${SITE_URL}${path}`
   const ogImage = resolveOgImage(image, settings)
-  const resolvedSiteName = siteName ?? settings?.siteName ?? DEFAULT_SITE_NAME
+  const resolvedSiteName = resolveSiteNameUrdu(siteName ?? settings?.siteName)
   const documentTitle = resolveDocumentTitle(title, resolvedSiteName)
 
   return {

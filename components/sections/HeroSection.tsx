@@ -1,5 +1,7 @@
 import Link from 'next/link'
 import { ArrowRight, Users, BookOpen, GraduationCap, type LucideIcon } from 'lucide-react'
+import { DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
+import { PATHS } from '@/lib/paths'
 import { TW_CONTAINER_HERO, TW_CTA_ARROW, TW_HERO_GOLD_CTA, TW_HERO_OUTLINE_CTA, TW_HERO_STAT_ICON, TW_TEXT_GRADIENT_GOLD } from '@/lib/tailwind'
 
 export type HeroStat = {
@@ -32,21 +34,22 @@ function heroDelay(ms: number): React.CSSProperties {
 }
 
 export default function HeroSection({
-  subtitle    = 'دار القرآن — ایمان۔ علم۔ رسائی۔',
+  subtitle    = `${DEFAULT_SITE_NAME_URDU} — ایمان۔ علم۔ رسائی۔`,
   title,
-  description = 'دار القرآن میں ہم ہر شخص کے لیے آسان اور سستی شیعہ اسلامی تعلیم پیش کرتے ہیں، چاہے آپ دنیا میں کہیں بھی ہوں۔',
+  description = `${DEFAULT_SITE_NAME_URDU} میں ہم ہر شخص کے لیے آسان اور سستی شیعہ اسلامی تعلیم پیش کرتے ہیں، چاہے آپ دنیا میں کہیں بھی ہوں۔`,
   heroImage,
   heroImageSrcSet,
   heroImageSizes = '(min-width: 768px) 58vw, 1px',
   heroImageBlur,
   cta1Label   = 'کورسز دیکھیں',
-  cta1Link    = '/online-courses',
+  cta1Link    = PATHS.onlineCourses,
   cta2Label   = 'ہماری خدمات',
-  cta2Link    = '/services',
+  cta2Link    = PATHS.services,
   stats,
 }: HeroSectionProps) {
   const titleLines = title ? title.split('\n') : DEFAULT_LINES
   const visibleStats = (stats ?? []).filter((s) => s.value.trim() && s.label.trim())
+  const brand = DEFAULT_SITE_NAME_URDU
 
   return (
     <section
@@ -72,7 +75,7 @@ export default function HeroSection({
             src={heroImage}
             srcSet={heroImageSrcSet}
             sizes={heroImageSizes}
-            alt={title ? `دار القرآن - ${title.replace(/\n/g, ' ')}` : 'دار القرآن - اسلامی علم اور کورسز'}
+            alt={title ? `${brand} - ${title.replace(/\n/g, ' ')}` : `${brand} - اسلامی علم اور کورسز`}
             fetchPriority="high"
             decoding="async"
             width={828}

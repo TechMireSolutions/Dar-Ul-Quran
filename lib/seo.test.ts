@@ -1,18 +1,49 @@
 import { describe, expect, it } from 'vitest'
-import { resolveDocumentTitle } from '@/lib/seo'
+import { DEFAULT_SITE_NAME_URDU, resolveDocumentTitle, resolveSiteNameUrdu } from '@/lib/seo'
+
+describe('resolveSiteNameUrdu', () => {
+  it('returns CMS name when present', () => {
+    expect(resolveSiteNameUrdu('دار القرآن')).toBe('دار القرآن')
+  })
+
+  it('falls back to the Urdu default', () => {
+    expect(resolveSiteNameUrdu(undefined)).toBe(DEFAULT_SITE_NAME_URDU)
+    expect(resolveSiteNameUrdu('')).toBe(DEFAULT_SITE_NAME_URDU)
+    expect(resolveSiteNameUrdu('   ')).toBe(DEFAULT_SITE_NAME_URDU)
+  })
+})
+
+describe('pageMetadata site name', () => {
+  it('uses Urdu fallback when settings omit siteName', async () => {
+    const { pageMetadata } = await import('@/lib/seo')
+    const meta = pageMetadata({
+      title: 'رابطہ',
+      path: '/contact',
+      settings: {},
+    })
+    expect(meta.openGraph?.siteName).toBe(DEFAULT_SITE_NAME_URDU)
+    expect((meta.title as { absolute?: string }).absolute).toBe(
+      `رابطہ | ${DEFAULT_SITE_NAME_URDU}`,
+    )
+  })
+})
 
 describe('resolveDocumentTitle', () => {
   it('keeps home title as site name alone', () => {
-    expect(resolveDocumentTitle('دار القرآن', 'دار القرآن')).toBe('دار القرآن')
+    expect(resolveDocumentTitle(DEFAULT_SITE_NAME_URDU, DEFAULT_SITE_NAME_URDU)).toBe(
+      DEFAULT_SITE_NAME_URDU,
+    )
   })
 
   it('appends site name once for plain titles', () => {
-    expect(resolveDocumentTitle('رابطہ', 'دار القرآن')).toBe('رابطہ | دار القرآن')
+    expect(resolveDocumentTitle('رابطہ', DEFAULT_SITE_NAME_URDU)).toBe(
+      `رابطہ | ${DEFAULT_SITE_NAME_URDU}`,
+    )
   })
 
   it('does not double an existing brand suffix', () => {
-    expect(resolveDocumentTitle('بالغان | دار القرآن', 'دار القرآن')).toBe(
-      'بالغان | دار القرآن',
-    )
+    expect(
+      resolveDocumentTitle(`بالغان | ${DEFAULT_SITE_NAME_URDU}`, DEFAULT_SITE_NAME_URDU),
+    ).toBe(`بالغان | ${DEFAULT_SITE_NAME_URDU}`)
   })
 })

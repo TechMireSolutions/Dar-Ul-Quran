@@ -19,7 +19,7 @@ import {
 } from '@/lib/paths'
 import { resolveWhatsappLink } from '@/lib/contact'
 import { mergeFaqItems } from '@/lib/topicCluster'
-import { pageMetadata } from '@/lib/seo'
+import { pageMetadata, DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
 
 export const revalidate = 300
 
@@ -62,7 +62,7 @@ export async function generateMetadata(
   const description =
     service.seoDescription ||
     service.excerpt ||
-    `${title} — دار القرآن کی مذہبی خدمات۔`
+    `${title} — ${DEFAULT_SITE_NAME_URDU} کی مذہبی خدمات۔`
   const image = service.featuredImage
     ? ogImageUrl(service.featuredImage)
     : service.icon
@@ -107,7 +107,7 @@ export default async function ServiceCatchAllPage(
 
   const serviceTitle = service.title ?? 'خدمت'
   const pageDescription =
-    service.seoDescription || service.excerpt || `${serviceTitle} — دار القرآن کی مذہبی خدمات۔`
+    service.seoDescription || service.excerpt || `${serviceTitle} — ${DEFAULT_SITE_NAME_URDU} کی مذہبی خدمات۔`
 
   return (
     <div>

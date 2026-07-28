@@ -1,13 +1,13 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { useState, useEffect, useRef, useId, useCallback } from 'react'
 import { Search, X, ChevronDown } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 
 import type { NavNode } from '@/lib/types'
 import { nodeIsActive } from '@/lib/navigation'
+import BrandLogo from '@/components/ui/BrandLogo'
 import {
   TW_MOBILE_NAV_ROW,
   TW_MOBILE_NAV_ROW_ACTIVE,
@@ -265,16 +265,13 @@ export default function HeaderMobileMenu({
           ${open ? 'translate-x-0' : 'translate-x-full'}`}
       >
         <div className={TW_MOBILE_PANEL_HEADER}>
-          <Link href="/" onClick={handleClose} className="flex min-h-11 min-w-0 items-center gap-2.5">
-            <div className="size-10 shrink-0 overflow-hidden rounded-full border-2 border-dq-400">
-              {logoUrl
-                ? <Image src={logoUrl} alt="" width={40} height={40} sizes="40px" className="size-full object-cover" />
-                : <div className="flex size-full items-center justify-center bg-gradient-to-br from-dq-100 to-dq-200 text-dq-800 text-lg font-bold select-none" aria-hidden="true">د</div>}
-            </div>
-            <span id={titleId} className="truncate font-bold text-[16px] text-slate-900 tracking-normal">
-              {siteName}
-            </span>
-          </Link>
+          <BrandLogo
+            siteName={siteName}
+            logoUrl={logoUrl}
+            variant="drawer"
+            onNavigate={handleClose}
+            titleId={titleId}
+          />
           <button
             ref={closeButtonRef}
             type="button"

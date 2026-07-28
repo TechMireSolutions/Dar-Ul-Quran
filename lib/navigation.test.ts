@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { buildNavTree, ensurePrimaryNav, FALLBACK_HEADER_NAV, FALLBACK_QUICK_LINKS, flattenFooterQuickLinks, nodeIsActive, toNavNode } from '@/lib/navigation'
+import { buildNavTree, ensurePrimaryNav, FALLBACK_HEADER_NAV, FALLBACK_QUICK_LINKS, flattenFooterQuickLinks, footerServiceLinks, nodeIsActive, toNavNode, withoutHref } from '@/lib/navigation'
 import type { NavNode, RawNavItem } from '@/lib/types/navigation'
 
 describe('toNavNode / buildNavTree', () => {
@@ -118,5 +118,26 @@ describe('flattenFooterQuickLinks', () => {
   it('does not duplicate Home when already present', () => {
     const links = flattenFooterQuickLinks([{ label: 'ہوم', href: '/' }, { label: 'رابطہ', href: '/contact' }])
     expect(links.filter((n) => n.href === '/')).toHaveLength(1)
+  })
+})
+
+describe('withoutHref', () => {
+  it('removes matching href ignoring trailing slash', () => {
+    const links = withoutHref(
+      [
+        { label: 'ہوم', href: '/' },
+        { label: 'متعلقہ', href: 'https://aabtaab.com/' },
+      ],
+      'https://aabtaab.com',
+    )
+    expect(links).toEqual([{ label: 'ہوم', href: '/' }])
+  })
+})
+
+describe('footerServiceLinks', () => {
+  it('maps CMS services through servicePath', () => {
+    expect(footerServiceLinks([{ _id: '1', title: 'زکوٰۃ', slug: 'Zakat' }])).toEqual([
+      { label: 'زکوٰۃ', href: '/services/zakat' },
+    ])
   })
 })

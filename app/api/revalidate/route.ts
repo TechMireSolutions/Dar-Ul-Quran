@@ -2,7 +2,7 @@ import { revalidatePath, revalidateTag } from 'next/cache'
 import { NextResponse } from 'next/server'
 import { CMS_TAG, cmsTypeTag, courseTag, postTag, serviceTag } from '@/lib/cache-tags'
 import { secretsEqual } from '@/lib/secrets'
-import { ancestryFromParent, expectedPathFromAncestry } from '@/lib/paths'
+import { ancestryFromParent, expectedPathFromAncestry, PATHS } from '@/lib/paths'
 import { getCourseBySlug, getServiceBySlug } from '@/sanity/lib/fetchers'
 
 type SanityWebhookBody = {
@@ -13,15 +13,15 @@ type SanityWebhookBody = {
 }
 
 const TYPE_PATHS: Record<string, string[]> = {
-  siteSettings: ['/'],
-  homepageSettings: ['/'],
-  headerNav: ['/'],
-  navigation: ['/'],
-  course: ['/online-courses'],
-  service: ['/services'],
-  post: ['/articles'],
-  page: ['/about', '/contact', '/donate'],
-  testimonial: ['/'],
+  siteSettings: [PATHS.home],
+  homepageSettings: [PATHS.home],
+  headerNav: [PATHS.home],
+  navigation: [PATHS.home],
+  course: [PATHS.onlineCourses],
+  service: [PATHS.services],
+  post: [PATHS.articles],
+  page: [PATHS.about, PATHS.contact, PATHS.donate],
+  testimonial: [PATHS.home],
 }
 
 export async function POST(req: Request) {

@@ -9,6 +9,7 @@ import {
   resolveSeoTitle,
   toItemListEntries,
 } from '@/lib/cmsPage'
+import { DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
 import ContentCard from '@/components/ui/ContentCard'
 import ListingIndexShell, { ListingCardGrid, ListingEmptyState } from '@/components/layout/ListingIndexShell'
 import Reveal from '@/components/ui/Reveal'
@@ -24,7 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
     path: PAGE_PATH,
     titleFallback: 'آنلائن کورسز',
     descriptionFallback: 'اہل علماء سے قرآن، فقہ، اخلاق اور تاریخ سیکھیں۔',
-    keywords: ['آن لائن قرآن کورسز', 'Online Shia Quran classes', 'دار القرآن'],
+    keywords: ['آن لائن قرآن کورسز', 'Online Shia Quran classes', DEFAULT_SITE_NAME_URDU],
   })
 }
 

@@ -274,7 +274,84 @@ export const TW_FOOTER_CONTACT_LINK =
 
 /** Footer social icon button */
 export const TW_FOOTER_SOCIAL =
-  'inline-flex w-11 h-11 sm:w-10 sm:h-10 rounded-lg bg-dq-800 border border-dq-700 items-center justify-center text-gray-300 hover:border-dq-400 hover:text-dq-300 focus-visible:border-dq-400 focus-visible:text-dq-300 transition-all duration-200'
+  'inline-flex w-11 h-11 sm:w-10 sm:h-10 rounded-lg bg-dq-800 border border-dq-700 items-center justify-center text-gray-300 hover:border-dq-400 hover:text-dq-300 focus-visible:border-dq-400 focus-visible:text-dq-300 active:brightness-95 transition-all duration-200'
+
+/** Footer main column grid */
+export const TW_FOOTER_GRID =
+  'grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-6 sm:gap-8 lg:gap-10'
+
+/** Footer column heading */
+export const TW_FOOTER_COL_HEADING =
+  'text-[13px] font-bold text-dq-400 mb-2.5 sm:mb-4 tracking-normal'
+
+/** Footer quick-link / service row */
+export const TW_FOOTER_NAV_LINK =
+  'group flex min-h-11 items-center gap-1.5 text-[12px] sm:text-[13px] text-gray-300 hover:text-dq-400 focus-visible:text-dq-400 transition-colors duration-150'
+
+/** Reserved-width hover chevron (no layout shift) */
+export const TW_FOOTER_NAV_CHEVRON =
+  'w-3 shrink-0 text-center text-[11px] leading-none text-transparent group-hover:text-dq-400 group-focus-visible:text-dq-400 transition-colors rtl:rotate-180'
+
+/** Related-site chip next to social icons */
+export const TW_FOOTER_RELATED =
+  'inline-flex items-center gap-1 min-h-11 text-[11px] font-medium text-gray-300 hover:text-dq-400 focus-visible:text-dq-400 bg-dq-800 border border-dq-700 hover:border-dq-400 focus-visible:border-dq-400 rounded-lg px-2.5 py-1.5 transition-all duration-200'
+
+/** Brand tagline under footer logo */
+export const TW_FOOTER_TAGLINE =
+  'text-[12px] sm:text-[13px] text-gray-300 leading-urdu mb-3 sm:mb-5 max-w-[280px] line-clamp-2 sm:line-clamp-none'
+
+/** Copyright line */
+export const TW_FOOTER_COPY =
+  'text-[11.5px] text-gray-300 text-center sm:text-start'
+
+/** Main footer padding inside container */
+export const TW_FOOTER_BODY = 'py-6 sm:py-10 lg:py-12'
+
+/** Social chip row */
+export const TW_FOOTER_SOCIAL_LIST =
+  'flex items-center gap-2 flex-wrap list-none p-0 m-0'
+
+/** Contact column grid */
+export const TW_FOOTER_CONTACT_GRID =
+  'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-x-4 gap-y-2 sm:gap-y-3'
+
+/** Shared gold icon tint in footer contact/social rows */
+export const TW_FOOTER_ICON = 'text-dq-400 shrink-0'
+
+/** Address text under map pin */
+export const TW_FOOTER_ADDRESS =
+  'text-[12px] sm:text-[12.5px] text-gray-300 leading-urdu whitespace-pre-line py-2'
+
+/** Empty contact fallback */
+export const TW_FOOTER_EMPTY = 'text-[12px] text-gray-400 leading-urdu'
+
+/** Nav column list spacing */
+export const TW_FOOTER_NAV_LIST = 'space-y-1.5 sm:space-y-2.5'
+
+/** Bottom bar row (with optional FAB clearance applied separately) */
+export const TW_FOOTER_BOTTOM_INNER =
+  'flex items-center justify-center sm:justify-start'
+
+/** Extra bottom padding when WhatsApp FAB is present (safe-area aware). */
+export const TW_FOOTER_FAB_PAD =
+  'pt-4 pb-[max(4rem,env(safe-area-inset-bottom))] sm:py-4'
+
+/** Footer shell */
+export const TW_FOOTER_SHELL = `bg-dq-900 border-t border-dq-800 ${TW_CV_AUTO}`
+
+/** Bottom legal bar shell */
+export const TW_FOOTER_BOTTOM = 'border-t border-dq-950 bg-dq-950'
+
+/** Bottom bar padding when FAB is absent */
+export const TW_FOOTER_PAD_Y = 'py-4'
+
+/** Brand logo ring shared by header / footer / drawer */
+export const TW_BRAND_LOGO_RING =
+  'rounded-full overflow-hidden border-2 border-dq-400 shrink-0 transition-transform duration-200 group-hover:scale-105 motion-reduce:group-hover:scale-100'
+
+/** Gradient letter fallback when logo asset is missing */
+export const TW_BRAND_LOGO_FALLBACK =
+  'w-full h-full bg-gradient-to-br from-dq-100 to-dq-200 flex items-center justify-center text-dq-800 font-bold select-none'
 
 /** Desktop nav dropdown row */
 export const TW_NAV_MENU_ITEM =

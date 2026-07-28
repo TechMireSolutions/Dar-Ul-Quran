@@ -25,7 +25,7 @@ import {
 } from '@/lib/paths'
 import { resolveWhatsappLink } from '@/lib/contact'
 import { mergeFaqItems } from '@/lib/topicCluster'
-import { pageMetadata } from '@/lib/seo'
+import { pageMetadata, DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
 
 export const revalidate = 300
 
@@ -86,7 +86,7 @@ export async function generateMetadata(
       'Jafari Islamic education online',
       'Shia Islamic school online',
       ...(course.subject ? [course.subject] : []),
-      'دار القرآن',
+      DEFAULT_SITE_NAME_URDU,
       'آن لائن قرآن کلاسز',
     ],
     settings,
