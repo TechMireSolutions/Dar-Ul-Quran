@@ -17,34 +17,35 @@
     "check:urdu": "node scripts/check-urdu.mjs"
   },
   "dependencies": {
-    "@portabletext/react": "^6.2.0",
-    "@sanity/client": "^7.23.0",
+    "@portabletext/react": "^7.0.1",
+    "@sanity/client": "^7.25.0",
     "@sanity/image-url": "^2.1.1",
-    "@sanity/vision": "^6.1.0",
+    "@sanity/vision": "^6.7.0",
     "@upstash/ratelimit": "^2.0.8",
     "@upstash/redis": "^1.38.0",
-    "lucide-react": "^1.21.0",
-    "next": "^16.2.9",
-    "next-sanity": "^13.1.1",
-    "nodemailer": "^9.0.1",
-    "react": "^19.2.7",
-    "react-dom": "^19.2.7",
-    "resend": "^6.14.0",
-    "sanity": "^6.1.0",
+    "lucide-react": "^1.27.0",
+    "next": "16.2.12",
+    "next-sanity": "^13.2.2",
+    "nodemailer": "^9.0.3",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "resend": "^6.18.1",
+    "sanity": "^6.7.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.3.1",
-    "@types/node": "^26.0.0",
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^26.1.2",
     "@types/nodemailer": "^8.0.1",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
+    "babel-plugin-react-compiler": "1.0.0",
     "eslint": "9.39.4",
-    "eslint-config-next": "^16.2.9",
-    "postcss": "^8.5.15",
-    "tailwindcss": "^4.3.1",
+    "eslint-config-next": "16.2.12",
+    "postcss": "^8.5.24",
+    "tailwindcss": "^4.3.3",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.9"
+    "vitest": "^4.1.10"
   },
   "browserslist": [
     "chrome >= 120",
@@ -54,7 +55,13 @@
     "ios_saf >= 17"
   ],
   "overrides": {
-    "postcss": "^8.5.15",
-    "eslint": "9.39.4"
+    "postcss": "^8.5.24",
+    "eslint": "9.39.4",
+    "sharp": "^0.35.3",
+    "adm-zip": "0.6.0",
+    "minimatch@>=9": {
+      "brace-expansion": "^5.0.8"
+    },
+    "js-yaml": "^4.3.0"
   }
 }

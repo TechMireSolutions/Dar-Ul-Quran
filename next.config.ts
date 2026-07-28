@@ -2,6 +2,8 @@ import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // React Compiler 1.0 — automatic memoization (requires babel-plugin-react-compiler)
+  reactCompiler: true,
   transpilePackages: ['sanity', '@sanity/ui', '@sanity/icons'],
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production' ? { exclude: ['error', 'warn'] } : false,

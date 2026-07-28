@@ -6,7 +6,7 @@ alwaysApply: false
 
 # Dependencies — latest stable
 
-**Version tables & full dependency list:** `techstack.md` § Dependencies
+**Version tables & full dependency list:** `techstack.md`
 
 **Goal:** Every dependency on the **latest stable release** within its supported major line. Skill: `upgrade-deps`.
 
@@ -14,23 +14,24 @@ alwaysApply: false
 
 | Package | Policy |
 |---------|--------|
-| `next` | Latest **16.x** — match `eslint-config-next` major |
-| `react` / `react-dom` | Latest **19.x** paired with Next |
+| `next` | Exact **16.2.12** — match `eslint-config-next` |
+| `react` / `react-dom` | Exact **19.2.8** paired with Next |
 | `sanity`, `@sanity/*`, `next-sanity` | Latest **v6 / v7 / v13** line — never downgrade to v5 |
 | `tailwindcss`, `@tailwindcss/postcss` | Latest **4.x** |
-| `typescript` | Latest **6.x** |
+| `typescript` | Latest **6.x** — TS **7** blocked by `typescript-eslint` |
 | `zod` | Latest **4.x** — API validation |
 | `resend` | Latest — contact email |
 | `vitest` | Latest — unit tests (dev) |
-| `eslint`, `eslint-config-next` | Latest **9.x** until config-next supports ESLint 10 |
-| Node (VPS + CI + local) | `>=22.12.0` per `engines` — CI + production VPS **24** |
+| `babel-plugin-react-compiler` | **1.0.0** — enables `reactCompiler: true` |
+| `eslint`, `eslint-config-next` | ESLint **9.39.4** pin; config-next **exact match** Next |
+| Node (VPS + CI + local) | `>=22.12.0` per `engines` — CI + production VPS **24.17.0** |
 
 ## Upgrade workflow
 
 ```bash
 npm outdated
 npm update                    # minor/patch within semver ranges
-# major bumps: edit package.json ranges, then npm install
+# exact pins (next/react/eslint): edit package.json, then npm install
 npm run lint && npm run check:urdu && npm run build
 ```
 
@@ -41,9 +42,16 @@ npm run lint && npm run check:urdu && npm run build
 
 ## Pinning exceptions (document here if added)
 
-- **ESLint 9.39.4** — exact pin + `overrides.eslint`; ESLint 10 crashes `eslint-config-next@16` (`eslint-plugin-react` `getFilename()` removed). Dependabot ignores ESLint major bumps.
-- **`postcss@^8.5.15` override** — pins Next nested PostCSS; see `package.json` `overrides`
-- No other pins unless a upstream blocker is documented in this file
+- **Next / eslint-config-next 16.2.12** — exact matched pair (July 2026 security alignment)
+- **React / react-dom 19.2.8** — exact pair with Next
+- **ESLint 9.39.4** — exact pin + `overrides.eslint`; ESLint 10 crashes `eslint-config-next` (`getFilename()`). Dependabot ignores ESLint major bumps.
+- **`postcss@^8.5.24` override** — patched PostCSS under Next/Tailwind
+- **`sharp@^0.35.3` override** — patched libvips CVEs for Next image pipeline
+- **`adm-zip@0.6.0` override** — Sanity CLI ZIP advisory
+- **`js-yaml@^4.3.0` override** — nested Sanity CLI / Vercel frameworks advisory
+- **`minimatch@>=9` → brace-expansion `^5.0.8`** — do not globally override brace-expansion (breaks ESLint minimatch@3)
+- **babel-plugin-react-compiler 1.0.0** — required for React Compiler in `next.config.ts`
+- No other pins unless an upstream blocker is documented in this file
 
 ## Agent behavior
 

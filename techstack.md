@@ -1,399 +1,405 @@
-# Dar Ul Quran — Tech Stack & SEO
+# Dar Ul Quran — Modern Upgraded Tech Stack
 
-**Live:** [darulquran.pk](https://darulquran.pk) · **License:** MIT · **Repo:** Next.js monolith + Sanity headless CMS
+**Live domain:** [darulquran.pk](https://darulquran.pk)  
+**Primary locale:** Urdu (`ur`) · RTL (`dir="rtl"`)  
+**Production port:** **3001** · **PM2 app:** `darulquran-next`  
+**VPS app path:** `/var/www/darulquran_next`  
+**Architecture:** Next.js monolith + Sanity headless CMS  
+**License:** MIT  
 
-This document describes what the site **actually runs today** (from `package.json`, deploy config, and codebase). It is the single reference for stack, dependencies, infrastructure, security, and SEO.
+**Last upgraded & security aligned:** July 2026 · Next.js **16.2.12** · React Compiler **1.0** · ESLint **9.39.4** (pin)
 
-**Last dependency verification:** 2026-06-18 — all **direct** packages at latest stable npm; lockfile current. Only **ESLint 10** blocked. CI + production Node **24**.
+This file is the single source of truth for stack versions, infrastructure, security, and SEO inventory. Prefer editing here (and `package.json`) over duplicating version tables in agent stubs.
 
 ---
 
-## Core application layer
+## 1. Core application layer
 
-| Layer | Technology | Version | Notes |
-|-------|------------|---------|-------|
-| Runtime | **Node.js** | ≥ 22.12 (prod **24.17**) | `engines` in `package.json`; VPS runs **24.17.0** |
-| Framework | **Next.js** (App Router) | 16.2.9 | RSC default; no Pages Router |
-| UI | **React** | 19.2.7 | Server Components first; `"use client"` only when needed |
-| Language | **TypeScript** | 6.0.3 | Strict mode |
-| Styling | **Tailwind CSS** v4 + PostCSS | 4.3.1 | `@import "tailwindcss"` in `globals.css`; tokens in `tailwind.config.ts` |
-| Icons | **lucide-react** | 1.21.0 | Client components only |
-| Font | **Noto Nastaliq Urdu** | Google Fonts | Loaded via `DeferredUrduFont` (non-blocking) |
-| Locale | **RTL Urdu** | — | `lang="ur" dir="rtl"` on root HTML |
+| Layer | Technology | Version | Operational & architecture notes |
+|-------|------------|---------|----------------------------------|
+| Runtime | **Node.js** | ≥ **22.12** (CI/Prod **24.17.0**) | Managed via NVM; required for Sanity v6 engine |
+| Framework | **Next.js** (App Router) | **16.2.12** (Active LTS) | Patched for July 2026 SSR/Server Action advisories; Turbopack build |
+| UI library | **React** / **React DOM** | **19.2.8** | RSC-first; **React Compiler 1.0** for memoization (`reactCompiler: true`) |
+| Language | **TypeScript** | **6.0.3** | Strict mode, `target: ES2022`, `@/*` path aliases |
+| Styling | **Tailwind CSS** v4 | **4.3.3** | CSS-first theme (`@import "tailwindcss"`); shared `TW_*` in `lib/tailwind.ts` |
+| Icons | **lucide-react** | **1.27.0** | Client components; `optimizePackageImports` |
+| Typography | **Noto Nastaliq Urdu** | Google Fonts | `DeferredUrduFont` — off critical rendering path |
+| Locale | **RTL Urdu** | — | Enforced `<html lang="ur" dir="rtl">` |
+| CMS | **Sanity** | **6.7.0** | Embedded Studio at `/studio` (`^6.7.0`) |
+| CMS bridge | **next-sanity** | **13.2.2** | `safeFetch` wrapper, Studio integration (`^13.2.2`) |
+| Rich text | **@portabletext/react** | **7.0.1** | React 19 + React Compiler builds; no API change from v6 |
+| CMS custom input | **LtrStringInput** | `sanity/components/` | LTR override for emails, phones, URLs |
+| Validation | **Zod** | **4.4.3** | API payloads and contact forms |
+| Tests | **Vitest** | **4.1.10** | Unit tests under `lib/*.test.ts` |
+| Linting | **ESLint** + Urdu check | **9.39.4** (pin) + custom | `eslint-config-next@16.2.12` + `check-urdu.mjs` |
 
 ### Architecture patterns
 
-- **Thin routes** — `page.tsx` fetches via `sanity/lib/fetchers.ts`, composes sections, adds JSON-LD
-- **Route-private UI** — `app/(site)/**/_components/` (not shared across routes)
+- **Thin routes** — `page.tsx` → `sanity/lib/fetchers.ts` → sections + JSON-LD
+- **Route-private UI** — `app/(site)/**/_components/`
 - **Shared UI** — `components/{layout,ui,sections,content,seo}/`
-- **Data layer** — GROQ in `sanity/lib/queries.ts` only; pages never import queries directly
-- **ISR** — `export const revalidate = 300` on CMS-backed pages
-- **On-demand revalidation** — Sanity webhook → `POST /api/revalidate` (optional; see `docs/sanity-webhook.md`)
-
-### npm scripts
-
-| Script | Command | Purpose |
-|--------|---------|---------|
-| `dev` | `node scripts/run-next.mjs dev` | Dev server **:3001** |
-| `build` | `next build` | Production build (prebuild stubs polyfills) |
-| `start` | `node scripts/run-next.mjs start` | Production **:3001** |
-| `lint` | `eslint .` | ESLint 9 + `eslint-config-next` |
-| `test` | `vitest run` | Unit tests (`lib/*.test.ts`) |
-| `check:urdu` | `node scripts/check-urdu.mjs` | Urdu UI string scanner |
+- **GROQ** only in `sanity/lib/queries.ts`
+- **ISR** — `revalidate = 300` on CMS pages
+- **On-demand revalidation** — Sanity webhook → `POST /api/revalidate`
+- **Port** — production always **3001** via `deploy/runtime.cjs` (never 3000)
 
 ---
 
-## Dependencies
+## 2. npm scripts & quality pipeline
 
-### Production (`dependencies`)
+Port **3001** is applied by `scripts/run-next.mjs` reading `deploy/runtime.cjs` (not CLI flags).
 
-| Package | Version | Role |
-|---------|---------|------|
-| `next` | ^16.2.9 | App framework |
-| `react` / `react-dom` | ^19.2.7 | UI runtime |
-| `sanity` | ^6.1.0 | CMS core + Studio |
-| `next-sanity` | ^13.1.1 | Next.js integration, `safeFetch` |
-| `@sanity/client` | ^7.23.0 | Server writes (contact form) |
-| `@sanity/image-url` | ^2.1.1 | Image URL builder (`urlFor`) |
-| `@sanity/vision` | ^6.1.0 | GROQ IDE in Studio |
-| `@portabletext/react` | ^6.2.0 | Rich text rendering |
-| `lucide-react` | ^1.21.0 | Icons |
-| `zod` | ^4.4.3 | Contact API validation |
-| `resend` | ^6.14.0 | Transactional email (primary) |
-| `nodemailer` | ^9.0.1 | Gmail SMTP fallback |
-| `@upstash/ratelimit` | ^2.0.8 | Optional distributed rate limit |
-| `@upstash/redis` | ^1.38.0 | Upstash REST client |
+```json
+{
+  "scripts": {
+    "dev": "node scripts/run-next.mjs dev",
+    "build": "next build",
+    "start": "node scripts/run-next.mjs start",
+    "lint": "eslint .",
+    "check:urdu": "node scripts/check-urdu.mjs",
+    "test": "vitest run",
+    "postinstall": "node scripts/stub-next-polyfills.mjs",
+    "prebuild": "node scripts/stub-next-polyfills.mjs"
+  }
+}
+```
 
-### Development (`devDependencies`)
+### CI / preflight (Urdu compliance gate)
 
-| Package | Version | Role |
-|---------|---------|------|
-| `tailwindcss` | ^4.3.1 | Utility CSS |
-| `@tailwindcss/postcss` | ^4.3.1 | PostCSS plugin |
-| `postcss` | ^8.5.15 | CSS pipeline |
-| `typescript` | ^6.0.3 | Type checking |
-| `eslint` | ^9.39.4 | Linting (**v10 blocked** by `eslint-config-next`) |
-| `eslint-config-next` | ^16.2.9 | Next.js ESLint rules |
-| `vitest` | ^4.1.9 | Unit tests |
-| `@types/node` | ^26.0.0 | Node types (Node 22+ API) |
-| `@types/react` / `@types/react-dom` | ^19.2.x | React types |
-| `@types/nodemailer` | ^8.0.1 | Nodemailer types |
+```bash
+npm run lint && npm run check:urdu && npm run test && npm run build && npm audit --audit-level=critical
+```
+
+GitHub Actions CI (`.github/workflows/ci.yml`) runs the same gate on Node **24**. Audit gate is **critical** — Sanity CLI / eslint toolchain still report transitive **high** advisories; `npm audit fix --force` would downgrade Sanity to v5 and must not be used.
+
+---
+
+## 3. Synchronized dependencies (`package.json`)
+
+July 2026 security-aligned direct dependencies:
+
+```json
+{
+  "dependencies": {
+    "@portabletext/react": "^7.0.1",
+    "@sanity/client": "^7.25.0",
+    "@sanity/image-url": "^2.1.1",
+    "@sanity/vision": "^6.7.0",
+    "@upstash/ratelimit": "^2.0.8",
+    "@upstash/redis": "^1.38.0",
+    "lucide-react": "^1.27.0",
+    "next": "16.2.12",
+    "next-sanity": "^13.2.2",
+    "nodemailer": "^9.0.3",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "resend": "^6.18.1",
+    "sanity": "^6.7.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^26.1.2",
+    "@types/nodemailer": "^8.0.1",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "babel-plugin-react-compiler": "1.0.0",
+    "eslint": "9.39.4",
+    "eslint-config-next": "16.2.12",
+    "postcss": "^8.5.24",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.10"
+  },
+  "overrides": {
+    "postcss": "^8.5.24",
+    "eslint": "9.39.4",
+    "sharp": "^0.35.3",
+    "adm-zip": "0.6.0",
+    "js-yaml": "^4.3.0",
+    "minimatch@>=9": {
+      "brace-expansion": "^5.0.8"
+    }
+  }
+}
+```
+
+| Pin / override | Why |
+|----------------|-----|
+| `next` / `eslint-config-next` **16.2.12** exact | Security-aligned LTS pair |
+| `react` / `react-dom` **19.2.8** exact | Stable pair with Next 16.2 |
+| `eslint` **9.39.4** exact + override | ESLint 10 breaks `eslint-config-next` (`getFilename`) |
+| `postcss@^8.5.24` override | Patched PostCSS (source-map path traversal) |
+| `sharp@^0.35.3` override | Patched libvips CVEs under Next image pipeline |
+| `adm-zip@0.6.0` override | Sanity CLI ZIP memory advisory |
+| `js-yaml@^4.3.0` override | Prototype pollution / merge DoS under Sanity CLI |
+| `minimatch@>=9` → `brace-expansion@^5.0.8` | Patched brace-expansion without breaking ESLint’s minimatch@3 |
+| `babel-plugin-react-compiler@1.0.0` | Required for `reactCompiler: true` in `next.config.ts` |
+
+**Dependabot** ignores ESLint major bumps (`.github/dependabot.yml`).
+
+**Never** run `npm audit fix --force` if it downgrades Sanity to v5.
 
 ### Browser support (`browserslist`)
 
 Chrome ≥ 120 · Edge ≥ 120 · Firefox ≥ 121 · Safari ≥ 17 · iOS Safari ≥ 17
 
-### Lockfile overrides
-
-| Override | Purpose |
-|----------|---------|
-| `postcss@^8.5.15` | Forces Next.js nested PostCSS to patched 8.5.15+ (XSS advisory in older nested copies) |
-
-### Known audit notes (2026-06-20)
-
-- **11 moderate** — transitive via Sanity CLI (`js-yaml`, `uuid` in `@sanity/cli` / `typeid-js`). No fix without `npm audit fix --force` downgrading Sanity to v5.
-- **CI gate:** `npm audit --audit-level=high` — passes (no high/critical).
-- **Do not** run `npm audit fix --force`.
-
 ### Not used (by design)
 
 | Technology | Why not |
 |------------|---------|
-| PostgreSQL / Drizzle / Neon / Turso | Content lives in **Sanity**; no app database |
-| Payload CMS | **Sanity v6** embedded at `/studio` |
-| Auth.js / Clerk | Public marketing site; no user accounts |
-| Docker / Fly.io / Cloud Run | **Hetzner VPS** + PM2 + Apache |
-| Edge Runtime for app | Node.js runtime on VPS; Sanity CDN for content |
-| Playwright (E2E) | Not configured yet; CI runs Vitest only |
+| App database (Postgres, etc.) | Content in **Sanity** |
+| Auth.js / Clerk | Public marketing site |
+| Docker / Cloud Run | **Hetzner VPS** + PM2 + Apache |
+| Playwright E2E | Vitest only in CI |
+| `@tailwindcss/typography` | Custom `.rich-text` classes |
 
 ---
 
-## Data & content
-
-| Concern | Implementation |
-|---------|----------------|
-| CMS | **Sanity v6** — schemas in `sanity/schemaTypes/` |
-| Queries | **GROQ** in `sanity/lib/queries.ts` (draft filter, explicit fields) |
-| Fetch layer | `sanity/lib/fetchers.ts` — React `cache()` + `safeFetch` |
-| Types | `lib/types/` — DTOs per domain |
-| Images | Sanity CDN (`cdn.sanity.io`) + `next/image` (AVIF/WebP) |
-| Rich text | Portable Text → `@portabletext/react` + `.rich-text` CSS |
-| Studio | Embedded at `/studio` (same Next.js app) |
-| Cache tags | `cms`, `cms:<type>`, and per-slug `course:*` / `service:*` / `post:*` via `lib/cache-tags.ts` |
-
-Every public document type: `slug`, `order`, inline `seo { title, description }`, image `alt`.
-
-### Sanity document types (`sanity/schemaTypes/`)
-
-| `_type` | Purpose |
-|---------|---------|
-| `siteSettings` | Site name, logo, contact, social, donate causes |
-| `homepageSettings` | Hero, about block, section headings |
-| `navigation` | Header nav tree |
-| `page` | CMS pages (`about`, `contact`, `donate`) |
-| `course` | Nested online courses (parent refs) |
-| `service` | Nested services |
-| `post` | Articles / blog |
-| `category` | Article categories |
-| `author` | Article authors |
-| `testimonial` | Homepage testimonials |
-| `topicCluster` | SEO topic clusters (pillar + related) |
-| `contactSubmission` | Contact form entries (API writes) |
-
----
-
-## Public routes & API
-
-### Site routes (`app/(site)/`)
-
-| Path | Type | Notes |
-|------|------|-------|
-| `/` | Homepage | Hero, carousels, testimonials, donate CTA |
-| `/about` | CMS page | `page` slug `about` |
-| `/contact` | CMS page + form | Turnstile optional |
-| `/donate` | CMS page | PayPal CTA |
-| `/articles` | Listing | Featured posts |
-| `/articles/[slug]` | Article detail | `ArticleSchema` |
-| `/online-courses` | Listing | Top-level courses |
-| `/online-courses/[...slug]` | Course tree | `CourseSchema`, catch-all |
-| `/services` | Listing | Top-level services |
-| `/services/[...slug]` | Service tree | `ServiceSchema`, catch-all |
-
-### System routes
-
-| Path | Purpose |
-|------|---------|
-| `/studio` | Sanity Studio (embedded) |
-| `/sitemap.xml` | Dynamic sitemap |
-| `/robots.txt` | Crawl rules + AI bots |
-| `/llms.txt` | AI-readable site feed |
-| `/manifest.webmanifest` | PWA manifest (Urdu RTL) |
-
-### API routes (`app/api/`)
-
-| Method | Path | Purpose |
-|--------|------|---------|
-| `POST` | `/api/contact` | Form submit → Sanity + Resend |
-| `POST` | `/api/revalidate?secret=` | Sanity webhook cache purge |
-
----
-
-## Infrastructure & deployment
+## 4. Deployment & infrastructure
 
 ```
-Internet → Apache (HTTPS, HSTS) → 127.0.0.1:3001 → PM2 (darulquran-next) → Next.js
+Internet ──► Apache (HTTPS / HTTP/2)
+               │
+               └──► http://127.0.0.1:3001
+                      │
+                      └──► PM2 [darulquran-next]
+                             Node 24 · Next.js 16.2.12
 ```
 
 | Component | Detail |
 |-----------|--------|
-| **Host** | Hetzner VPS (`/var/www/darulquran_next`) |
-| **Process** | PM2 — `ecosystem.config.cjs`, app name `darulquran-next` |
-| **Port** | **3001** (locked in production) — `deploy/runtime.cjs` |
-| **Proxy** | Apache — static `/_next/static/`, security headers, HTTP/2 |
-| **CI/CD** | GitHub Actions — Node **24**; CI passes → deploy v8 (`workflow_run`) |
-| **CI checks** | lint → `check:urdu` → vitest → `npm audit --audit-level=high` → build |
-| **Dependabot** | Weekly npm updates (`.github/dependabot.yml`) |
+| Host | Hetzner VPS — `/var/www/darulquran_next` |
+| Process | PM2 `darulquran-next` — fork, max 1G |
+| Port | **3001** locked — `deploy/runtime.cjs` |
+| Listen host | `0.0.0.0` (Apache proxies to `127.0.0.1:3001`) |
+| Remote deploy | `deploy/remote-deploy.sh` **v8** — `npm ci`, build, health, rollback |
+| CI | Node **24** — `actions/checkout@v5` + `actions/setup-node@v5`; lint → urdu → test → audit(critical) → build |
+| Deploy | After CI success (`workflow_run`) — `appleboy/ssh-action@v1.2.5` |
 
-Deploy rule: **stop PM2 before rebuilding `.next`** — prevents chunk 404s during deploy.
+### Environment (`.env.example` / VPS `.env`)
+
+Never commit secrets. Production fills empty values on the VPS:
+
+```ini
+PORT=3001
+HOSTNAME=0.0.0.0
+NODE_ENV=production
+
+NEXT_PUBLIC_SITE_URL=https://darulquran.pk
+NEXT_PUBLIC_SANITY_PROJECT_ID=
+NEXT_PUBLIC_SANITY_DATASET=production
+SANITY_API_TOKEN=
+REVALIDATE_SECRET=
+
+RESEND_API_KEY=
+EMAIL_FROM=contact@darulquran.pk
+EMAIL_TO=
+
+# Optional
+UPSTASH_REDIS_REST_URL=
+UPSTASH_REDIS_REST_TOKEN=
+NEXT_PUBLIC_TURNSTILE_SITE_KEY=
+TURNSTILE_SECRET_KEY=
+
+# SMTP fallback if Resend unset
+EMAIL_USER=
+EMAIL_PASS=
+```
+
+### PM2 (`ecosystem.config.cjs`)
+
+Port/host come from `deploy/runtime.cjs`. PM2 runs the Next binary (not `runtime.cjs` as the process script):
+
+```js
+const { PORT, HOST } = require('./deploy/runtime.cjs')
+
+module.exports = {
+  apps: [
+    {
+      name: 'darulquran-next',
+      script: 'node_modules/next/dist/bin/next',
+      args: ['start', '-H', HOST, '-p', String(PORT)],
+      instances: 1,
+      exec_mode: 'fork',
+      max_memory_restart: '1G',
+      env: {
+        NODE_ENV: 'production',
+        PORT: String(PORT),
+        HOSTNAME: HOST,
+      },
+    },
+  ],
+}
+```
+
+Deploy rule: **stop PM2 before rebuilding `.next`** to avoid chunk 404s.
 
 ---
 
-## Security & communication
+## 5. Data & content (Sanity)
+
+| Concern | Implementation |
+|---------|----------------|
+| Schemas | `sanity/schemaTypes/` |
+| GROQ | `sanity/lib/queries.ts` |
+| Fetchers | `sanity/lib/fetchers.ts` — `cache()` + `safeFetch` |
+| Images | Sanity CDN + `next/image` (AVIF/WebP) |
+| Studio | `/studio` + `LtrStringInput` for LTR fields |
+| Cache tags | `cms`, `cms:<type>`, `course:*`, `service:*`, `post:*` |
+
+### Document types
+
+| `_type` | Purpose |
+|---------|---------|
+| `siteSettings` | Brand, contact, social, donate |
+| `homepageSettings` | Hero + homepage sections |
+| `navigation` | Header nav tree |
+| `page` | about / contact / donate |
+| `course` / `service` | Nested trees |
+| `post` / `category` / `author` | Articles |
+| `testimonial` | Homepage testimonials |
+| `topicCluster` | SEO clusters |
+| `contactSubmission` | Form entries (API writes) |
+
+---
+
+## 6. Public routes & API
+
+| Path | Notes |
+|------|-------|
+| `/` | Homepage |
+| `/about` `/contact` `/donate` | CMS pages |
+| `/articles` `/articles/[slug]` | Blog |
+| `/online-courses` `/online-courses/[...slug]` | Courses |
+| `/services` `/services/[...slug]` | Services |
+| `/studio` | Sanity Studio |
+| `/sitemap.xml` `/robots.txt` `/llms.txt` | Crawl / AI feeds |
+| `/manifest.webmanifest` | PWA (Urdu RTL) |
+| `POST /api/contact` | Zod + rate limit + Resend |
+| `POST /api/revalidate` | Webhook cache purge |
+
+---
+
+## 7. Security & communication
 
 | Layer | Implementation |
 |-------|----------------|
-| **Input validation** | Zod — `lib/contact-schema.ts` |
-| **Rate limiting** | 5 req / 15 min — Upstash Redis if configured, else in-memory on VPS |
-| **Bot protection** | Cloudflare Turnstile (optional) + honeypot field |
-| **Email** | Resend (primary) → nodemailer/Gmail (fallback) |
-| **Secrets** | `.env` on VPS — see `.env.example`; never committed |
-| **HTTP headers** | CSP, XFO, nosniff, Referrer-Policy, Permissions-Policy (`next.config.ts`) |
-| **Apache** | HSTS, immutable cache for `/_next/static/` (`deploy/apache-security-snippet.conf`) |
+| Validation | Zod — `lib/contact-schema.ts` |
+| Rate limit | Upstash or in-memory — `lib/rate-limit.ts` |
+| Bots | Turnstile (optional) + honeypot |
+| Email | Resend → nodemailer/Gmail fallback |
+| Headers | CSP, XFO, nosniff, Referrer-Policy (`next.config.ts`) |
+| Studio CSP | Separate connect/worker rules |
+| Console | Stripped in production (keep error/warn) |
 
-### Environment variables
-
-| Variable | Required | Purpose |
-|----------|----------|---------|
-| `NEXT_PUBLIC_SANITY_PROJECT_ID` | Yes | Sanity project |
-| `NEXT_PUBLIC_SANITY_DATASET` | Yes | Usually `production` |
-| `SANITY_API_TOKEN` | Yes | Contact writes + server fetches |
-| `NEXT_PUBLIC_SITE_URL` | Yes | Canonical base URL |
-| `RESEND_API_KEY` + `EMAIL_TO` | Prod | Contact notifications |
-| `REVALIDATE_SECRET` | Prod | Sanity webhook auth |
-| `UPSTASH_REDIS_REST_*` | Optional | Distributed rate limit |
-| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` + `TURNSTILE_SECRET_KEY` | Optional | Turnstile |
-| `EMAIL_USER` / `EMAIL_PASS` | Fallback | Gmail SMTP |
+See **`SECURITY.md`** and **`17-security.mdc`**.
 
 ---
 
-## Performance optimisation
+## 8. Performance
 
 | Tactic | Where |
 |--------|-------|
-| **LCP ≤ 2.5s** | `LcpImagePreload` with `media="(min-width: 768px)"`; `lcpHeroImageProps()` srcset; hero `<img fetchPriority="high">`; leaf `leafHeroImageUrl()` |
-| **Deferred font** | `DeferredUrduFont` — Noto Nastaliq off critical path; preconnect Google Fonts |
-| **INP ≤ 200ms** | Lazy `HeaderMobileMenu`; Turnstile on intersect; passive scroll |
-| **CLS ≤ 0.1** | Image dimensions, reserved hero space, aspect-ratio cards |
-| **Below-fold** | `content-visibility: auto` (`TW_CV_AUTO`) on sections, footer, listings |
-| **Images** | `next/image` — AVIF/WebP, 30-day cache, Sanity `remotePatterns` |
-| **JS bundle** | `optimizePackageImports` for lucide, portabletext, sanity client |
-| **Console** | Stripped in production (`removeConsole` in `next.config.ts`) |
-| **Carousel** | Dynamic import with skeleton placeholder |
+| LCP | `LcpImagePreload` + hero `fetchPriority="high"` |
+| Font | `DeferredUrduFont` |
+| INP | Lazy `HeaderMobileMenu`; React Compiler memoization |
+| CLS | Sized images, reserved hero space |
+| Bundle | `optimizePackageImports`; `experimental.inlineCss` |
+| Images | AVIF/WebP, 30-day cache TTL |
 
-Shared Tailwind strings: `lib/tailwind.ts` (`TW_*`) — single source, no duplicated class strings. Full token map: `06-tailwind.mdc`.
-
-Key exports by group:
-- **Layout:** `TW_CONTAINER`, `TW_CONTAINER_HEADER`, `TW_CONTAINER_HERO`, `TW_CONTAINER_NARROW`, `TW_SECTION_PY`, `TW_PAGE_BODY`, `TW_PAGE_HERO_PADDING`
-- **Typography:** `TW_EYEBROW`, `TW_EYEBROW_LINE`, `TW_PAGE_TITLE`, `TW_PAGE_SUBTITLE`, `TW_BODY_MUTED`, `TW_SECTION_TITLE`, `TW_HERO_TITLE`, `TW_ARTICLE_TITLE`
-- **Surfaces:** `TW_CARD_SURFACE`, `TW_FORM_PANEL`, `TW_FORM_INPUT`, `TW_FORM_SUBMIT`
-- **CTAs:** `TW_GOLD_CTA`, `TW_HERO_GOLD_CTA`, `TW_LEAF_WHATSAPP_CTA`, `TW_BTN_PRIMARY`, `TW_CTA_ARROW`, `TW_CARD_LINK`
-- **Rich text / perf:** `TW_RICH_TEXT_LG` / `TW_RICH_TEXT_SM`, `TW_CV_AUTO`
-
-Theme shadows: `shadow-focus-gold`, `shadow-nav-scrolled`, `shadow-gold-dot`, `shadow-gold-icon`, `shadow-inset-highlight`.
-
-Org name fallback: `DEFAULT_SITE_NAME` in `lib/seo.ts` (metadata + JSON-LD).
+Documented exceptions: native LCP `<img>`, deferred font, `dynamic` mobile nav, inline footer SVGs, `.rich-text` (not typography plugin).
 
 ---
 
-## SEO best practices applied
+## 9. SEO
 
-### Content & trust (E-E-A-T)
+- Urdu-first UI (`check:urdu`); one H1; CMS trust data
+- Canonicals via `lib/seo.ts`; dynamic sitemap/robots; `llms.txt`
+- JSON-LD: Organization, WebPage, Course, Service, Article, ItemList, Breadcrumb, FAQ
+- CWV targets: LCP ≤ 2.5s · INP ≤ 200ms · CLS ≤ 0.1 (mobile-first)
 
-- **Urdu-first** UI — titles, CTAs, `alt`, `aria-label` (enforced by `npm run check:urdu`)
-- **One H1 per page**; clear above-fold intent
-- **Internal linking** — courses ↔ services ↔ articles; topic cluster blocks
-- **Trust data from CMS** — contact, social, org info via `siteSettings` (not hardcoded)
-- **No keyword stuffing** or misleading metadata
-- **`llms.txt`** — machine-readable site summary for AI crawlers
-
-### Technical SEO (crawl & index)
-
-| Practice | Implementation |
-|----------|----------------|
-| Canonical URLs | `pageMetadata({ path })` in `lib/seo.ts` |
-| Sitemap | Dynamic `app/sitemap.ts` from Sanity |
-| Robots | `app/robots.ts` — blocks `/studio/`, `/api/`; allows AI bots to `/llms.txt` |
-| Metadata | Title, description, keywords, Open Graph, Twitter cards |
-| `noIndex` | 404 page; listing pages with `?q=` search param |
-| Static paths | `generateStaticParams` for courses, services, articles |
-| Server HTML | Primary content in RSC — crawlable without JS |
-| GSC verification | Google site verification in root `generateMetadata` |
-| PWA manifest | `app/manifest.ts` — `lang: ur`, `dir: rtl`, theme color |
-
-### Structured data (JSON-LD)
-
-| Schema | Component | Pages |
-|--------|-----------|-------|
-| Organization | Root layout | Site-wide |
-| WebPage | `WebPageSchema` | All major routes |
-| Course | `CourseSchema` | Course leaf pages |
-| Service | `ServiceSchema` | Service leaf pages |
-| Article | `ArticleSchema` | Blog posts |
-| ItemList | `ItemListSchema` | Listing/index pages |
-| BreadcrumbList | `BreadcrumbNav` | Hierarchical routes |
-
-JSON-LD matches visible title/description; `inLanguage: ur` where applicable.
-
-### Core Web Vitals targets (mobile-first index)
-
-| Metric | Target | Primary tactics |
-|--------|--------|-----------------|
-| LCP | ≤ 2.5s | Hero preload, `fetchPriority`, deferred font |
-| INP | ≤ 200ms | Lazy mobile nav, minimal handlers |
-| CLS | ≤ 0.1 | Sized images, stable layout |
-
-Test **both** Lighthouse Mobile and Desktop.
-
-### Accessibility (SEO-adjacent)
-
-- Skip link · keyboard nav · `role="menuitem"` inside menus only
-- Touch targets ≥ 44px (`TW_TOUCH`)
-- Crawlable server-rendered nav (Header/Footer from Sanity)
-
-### SEO tooling in repo
-
-| Asset | Path |
-|-------|------|
-| Content SEO narrative | `.antigravityrules` |
-| Technical SEO rules | `.cursor/rules/07`–`10` |
-| Audit skill | `.cursor/skills/technical-seo-audit` |
-| LCP skill | `.cursor/skills/optimize-lcp` |
+Content narrative: `.antigravityrules` · Rules: `.cursor/rules/07`–`10`
 
 ---
 
-## Project layout
+## 10. Project layout
 
 ```
-app/
-  (site)/              Public RTL pages + _components/
-  api/contact/         Contact form (Zod, rate limit, Resend)
-  api/revalidate/      Sanity webhook cache purge
-  studio/              Embedded Sanity Studio
-  sitemap.ts robots.ts manifest.ts llms.txt/
-components/
-  layout/ ui/ sections/ content/ seo/
-lib/
-  types/ seo.ts paths.ts tailwind.ts cache-tags.ts contact-schema.ts …
-sanity/
-  schemaTypes/ lib/queries.ts lib/fetchers.ts
-deploy/                Apache snippets, runtime.cjs
-docs/                  sanity-webhook.md
+app/(site)/ api/ studio/ sitemap.ts robots.ts manifest.ts llms.txt/
+components/{layout,ui,sections,content,seo,studio}/
+lib/{types,seo,paths,tailwind,cache-tags,contact-*,rate-limit,…}/
+sanity/{schemaTypes,components,lib}/
+deploy/ docs/ scripts/ .github/workflows/
 ```
 
 ---
 
-## Agent & convention docs
+## 11. Agent & convention docs
 
 | Doc | Role |
 |-----|------|
-| `AGENTS.md` | Agent entry index |
-| `.cursor/rules/*.mdc` | Coding, SEO, security, deploy rules |
-| `.cursor/skills/` | Step-by-step workflows |
-| `CLAUDE.md` | Claude index + Urdu allowlist |
-| `SECURITY.md` | Vulnerability reporting |
+| `AGENTS.md` | Entry index |
+| `.cursor/rules/*.mdc` | Primary conventions |
+| `.cursor/skills/` | Workflows (20) |
+| `CLAUDE.md` | Urdu allow/deny list |
+| `techstack.md` | **This file** |
+
+Port **3001** authority: `12-production-port.mdc` + `deploy/runtime.cjs`  
+Upgrade policy: `13-dependencies.mdc` + `upgrade-deps` skill
 
 ---
 
-## Upgrade policy
+## 12. Upgrade policy
 
-- Stay on **latest stable** per major line (`13-dependencies.mdc`)
-- Run `npm outdated` + `npm update`; bump `package.json` ranges only when npm registry has a newer stable release
-- **ESLint 9.39.4** until `eslint-config-next@16` supports ESLint 10 (`eslint-plugin-react` lacks ESLint 10 peer — re-verified 2026-06-18)
-- **`postcss` override** — keep `^8.5.15` in `package.json` `overrides`
-- Never `npm audit fix --force` if it downgrades Sanity
-- Preflight before ship: `npm run lint && npm run check:urdu && npm run test` (+ `build` if deploy-bound)
+```bash
+npm outdated
+npm update   # within ranges only — next/react/eslint are exact pins
+npm run lint && npm run check:urdu && npm run test && npm run build
+```
 
-### Current stable versions (direct deps)
+| Rule | Detail |
+|------|--------|
+| Next / eslint-config-next | Keep **exact matched** pair (currently 16.2.12) |
+| React | Keep exact **19.2.8** with Next |
+| ESLint | Stay on **9.39.4** until config-next supports v10 |
+| Sanity | Latest v6 / client v7 / next-sanity v13 — no v5 force-downgrade |
+| React Compiler | Keep `babel-plugin-react-compiler@1.0.0` + `reactCompiler: true` |
+| Node | CI + VPS **24**; `engines >=22.12.0` |
 
-| Package | Latest stable | Installed |
-|---------|---------------|-----------|
-| next | 16.2.9 | 16.2.9 |
-| react / react-dom | 19.2.7 | 19.2.7 |
-| sanity / @sanity/vision | 6.1.0 | 6.1.0 |
-| next-sanity | 13.1.1 | 13.1.1 |
-| @sanity/client | 7.23.0 | 7.23.0 |
-| tailwindcss | 4.3.1 | 4.3.1 |
-| typescript | 6.0.3 | 6.0.3 |
-| zod | 4.4.3 | 4.4.3 |
-| vitest | 4.1.9 | 4.1.9 |
-| @types/node | 26.0.0 | 26.0.0 |
-| eslint | 9.39.4 (pin) | 9.39.4 |
+### Resolved versions (July 2026)
+
+| Package | Installed |
+|---------|-----------|
+| next | 16.2.12 |
+| react / react-dom | 19.2.8 |
+| eslint-config-next | 16.2.12 |
+| eslint | 9.39.4 |
+| babel-plugin-react-compiler | 1.0.0 |
+| sanity / @sanity/vision | 6.7.0 |
+| next-sanity | 13.2.2 |
+| @sanity/client | 7.25.0 |
+| tailwindcss / @tailwindcss/postcss | 4.3.3 |
+| postcss | 8.5.24 |
+| sharp (override) | 0.35.3 |
+| lucide-react | 1.27.0 |
+| resend | 6.18.1 |
+| nodemailer | 9.0.3 |
+| @types/node | 26.1.2 |
+| typescript | 6.0.3 |
+| zod / vitest | 4.4.3 / 4.1.10 |
+| @portabletext/react | 7.0.1 |
+
+### Optional future work
+
+| Area | When |
+|------|------|
+| ESLint 10 | When `eslint-config-next` / `eslint-plugin-react` support it |
+| TypeScript 7 | Blocked — `typescript-eslint` (via eslint-config-next) does not support TS 7.0 yet |
+| Cloudflare edge | Global TTFB / DDoS |
+| Playwright | E2E in CI |
+| Separate Studio host | Smaller public bundle |
 
 ---
 
-## Optional future upgrades (not implemented)
-
-Documented for planning only — **not** current stack:
-
-| Area | Option | When to consider |
-|------|--------|------------------|
-| CDN / edge | Cloudflare in front of Apache | Global TTFB, DDoS, Turnstile at edge |
-| Deploy | CI builds artifact; VPS only restarts | Zero-downtime, faster deploys |
-| Studio | `studio.darulquran.pk` separate deploy | Smaller public bundle |
-| Observability | Sentry, Uptime Kuma | Error tracking, uptime alerts |
-| E2E | Playwright in CI | Regression on contact + key routes |
-| ESLint | v10 | When `eslint-config-next` supports it |
-
----
-
-*Last aligned with `package.json` and production config in this repository.*
+*Aligned with `package.json`, `next.config.ts`, `deploy/runtime.cjs`, and production topology — July 2026.*
