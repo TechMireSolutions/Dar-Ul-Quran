@@ -14,6 +14,7 @@ import {
   breadcrumbLabelsFromAncestry,
   buildBreadcrumbNavItems,
   expectedPathFromAncestry,
+  normalizeCatchAllSlug,
   staticParamsFromPaths,
 } from '@/lib/paths'
 import { resolveWhatsappLink } from '@/lib/contact'
@@ -43,17 +44,20 @@ function serviceCanonical(
 }
 
 export async function generateMetadata(
-  { params }: { params: Promise<{ slug: string[] }> }
+  { params }: { params: Promise<{ slug: string | string[] }> }
 ): Promise<Metadata> {
-  const { slug } = await params
+  const { slug: rawSlug } = await params
+  const slug = normalizeCatchAllSlug(rawSlug)
   const currentSlug = slug[slug.length - 1]
+  if (!currentSlug) notFound()
   const [service, settings] = await Promise.all([
     getServiceBySlug(currentSlug),
     getSiteSettings(),
   ])
   if (!service) notFound()
 
-  const { canonicalPath } = serviceCanonical(slug, service)
+  const { leafSlug, ancestry, canonicalPath } = serviceCanonical(slug, service)
+  if (!assertSlugAncestry(slug, ancestry, leafSlug)) notFound()
   const title = service.seoTitle || service.title || 'خدمت'
   const description =
     service.seoDescription ||
@@ -76,12 +80,14 @@ export async function generateMetadata(
 }
 
 export default async function ServiceCatchAllPage(
-  { params }: { params: Promise<{ slug: string[] }> }
+  { params }: { params: Promise<{ slug: string | string[] }> }
 ) {
   // Prevent wrong-parent URLs from sharing a statically cached leaf response.
   noStore()
-  const { slug } = await params
+  const { slug: rawSlug } = await params
+  const slug = normalizeCatchAllSlug(rawSlug)
   const currentSlug = slug[slug.length - 1]
+  if (!currentSlug) notFound()
 
   const service = await getServiceBySlug(currentSlug)
   if (!service) notFound()

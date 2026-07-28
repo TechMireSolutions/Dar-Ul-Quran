@@ -53,6 +53,13 @@ export function breadcrumbHref(basePath: string, ancestry: { slug: string }[], i
     .join('/')}`
 }
 
+/** Normalize catch-all params — Next may pass string[] or a slash-joined string. */
+export function normalizeCatchAllSlug(slug: string | string[] | undefined): string[] {
+  if (!slug) return []
+  if (Array.isArray(slug)) return slug.filter(Boolean)
+  return slug.split('/').filter(Boolean)
+}
+
 /** Expected catch-all segments: [...ancestorSlugs, leafSlug]. */
 export function expectedSlugSegmentsFromAncestry(
   ancestry: { slug: string }[],

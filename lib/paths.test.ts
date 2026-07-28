@@ -8,6 +8,7 @@ import {
   coursePath,
   expectedPathFromAncestry,
   expectedSlugSegmentsFromAncestry,
+  normalizeCatchAllSlug,
   pillarPagePath,
   servicePath,
   staticParamsFromPaths,
@@ -108,6 +109,14 @@ describe('assertSlugAncestry / expectedPathFromAncestry', () => {
     expect(assertSlugAncestry(['rozana', 'nazra-rozana', 'leaf'], ancestry, 'leaf')).toBe(true)
     expect(assertSlugAncestry(['wrong', 'leaf'], ancestry, 'leaf')).toBe(false)
     expect(assertSlugAncestry(['leaf'], [], 'leaf')).toBe(true)
+  })
+})
+
+describe('normalizeCatchAllSlug', () => {
+  it('normalizes arrays and slash-joined strings', () => {
+    expect(normalizeCatchAllSlug(['a', 'b'])).toEqual(['a', 'b'])
+    expect(normalizeCatchAllSlug('a/b')).toEqual(['a', 'b'])
+    expect(normalizeCatchAllSlug(undefined)).toEqual([])
   })
 })
 

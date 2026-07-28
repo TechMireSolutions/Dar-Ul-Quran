@@ -20,6 +20,7 @@ import {
   breadcrumbLabelsFromAncestry,
   buildBreadcrumbNavItems,
   expectedPathFromAncestry,
+  normalizeCatchAllSlug,
   staticParamsFromPaths,
 } from '@/lib/paths'
 import { resolveWhatsappLink } from '@/lib/contact'
@@ -49,17 +50,20 @@ function courseCanonical(
 }
 
 export async function generateMetadata(
-  { params }: { params: Promise<{ slug: string[] }> }
+  { params }: { params: Promise<{ slug: string | string[] }> }
 ): Promise<Metadata> {
-  const { slug } = await params
+  const { slug: rawSlug } = await params
+  const slug = normalizeCatchAllSlug(rawSlug)
   const currentSlug = slug[slug.length - 1]
+  if (!currentSlug) notFound()
   const [course, settings] = await Promise.all([
     getCourseBySlug(currentSlug),
     getSiteSettings(),
   ])
   if (!course) notFound()
 
-  const { canonicalPath } = courseCanonical(slug, course)
+  const { leafSlug, ancestry, canonicalPath } = courseCanonical(slug, course)
+  if (!assertSlugAncestry(slug, ancestry, leafSlug)) notFound()
   const courseTitle = course.title ?? 'کورس'
   const title = course.seoTitle || courseTitle
   const description =
@@ -91,12 +95,14 @@ export async function generateMetadata(
 }
 
 export default async function CourseCatchAllPage(
-  { params }: { params: Promise<{ slug: string[] }> }
+  { params }: { params: Promise<{ slug: string | string[] }> }
 ) {
   // Prevent wrong-parent URLs from sharing a statically cached leaf response.
   noStore()
-  const { slug } = await params
+  const { slug: rawSlug } = await params
+  const slug = normalizeCatchAllSlug(rawSlug)
   const currentSlug = slug[slug.length - 1]
+  if (!currentSlug) notFound()
 
   const course = await getCourseBySlug(currentSlug)
   if (!course) notFound()
