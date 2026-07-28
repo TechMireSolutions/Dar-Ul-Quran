@@ -37,7 +37,27 @@ export const course = defineType({
 
     /* ── Card content ── */
     defineField({ name: 'excerpt',       type: 'text',  title: 'Short Description (cards)', rows: 2,        group: 'content' }),
-    defineField({ name: 'featuredImage', type: 'image', title: 'Card / Hero Image',          options: { hotspot: true }, group: 'content' }),
+    defineField({
+      name: 'featuredImage',
+      type: 'image',
+      title: 'Card / Hero Image',
+      description:
+        'Shown on homepage carousel and course listing cards. Top-level courses should have an image (or a child with one).',
+      options: { hotspot: true },
+      group: 'content',
+      validation: (rule) =>
+        rule
+          .custom((value, context) => {
+            const image = value as { asset?: { _ref?: string } } | undefined
+            const doc = context.document as { parent?: { _ref?: string } } | undefined
+            const isTopLevel = !doc?.parent
+            if (isTopLevel && !image?.asset) {
+              return 'Add a card image for homepage / listing cards (or ensure a child course has one).'
+            }
+            return true
+          })
+          .warning(),
+    }),
 
     /* ── Enrollment ── */
     defineField({ name: 'enrollmentLink', type: 'url',    title: 'Enrollment / Join Link',                               group: 'content' }),

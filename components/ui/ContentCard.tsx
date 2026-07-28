@@ -58,8 +58,26 @@ export default function ContentCard({
                 className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.07] motion-reduce:group-hover:scale-100"
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-dq-50 via-dq-50 to-slate-100">
-                <span className="text-5xl opacity-20 select-none transition-transform duration-300 group-hover:scale-110" aria-hidden="true">📖</span>
+              <div
+                className="w-full h-full flex flex-col items-center justify-center gap-2 bg-gradient-to-br from-dq-50 via-dq-100/40 to-slate-100"
+                aria-hidden="true"
+              >
+                <svg
+                  width="40"
+                  height="40"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="text-dq-400/50 transition-transform duration-300 group-hover:scale-110"
+                >
+                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                  <path d="M8 7h8M8 11h6" />
+                </svg>
+                <span className="text-[11px] font-medium text-dq-600/45 tracking-normal">تصویر جلد</span>
               </div>
             )}
             <div className="absolute inset-0 bg-dq-900/15 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
