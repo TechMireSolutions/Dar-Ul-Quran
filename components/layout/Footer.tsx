@@ -175,10 +175,10 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
                     ⛵
                   </div>
                 )}
-                <span className="font-bold text-[16px] sm:text-[18px] text-white tracking-[-0.02em]">{siteName}</span>
+                <span className="font-bold text-[16px] sm:text-[18px] text-white tracking-normal">{siteName}</span>
               </Link>
 
-              <p className="text-[12px] sm:text-[13px] text-gray-300 leading-relaxed mb-3 sm:mb-5 max-w-[280px] line-clamp-2 sm:line-clamp-none">
+              <p className="text-[12px] sm:text-[13px] text-gray-300 leading-urdu mb-3 sm:mb-5 max-w-[280px] line-clamp-2 sm:line-clamp-none">
                 {tagline}
               </p>
 
@@ -256,7 +256,7 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
               {settings?.address && (
                 <li className="flex items-start gap-2">
                   <IconMapPin size={12} className="text-dq-400 shrink-0 mt-0.5" />
-                  <p className="text-[12px] sm:text-[12.5px] text-gray-300 leading-relaxed whitespace-pre-line">
+                  <p className="text-[12px] sm:text-[12.5px] text-gray-300 leading-urdu whitespace-pre-line">
                     {settings.address}
                   </p>
                 </li>

@@ -14,6 +14,7 @@ alwaysApply: false
 - CWV targets: LCP ≤2.5s · INP ≤200ms · CLS ≤0.1 → tactics in `09` / `10`
 - Schema via `components/seo/*` + `pageMetadata()` — must match visible content
 - One H1 per page; Urdu `alt`; internal links between pillars/clusters
+- Readable Nastaliq: body leading ≥1.9 (`03-rtl-urdu.mdc`) — SEO engagement needs legible type
 - No keyword stuffing, dark patterns, or misleading metadata
 - `llms.txt` + AI bots in `robots.ts` (English OK for llms)
 

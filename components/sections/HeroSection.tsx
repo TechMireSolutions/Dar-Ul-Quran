@@ -102,17 +102,17 @@ export default function HeroSection({
           <p
             dir="rtl"
             style={heroDelay(80)}
-            className="hero-item text-[12.5px] font-medium mb-4 tracking-wide text-dq-500/80 leading-normal"
+            className="hero-item text-[12.5px] font-medium mb-4 tracking-normal text-dq-500/80 leading-urdu-tight"
           >
             {subtitle}
           </p>
 
           {/* Headline */}
-          <h1 className="mb-4 leading-none">
+          <h1 className="mb-4 leading-urdu-display">
             {titleLines.map((line, i) => (
               <span
                 key={i}
-                className="hero-item block font-extrabold tracking-tight text-[clamp(32px,7.5vw,68px)]"
+                className="hero-item block font-extrabold tracking-normal text-[clamp(32px,7.5vw,68px)]"
                 style={heroDelay(130 + i * 80)}
               >
                 {i === titleLines.length - 1 ? (
@@ -134,7 +134,7 @@ export default function HeroSection({
           {/* Description */}
           <p
             style={heroDelay(380)}
-            className="hero-item text-sm sm:text-[14.5px] text-gray-600 mb-8 max-w-[430px] leading-[1.9]"
+            className="hero-item text-sm sm:text-[14.5px] text-gray-600 mb-8 max-w-[430px] leading-urdu"
           >
             {description}
           </p>
@@ -163,10 +163,10 @@ export default function HeroSection({
                     <Icon size={17} strokeWidth={1.5} className="text-dq-600" />
                   </div>
                   <div>
-                    <p className="font-bold leading-none tracking-tight text-[22px] text-dq-950">
+                    <p className="font-bold leading-none tracking-normal text-[22px] text-dq-950">
                       {value}
                     </p>
-                    <p className="text-[11px] mt-1 text-gray-400">{label}</p>
+                    <p className="text-[11px] mt-1 text-gray-400 leading-urdu-tight">{label}</p>
                   </div>
                 </div>
                 {i < STATS.length - 1 && (

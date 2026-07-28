@@ -40,7 +40,7 @@ export default function HomeTestimonialsSection({ testimonials, settings }: Home
                     </span>
                   ))}
                 </div>
-                <p className="text-[13.5px] text-gray-600 leading-relaxed flex-1 mb-5">
+                <p className="text-[13.5px] text-gray-600 leading-urdu flex-1 mb-5">
                   &quot;{testimonial.quote}&quot;
                 </p>
                 <div>

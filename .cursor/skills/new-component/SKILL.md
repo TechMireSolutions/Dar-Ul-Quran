@@ -1,6 +1,6 @@
 ---
 name: new-component
-description: Scaffolds a shared or route-private React component with correct folder, Tailwind, and RTL conventions. Use when adding UI to components/ or app/**/_components/.
+description: Scaffolds a shared or route-private React component with correct folder, Tailwind, Nastaliq, and RTL conventions. Use when adding UI to components/ or app/**/_components/.
 ---
 
 # New component
@@ -16,25 +16,22 @@ Rules: `05-components.mdc` · `06-tailwind.mdc` · `15-naming.mdc` · `16-dry.md
 
 ## Prefer existing shells
 
-Before scaffolding: `PageHeroHeader` · `LeafHero` · `SectionHeaderRow` · `CenteredSectionHeader` · `ListingIndexShell` · `ContentCard` · `NestedChildListing`
+`PageHeroHeader` · `LeafHero` · `SectionHeaderRow` · `CenteredSectionHeader` · `ListingIndexShell` · `ContentCard` · `NestedChildListing`
 
 ## Scaffold
 
-1. `type ComponentNameProps = { ... }` — default export matches filename
-2. Server Component default; `"use client"` only if state/effects/events
-3. Import `TW_*` from `lib/tailwind.ts` — no duplicated class strings  
-   Layout: `TW_CONTAINER*` / `TW_SECTION_PY` · copy: `TW_PAGE_SUBTITLE` / `TW_BODY_MUTED` · cards: `TW_CARD_SURFACE*` / `TW_FEATURE_CARD*`
-4. Interactive: `min-h-11` + visible `focus-visible` ring; one primary link per card
-5. Urdu user-visible strings; `aria-label` / `alt` in Urdu
-6. Logical spacing (`ms-*` / `me-*` / `start-*` / `end-*`); `shrink-0`
-
-## SEO / layout
-
-- JSON-LD → `components/seo/*` (props in `lib/types/schema.ts`)
-- `role="menuitem"` only inside `role="menu"`
+1. `type ComponentNameProps` — default export = filename  
+2. Server Component default; `"use client"` only if needed  
+3. React Compiler on — skip default `useMemo`/`useCallback`  
+4. `TW_*` from `lib/tailwind.ts` — no duplicated class strings  
+5. Nastaliq: `leading-urdu*` / `tracking-normal` on text (see `03-rtl-urdu.mdc`)  
+6. Interactive: `min-h-11` + `focus-visible` ring; **one** primary link per card  
+7. Urdu copy + `aria-label` / content `alt` in Urdu; decorative `alt=""`  
+8. Logical spacing; `shrink-0`; `motion-reduce` on hover translate  
+9. Images: `sizes` + lazy below fold  
 
 ## Verify
 
-`tailwind-ui` · `check-urdu` · `rtl-check` if nav/layout · `preflight`
+`tailwind-ui` · `check-urdu` · `rtl-check` if nav/layout/type · `preflight`
 
 Reference: `PageHeroHeader` · `LeafHero` · `SectionHeaderRow` · `CenteredSectionHeader` · `LeafCtaBanner`

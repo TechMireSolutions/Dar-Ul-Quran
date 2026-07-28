@@ -29,9 +29,9 @@ alwaysApply: true
 | ID | File | Scope |
 |----|------|--------|
 | 02 | `02-coding-standards.mdc` | TypeScript, Next.js 16 (naming summary → 15) |
-| 03 | `03-rtl-urdu.mdc` | RTL, Urdu copy, logical spacing |
+| 03 | `03-rtl-urdu.mdc` | RTL, Nastaliq typography, Urdu copy |
 | 04 | `04-sanity.mdc` | Schema, GROQ, fetchers, cache tags, webhook path map |
-| 05 | `05-components.mdc` | Component folders, client boundaries |
+| 05 | `05-components.mdc` | Component folders, shells, a11y, client boundaries |
 | 06 | `06-tailwind.mdc` | Pure Tailwind v4, `lib/tailwind.ts` |
 | 13 | `13-dependencies.mdc` | Latest stable deps & upgrade policy |
 | 14 | `14-file-structure.mdc` | App Router layout & import boundaries |
@@ -59,6 +59,7 @@ alwaysApply: true
 | Port 3001 | `12-production-port.mdc` + `deploy/runtime.cjs` |
 | Version tables & full dep list | `techstack.md` § Dependencies (`13-dependencies.mdc` = policy only) |
 | Tailwind / `TW_*` | `06-tailwind.mdc` + `lib/tailwind.ts` |
+| Nastaliq typography | `03-rtl-urdu.mdc` + `tailwind.config.ts` lineHeight |
 | Upgrade workflow | `13-dependencies.mdc` + `upgrade-deps` skill |
 | File / folder layout | `14-file-structure.mdc` |
 | Naming | `15-naming.mdc` (02 has quick summary only) |

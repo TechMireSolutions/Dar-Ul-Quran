@@ -1,20 +1,31 @@
 ---
-description: Sanity schema and GROQ
+description: Sanity schema, GROQ, fetchers, cache tags, webhook path map
 globs: "{sanity/**/*,app/api/revalidate/**/*}"
 alwaysApply: false
 ---
 
 # Sanity
 
-Schema: `slug` (unique), `order`, inline `seo`, PT `body`, image `alt`, parent `weak: false`
+Schema: `slug` (unique), `order`, inline `seo`, PT `body`, image `alt` (required for content images), parent `weak: false`
 
-GROQ in `queries.ts` only: draft filter, explicit fields (no top-level `...`), `slug { current }`, `seo { title, description }`
+GROQ in `queries.ts` only:
+- Draft filter: `!(_id in path("drafts.**"))`
+- Explicit fields (no top-level `...`)
+- `slug { current }` · `seo { title, description }`
+- Image projections include `alt` + dimensions/LQIP when used for LCP
 
 DRY: one query per concern — fragments in `queries.ts`, **route access only via** `fetchers.ts` `get*` (`16-dry.mdc`). Never call `safeFetch` from `app/` or `components/`.
 
+## Client & CDN
+
+- `sanity/lib/client.ts`: `useCdn: true` in production; `apiVersion` pinned (YYYY-MM-DD)
+- Images: `urlFor` / helpers in `sanity/lib/image.ts` — `.auto('format')`, explicit widths, `sizes`
+- DTOs in `lib/types/` — keep fetch return types aligned with GROQ projections
+
 ## Cache & revalidation
 
-- All `safeFetch` calls (inside fetchers only) tag **`cms`** — authority: `lib/cache-tags.ts` (see `16-dry.mdc`)
+- All `safeFetch` calls (inside fetchers only) tag **`cms`** — authority: `lib/cache-tags.ts`
+- Prefer type tags: `cmsTypeTag('course')` · slug tags when invalidating one leaf
 - ISR fallback: `revalidate = 300` on public routes
 - On-demand: Sanity webhook → `/api/revalidate` — skill: **`setup-revalidation`**
 - Webhook filter, path map, new `_type` handling → this rule + `app/api/revalidate/route.ts`

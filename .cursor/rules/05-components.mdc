@@ -1,5 +1,5 @@
 ---
-description: Component folders and client boundaries
+description: Component folders, shells, a11y, and client boundaries
 globs: "components/**/*.{ts,tsx}"
 alwaysApply: false
 ---
@@ -28,13 +28,16 @@ Route-private UI: `app/(site)/**/_components/` — never imported elsewhere
 | Contact form | route-private `ContactForm` + `ui/TurnstileField` |
 
 ## Patterns
+- Server Components default; `"use client"` only for state/effects/browser APIs
+- React Compiler on — **no** default `useMemo` / `useCallback` unless measuring a real issue
 - `Header` + lazy `HeaderMobileMenu` (`dynamic`, `ssr: false`)
 - Footer: inline SVG in RSC; lucide in client components only
-- `role="menuitem"` only inside dropdown `role="menu"`
-- LCP exception: hero native `<img fetchPriority="high">`
-- Pass Sanity data as props; batch layout reads in rAF
+- `role="menuitem"` only inside `role="menu"`
+- Images: `next/image` + explicit `sizes`; `loading="lazy"` below fold; LCP exception: hero `<img fetchPriority="high">`
+- Pass Sanity data as props; batch layout reads in `requestAnimationFrame`
 - Reveal: mobile + reduced-motion + `@media (scripting: none)` keep content visible
+- Interactive: `min-h-11` + visible `focus-visible`; forms use `aria-busy` / `aria-live` where status changes
 
 ## Related
-- Styling → `06-tailwind.mdc` · DRY → `16-dry.mdc`
-- New component → `new-component` skill · RTL → `03-rtl-urdu.mdc`
+- Styling → `06-tailwind.mdc` · Nastaliq → `03-rtl-urdu.mdc` · DRY → `16-dry.mdc`
+- New component → `new-component` skill

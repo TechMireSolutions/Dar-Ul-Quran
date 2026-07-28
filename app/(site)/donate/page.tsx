@@ -74,10 +74,10 @@ export default async function DonatePage() {
 
           <Reveal animation="scale" delay={60}>
             <div className="bg-dq-900 rounded-2xl p-6 sm:p-8 text-center">
-              <h2 className="font-bold text-[20px] sm:text-[22px] text-white tracking-[-0.02em] mb-2">
+              <h2 className="font-bold text-[20px] sm:text-[22px] text-white tracking-normal leading-heading mb-2">
                 {settings?.donateHowToHeading || 'عطیہ کیسے دیں'}
               </h2>
-              <p className="text-[13px] sm:text-[13.5px] text-slate-400 mb-6 max-w-sm mx-auto leading-relaxed">
+              <p className="text-[13px] sm:text-[13.5px] text-slate-400 mb-6 max-w-sm mx-auto leading-urdu">
                 {settings?.donateHowToText || 'بینک ٹرانسفر کی تفصیل کے لیے ہم سے رابطہ کریں یا نیچے آنلائن ادائیگی کا لنک استعمال کریں۔'}
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">

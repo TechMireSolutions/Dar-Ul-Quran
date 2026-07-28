@@ -39,7 +39,7 @@ export default function FaqAccordion({ heading, items, icon = 'chevron' }: FaqAc
                 <Icon size={icon === 'plus' ? 16 : 15} strokeWidth={icon === 'plus' ? 2 : undefined} className={iconClass} />
               </summary>
               {Array.isArray(item.answer) && item.answer.length > 0 && (
-                <div className="px-6 pb-5 pt-1 text-sm text-gray-600 leading-relaxed border-t border-gray-50">
+                <div className="px-6 pb-5 pt-1 text-sm text-gray-600 leading-urdu border-t border-gray-50">
                   <RichTextBody value={item.answer as PortableTextBlock[]} size="sm" />
                 </div>
               )}

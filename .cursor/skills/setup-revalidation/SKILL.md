@@ -28,8 +28,8 @@ curl -X POST "https://darulquran.pk/api/revalidate?secret=SECRET" \
 
 ## Cache tags
 
-All CMS fetches use tag `cms` via `sanity/lib/client.ts` (`lib/cache-tags.ts`).
+All CMS fetches use tag `cms` via `sanity/lib/client.ts` (`lib/cache-tags.ts`). Prefer `cmsTypeTag` / slug tags for fine-grained invalidation.
 
-After schema changes, update path map in `app/api/revalidate/route.ts` if new public types added.
+After schema changes, update path map in `app/api/revalidate/route.ts` if new public types added. Do not log webhook secrets or PII.
 
 Ship: redeploy with `REVALIDATE_SECRET` set → `deploy` skill

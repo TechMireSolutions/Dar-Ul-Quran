@@ -6,21 +6,24 @@ alwaysApply: false
 
 # Coding standards
 
-- Server Components default; `"use client"` only for state/effects/events
+- Server Components default; `"use client"` only for state/effects/browser APIs
+- React Compiler enabled — **avoid** default `useMemo` / `useCallback` / manual memo unless profiling shows need
+- Prefer `useEffectEvent`, `startTransition`, `useDeferredValue` when already used / clearly beneficial — not by default
 - `await params` / `await searchParams` (Promises in Next 16)
 - `type` for props; strict TS; no `any`
-- `<Link>` / `<Image>` — except LCP hero (`HeroSection` + `LcpImagePreload`)
+- `<Link>` / `<Image>` with explicit `sizes` — except LCP hero (`HeroSection` + `LcpImagePreload`)
 - `pageMetadata()` for all `generateMetadata`; `[...slug]` → `join('/')`
 - GROQ only in `sanity/lib/queries.ts`; pages call `get*` fetchers (which use `safeFetch`) — see `04-sanity.mdc` · `16-dry.mdc`
-- No Sanity/nodemailer in client components
-- Styling → `06-tailwind.mdc` · RTL copy → `03-rtl-urdu.mdc`
+- No Sanity/nodemailer/secrets in client components
+- Styling → `06-tailwind.mdc` · Nastaliq/RTL → `03-rtl-urdu.mdc`
 - Naming → `15-naming.mdc` · DRY → `16-dry.mdc` · Layout → `14-file-structure.mdc`
 - API routes → `17-security.mdc` · Zod schemas in `lib/`
-- Portable Text body → `components/content/RichTextBody.tsx` + `TW_RICH_TEXT_*`
-- Cards: one interactive link (`ContentCard` pattern) · leaf heroes → `LeafHero`
+- Portable Text → `RichTextBody` + `TW_RICH_TEXT_*`
+- Cards: one interactive link (`ContentCard`) · leaf heroes → `LeafHero`
+- Interactive: `min-h-11` + visible `focus-visible`; respect `motion-reduce`
 - New pure `lib/` helpers → colocated `*.test.ts` (`write-tests` skill)
 
-Full naming tables: **`15-naming.mdc`**. Summary below for quick reference only.
+Full naming: **`15-naming.mdc`**.
 
 ## Quick naming (see 15 for authority)
 

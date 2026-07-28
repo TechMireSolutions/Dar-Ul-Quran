@@ -3,31 +3,31 @@
  * Import and compose with template literals; do not duplicate raw class strings.
  */
 
-/** Eyebrow / kicker label above section headings */
+/** Eyebrow / kicker label above section headings — no Latin tracking (Nastaliq) */
 export const TW_EYEBROW =
-  'flex items-center gap-2 text-2xs font-bold uppercase tracking-[0.18em] text-dq-700'
+  'flex items-center gap-2 text-2xs font-bold text-dq-700'
 
 export const TW_EYEBROW_LINE = 'w-6 h-px bg-dq-400 inline-block shrink-0'
 
 /** Section H2 on light backgrounds */
 export const TW_SECTION_TITLE =
-  'font-bold text-2xl sm:text-3xl text-slate-900 tracking-tight'
+  'font-bold text-2xl sm:text-3xl text-slate-900 leading-heading tracking-normal'
 
 /** Section H2 — compact (homepage article/testimonial blocks) */
 export const TW_SECTION_TITLE_COMPACT =
-  'font-bold text-2xl sm:text-[27px] text-slate-900 leading-tight tracking-tight'
+  'font-bold text-2xl sm:text-[27px] text-slate-900 leading-heading tracking-normal'
 
 /** Article detail H1 */
 export const TW_ARTICLE_TITLE =
-  'font-bold text-[26px] sm:text-[30px] lg:text-[38px] text-slate-900 leading-tight tracking-tight'
+  'font-bold text-[26px] sm:text-[30px] lg:text-[38px] text-slate-900 leading-heading tracking-normal'
 
 /** Category / tag badge */
 export const TW_BADGE =
-  'text-2xs font-bold uppercase tracking-widest bg-dq-50 text-dq-700 border border-dq-100 px-3 py-1 rounded-full'
+  'text-2xs font-bold bg-dq-50 text-dq-700 border border-dq-100 px-3 py-1 rounded-full tracking-normal'
 
 /** Compact card category badge */
 export const TW_BADGE_SM =
-  'w-fit text-[10px] font-bold uppercase tracking-[0.12em] text-dq-700 bg-dq-50 border border-dq-100/80 rounded-full px-2.5 py-0.5 transition-colors duration-200 group-hover:bg-dq-100 group-hover:border-dq-200'
+  'w-fit text-[10px] font-bold text-dq-700 bg-dq-50 border border-dq-100/80 rounded-full px-2.5 py-0.5 tracking-normal transition-colors duration-200 group-hover:bg-dq-100 group-hover:border-dq-200'
 
 /** Page section container */
 export const TW_CONTAINER = 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'
@@ -62,10 +62,10 @@ export const TW_SECTION_PY = 'py-16 sm:py-20'
 export const TW_PAGE_HERO_PADDING = 'mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12'
 
 /** Subtitle under page/section titles */
-export const TW_PAGE_SUBTITLE = 'text-[13.5px] text-gray-500 leading-relaxed'
+export const TW_PAGE_SUBTITLE = 'text-[13.5px] text-gray-500 leading-urdu'
 
 /** Muted body copy (error pages, empty states) */
-export const TW_BODY_MUTED = 'text-[14px] text-gray-500'
+export const TW_BODY_MUTED = 'text-[14px] text-gray-500 leading-urdu'
 
 /** White card surface */
 export const TW_CARD_SURFACE = 'bg-white border border-gray-100 rounded-2xl'
@@ -78,8 +78,8 @@ export const TW_FEATURE_CARD =
   'bg-slate-50 rounded-xl border border-gray-100 p-5 sm:p-6'
 
 /** Feature card title + description */
-export const TW_FEATURE_CARD_TITLE = 'font-semibold text-slate-900 text-[14px] mb-1.5'
-export const TW_FEATURE_CARD_DESC = 'text-[13px] text-gray-500 leading-relaxed'
+export const TW_FEATURE_CARD_TITLE = 'font-semibold text-slate-900 text-[14px] mb-1.5 leading-urdu-tight'
+export const TW_FEATURE_CARD_DESC = 'text-[13px] text-gray-500 leading-urdu'
 
 /** Contact form panel */
 export const TW_FORM_PANEL =
@@ -91,11 +91,11 @@ export const TW_LEAF_WHATSAPP_CTA =
 
 /** Leaf hero supporting copy on dark background */
 export const TW_LEAF_HERO_SUBTITLE =
-  'text-[16px] sm:text-[18px] text-slate-300 max-w-2xl mx-auto leading-relaxed'
+  'text-[16px] sm:text-[18px] text-slate-300 max-w-2xl mx-auto leading-urdu'
 
 /** Leaf hero body paragraph under subtitle */
 export const TW_LEAF_HERO_BODY =
-  'text-[15px] text-slate-300 max-w-2xl mx-auto leading-[1.85] mb-6'
+  'text-[15px] text-slate-300 max-w-2xl mx-auto leading-urdu mb-6'
 
 /** Pricing tables column (course leaf) */
 export const TW_CONTAINER_PRICING = 'max-w-5xl mx-auto px-4 sm:px-6 lg:px-8'
@@ -132,11 +132,11 @@ export const TW_LEAF_HERO_OVERLAY =
 
 /** Gold meta chip on dark heroes */
 export const TW_HERO_CHIP_GOLD =
-  'text-[11px] font-bold uppercase tracking-[0.15em] text-dq-400 border border-dq-700/60 rounded-full px-3.5 py-1 bg-dq-950/40'
+  'text-[11px] font-bold text-dq-400 border border-dq-700/60 rounded-full px-3.5 py-1 bg-dq-950/40 tracking-normal'
 
 /** Muted meta chip on dark heroes */
 export const TW_HERO_CHIP_MUTED =
-  'text-[11px] font-bold uppercase tracking-[0.15em] text-slate-400 border border-slate-700/60 rounded-full px-3.5 py-1 bg-slate-800/40'
+  'text-[11px] font-bold text-slate-400 border border-slate-700/60 rounded-full px-3.5 py-1 bg-slate-800/40 tracking-normal'
 
 /** Homepage hero primary CTA (gradient + inset highlight) */
 export const TW_HERO_GOLD_CTA =
@@ -195,7 +195,7 @@ export const TW_MOBILE_PANEL_SEARCH =
   'shrink-0 space-y-2 border-b border-gray-100 bg-slate-50/60 px-5 py-3'
 
 export const TW_MOBILE_PANEL_SEARCH_LABEL =
-  'text-[11px] font-bold uppercase tracking-wide text-gray-400'
+  'text-[11px] font-bold text-gray-400 tracking-normal'
 
 export const TW_MOBILE_PANEL_NAV =
   'min-h-0 flex-1 overflow-y-auto overscroll-y-contain px-3 py-3 scroll-smooth'
@@ -213,11 +213,11 @@ export const TW_WHATSAPP_FLOAT =
 
 /** Page hero H1 in PageHeroHeader */
 export const TW_PAGE_TITLE =
-  'font-bold text-[26px] sm:text-[30px] text-slate-900 tracking-tight'
+  'font-bold text-[26px] sm:text-[30px] text-slate-900 leading-heading tracking-normal'
 
 /** Dark hero H1 (course/service leaf) */
 export const TW_HERO_TITLE =
-  'font-bold text-[34px] sm:text-[46px] lg:text-[54px] text-white leading-tight tracking-tight'
+  'font-bold text-[34px] sm:text-[46px] lg:text-[54px] text-white leading-urdu-display tracking-normal'
 
 /** Primary gold pill CTA */
 export const TW_GOLD_CTA =

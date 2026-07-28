@@ -62,5 +62,8 @@ Authority table (no conflicts): `00-mirror-sources.mdc`
 | Blocking font | `DeferredUrduFont` |
 | Eager mobile JS | `HeaderMobileMenu` dynamic |
 | English UI dates | Never — use `formatPublishedDate()` (`ur-PK`) |
+| Latin tracking | Never on Urdu — `tracking-normal` only (`03-rtl-urdu.mdc`) |
+
+**Nastaliq:** body `leading-urdu` / `leading-relaxed` (≥1.9) · titles `leading-heading` — see `03-rtl-urdu.mdc` + `rtl-check`.
 
 Commits only when user asks. Preflight: `lint` + `check:urdu` + `test` (+ `build` if deploy).

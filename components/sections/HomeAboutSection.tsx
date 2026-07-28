@@ -29,17 +29,17 @@ export default function HomeAboutSection({ settings }: HomeAboutSectionProps) {
                 <span className={`${TW_EYEBROW_LINE}`} />
                 {settings?.aboutEyebrow || 'ہم کون ہیں'}
               </p>
-              <h2 className={`${TW_SECTION_TITLE} leading-tight mb-4`}>
+              <h2 className={`${TW_SECTION_TITLE} mb-4`}>
                 {settings?.aboutHeading || 'دنیا کے ہر کونے میں شیعہ اسلامی علم پہنچانا'}
               </h2>
               {(settings?.aboutBody1 || true) && (
-                <p className={`${TW_BODY_MUTED} leading-relaxed mb-4`}>
+                <p className={`${TW_BODY_MUTED} mb-4`}>
                   {settings?.aboutBody1 ||
                     'دار القرآن ایک واحد مقصد کے ساتھ قائم کیا گیا — ہر مسلمان تک مستند شیعہ اسلامی تعلیم اور مذہبی خدمات کی رسائی، چاہے وہ کہیں بھی ہو۔'}
                 </p>
               )}
               {(settings?.aboutBody2 || true) && (
-                <p className={`${TW_BODY_MUTED} leading-relaxed mb-7`}>
+                <p className={`${TW_BODY_MUTED} mb-7`}>
                   {settings?.aboutBody2 ||
                     'اہل علماء کے آنلائن کورسز اور نیابت زیارت و اجارہ جیسی خدمات کے ذریعے ہم دنیا بھر میں ہزاروں خاندانوں کی خدمت کرتے ہیں۔'}
                 </p>
@@ -69,14 +69,14 @@ export default function HomeAboutSection({ settings }: HomeAboutSectionProps) {
             <div className="relative pb-10">
               <div className="bg-dq-900 rounded-3xl p-8 sm:p-10 text-white relative overflow-hidden">
                 <div className="absolute top-0 end-0 size-72 rounded-full pointer-events-none opacity-20 bg-gold-radial-sm translate-x-[30%] -translate-y-[30%]" />
-                <p className="text-center text-[28px] sm:text-[32px] leading-relaxed text-amber-400 font-light mb-3" dir="rtl">
+                <p className="text-center text-[28px] sm:text-[32px] leading-urdu text-amber-400 font-light mb-3" dir="rtl">
                   {settings?.aboutHadithArabic || 'اطلبوا العلم من المهد إلى اللحد'}
                 </p>
                 <div className="w-10 h-px bg-amber-400/40 mx-auto mb-3" />
-                <p className="text-center text-[13px] text-gray-400 italic leading-relaxed">
+                <p className="text-center text-[13px] text-gray-400 italic leading-urdu">
                   &quot;{settings?.aboutHadithTranslation || 'علم حاصل کرو گہوارے سے لحد تک۔'}&quot;
                 </p>
-                <p className="text-center text-[11px] text-amber-500 font-semibold mt-2 tracking-wide">
+                <p className="text-center text-[11px] text-amber-500 font-semibold mt-2 tracking-normal">
                   — {settings?.aboutHadithAttribution || 'حضرت محمد (ص)'}
                 </p>
                 <div className="grid grid-cols-3 gap-4 mt-8 pt-6 border-t border-white/10">
@@ -87,7 +87,7 @@ export default function HomeAboutSection({ settings }: HomeAboutSectionProps) {
                   ].map((stat) => (
                     <div key={stat.label} className="text-center">
                       <p className="text-[22px] font-bold text-white leading-none">{stat.value}</p>
-                      <p className="text-[11px] text-gray-400 mt-1">{stat.label}</p>
+                      <p className="text-[11px] text-gray-400 mt-1 leading-urdu-tight">{stat.label}</p>
                     </div>
                   ))}
                 </div>

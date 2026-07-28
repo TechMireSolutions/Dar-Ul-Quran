@@ -41,10 +41,12 @@ Client: `ContactForm` + optional `TurnstileField` · Urdu error states.
 
 ## Revalidation API (`/api/revalidate`)
 
-- `POST ?secret=REVALIDATE_SECRET` only — reject missing/wrong secret
+- `POST ?secret=REVALIDATE_SECRET` only — reject missing/wrong/empty secret
+- Prefer length-safe compare (`crypto.timingSafeEqual` on equal-length buffers) for new secret checks
 - Revalidates `cms` + `cms:<type>` tags (see `lib/cache-tags.ts`)
 - Webhook filter, path map, new `_type` paths → **`04-sanity.mdc`** + `setup-revalidation` skill
 - Setup doc: `docs/sanity-webhook.md`
+- Never log request bodies that include PII or the secret
 
 ## HTTP headers (`next.config.ts`)
 
@@ -54,11 +56,13 @@ Apache: HSTS + static cache — `deploy/apache-security-snippet.conf`
 
 ## API route checklist
 
-1. Zod (or shared schema in `lib/`) for input
-2. Rate limit if public POST
-3. No secrets in responses or logs
-4. Server-only imports — never in `"use client"`
-5. Tests in `lib/**/*.test.ts` for schemas/helpers
+1. Zod (or shared schema in `lib/`) for input — `safeParse`, never trust raw JSON
+2. Rate limit if public POST — return `429` + `Retry-After`
+3. No secrets / stack traces in responses or production logs
+4. Escape HTML in outbound email; honeypot + optional Turnstile for bots
+5. Server-only imports — never in `"use client"`
+6. Tests in `lib/**/*.test.ts` for schemas/helpers
+7. Document new env vars in `.env.example` (never commit values)
 
 ## CI
 

@@ -14,7 +14,7 @@ Primary Google index profile. PSI/Lighthouse **Mobile**.
 | INP | ≤200ms | lazy `HeaderMobileMenu`; Turnstile on intersect; passive scroll; carousel edge sentinels (no `scrollWidth` reads) |
 | CLS | ≤0.1 | image dimensions; reserved hero `min-h`; aspect-ratio on cards/articles |
 
-Touch ≥44px (`TW_TOUCH`) · no horizontal scroll · manifest/viewport/theme_color · content parity with desktop.
+Touch ≥44px (`TW_TOUCH` / `min-h-11`) · visible `:focus-visible` · no horizontal scroll at 375px · manifest/viewport/theme_color · content parity with desktop · skip link works on small screens.
 
 ## Image rules (PSI)
 

@@ -8,10 +8,31 @@ alwaysApply: false
 
 One responsive URL (mobile-first index). Test **both** Lighthouse mobile + desktop.
 
+## Crawl & index
+
 - `robots.ts` + `sitemap.ts` + `pageMetadata({ path })` canonical on every page
 - `noIndex`: 404, `?q=` on listings (canonical stays base path)
-- JSON-LD: `WebPageSchema` + type schema; `inLanguage: ur`
-- Server-rendered primary content; no orphan URLs
+- `llms.txt` + AI crawler rules in `robots.ts` (English OK for llms)
+- Server-rendered primary content; no orphan URLs; internal links between pillars
+
+## Metadata
+
+- Always `pageMetadata()` — title, description, OG/Twitter, `settings` for site defaults
+- Articles: `publishedTime` / `modifiedTime` / authors when available
+- One H1 per page matching visible title; metadata must match content (no bait)
+
+## Structured data
+
+- JSON-LD: `WebPageSchema` + type schema (`Article` / `Course` / `Service` / `ItemList`)
+- `inLanguage: ur` · breadcrumbs via `BreadcrumbNav` on hierarchical pages
+- Org / `SearchAction` in root layout — must match working search URL
+- Schema must reflect visible UI (E-E-A-T → `07` / `.antigravityrules`)
+
+## Performance hooks (device detail elsewhere)
+
+- Images: explicit `sizes`; Sanity `.auto('format')`; lazy below fold
+- Font: `DeferredUrduFont` · LCP: `optimize-lcp` skill
+- Skip link `#main-content` in site layout (a11y + crawlable main)
 
 Device rules: `09-technical-seo-mobile.mdc` · `10-technical-seo-desktop.mdc`  
 Content layer: `07-content-seo.mdc` · `.antigravityrules`  

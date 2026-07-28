@@ -43,6 +43,7 @@ Details: `AGENTS.md` · env: `.env.example` · security: `SECURITY.md` · **full
 - Rich text: `rich-text` classes — not `@tailwindcss/typography`
 - Shared UI shells: `LeafHero` · `SectionHeaderRow` · `CenteredSectionHeader` (see `05-components.mdc`)
 - Published dates: `formatPublishedDate()` — not `en-PK` / English month names
+- Nastaliq: body leading ≥1.9 · `tracking-normal` only — `03-rtl-urdu.mdc` · `rtl-check`
 
 ## Urdu-First Frontend Rule
 

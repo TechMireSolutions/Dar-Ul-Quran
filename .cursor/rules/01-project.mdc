@@ -5,7 +5,7 @@ alwaysApply: true
 
 # Project
 
-Next.js **16.2.12** · React **19.2.8** · Sanity **v6** · Tailwind **v4.3** · TypeScript **6** · Node **≥22.12** (VPS **24.17**) · RTL Urdu · React Compiler **1.0**
+Next.js **16.2.12** · React **19.2.8** · Sanity **v6** · Tailwind **v4.3** · TypeScript **6** · Node **≥22.12** (VPS **24.17**) · RTL Urdu/Nastaliq · React Compiler **1.0**
 
 Live: https://darulquran.pk · Runtime port **3001** → `12-production-port.mdc`  
 License: **MIT** · Stack reference: **`techstack.md`**
@@ -43,11 +43,13 @@ docs/ deploy/ scripts/
 - Shared shells: `LeafHero` · `SectionHeaderRow` · `CenteredSectionHeader` · `ListingIndexShell`
 - API routes: Zod + rate limit — **`17-security.mdc`**
 - CMS: `revalidate = 300` + webhook tags (`setup-revalidation` skill)
-- Fetch via `get*` in `sanity/lib/fetchers.ts`
+- Fetch via `get*` in `sanity/lib/fetchers.ts` (CDN in production)
 - Unit tests: `lib/**/*.test.ts` (`write-tests` skill)
+- Typography / RTL → **`03-rtl-urdu.mdc`** (Nastaliq leading ≥1.9, `tracking-normal`)
+- Accessibility: skip link `#main-content`, touch ≥44px, visible `focus-visible`
 
 ## Key dependencies
 
-`zod` · `resend` · `@upstash/ratelimit` (optional) · `vitest` (dev)
+`zod` · `resend` · `@upstash/ratelimit` (optional) · `vitest` (dev) · `babel-plugin-react-compiler`
 
 Upgrade policy → **`13-dependencies.mdc`**. **ESLint v9** until `eslint-config-next` supports v10.

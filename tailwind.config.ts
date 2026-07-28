@@ -11,35 +11,35 @@ const config: Config = {
       },
 
       fontSize: {
-        '2xs':  ['0.65625rem', { lineHeight: '1.5'  }], /* 10.5px — eyebrow labels */
-        'xs':   ['0.75rem',    { lineHeight: '1.6'  }],
-        'sm':   ['0.8125rem',  { lineHeight: '1.65' }],
-        'base': ['1rem',       { lineHeight: '1.85' }],
-        'lg':   ['1.125rem',   { lineHeight: '1.75' }],
-        'xl':   ['1.25rem',    { lineHeight: '1.65' }],
-        '2xl':  ['1.5rem',     { lineHeight: '1.5'  }],
-        '3xl':  ['1.875rem',   { lineHeight: '1.4'  }],
-        '4xl':  ['2.25rem',    { lineHeight: '1.35' }],
-        '5xl':  ['3rem',       { lineHeight: '1.3'  }],
-        '6xl':  ['3.75rem',    { lineHeight: '1.25' }],
-        '7xl':  ['4.5rem',     { lineHeight: '1.2'  }],
-        '8xl':  ['6rem',       { lineHeight: '1.15' }],
-        '9xl':  ['8rem',       { lineHeight: '1.1'  }],
+        '2xs':  ['0.65625rem', { lineHeight: '1.65' }], /* 10.5px — eyebrow labels */
+        'xs':   ['0.75rem',    { lineHeight: '1.7'  }],
+        'sm':   ['0.8125rem',  { lineHeight: '1.75' }],
+        'base': ['1rem',       { lineHeight: '1.9'  }],
+        'lg':   ['1.125rem',   { lineHeight: '1.8'  }],
+        'xl':   ['1.25rem',    { lineHeight: '1.7'  }],
+        '2xl':  ['1.5rem',     { lineHeight: '1.55' }],
+        '3xl':  ['1.875rem',   { lineHeight: '1.45' }],
+        '4xl':  ['2.25rem',    { lineHeight: '1.4'  }],
+        '5xl':  ['3rem',       { lineHeight: '1.35' }],
+        '6xl':  ['3.75rem',    { lineHeight: '1.3'  }],
+        '7xl':  ['4.5rem',     { lineHeight: '1.25' }],
+        '8xl':  ['6rem',       { lineHeight: '1.2'  }],
+        '9xl':  ['8rem',       { lineHeight: '1.15' }],
       },
 
       lineHeight: {
         none:           '1',
-        tight:          '1.25',
-        snug:           '1.375',
-        normal:         '1.5',
-        relaxed:        '1.85',
-        loose:          '2.1',
-        body:           '1.85',
-        heading:        '1.35',
+        tight:          '1.35',   /* Nastaliq-safe (was Latin 1.25) */
+        snug:           '1.45',   /* Nastaliq-safe (was Latin 1.375) */
+        normal:         '1.6',
+        relaxed:        '1.9',    /* body paragraphs */
+        loose:          '2.15',
+        body:           '1.9',
+        heading:        '1.4',
         // Nastaliq-specific leading — reserve vertical space before font loads
         'urdu':         '1.9',
-        'urdu-display': '1.3',
-        'urdu-tight':   '1.6',
+        'urdu-display': '1.35',
+        'urdu-tight':   '1.65',
       },
 
       colors: {

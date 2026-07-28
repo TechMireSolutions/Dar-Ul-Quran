@@ -13,17 +13,19 @@ Homepage: `app/(site)/page.tsx` · CMS: `homepageSettings` schema · helpers: `l
 2. If reusable block: add `components/sections/*` — use `TW_*` from `lib/tailwind.ts`  
    Hero: `TW_CONTAINER_HERO`, `TW_HERO_GOLD_CTA`, `TW_HERO_OUTLINE_CTA`  
    Section chrome: `TW_CONTAINER` + `SectionHeaderRow` (eyebrow/title/view-all) or `CenteredSectionHeader`  
-   Cards: `TW_CARD_GRID` + `ContentCard`
+   Cards: `TW_CARD_GRID` + `ContentCard` (single primary link)
 3. Below-fold carousels: `nextDynamic` import (see existing `CarouselSection` pattern)
 4. LCP hero: keep `HeroSection` + `LcpImagePreload` — do not add competing above-fold images
-5. Urdu copy in JSX or Sanity fields · `check-urdu` after UI strings change
+5. Nastaliq: titles `leading-heading` · body `leading-urdu` · `tracking-normal` (`03-rtl-urdu.mdc`)
+6. Urdu copy in JSX or Sanity fields · `check-urdu` after UI strings change
 
 ## Performance
 
 - Above-fold: Server Component, minimal JS
 - Carousels / heavy UI: dynamic import with skeleton
 - Section wrappers: `TW_CV_AUTO` when below fold
+- Interactive: `min-h-11` + `focus-visible` · `motion-reduce` on hover lift
 
-Skills: `tailwind-ui` · `optimize-lcp` · `check-urdu` · `preflight`
+Skills: `tailwind-ui` · `optimize-lcp` · `check-urdu` · `rtl-check` · `preflight`
 
-Rules: `05-components.mdc` · `06-tailwind.mdc` · `09-technical-seo-mobile.mdc`
+Rules: `05-components.mdc` · `06-tailwind.mdc` · `03-rtl-urdu.mdc` · `09-technical-seo-mobile.mdc`

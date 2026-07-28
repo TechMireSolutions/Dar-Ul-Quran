@@ -82,7 +82,7 @@ export default async function ContactPage() {
                       <Icon size={14} className="text-dq-700" strokeWidth={1.75} />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-gray-400 mb-0.5">{label}</p>
+                      <p className="text-[10px] font-bold tracking-normal text-gray-400 mb-0.5">{label}</p>
                       {href ? (
                         <Link href={href} target={href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer"
                           className="inline-flex min-h-11 items-center text-[13px] text-slate-700 hover:text-dq-700 focus-visible:text-dq-700 transition-colors break-all">

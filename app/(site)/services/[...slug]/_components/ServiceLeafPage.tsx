@@ -80,7 +80,7 @@ export default function ServiceLeafPage({
                           <div className="w-6 h-6 rounded-md bg-dq-50 border border-dq-100 flex items-center justify-center shrink-0 mt-0.5">
                             <Check size={13} className="text-dq-600" strokeWidth={2.5} />
                           </div>
-                          <p className="text-[14.5px] text-slate-700 leading-relaxed">
+                          <p className="text-[14.5px] text-slate-700 leading-urdu">
                             <span className="font-semibold text-slate-900">{item.title}:</span>
                             {item.desc && <span className="text-gray-600"> {item.desc}</span>}
                           </p>
@@ -105,7 +105,7 @@ export default function ServiceLeafPage({
                 />
                 <ul className="space-y-5">
                   {service.commitment!.map((item, i) => (
-                    <li key={i} className="text-[14.5px] text-slate-300 leading-relaxed">
+                    <li key={i} className="text-[14.5px] text-slate-300 leading-urdu">
                       <span className="font-semibold text-white">{item.title}:</span>
                       {item.desc && <span> {item.desc}</span>}
                     </li>

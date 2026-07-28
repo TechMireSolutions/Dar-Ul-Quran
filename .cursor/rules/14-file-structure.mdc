@@ -55,6 +55,7 @@ public/            # Static assets only — no CMS duplicates
 
 - New route-specific UI → `app/(site)/<route>/_components/`
 - Reused twice+ across routes → promote to `components/{ui,content,sections}/`
+- Prefer existing shells before new files: `LeafHero` · `PageHeroHeader` · `SectionHeaderRow` · `CenteredSectionHeader` · `ListingIndexShell` · `ContentCard`
 - New Sanity type → `schemaTypes/<name>.ts` + query + fetcher + type DTO
 
 ## Import boundaries (strict)

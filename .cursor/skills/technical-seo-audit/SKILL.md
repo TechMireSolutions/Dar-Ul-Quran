@@ -27,11 +27,13 @@ Rules: `08-technical-seo-shared.mdc` · `09-technical-seo-mobile.mdc` · `10-tec
 ### Shared
 
 - [ ] Canonical on every page (`pageMetadata({ path })`)
-- [ ] `robots.ts` + `sitemap.ts` valid
-- [ ] JSON-LD: `WebPageSchema` + type schema · `inLanguage: ur`
+- [ ] `robots.ts` + `sitemap.ts` valid · `llms.txt` present
+- [ ] JSON-LD: `WebPageSchema` + type schema · `inLanguage: ur` · matches visible content
 - [ ] Images: `sizes` on all `fill` Images · AVIF/WebP via Sanity `.auto('format')`
 - [ ] Below-fold: `TW_CV_AUTO` on heavy sections
 - [ ] Third-party JS deferred (Turnstile on intersect, WhatsApp lazy)
+- [ ] A11y: skip link, focus-visible, touch ≥44px, `motion-reduce`
+- [ ] Nastaliq: body leading ≥1.9 · no Latin tracking on Urdu
 
 **Tools:** PSI mobile + desktop · view-source · Rich Results Test
 

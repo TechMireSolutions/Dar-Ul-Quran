@@ -18,7 +18,8 @@ alwaysApply: false
 | SEO metadata | `pageMetadata()` in `lib/seo.ts` | Hand-built `<meta>` tags |
 | Canonical paths | `lib/paths.ts` | String-concat paths in components |
 | Tailwind patterns | `lib/tailwind.ts` (`TW_*`) | Same class string in 2+ files; raw `max-w-* mx-auto`, `py-16 sm:py-20`, eyebrow line |
-| Theme tokens | `tailwind.config.ts` | Raw hex/spacing repeated in TSX |
+| Theme tokens | `tailwind.config.ts` | Raw hex/spacing; Latin line-heights without Nastaliq tokens |
+| Nastaliq leading / tracking | `tailwind.config.ts` + `03-rtl-urdu.mdc` | Ad-hoc `leading-tight` / negative tracking on Urdu |
 | Rich text styles | `TW_RICH_TEXT_*` + `.rich-text` in `globals.css` | `prose-*` or per-page typography |
 | Site URL / defaults | `lib/seo.ts`, `getSiteSettings()` | Hardcoded domain or phone/email |
 | Runtime port | `deploy/runtime.cjs` | Magic `3001` outside deploy docs |

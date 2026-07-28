@@ -10,4 +10,4 @@ description: Creates a Sanity schema type with slug, order, seo, and Portable Te
 3. Public route: flat → `new-page` · nested tree → `new-leaf-route`
 4. Webhook: add `_type` to revalidate filter + path map (`setup-revalidation` skill)
 
-Required: unique `slug`, `order`, inline `seo`, image `alt`. Rule: `04-sanity.mdc`
+Required: unique `slug`, `order`, inline `seo`, content-image `alt`, DTO in `lib/types/`. Rule: `04-sanity.mdc` · then `setup-revalidation` for webhook path map.

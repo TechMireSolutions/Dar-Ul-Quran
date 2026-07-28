@@ -7,10 +7,18 @@ description: Runs lint, Urdu check, Vitest, and optional build before shipping. 
 
 ```bash
 npm run lint && npm run check:urdu && npm run test
-# npm run build  — only if build/deploy/bundling changed
+# npm run build  — only if deploy / bundling / next.config / deps changed
 ```
 
-SEO changes → `technical-seo-audit` skill. Layout → `rtl-check` skill. UI → `tailwind-ui` skill.  
-API/schema/lib helpers → `write-tests` skill. New API → `secure-api-route` skill.  
-New shared UI → check `05-components.mdc` shells before scaffolding.  
-Commit only when user asks.
+## Route by change type
+
+| Change | Also run |
+|--------|----------|
+| UI / CSS / typography | `rtl-check` · `tailwind-ui` patterns |
+| SEO / metadata | `technical-seo-audit` |
+| LCP / hero | `optimize-lcp` |
+| API / Zod / lib helpers | `write-tests` · `secure-api-route` if new API |
+| New shared UI | Prefer shells in `05-components.mdc` before scaffolding |
+| Deploy / chunks | `deploy` · `fix-chunk-mime` if MIME/404 |
+
+Commit / push only when the user asks. Never commit secrets or `.env`.

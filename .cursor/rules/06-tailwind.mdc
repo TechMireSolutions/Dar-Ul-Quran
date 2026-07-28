@@ -48,15 +48,17 @@ Wider prose on lg: `` `${TW_CONTAINER_NARROW} lg:px-8` ``.
 
 | Token | Use |
 |-------|-----|
-| `TW_EYEBROW` + `TW_EYEBROW_LINE` | Section kicker (`w-6` line — **one** span) |
-| `TW_PAGE_TITLE` / `TW_PAGE_SUBTITLE` | Page hero H1 + muted subtitle |
-| `TW_BODY_MUTED` | Error/empty/muted body |
-| `TW_SECTION_TITLE` / `_COMPACT` | Section H2 |
-| `TW_HERO_TITLE` | Dark leaf hero H1 |
-| `TW_LEAF_HERO_SUBTITLE` / `TW_LEAF_HERO_BODY` | Leaf hero copy |
+| `TW_EYEBROW` + `TW_EYEBROW_LINE` | Section kicker (`w-6` line — **one** span; no Latin tracking) |
+| `TW_PAGE_TITLE` / `TW_PAGE_SUBTITLE` | Page hero H1 + muted subtitle (`leading-heading` / `leading-urdu`) |
+| `TW_BODY_MUTED` | Error/empty/muted body (`leading-urdu`) |
+| `TW_SECTION_TITLE` / `_COMPACT` | Section H2 (`leading-heading`, `tracking-normal`) |
+| `TW_HERO_TITLE` | Dark leaf hero H1 (`leading-urdu-display`) |
+| `TW_LEAF_HERO_SUBTITLE` / `TW_LEAF_HERO_BODY` | Leaf hero copy (`leading-urdu`) |
 | `TW_ARTICLE_TITLE` | Article detail H1 |
-| `TW_BADGE` / `TW_BADGE_SM` | Category chips |
+| `TW_BADGE` / `TW_BADGE_SM` | Category chips (`tracking-normal`) |
 | `TW_FEATURE_CARD_TITLE` / `_DESC` | Feature card typography |
+
+Nastaliq leading tokens (theme): `leading-urdu` · `leading-urdu-display` · `leading-urdu-tight` · `leading-heading` · remapped `leading-relaxed` (≥1.9). Full rules → `03-rtl-urdu.mdc`.
 
 ### Surfaces & forms
 
@@ -106,8 +108,9 @@ Wider prose on lg: `` `${TW_CONTAINER_NARROW} lg:px-8` ``.
 - Utilities in `className` only — no CSS-in-JS
 - Check `lib/tailwind.ts` before adding layout, section, or CTA classes
 - Interactive controls ≥ `min-h-11` + visible `:focus-visible` ring
+- Hover lift: pair with `motion-reduce:hover:translate-y-0` / `active:translate-y-0`
 - `shrink-0` · slash opacity · theme shadows (`shadow-gold-*`, `shadow-nav`, `shadow-focus-gold`)
-- RTL → `03-rtl-urdu.mdc`
+- Nastaliq → `03-rtl-urdu.mdc` (`leading-urdu*`, `tracking-normal`)
 
 ## Don't
 - `@tailwindcss/typography` / `prose-*`
@@ -115,6 +118,8 @@ Wider prose on lg: `` `${TW_CONTAINER_NARROW} lg:px-8` ``.
 - Raw hex for brand UI · duplicate arbitrary rgba shadows
 - `@apply` except base/rich-text in `globals.css`
 - Duplicate: `max-w-* mx-auto px-*` → `TW_CONTAINER*` · `py-16 sm:py-20` → `TW_SECTION_PY` · eyebrow line → `TW_EYEBROW_LINE` · muted subtitle → `TW_PAGE_SUBTITLE`
+- Latin tracking on Urdu (`tracking-tight` / `tracking-wide` / negative tracking) — use `tracking-normal`
+- Body leading below **1.9** — prefer `leading-urdu` / `leading-relaxed`
 
 ## Brand exceptions
 PayPal (`TW_PAYPAL_CTA`), WhatsApp float (`TW_WHATSAPP_FLOAT`) only.

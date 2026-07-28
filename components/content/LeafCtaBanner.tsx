@@ -35,7 +35,7 @@ export default function LeafCtaBanner({
           </h2>
         )}
         {subtitle && (
-          <p className="text-[15px] text-slate-400 mb-8 leading-relaxed">{subtitle}</p>
+          <p className="text-[15px] text-slate-400 mb-8 leading-urdu">{subtitle}</p>
         )}
         <div className={`flex flex-wrap justify-center gap-3${footer ? ' mb-8' : ''}`}>
           <Link

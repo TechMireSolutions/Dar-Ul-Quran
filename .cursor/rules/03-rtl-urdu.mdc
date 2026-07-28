@@ -1,26 +1,43 @@
 ---
-description: RTL layout and Urdu UI copy
+description: RTL layout, Nastaliq typography, and Urdu UI copy
 globs: "**/*.{tsx,jsx,css}"
 alwaysApply: false
 ---
 
-# RTL & Urdu
+# RTL & Urdu (Nastaliq)
 
-Root: `lang="ur" dir="rtl"` on `<html>` — do not override without reason.
+Root: `lang="ur" dir="rtl"` on `<html>` — do not override without reason.  
+Font: `Noto Nastaliq Urdu` via `DeferredUrduFont` + `fontFamily` in `tailwind.config.ts` / `globals.css`.
 
-## Layout
-- Logical spacing: `ms-*` / `me-*` / `ps-*` / `pe-*` / `start-*` / `end-*` — **not** `ml-*` / `mr-*`
-- Directional icons: `rtl:rotate-180` on arrows/chevrons (or `TW_CTA_ARROW`)
-- Body text: `leading-[1.8]` minimum (Nastaliq glyphs)
-- Touch targets: ≥44px — `TW_TOUCH` / `min-h-11` on links, buttons, form controls, nav rows
-- Focus: keep a visible `:focus-visible` ring — never bare `outline-none` alone
+## Layout (logical CSS)
+- Spacing: `ms-*` / `me-*` / `ps-*` / `pe-*` / `start-*` / `end-*` — **not** `ml-*` / `mr-*` / physical `left-*`/`right-*` for directional UI
+- Icons: `rtl:rotate-180` on arrows/chevrons (or `TW_CTA_ARROW`)
+
+## Typography (Nastaliq)
+| Concern | Rule |
+|---------|------|
+| Body / paragraphs | `leading-urdu` or `leading-relaxed` (**≥1.9**) |
+| Section / page titles | `leading-heading` / `leading-urdu-display` — avoid `leading-none` on multi-line Urdu |
+| Card / compact titles | `leading-urdu-tight` |
+| Tracking / kerning | **`tracking-normal` only** — never `tracking-tight`, `tracking-wide`, or `tracking-[-*]` (breaks joins) |
+| Eyebrows / badges | No Latin `uppercase` + wide tracking on Urdu labels |
+| Features | Body uses `kern` / `liga` / `calt` in `globals.css` — do not disable |
+| Pill CTAs | Compact line-height OK (see button rules in `globals.css`) — body copy still ≥1.9 |
+
+Authority for theme line-heights: `tailwind.config.ts` (`leading-urdu*`, remapped `tight`/`relaxed`).
+
+## A11y & interaction
+- Touch ≥44px — `TW_TOUCH` / `min-h-11`
+- Visible `:focus-visible` ring — never bare `outline-none` alone
+- Decorative images: `alt=""`; content images: Urdu `alt`
+- Dates in UI → `formatPublishedDate()` (`ur-PK`)
 
 ## Copy
-**All user-visible text in Urdu.** Run `npm run check:urdu`. False positive: `// urdu-ok`
-
-Full allow/deny table: `CLAUDE.md` § Urdu-First Frontend Rule. Dates in UI → `formatPublishedDate()` (`ur-PK`).
+**All user-visible text in Urdu.** Run `npm run check:urdu`. False positive: `// urdu-ok`  
+Full allow/deny: `CLAUDE.md` § Urdu-First Frontend Rule.
 
 ## Motion
-`prefers-reduced-motion` in `Reveal.tsx` and `globals.css`. No-JS: `@media (scripting: none)` keeps Reveal content visible.
+`prefers-reduced-motion` in `Reveal` + `globals.css`. Hover translate: add `motion-reduce:hover:translate-y-0`.  
+No-JS: `@media (scripting: none)` keeps Reveal visible.
 
-Skill: `rtl-check` after nav/layout changes.
+Skill: `rtl-check` after nav/layout/typography changes.

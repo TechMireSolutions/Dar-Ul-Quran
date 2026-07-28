@@ -13,12 +13,21 @@ Security schemas → **`17-security.mdc`**
 | Target | Path | Example |
 |--------|------|---------|
 | Zod schemas | `lib/<name>-schema.test.ts` | `contact-schema.test.ts` |
-| Pure helpers | `lib/<name>.test.ts` | `paths.test.ts`, `navigation.test.ts` |
-| Avoid | React components, pages, Sanity live fetch | manual QA + `preflight` |
+| Pure helpers | `lib/<name>.test.ts` | `paths.test.ts` |
+| Avoid | React/pages/live Sanity | manual QA + `preflight` |
 
-## Existing coverage (extend, don’t reinvent)
+## Existing coverage (extend)
 
-`contact-schema` · `cache-tags` · `contact` · `paths` · `navigation` · `cmsPage` (pure resolve helpers) · `format-date` · `topicCluster` · `schemaHelpers` · `rate-limit` (in-memory path)
+`contact-schema` · `cache-tags` · `contact` · `paths` · `navigation` · `cmsPage` · `format-date` · `topicCluster` · `schemaHelpers` · `rate-limit`
+
+## Guidelines
+
+- Behavior-first assertions; table-driven cases for enums/paths  
+- Cover happy path **and** rejection/edge cases  
+- Unique keys for stateful modules; restore `process.env` in `afterEach`  
+- Locale: assert against same `Intl` options (or year), not English month names  
+- New `lib/*.ts` shipped with API/UI → colocated `*.test.ts` in the same PR  
+- Prefer `safeParse` for Zod; assert `success` and key `data` fields when useful  
 
 ## Template
 
@@ -32,21 +41,9 @@ describe('myHelper', () => {
   })
 
   it('rejects invalid input', () => {
-    expect(() => myHelper('')).toThrow()
+    expect(myHelper('')).toBeNull()
   })
 })
 ```
 
-## Guidelines
-
-- Prefer behavior assertions over implementation details
-- Unique keys for stateful modules (`rate-limit` buckets)
-- Restore `process.env` in `afterEach` when mutating env
-- Locale formatters: compare to the same `Intl` options (or assert year), not brittle English month names
-- New `lib/*.ts` helper shipped with API/UI → add colocated `*.test.ts` in the same PR
-
-## CI
-
-`.github/workflows/ci.yml` runs `npm run test` before build.
-
-Ship: `preflight` includes `npm run test`.
+CI: `.github/workflows/ci.yml` · Ship: `preflight`.

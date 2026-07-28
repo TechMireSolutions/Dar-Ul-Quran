@@ -14,7 +14,7 @@ Same URL as mobile. PSI/Lighthouse **Desktop**.
 | INP | ≤200ms | rAF scroll with deduped state; carousel sentinels; light flyout handlers |
 | CLS | ≤0.1 | stable sticky header; explicit image width/height |
 
-Nav links in HTML (`lg:flex`); keyboard dropdowns; breadcrumbs on detail pages; 1440px Urdu overflow check.
+Nav links in HTML (`lg:flex`); keyboard dropdowns + `:focus-visible`; breadcrumbs on detail pages; 1440px Urdu overflow check; `motion-reduce` on hover transforms.
 
 Leaf pages: `leafHeroImageUrl()` at 1200w · `SanityImage` with `fetchPriority="high"` when `priority`.
 

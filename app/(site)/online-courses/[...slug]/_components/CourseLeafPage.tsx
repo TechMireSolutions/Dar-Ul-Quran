@@ -77,7 +77,7 @@ export default function CourseLeafPage({
                   </h2>
                 )}
                 {course.overviewBody && (
-                  <p className="text-[16px] text-gray-600 leading-[1.9]">{course.overviewBody}</p>
+                  <p className="text-[16px] text-gray-600 leading-urdu">{course.overviewBody}</p>
                 )}
               </div>
             </section>
@@ -269,7 +269,7 @@ export default function CourseLeafPage({
                   </h2>
                 )}
                 {course.promiseBody && (
-                  <p className="text-[15px] text-gray-600 leading-[1.9]">{course.promiseBody}</p>
+                  <p className="text-[15px] text-gray-600 leading-urdu">{course.promiseBody}</p>
                 )}
               </div>
             </section>

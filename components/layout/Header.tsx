@@ -357,7 +357,7 @@ export default function Header({
                 ? <Image src={logoUrl} alt="" width={42} height={42} sizes="42px" className="object-cover w-full h-full" />
                 : <div className="w-full h-full bg-gradient-to-br from-dq-100 to-dq-200 flex items-center justify-center text-lg select-none" aria-hidden="true">⛵</div>}
             </div>
-            <span className="font-bold text-[17px] text-white tracking-[-0.02em] hidden md:block">{siteName}</span>
+            <span className="font-bold text-[17px] text-white tracking-normal hidden md:block">{siteName}</span>
           </Link>
 
           {/* Desktop nav */}

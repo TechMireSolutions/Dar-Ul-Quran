@@ -271,7 +271,7 @@ export default function HeaderMobileMenu({
                 ? <Image src={logoUrl} alt="" width={40} height={40} className="size-full object-cover" />
                 : <div className="flex size-full items-center justify-center bg-gradient-to-br from-dq-100 to-dq-200 select-none" aria-hidden="true">⛵</div>}
             </div>
-            <span id={titleId} className="truncate font-bold text-[16px] text-slate-900 tracking-[-0.02em]">
+            <span id={titleId} className="truncate font-bold text-[16px] text-slate-900 tracking-normal">
               {siteName}
             </span>
           </Link>

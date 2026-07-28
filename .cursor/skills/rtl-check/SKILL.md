@@ -1,15 +1,25 @@
 ---
 name: rtl-check
-description: Audits files for RTL spacing, Urdu typography, and touch targets. Use before finishing layout work.
+description: Audits files for RTL spacing, Nastaliq line-height/tracking, Urdu copy, and touch targets. Use before finishing layout or typography work.
 ---
 
-# RTL check
+# RTL / Nastaliq check
 
-- `ml/mr/pl/pr` → `ms/me/ps/pe` · `left/right` insets → `start/end` where directional
-- Chevrons / arrows → `rtl:rotate-180` (or `TW_CTA_ARROW`)
-- Body `leading-[1.8]`+ · real Urdu test text · `npm run check:urdu`
-- Touch ≥44px (`min-h-11` / `TW_TOUCH`) on links, buttons, form controls, nav rows
-- Visible `:focus-visible` rings — do not strip with bare `outline-none`
-- `prefers-reduced-motion` respected (Reveal / hover translate)
+Rule: `03-rtl-urdu.mdc`
 
-Rule: `03-rtl-urdu.mdc`. Report issues by line or `RTL-clean`.
+Copy this checklist; mark each item:
+
+```
+[ ] Logical spacing (ms/me/ps/pe/start/end) — no ml/mr for directional UI
+[ ] Arrows/chevrons use rtl:rotate-180 or TW_CTA_ARROW
+[ ] Body/paragraphs: leading-urdu or leading-relaxed (≥1.9)
+[ ] Multi-line titles: leading-heading / leading-urdu-display (not leading-none)
+[ ] tracking-normal only — no tracking-tight/wide/negative on Urdu
+[ ] No Latin uppercase+wide tracking on Urdu eyebrows/badges
+[ ] Touch ≥44px (min-h-11) on controls
+[ ] Visible :focus-visible rings
+[ ] motion-reduce respected on hover transforms
+[ ] npm run check:urdu passes
+```
+
+Report findings by file:line, or reply **`RTL-clean`** if all pass.

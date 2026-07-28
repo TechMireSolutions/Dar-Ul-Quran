@@ -17,11 +17,11 @@ export default function HomeDonateCtaSection({ settings }: HomeDonateCtaSectionP
         <div>
           <div className="inline-flex items-center gap-2.5 mb-4">
             <span className="w-6 h-px bg-amber-400" />
-            <span className="text-[9.5px] font-bold uppercase tracking-[0.28em] text-amber-600">في سبيل الله</span>
+            <span className="text-[9.5px] font-bold tracking-normal text-amber-600">في سبيل الله</span>
             <span className="w-6 h-px bg-amber-400" />
           </div>
 
-          <h2 className="font-bold text-[28px] lg:text-[34px] text-slate-900 leading-tight tracking-[-0.02em] mb-3">
+          <h2 className="font-bold text-[28px] lg:text-[34px] text-slate-900 leading-heading tracking-normal mb-3">
             {settings?.donateHeading || 'ہمارے مشن میں ساتھ دیں'}
           </h2>
 
@@ -34,12 +34,12 @@ export default function HomeDonateCtaSection({ settings }: HomeDonateCtaSectionP
             <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 w-7 h-7 bg-white border border-slate-200 rounded-full flex items-center justify-center">
               <span className="text-amber-500 text-[15px] font-bold leading-none">&quot;</span>
             </div>
-            <p className="text-[13.5px] text-slate-600 italic leading-relaxed">
+            <p className="text-[13.5px] text-slate-600 italic leading-urdu">
               {settings?.donateQuote || 'صدقہ رب کے غضب کو بجھاتا اور بری موت کو دور کرتا ہے۔'}
             </p>
             <div className="mt-3 flex items-center justify-center gap-2">
               <span className="w-5 h-px bg-amber-300" />
-              <cite className="not-italic text-[11px] font-semibold text-amber-600 tracking-wide">
+              <cite className="not-italic text-[11px] font-semibold text-amber-600 tracking-normal">
                 {settings?.donateQuoteAttribution || 'امام صادق (ع)'}
               </cite>
               <span className="w-5 h-px bg-amber-300" />
