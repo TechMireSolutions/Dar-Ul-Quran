@@ -23,7 +23,7 @@ export function staticParamsFromPaths(
     let parent = entry.parent
     while (parent) {
       ancestors.unshift(parent.slug)
-      parent = parent.parent
+      parent = parent.parent ?? null
     }
     return { slug: [...ancestors, entry.slug] }
   })
