@@ -28,17 +28,17 @@ export async function generateStaticParams() {
   return staticParamsFromPaths(paths)
 }
 
-function resolveServicePath(
+function serviceCanonical(
   slug: string[],
   service: { slug?: { current?: string }; parent?: Parameters<typeof ancestryFromParent>[0]['parent'] },
 ) {
   const leafSlug = service.slug?.current ?? slug[slug.length - 1]
   const ancestry = ancestryFromParent(service)
-  const canonicalPath = expectedPathFromAncestry(SECTION_PATH, ancestry, leafSlug)
-  if (!assertSlugAncestry(slug, ancestry, leafSlug)) {
-    permanentRedirect(canonicalPath)
+  return {
+    leafSlug,
+    ancestry,
+    canonicalPath: expectedPathFromAncestry(SECTION_PATH, ancestry, leafSlug),
   }
-  return { leafSlug, ancestry, canonicalPath }
 }
 
 export async function generateMetadata(
@@ -52,7 +52,7 @@ export async function generateMetadata(
   ])
   if (!service) notFound()
 
-  const { canonicalPath } = resolveServicePath(slug, service)
+  const { canonicalPath } = serviceCanonical(slug, service)
   const title = service.seoTitle || service.title || 'خدمت'
   const description =
     service.seoDescription ||
@@ -83,7 +83,10 @@ export default async function ServiceCatchAllPage(
   const service = await getServiceBySlug(currentSlug)
   if (!service) notFound()
 
-  const { ancestry, canonicalPath: currentPath } = resolveServicePath(slug, service)
+  const { leafSlug, ancestry, canonicalPath: currentPath } = serviceCanonical(slug, service)
+  if (!assertSlugAncestry(slug, ancestry, leafSlug)) {
+    permanentRedirect(currentPath)
+  }
 
   const [site, cluster] = await Promise.all([
     getSiteSettings(),

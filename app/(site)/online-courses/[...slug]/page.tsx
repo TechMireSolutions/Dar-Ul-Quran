@@ -34,17 +34,17 @@ export async function generateStaticParams() {
   return staticParamsFromPaths(paths)
 }
 
-function resolveCoursePath(
+function courseCanonical(
   slug: string[],
   course: { slug?: { current?: string }; parent?: Parameters<typeof ancestryFromParent>[0]['parent'] },
 ) {
   const leafSlug = course.slug?.current ?? slug[slug.length - 1]
   const ancestry = ancestryFromParent(course)
-  const canonicalPath = expectedPathFromAncestry(SECTION_PATH, ancestry, leafSlug)
-  if (!assertSlugAncestry(slug, ancestry, leafSlug)) {
-    permanentRedirect(canonicalPath)
+  return {
+    leafSlug,
+    ancestry,
+    canonicalPath: expectedPathFromAncestry(SECTION_PATH, ancestry, leafSlug),
   }
-  return { leafSlug, ancestry, canonicalPath }
 }
 
 export async function generateMetadata(
@@ -58,7 +58,7 @@ export async function generateMetadata(
   ])
   if (!course) notFound()
 
-  const { canonicalPath } = resolveCoursePath(slug, course)
+  const { canonicalPath } = courseCanonical(slug, course)
   const courseTitle = course.title ?? 'کورس'
   const title = course.seoTitle || courseTitle
   const description =
@@ -98,7 +98,10 @@ export default async function CourseCatchAllPage(
   const course = await getCourseBySlug(currentSlug)
   if (!course) notFound()
 
-  const { ancestry, canonicalPath: currentPath } = resolveCoursePath(slug, course)
+  const { leafSlug, ancestry, canonicalPath: currentPath } = courseCanonical(slug, course)
+  if (!assertSlugAncestry(slug, ancestry, leafSlug)) {
+    permanentRedirect(currentPath)
+  }
 
   const [site, schemaData, cluster] = await Promise.all([
     getSiteSettings(),
