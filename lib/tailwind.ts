@@ -183,7 +183,7 @@ export const TW_CARD_LINK =
 
 /** Mobile nav row base — 44px min touch target */
 export const TW_MOBILE_NAV_ROW =
-  'flex min-h-11 items-center gap-2 py-2.5 ps-3 pe-[calc(12px+var(--nav-indent,0px))] rounded-xl text-sm font-medium transition-colors duration-150'
+  'flex min-h-11 items-center gap-2 py-2.5 ps-3 pe-[calc(12px+var(--nav-indent,0px))] rounded-xl text-sm font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-dq-400/50'
 
 export const TW_MOBILE_NAV_ROW_ACTIVE =
   'bg-dq-50 text-dq-700 font-semibold border-s-2 border-dq-500'

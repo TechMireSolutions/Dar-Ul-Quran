@@ -5,7 +5,7 @@ import { Search, X } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import type { NavNode } from '@/lib/types'
 import BrandLogo from '@/components/ui/BrandLogo'
-import { DEFAULT_SEARCH_LABEL, DEFAULT_SEARCH_LANDMARK } from '@/lib/seo'
+import { DEFAULT_SEARCH_LABEL, DEFAULT_SEARCH_LANDMARK, DEFAULT_SEARCH_SUBMIT_LABEL } from '@/lib/seo'
 import HeaderMobileNavNode, { navNodeKey } from './HeaderMobileNavNode'
 import {
   TW_MOBILE_PANEL,
@@ -184,7 +184,7 @@ export default function HeaderMobileMenu({
               placeholder={searchPlaceholder}
               className={TW_MOBILE_SEARCH_INPUT}
             />
-            <button type="submit" aria-label="تلاش" className={TW_MOBILE_SEARCH_SUBMIT}>
+            <button type="submit" aria-label={DEFAULT_SEARCH_SUBMIT_LABEL} className={TW_MOBILE_SEARCH_SUBMIT}>
               <Search size={14} className="text-white" strokeWidth={2.5} aria-hidden="true" />
             </button>
           </form>

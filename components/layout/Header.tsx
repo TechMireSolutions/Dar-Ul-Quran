@@ -6,7 +6,7 @@ import { Search, Menu } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import type { NavNode } from '@/lib/types'
 import { ensurePrimaryNav } from '@/lib/navigation'
-import { DEFAULT_RELATED_SITE_LABEL, DEFAULT_SEARCH_LABEL, DEFAULT_SEARCH_LANDMARK, DEFAULT_SEARCH_PLACEHOLDER, DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
+import { DEFAULT_RELATED_SITE_LABEL, DEFAULT_SEARCH_LABEL, DEFAULT_SEARCH_LANDMARK, DEFAULT_SEARCH_PLACEHOLDER, DEFAULT_SEARCH_SUBMIT_LABEL, DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
 import { PATHS } from '@/lib/paths'
 import BrandLogo from '@/components/ui/BrandLogo'
 import HeaderDesktopNav from './HeaderDesktopNav'
@@ -142,7 +142,7 @@ export default function Header({
                   placeholder={searchPlaceholder}
                   className={TW_HEADER_SEARCH_INPUT}
                 />
-                <button type="submit" aria-label="تلاش"
+                <button type="submit" aria-label={DEFAULT_SEARCH_SUBMIT_LABEL}
                   className={TW_HEADER_SEARCH_SUBMIT}>
                   <Search size={13} className="text-white" strokeWidth={2.5} />
                 </button>

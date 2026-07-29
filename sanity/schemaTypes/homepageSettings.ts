@@ -1,6 +1,7 @@
 import { defineField, defineType } from 'sanity'
 import { PATHS, SECTION_LABELS } from '@/lib/paths'
 import {
+  DEFAULT_ABOUT_CTA_LABEL,
   DEFAULT_ARTICLES_SECTION_HEADING,
   DEFAULT_DONATE_CTA_LABEL,
   DEFAULT_HERO_CTA1_LABEL,
@@ -44,7 +45,7 @@ export const homepageSettings = defineType({
       of: [{ type: 'string' }],
       initialValue: ['ایمان', 'علم', 'رسائی', 'اخلاص'],
     }),
-    defineField({ name: 'aboutCtaLabel', type: 'string', title: 'About — CTA Button Label', initialValue: 'ہمارے بارے میں جانیں' }),
+    defineField({ name: 'aboutCtaLabel', type: 'string', title: 'About — CTA Button Label', initialValue: DEFAULT_ABOUT_CTA_LABEL }),
     defineField({ name: 'aboutHadithArabic', type: 'string', title: 'About — Hadith (Arabic)', initialValue: 'اطلبوا العلم من المهد إلى اللحد' }),
     defineField({ name: 'aboutHadithTranslation', type: 'string', title: 'About — Hadith (Urdu)', initialValue: 'علم حاصل کرو گہوارے سے لحد تک۔' }),
     defineField({ name: 'aboutHadithAttribution', type: 'string', title: 'About — Hadith Attribution', initialValue: 'حضرت محمد (ص)' }),

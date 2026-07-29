@@ -68,7 +68,7 @@ function DesktopPanelRow({ node, onClose, depth }: DesktopPanelRowProps) {
         hover:bg-dq-50
         ${isActive || flyOpen ? 'text-dq-700 bg-dq-50' : 'text-gray-600 hover:text-dq-700'}`}>
         {node.href && node.href !== '#' ? (
-          <Link href={node.href} onClick={onClose} className="flex items-center gap-2 flex-1 text-[13px]">
+          <Link href={node.href} onClick={onClose} className="flex min-h-11 flex-1 items-center gap-2 text-[13px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-dq-400/50 rounded-lg">
             <span className="w-1.5 h-1.5 rounded-full bg-dq-300 shrink-0" />
             {node.label}
           </Link>
@@ -89,7 +89,7 @@ function DesktopPanelRow({ node, onClose, depth }: DesktopPanelRowProps) {
         <div
           role="menu"
           className={`min-w-[200px] ${TW_NAV_DROPDOWN}
-            transition-all duration-200 origin-top-right
+            transition-all duration-200 origin-top-end
             ${flyOpen
               ? 'opacity-100 scale-100 pointer-events-auto'
               : 'opacity-0 scale-95 pointer-events-none'}`}

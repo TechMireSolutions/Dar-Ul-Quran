@@ -2,6 +2,10 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import Reveal from '@/components/ui/Reveal'
 import type { HomepageSettingsDoc } from '@/lib/types'
+import {
+  DEFAULT_ABOUT_CTA_LABEL,
+  DEFAULT_SITE_NAME_URDU,
+} from '@/lib/seo'
 import { PATHS } from '@/lib/paths'
 import {
   TW_BODY_MUTED,
@@ -36,7 +40,7 @@ export default function HomeAboutSection({ settings }: HomeAboutSectionProps) {
               {(settings?.aboutBody1 || true) && (
                 <p className={`${TW_BODY_MUTED} mb-4`}>
                   {settings?.aboutBody1 ||
-                    'دار القرآن ایک واحد مقصد کے ساتھ قائم کیا گیا — ہر مسلمان تک مستند شیعہ اسلامی تعلیم اور مذہبی خدمات کی رسائی، چاہے وہ کہیں بھی ہو۔'}
+                    `${DEFAULT_SITE_NAME_URDU} ایک واحد مقصد کے ساتھ قائم کیا گیا — ہر مسلمان تک مستند شیعہ اسلامی تعلیم اور مذہبی خدمات کی رسائی، چاہے وہ کہیں بھی ہو۔`}
                 </p>
               )}
               {(settings?.aboutBody2 || true) && (
@@ -60,7 +64,7 @@ export default function HomeAboutSection({ settings }: HomeAboutSectionProps) {
                 ))}
               </div>
               <Link href={PATHS.about} className={TW_GOLD_CTA_DARK}>
-                {settings?.aboutCtaLabel || 'ہمارے بارے میں جانیں'}
+                {settings?.aboutCtaLabel || DEFAULT_ABOUT_CTA_LABEL}
                 <ArrowRight size={13} strokeWidth={2.5} className={TW_CTA_ARROW} />
               </Link>
             </div>
@@ -69,7 +73,7 @@ export default function HomeAboutSection({ settings }: HomeAboutSectionProps) {
           <Reveal animation="scale" delay={120}>
             <div className="relative pb-10">
               <div className="bg-dq-900 rounded-3xl p-8 sm:p-10 text-white relative overflow-hidden">
-                <div className="absolute top-0 end-0 size-72 rounded-full pointer-events-none opacity-20 bg-gold-radial-sm translate-x-[30%] -translate-y-[30%]" />
+                <div className="absolute top-0 end-0 size-72 rounded-full pointer-events-none opacity-20 bg-gold-radial-sm ltr:translate-x-[30%] rtl:-translate-x-[30%] -translate-y-[30%]" />
                 <p className="text-center text-[28px] sm:text-[32px] leading-urdu text-amber-400 font-light mb-3" dir="rtl">
                   {settings?.aboutHadithArabic || 'اطلبوا العلم من المهد إلى اللحد'}
                 </p>

@@ -1,6 +1,6 @@
 import { PATHS } from '@/lib/paths'
 import { TW_BTN_PRIMARY, TW_SEARCH_INPUT } from '@/lib/tailwind'
-import { DEFAULT_SEARCH_LABEL, DEFAULT_SEARCH_PLACEHOLDER } from '@/lib/seo'
+import { DEFAULT_SEARCH_LABEL, DEFAULT_SEARCH_PLACEHOLDER, DEFAULT_SEARCH_SUBMIT_LABEL } from '@/lib/seo'
 
 type ArticlesSearchFormProps = {
   defaultQuery?: string
@@ -24,7 +24,7 @@ export default function ArticlesSearchForm({ defaultQuery = '' }: ArticlesSearch
           className={TW_SEARCH_INPUT}
         />
         <button type="submit" className={`${TW_BTN_PRIMARY} min-w-11`}>
-          تلاش
+          {DEFAULT_SEARCH_SUBMIT_LABEL}
         </button>
       </div>
     </form>

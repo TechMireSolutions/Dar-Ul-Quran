@@ -227,7 +227,7 @@ export default function CourseLeafPage({
             heading={course.ctaHeading}
             subtitle={course.ctaSubtitle}
             primaryHref={enrollHref}
-            primaryLabel={course.ctaBtn1Label || 'ابھی شامل ہوں'}
+            primaryLabel={course.ctaBtn1Label || DEFAULT_COURSE_ENROLL_CTA}
             primaryExternal={Boolean(course.enrollmentLink)}
             whatsappHref={whatsappLink}
             whatsappLabel={course.ctaBtn2Label}

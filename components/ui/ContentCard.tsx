@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
+import { DEFAULT_CARD_CTA } from '@/lib/seo'
 import { TW_BADGE_SM, TW_CARD_LINK, TW_CTA_ARROW } from '@/lib/tailwind'
 
 type ContentCardProps = {
@@ -19,7 +20,7 @@ export default function ContentCard({
   title,
   description,
   href,
-  ctaLabel = 'مزید جانیں',
+  ctaLabel = DEFAULT_CARD_CTA,
   badge,
   active = false,
   imageAlt,
@@ -36,7 +37,7 @@ export default function ContentCard({
     >
       {/* Gold top accent stripe — slides in on hover */}
       <div className={`absolute top-0 inset-x-0 h-[3px] z-10 transition-transform duration-300 origin-inline-end pointer-events-none
-        bg-gradient-to-r from-dq-400 via-dq-500 to-dq-300
+        ltr:bg-gradient-to-r rtl:bg-gradient-to-l from-dq-400 via-dq-500 to-dq-300
         ${active ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100 group-hover:origin-inline-start'}`} />
 
       {/* Single primary link wraps media + title for one keyboard stop */}

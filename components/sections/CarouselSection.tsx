@@ -33,8 +33,8 @@ export default function CarouselSection({
   const trackRef = useRef<HTMLDivElement>(null)
   const startSentinelRef = useRef<HTMLDivElement>(null)
   const endSentinelRef = useRef<HTMLDivElement>(null)
-  const [canLeft, setCanLeft] = useState(false)
-  const [canRight, setCanRight] = useState(() => items.length > 1)
+  const [canPrev, setCanPrev] = useState(false)
+  const [canNext, setCanNext] = useState(() => items.length > 1)
   const [active, setActive] = useState(false)
   const headingId = useId()
 
@@ -67,8 +67,8 @@ export default function CarouselSection({
     const edgeIo = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (entry.target === start) setCanLeft(!entry.isIntersecting)
-          if (entry.target === end) setCanRight(!entry.isIntersecting)
+          if (entry.target === start) setCanPrev(!entry.isIntersecting)
+          if (entry.target === end) setCanNext(!entry.isIntersecting)
         }
       },
       { root: track, threshold: 0.99 },
@@ -79,11 +79,14 @@ export default function CarouselSection({
     return () => edgeIo.disconnect()
   }, [active, items.length])
 
-  function scrollBy(dir: 'left' | 'right') {
-    trackRef.current?.scrollBy({
-      left: dir === 'left' ? -CARD_SCROLL_STEP : CARD_SCROLL_STEP,
-      behavior: 'smooth',
-    })
+  /** Prev/next relative to flex start — flips physical `left` under `dir=rtl`. */
+  function scrollByDir(dir: 'prev' | 'next') {
+    const el = trackRef.current
+    if (!el) return
+    const rtl = getComputedStyle(el).direction === 'rtl'
+    const towardEnd = dir === 'next'
+    const delta = (rtl ? !towardEnd : towardEnd) ? CARD_SCROLL_STEP : -CARD_SCROLL_STEP
+    el.scrollBy({ left: delta, behavior: 'smooth' })
   }
 
   if (!items.length) return null
@@ -104,22 +107,24 @@ export default function CarouselSection({
           actions={
             <div className="hidden md:flex items-center gap-1.5" role="group" aria-label="کاروسل کنٹرول">
               <button
-                onClick={() => scrollBy('left')}
-                disabled={!active || !canLeft}
+                type="button"
+                onClick={() => scrollByDir('prev')}
+                disabled={!active || !canPrev}
                 aria-label="پچھلا"
-                aria-disabled={!active || !canLeft}
-                className={`${TW_CAROUSEL_NAV_BTN} ${active && canLeft ? TW_CAROUSEL_NAV_BTN_ON : TW_CAROUSEL_NAV_BTN_OFF}`}
+                aria-disabled={!active || !canPrev}
+                className={`${TW_CAROUSEL_NAV_BTN} ${active && canPrev ? TW_CAROUSEL_NAV_BTN_ON : TW_CAROUSEL_NAV_BTN_OFF}`}
               >
-                <ChevronLeft size={16} strokeWidth={2} />
+                <ChevronLeft size={16} strokeWidth={2} className="rtl:rotate-180" />
               </button>
               <button
-                onClick={() => scrollBy('right')}
-                disabled={!active || !canRight}
+                type="button"
+                onClick={() => scrollByDir('next')}
+                disabled={!active || !canNext}
                 aria-label="اگلا"
-                aria-disabled={!active || !canRight}
-                className={`${TW_CAROUSEL_NAV_BTN} ${active && canRight ? TW_CAROUSEL_NAV_BTN_ON : TW_CAROUSEL_NAV_BTN_OFF}`}
+                aria-disabled={!active || !canNext}
+                className={`${TW_CAROUSEL_NAV_BTN} ${active && canNext ? TW_CAROUSEL_NAV_BTN_ON : TW_CAROUSEL_NAV_BTN_OFF}`}
               >
-                <ChevronRight size={16} strokeWidth={2} />
+                <ChevronRight size={16} strokeWidth={2} className="rtl:rotate-180" />
               </button>
             </div>
           }
@@ -128,14 +133,14 @@ export default function CarouselSection({
         {/* Scroll track + edge fades */}
         <div className="relative">
           <div
-            className={`absolute end-0 top-0 bottom-0 w-10 z-10 pointer-events-none hidden md:block
-              bg-gradient-to-r ${bg === 'gray' ? 'from-slate-50' : 'from-white'} to-transparent
-              transition-opacity duration-200 ${active && canLeft ? 'opacity-100' : 'opacity-0'}`}
+            className={`absolute start-0 top-0 bottom-0 w-10 z-10 pointer-events-none hidden md:block
+              ltr:bg-gradient-to-r rtl:bg-gradient-to-l ${bg === 'gray' ? 'from-slate-50' : 'from-white'} to-transparent
+              transition-opacity duration-200 ${active && canPrev ? 'opacity-100' : 'opacity-0'}`}
           />
           <div
-            className={`absolute start-0 top-0 bottom-0 w-10 z-10 pointer-events-none hidden md:block
-              bg-gradient-to-l ${bg === 'gray' ? 'from-slate-50' : 'from-white'} to-transparent
-              transition-opacity duration-200 ${active && canRight ? 'opacity-100' : 'opacity-0'}`}
+            className={`absolute end-0 top-0 bottom-0 w-10 z-10 pointer-events-none hidden md:block
+              ltr:bg-gradient-to-l rtl:bg-gradient-to-r ${bg === 'gray' ? 'from-slate-50' : 'from-white'} to-transparent
+              transition-opacity duration-200 ${active && canNext ? 'opacity-100' : 'opacity-0'}`}
           />
 
           <div

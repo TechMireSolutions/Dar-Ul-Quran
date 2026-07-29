@@ -35,6 +35,15 @@ export const DEFAULT_WHATSAPP_CTA_LABEL = 'واٹس ایپ کریں'
 /** Header / articles search placeholder. */
 export const DEFAULT_SEARCH_PLACEHOLDER = 'مضامین تلاش کریں…'
 
+/** Search submit button / aria-label. */
+export const DEFAULT_SEARCH_SUBMIT_LABEL = 'تلاش'
+
+/** Content card default CTA. */
+export const DEFAULT_CARD_CTA = 'مزید جانیں'
+
+/** Homepage about section CTA. */
+export const DEFAULT_ABOUT_CTA_LABEL = 'ہمارے بارے میں جانیں'
+
 /** Article listing card CTA. */
 export const DEFAULT_ARTICLE_CTA = 'مزید پڑھیں'
 

@@ -42,7 +42,7 @@ export default function FaqAccordion({ heading, items, icon = 'chevron' }: FaqAc
   const iconClass =
     icon === 'plus'
       ? 'shrink-0 text-gray-400 group-open:rotate-45 transition-transform duration-200'
-      : 'shrink-0 text-gray-400 group-open:rotate-90 transition-transform duration-200'
+      : 'shrink-0 text-gray-400 transition-transform duration-200 rtl:rotate-180 group-open:rotate-90 group-open:rtl:rotate-90'
 
   return (
     <section className={`bg-slate-50 ${TW_SECTION_PY}`}>
