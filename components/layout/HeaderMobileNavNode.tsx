@@ -109,7 +109,7 @@ export default function HeaderMobileNavNode({
             <Link
               href={node.href}
               onClick={onClose}
-              className="flex min-h-11 items-center gap-1.5 rounded-lg px-3 py-2 text-[13px] font-semibold text-dq-700 transition-colors hover:bg-dq-50"
+              className="flex min-h-11 items-center gap-1.5 rounded-lg px-3 py-2 text-[13px] font-semibold text-dq-700 transition-colors hover:bg-dq-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-dq-400/50"
             >
               {node.label} — {DEFAULT_VIEW_ALL_LABEL}
             </Link>

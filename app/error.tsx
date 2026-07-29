@@ -21,7 +21,7 @@ export default function Error({
       <p className={`${TW_EYEBROW} mb-3`}>خرابی</p>
       <h1 className={`${TW_PAGE_TITLE} mb-3`}>کچھ غلط ہو گیا</h1>
       <p className={`${TW_BODY_MUTED} mb-8 max-w-md`}>
-        صفحہ لوڈ نہیں ہو سکا۔ براہِ کرم دوبارہ کوشش کریں یا صفحۂ اول پر واپس جائیں۔
+        صفحہ لوڈ نہیں ہو سکا۔ براہِ کرم دوبارہ کوشش کریں یا {HOME_LABEL} پر واپس جائیں۔
       </p>
       <div className="flex flex-wrap justify-center gap-3">
         <button

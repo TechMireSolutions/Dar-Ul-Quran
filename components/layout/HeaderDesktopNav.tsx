@@ -217,9 +217,9 @@ export default function HeaderDesktopNav({ node }: { node: NavNode }) {
             <Link
               href={node.href}
               role="menuitem"
-              className="flex items-center justify-between gap-3 px-4 py-3 rounded-t-2xl
+              className="flex min-h-11 items-center justify-between gap-3 px-4 py-3 rounded-t-2xl
                 border-b border-gray-100 text-[13px] font-semibold text-slate-800
-                hover:bg-dq-50 hover:text-dq-700 transition-colors duration-150"
+                hover:bg-dq-50 hover:text-dq-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-dq-400/50 transition-colors duration-150"
             >
               {node.label}
               <span className="text-[10px] font-medium text-dq-500 bg-dq-50 border border-dq-100 rounded-full px-2 py-0.5 whitespace-nowrap">

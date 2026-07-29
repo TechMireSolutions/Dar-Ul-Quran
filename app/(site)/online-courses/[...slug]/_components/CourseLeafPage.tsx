@@ -11,7 +11,7 @@ import CenteredSectionHeader from '@/components/ui/CenteredSectionHeader'
 import type { CourseDetailDoc, SiteSettingsDoc, TopicClusterDoc } from '@/lib/types'
 import type { FaqDisplayItem } from '@/lib/topicCluster'
 import { externalLinkAttrs, telHref } from '@/lib/contact'
-import { DEFAULT_FAQ_HEADING } from '@/lib/seo'
+import { DEFAULT_COURSE_ENROLL_CTA, DEFAULT_FAQ_HEADING } from '@/lib/seo'
 import { TW_CARD_GRID, TW_CARD_SURFACE, TW_CARD_SURFACE_PADDED, TW_CONTAINER_PRICING, TW_CONTAINER_PROSE, TW_CONTAINER_WIDE, TW_CTA_ARROW, TW_EYEBROW_LINE, TW_FEATURE_ICON, TW_GOLD_CTA, TW_HERO_CHIP_GOLD, TW_HERO_CHIP_MUTED, TW_PAGE_SUBTITLE, TW_SECTION_PY } from '@/lib/tailwind'
 
 type CourseLeafPageProps = {
@@ -65,7 +65,7 @@ export default function CourseLeafPage({
                   {...(course.enrollmentLink ? externalLinkAttrs() : {})}
                   className={`${TW_GOLD_CTA} shadow-gold-lg`}
                 >
-                  {course.heroCtaLabel || 'ابھی داخلہ لیں'}
+                  {course.heroCtaLabel || DEFAULT_COURSE_ENROLL_CTA}
                   <ArrowRight size={14} strokeWidth={2.5} className={TW_CTA_ARROW} />
                 </Link>
               </div>

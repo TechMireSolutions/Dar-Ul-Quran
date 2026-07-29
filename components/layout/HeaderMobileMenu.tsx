@@ -5,6 +5,7 @@ import { Search, X } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import type { NavNode } from '@/lib/types'
 import BrandLogo from '@/components/ui/BrandLogo'
+import { DEFAULT_SEARCH_LABEL, DEFAULT_SEARCH_LANDMARK } from '@/lib/seo'
 import HeaderMobileNavNode, { navNodeKey } from './HeaderMobileNavNode'
 import {
   TW_MOBILE_PANEL,
@@ -138,7 +139,7 @@ export default function HeaderMobileMenu({
         aria-hidden={!open}
         inert={!open ? true : undefined}
         className={`${TW_MOBILE_PANEL}
-          ${open ? 'translate-x-0' : 'translate-x-full'}`}
+          ${open ? 'translate-x-0' : 'ltr:-translate-x-full rtl:translate-x-full'}`}
       >
         <div className={TW_MOBILE_PANEL_HEADER}>
           <BrandLogo
@@ -161,7 +162,7 @@ export default function HeaderMobileMenu({
 
         <div className={TW_MOBILE_PANEL_SEARCH}>
           <p className={TW_MOBILE_PANEL_SEARCH_LABEL} id="mobile-search-label">
-            مضامین تلاش
+            {DEFAULT_SEARCH_LANDMARK}
           </p>
           <form
             onSubmit={onSearch}
@@ -170,7 +171,7 @@ export default function HeaderMobileMenu({
             className={TW_SEARCH_FORM_MOBILE}
           >
             <label htmlFor="mobile-search" className="sr-only">
-              {searchPlaceholder}
+              {DEFAULT_SEARCH_LABEL}
             </label>
             <input
               ref={searchInputRef}

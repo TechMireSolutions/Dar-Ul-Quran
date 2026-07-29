@@ -6,7 +6,7 @@ import { Search, Menu } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import type { NavNode } from '@/lib/types'
 import { ensurePrimaryNav } from '@/lib/navigation'
-import { DEFAULT_RELATED_SITE_LABEL, DEFAULT_SEARCH_PLACEHOLDER, DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
+import { DEFAULT_RELATED_SITE_LABEL, DEFAULT_SEARCH_LABEL, DEFAULT_SEARCH_LANDMARK, DEFAULT_SEARCH_PLACEHOLDER, DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
 import { PATHS } from '@/lib/paths'
 import BrandLogo from '@/components/ui/BrandLogo'
 import HeaderDesktopNav from './HeaderDesktopNav'
@@ -126,9 +126,9 @@ export default function Header({
 
           <div className="hidden lg:flex items-center ms-auto">
             {searchOpen ? (
-              <form onSubmit={handleSearch} role="search" aria-label="مضامین تلاش"
+              <form onSubmit={handleSearch} role="search" aria-label={DEFAULT_SEARCH_LANDMARK}
                 className={TW_SEARCH_FORM}>
-                <label htmlFor="desktop-search" className="sr-only">مضامین تلاش کریں</label>
+                <label htmlFor="desktop-search" className="sr-only">{DEFAULT_SEARCH_LABEL}</label>
                 <input
                   id="desktop-search"
                   autoFocus

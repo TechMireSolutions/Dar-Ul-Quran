@@ -1,6 +1,6 @@
 import { PATHS } from '@/lib/paths'
 import { TW_BTN_PRIMARY, TW_SEARCH_INPUT } from '@/lib/tailwind'
-import { DEFAULT_SEARCH_PLACEHOLDER } from '@/lib/seo'
+import { DEFAULT_SEARCH_LABEL, DEFAULT_SEARCH_PLACEHOLDER } from '@/lib/seo'
 
 type ArticlesSearchFormProps = {
   defaultQuery?: string
@@ -10,7 +10,7 @@ export default function ArticlesSearchForm({ defaultQuery = '' }: ArticlesSearch
   return (
     <form action={PATHS.articles} method="get" role="search" className="max-w-md mt-5">
       <label htmlFor="article-search" className="sr-only">
-        مضامین تلاش کریں
+        {DEFAULT_SEARCH_LABEL}
       </label>
       <div className="flex gap-2">
         <input

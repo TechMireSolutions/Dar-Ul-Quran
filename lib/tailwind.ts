@@ -167,7 +167,7 @@ export const TW_HEADER_SEARCH_INPUT =
 
 /** Header desktop search submit */
 export const TW_HEADER_SEARCH_SUBMIT =
-  'flex min-h-11 min-w-11 shrink-0 items-center justify-center self-stretch bg-dq-500 px-3 text-white transition-colors hover:bg-dq-600'
+  'flex min-h-11 min-w-11 shrink-0 items-center justify-center self-stretch bg-dq-500 px-3 text-white transition-colors hover:bg-dq-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-dq-900'
 
 /** Header icon button (menu / search toggle) — ≥44px + focus ring */
 export const TW_HEADER_ICON_BTN =
@@ -209,7 +209,7 @@ export const TW_MOBILE_PANEL_NAV =
   'min-h-0 flex-1 overflow-y-auto overscroll-y-contain px-3 py-3 scroll-smooth'
 
 export const TW_MOBILE_SEARCH_SUBMIT =
-  'flex min-h-11 min-w-11 shrink-0 items-center justify-center self-stretch bg-dq-500 px-4 transition-colors hover:bg-dq-600'
+  'flex min-h-11 min-w-11 shrink-0 items-center justify-center self-stretch bg-dq-500 px-4 transition-colors hover:bg-dq-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-300/70 focus-visible:ring-offset-2'
 
 /** PayPal donate CTA (brand colors — exception to dq-*) */
 export const TW_PAYPAL_CTA =
@@ -375,11 +375,11 @@ export const TW_BRAND_LOGO_FALLBACK =
 
 /** Desktop nav dropdown row */
 export const TW_NAV_MENU_ITEM =
-  'flex min-h-11 items-center gap-2 px-4 py-2.5 text-[13px] transition-colors duration-150'
+  'flex min-h-11 items-center gap-2 px-4 py-2.5 text-[13px] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-dq-400/50'
 
 /** Mobile drawer search field */
 export const TW_MOBILE_SEARCH_INPUT =
-  'min-h-11 flex-1 bg-white px-4 py-3 text-[14px] text-slate-700 outline-none placeholder:text-gray-400'
+  'min-h-11 flex-1 bg-white px-4 py-3 text-[14px] text-slate-700 outline-none placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-dq-400/40'
 
 /** Centered section title block spacing */
 export const TW_SECTION_HEADER_CENTER = 'text-center mb-12'
@@ -387,7 +387,7 @@ export const TW_SECTION_HEADER_CENTER_SM = 'text-center mb-10'
 
 /** Carousel prev/next control */
 export const TW_CAROUSEL_NAV_BTN =
-  'w-12 h-12 rounded-full border-2 flex items-center justify-center transition-all duration-200'
+  'w-12 h-12 rounded-full border-2 flex items-center justify-center transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 focus-visible:ring-offset-2'
 export const TW_CAROUSEL_NAV_BTN_ON =
   'border-gray-200 text-gray-500 hover:border-dq-500 hover:text-dq-700 hover:bg-dq-50'
 export const TW_CAROUSEL_NAV_BTN_OFF =

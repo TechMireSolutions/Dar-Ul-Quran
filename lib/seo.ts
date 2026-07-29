@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { SECTION_LABELS } from '@/lib/paths'
 
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://darulquran.pk'
 
@@ -51,7 +52,7 @@ export const DEFAULT_DONATE_HOW_TO_HEADING = 'عطیہ کیسے دیں'
 export const DEFAULT_DONATE_HOW_TO_TEXT =
   'بینک ٹرانسفر کی تفصیل کے لیے ہم سے رابطہ کریں یا نیچے آنلائن ادائیگی کا لنک استعمال کریں۔'
 export const DEFAULT_DONATE_PAY_ONLINE_LABEL = 'آنلائن عطیہ دیں'
-export const DEFAULT_DONATE_CONTACT_LABEL = 'ہم سے رابطہ کریں'
+export const DEFAULT_DONATE_CONTACT_LABEL = SECTION_LABELS.contact
 export const DEFAULT_DONATE_CLOSING_MESSAGE =
   'جزاک اللہ خیر — اللہ (سبحانہ و تعالیٰ) آپ کے عطیات قبول فرمائے۔'
 
@@ -92,11 +93,26 @@ export const DEFAULT_ARTICLES_SECTION_HEADING = 'تازہ ترین مضامین'
 /** Homepage hero primary CTA fallback. */
 export const DEFAULT_HERO_CTA1_LABEL = 'کورسز دیکھیں'
 
+/** Leaf / Studio course enroll CTA. */
+export const DEFAULT_COURSE_ENROLL_CTA = 'ابھی داخلہ لیں'
+
+/** Service listing browse CTA when children exist. */
+export const DEFAULT_SERVICE_BROWSE_CTA = 'خدمات دیکھیں'
+
+/** Service leaf / Studio book CTA. */
+export const DEFAULT_SERVICE_BOOK_CTA = 'ابھی بک کریں'
+
 /** Homepage hero secondary CTA fallback. */
 export const DEFAULT_HERO_CTA2_LABEL = DEFAULT_SERVICES_SECTION_HEADING
 
 /** About page secondary courses CTA. */
 export const DEFAULT_ABOUT_COURSES_CTA = 'ہمارے کورسز'
+
+/** Search landmark aria-label (header form). */
+export const DEFAULT_SEARCH_LANDMARK = 'مضامین تلاش'
+
+/** Visible / sr-only search field label. */
+export const DEFAULT_SEARCH_LABEL = 'مضامین تلاش کریں'
 
 /** Resolve Urdu display name from CMS (UI chrome, titles, manifest). */
 export function resolveSiteNameUrdu(siteName?: string | null): string {

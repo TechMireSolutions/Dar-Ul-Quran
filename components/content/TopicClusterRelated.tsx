@@ -34,7 +34,7 @@ export default function TopicClusterRelated({
       {pillarHref && pillarPage?.title && (
         <Link
           href={pillarHref}
-          className="group flex min-h-11 items-center justify-between gap-3 bg-dq-50 border border-dq-100 rounded-xl px-4 py-3.5 mb-4 hover:bg-dq-100/60 focus-visible:bg-dq-100/60 transition-colors"
+          className="group flex min-h-11 items-center justify-between gap-3 bg-dq-50 border border-dq-100 rounded-xl px-4 py-3.5 mb-4 hover:bg-dq-100/60 focus-visible:bg-dq-100/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 transition-colors"
         >
           <span className="text-[14px] font-semibold text-slate-900">{pillarPage.title}</span>
           <ArrowRight
@@ -51,7 +51,7 @@ export default function TopicClusterRelated({
             <li key={article._id}>
               <Link
                 href={articlePath(article.slug)}
-                className="block min-h-11 rounded-xl border border-gray-100 bg-slate-50/60 px-4 py-3 hover:border-dq-100 hover:bg-dq-50/40 focus-visible:border-dq-100 focus-visible:bg-dq-50/40 transition-colors"
+                className="block min-h-11 rounded-xl border border-gray-100 bg-slate-50/60 px-4 py-3 hover:border-dq-100 hover:bg-dq-50/40 focus-visible:border-dq-100 focus-visible:bg-dq-50/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 transition-colors"
               >
                 <span className="font-medium text-[14px] text-slate-900">{article.title}</span>
                 {article.excerpt && (

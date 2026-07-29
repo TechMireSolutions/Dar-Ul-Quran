@@ -1,5 +1,12 @@
 import type { Metadata } from 'next'
-import { DEFAULT_SITE_NAME_URDU, pageMetadata } from '@/lib/seo'
+import {
+  DEFAULT_COURSE_ENROLL_CTA,
+  DEFAULT_HERO_CTA1_LABEL,
+  DEFAULT_SERVICE_BOOK_CTA,
+  DEFAULT_SERVICE_BROWSE_CTA,
+  DEFAULT_SITE_NAME_URDU,
+  pageMetadata,
+} from '@/lib/seo'
 import { defaultOgImage } from '@/sanity/lib/image'
 import { getPageBySlug, getSiteSettings } from '@/sanity/lib/fetchers'
 import type { SiteSettingsDoc, PageDoc, CmsPageDoc, SlugListItem, SanityImageAsset } from '@/lib/types'
@@ -59,7 +66,7 @@ export function resolveLeafDescription(
 
 /** Parent vs leaf CTA on course cards / carousel / nested listings. */
 export function courseCtaLabel(childCount: number): string {
-  return childCount > 0 ? 'کورسز دیکھیں' : 'ابھی داخلہ لیں'
+  return childCount > 0 ? DEFAULT_HERO_CTA1_LABEL : DEFAULT_COURSE_ENROLL_CTA
 }
 
 /** Card image for course lists — prefers own image, then GROQ child fallback. */
@@ -71,7 +78,7 @@ export function resolveCourseCardImage(
 
 /** Parent vs leaf CTA on service cards / carousel / nested listings. */
 export function serviceCtaLabel(childCount: number): string {
-  return childCount > 0 ? 'خدمات دیکھیں' : 'ابھی بک کریں'
+  return childCount > 0 ? DEFAULT_SERVICE_BROWSE_CTA : DEFAULT_SERVICE_BOOK_CTA
 }
 
 /** Type guard for CMS list items with a published slug. */

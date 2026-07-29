@@ -3,7 +3,9 @@ import {
   DEFAULT_CONTACT_FORM_SUBJECTS,
   DEFAULT_CONTACT_FORM_SUBMIT_LABEL,
   DEFAULT_COURSE_ALL_CTA,
+  DEFAULT_COURSE_ENROLL_CTA,
   DEFAULT_SERVICE_ALL_CTA,
+  DEFAULT_SERVICE_BOOK_CTA,
   DEFAULT_DONATE_ARABIC_VERSE,
   DEFAULT_DONATE_CAUSES,
   DEFAULT_DONATE_CLOSING_MESSAGE,
@@ -53,9 +55,9 @@ export const siteSettings = defineType({
     // ── Shared UI labels ──────────────────────────────────────────────────────
     defineField({ name: 'searchPlaceholder',     type: 'string', title: 'Search Placeholder Text',      initialValue: DEFAULT_SEARCH_PLACEHOLDER }),
     defineField({ name: 'faqHeading',            type: 'string', title: 'FAQ Section Heading',          initialValue: DEFAULT_FAQ_HEADING }),
-    defineField({ name: 'serviceBookCtaLabel',   type: 'string', title: 'Service — Book CTA Label',     initialValue: 'یہ خدمت بک کریں' }),
+    defineField({ name: 'serviceBookCtaLabel',   type: 'string', title: 'Service — Book CTA Label',     initialValue: DEFAULT_SERVICE_BOOK_CTA }),
     defineField({ name: 'serviceAllCtaLabel',    type: 'string', title: 'Service — Back Link Label',    initialValue: DEFAULT_SERVICE_ALL_CTA }),
-    defineField({ name: 'courseEnrollCtaLabel',  type: 'string', title: 'Course — Enroll CTA Label',    initialValue: 'ابھی داخلہ لیں' }),
+    defineField({ name: 'courseEnrollCtaLabel',  type: 'string', title: 'Course — Enroll CTA Label',    initialValue: DEFAULT_COURSE_ENROLL_CTA }),
     defineField({ name: 'courseAllCtaLabel',     type: 'string', title: 'Course — Back Link Label',     initialValue: DEFAULT_COURSE_ALL_CTA }),
     defineField({ name: 'courseInstructorLabel', type: 'string', title: 'Course — "Instructor" Label',  initialValue: 'استاد' }),
 

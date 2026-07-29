@@ -64,8 +64,8 @@ export default function HeroSection({
       <div className="absolute top-0 end-0 w-1/2 h-full pointer-events-none bg-gold-radial" />
 
       {/* Decorative corner arcs */}
-      <div className="absolute top-0 end-0 pointer-events-none opacity-[0.18] size-[260px] rounded-bl-full border-[1.5px] border-dq-400 translate-x-[35%] -translate-y-[35%]" />
-      <div className="absolute top-0 end-0 pointer-events-none opacity-[0.12] size-40 rounded-bl-full border-[1.5px] border-dq-400 translate-x-[22%] -translate-y-[22%]" />
+      <div className="absolute top-0 end-0 pointer-events-none opacity-[0.18] size-[260px] rounded-es-full border-[1.5px] border-dq-400 ltr:translate-x-[35%] rtl:-translate-x-[35%] -translate-y-[35%]" />
+      <div className="absolute top-0 end-0 pointer-events-none opacity-[0.12] size-40 rounded-es-full border-[1.5px] border-dq-400 ltr:translate-x-[22%] rtl:-translate-x-[22%] -translate-y-[22%]" />
 
       {/* Hero image — desktop only */}
       <div className="absolute inset-0 hidden md:block md:inset-auto md:end-0 md:top-0 md:h-full md:w-[58%] pointer-events-none select-none">
