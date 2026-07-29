@@ -10,7 +10,7 @@ import { DEFAULT_RELATED_SITE_LABEL, DEFAULT_SEARCH_PLACEHOLDER, DEFAULT_SITE_NA
 import { PATHS } from '@/lib/paths'
 import BrandLogo from '@/components/ui/BrandLogo'
 import HeaderDesktopNav from './HeaderDesktopNav'
-import { TW_CONTAINER_HEADER, TW_HEADER_SEARCH_INPUT, TW_HEADER_SEARCH_SUBMIT, TW_SEARCH_FORM } from '@/lib/tailwind'
+import { TW_CONTAINER_HEADER, TW_HEADER_ICON_BTN, TW_HEADER_SEARCH_INPUT, TW_HEADER_SEARCH_SUBMIT, TW_HEADER_SEARCH_TOGGLE, TW_SEARCH_FORM } from '@/lib/tailwind'
 
 const HeaderMobileMenu = dynamic(() => import('./HeaderMobileMenu'), { ssr: false })
 
@@ -105,7 +105,7 @@ export default function Header({
 
           <button
             ref={menuButtonRef}
-            className="lg:hidden shrink-0 w-11 h-11 flex items-center justify-center rounded-full text-white/70 hover:bg-dq-800 transition-colors"
+            className={`lg:hidden ${TW_HEADER_ICON_BTN} text-white/70 hover:text-white`}
             onClick={openMobileMenu}
             aria-label="مینو کھولیں"
             aria-expanded={menuOpen}
@@ -151,7 +151,7 @@ export default function Header({
               <button
                 onClick={() => setSearchOpen(true)}
                 aria-label="تلاش کھولیں"
-                className="w-11 h-11 rounded-full border border-dq-700 flex items-center justify-center text-white/60 hover:border-dq-400 hover:text-dq-400 focus-visible:border-dq-400 focus-visible:text-dq-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 transition-all duration-200"
+                className={TW_HEADER_SEARCH_TOGGLE}
               >
                 <Search size={15} strokeWidth={2} />
               </button>

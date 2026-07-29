@@ -4,6 +4,7 @@ import RichTextBody from '@/components/content/RichTextBody'
 import { cmsPageMetadata, fetchCmsPage, resolveSeoDescription, resolveSeoTitle } from '@/lib/cmsPage'
 import { buildFooterContactRows, CONTACT_KIND_LABELS, type FooterContactRow } from '@/lib/contact'
 import { PATHS, SECTION_LABELS } from '@/lib/paths'
+import { DEFAULT_CONTACT_FORM_SUBJECTS, DEFAULT_CONTACT_FORM_SUBMIT_LABEL } from '@/lib/seo'
 import { getCoursesForContactForm, getServicesForContactForm } from '@/sanity/lib/fetchers'
 import CmsPageShell from '@/components/layout/CmsPageShell'
 import ContactForm from './_components/ContactForm'
@@ -43,9 +44,9 @@ export default async function ContactPage() {
 
   const subjects: string[] = settings?.contactFormSubjects?.length
     ? settings.contactFormSubjects
-    : ['عام پوچھ گچھ', 'کورس داخلہ', 'خدمت کی درخواست', 'عطیہ']
+    : [...DEFAULT_CONTACT_FORM_SUBJECTS]
 
-  const submitLabel: string = settings?.contactFormSubmitLabel || 'پیغام بھیجیں'
+  const submitLabel: string = settings?.contactFormSubmitLabel || DEFAULT_CONTACT_FORM_SUBMIT_LABEL
 
   const pageTitle = resolveSeoTitle(page, SECTION_LABELS.contact)
   const pageDescription = resolveSeoDescription(page)

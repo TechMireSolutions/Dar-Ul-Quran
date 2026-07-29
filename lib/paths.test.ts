@@ -50,6 +50,7 @@ describe('PATHS', () => {
     expect(PATHS.donate).toBe('/donate')
     expect(PATHS.home).toBe('/')
     expect(PATHS.contact).toBe('/contact')
+    expect(PATHS.notFound).toBe('/404')
   })
 })
 

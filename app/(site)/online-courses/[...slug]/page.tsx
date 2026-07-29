@@ -8,9 +8,8 @@ import {
   getAllCoursePaths,
 } from '@/sanity/lib/fetchers'
 import CourseSchema from '@/components/seo/CourseSchema'
-import WebPageSchema from '@/components/seo/WebPageSchema'
-import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
 import NestedChildListing from '@/components/content/NestedChildListing'
+import LeafRouteShell from '@/components/layout/LeafRouteShell'
 import CourseLeafPage from './_components/CourseLeafPage'
 import {
   breadcrumbLabelsFromAncestry,
@@ -109,35 +108,36 @@ export default async function CourseCatchAllPage(
   )
 
   return (
-    <div>
-      <WebPageSchema title={courseTitle} description={pageDescription} path={currentPath} />
-      <CourseSchema
-        data={{
-          title: courseTitle,
-          seoTitle: course.seoTitle,
-          seoDescription: course.seoDescription,
-          excerpt: course.excerpt,
-          subject: course.subject,
-          duration: course.duration,
-          instructor: course.instructor,
-          pricingMin: course.pricingMin,
-          outcomes: course.outcomes?.map((o) => ({ title: o.title ?? '' })),
-          slugPath: sectionRelativePath(SECTION_PATH, currentPath),
-          breadcrumbLabels: breadcrumbLabelsFromAncestry(ancestry),
-          faqItems,
-          orgName: site?.siteName,
-        }}
-      />
-
-      <BreadcrumbNav
-        sectionLabel={SECTION_LABELS.onlineCourses}
-        sectionHref={SECTION_PATH}
-        items={buildBreadcrumbNavItems(SECTION_PATH, ancestry, courseTitle)}
-      />
-
+    <LeafRouteShell
+      schemaTitle={courseTitle}
+      schemaDescription={pageDescription}
+      path={currentPath}
+      sectionLabel={SECTION_LABELS.onlineCourses}
+      sectionHref={SECTION_PATH}
+      breadcrumbItems={buildBreadcrumbNavItems(SECTION_PATH, ancestry, courseTitle)}
+      schema={
+        <CourseSchema
+          data={{
+            title: courseTitle,
+            seoTitle: course.seoTitle,
+            seoDescription: course.seoDescription,
+            excerpt: course.excerpt,
+            subject: course.subject,
+            duration: course.duration,
+            instructor: course.instructor,
+            pricingMin: course.pricingMin,
+            outcomes: course.outcomes?.map((o) => ({ title: o.title ?? '' })),
+            slugPath: sectionRelativePath(SECTION_PATH, currentPath),
+            breadcrumbLabels: breadcrumbLabelsFromAncestry(ancestry),
+            faqItems,
+            orgName: site?.siteName,
+          }}
+        />
+      }
+    >
       {hasChildren ? (
         <NestedChildListing
-          eyebrow="کورسز"
+          eyebrow={SECTION_LABELS.onlineCourses}
           title={courseTitle}
           excerpt={course.excerpt}
           basePath={currentPath}
@@ -156,6 +156,6 @@ export default async function CourseCatchAllPage(
           faqItems={faqDisplayItems}
         />
       )}
-    </div>
+    </LeafRouteShell>
   )
 }

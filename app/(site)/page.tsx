@@ -8,7 +8,7 @@ import {
   getTopLevelCourses,
   getTestimonials,
 } from '@/sanity/lib/fetchers'
-import { pageMetadata, DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
+import { pageMetadata, DEFAULT_SITE_NAME_URDU, DEFAULT_COURSE_ALL_CTA, DEFAULT_SERVICE_ALL_CTA, DEFAULT_SERVICES_SECTION_HEADING } from '@/lib/seo'
 import {
   buildHomeHeroModel,
   coursesToCarouselItems,
@@ -113,19 +113,19 @@ export default async function HomePage() {
           subtitle={homepageSettings?.coursesSubheading || 'اہل علماء سے سیکھیں — قرآن، فقہ، اخلاق اور مزید'}
           items={courseItems}
           viewAllHref={PATHS.onlineCourses}
-          viewAllLabel="تمام کورسز"
+          viewAllLabel={DEFAULT_COURSE_ALL_CTA}
           bg="white"
         />
       )}
 
       {serviceItems.length > 0 && (
         <CarouselSection
-          eyebrow="ہماری خدمات"
-          title={homepageSettings?.servicesHeading || 'ہماری خدمات'}
+          eyebrow={DEFAULT_SERVICES_SECTION_HEADING}
+          title={homepageSettings?.servicesHeading || DEFAULT_SERVICES_SECTION_HEADING}
           subtitle={homepageSettings?.servicesSubheading || 'اخلاص اور توجہ کے ساتھ ادا کی گئی مذہبی خدمات'}
           items={serviceItems}
           viewAllHref={PATHS.services}
-          viewAllLabel="تمام خدمات"
+          viewAllLabel={DEFAULT_SERVICE_ALL_CTA}
           bg="gray"
         />
       )}

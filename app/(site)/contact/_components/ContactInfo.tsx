@@ -54,7 +54,7 @@ export default function ContactInfo({ items, facebook, youtube }: ContactInfoPro
                 <Link
                   href={href}
                   {...(href.startsWith('http') ? externalLinkAttrs() : {})}
-                  className="inline-flex min-h-11 items-center text-[13px] text-slate-700 hover:text-dq-700 focus-visible:text-dq-700 transition-colors break-all"
+                  className="inline-flex min-h-11 items-center rounded-md text-[13px] text-slate-700 hover:text-dq-700 focus-visible:text-dq-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 transition-colors break-all"
                   {...(LTR_LABELS.has(label) ? { dir: 'ltr' as const } : {})}
                 >
                   <bdi>{value}</bdi>

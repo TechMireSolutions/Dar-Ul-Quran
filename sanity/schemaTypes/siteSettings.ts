@@ -1,5 +1,20 @@
 import { defineField, defineType } from 'sanity'
-import { DEFAULT_DONATE_CAUSES, DEFAULT_FAQ_HEADING, DEFAULT_SEARCH_PLACEHOLDER, DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
+import {
+  DEFAULT_CONTACT_FORM_SUBJECTS,
+  DEFAULT_CONTACT_FORM_SUBMIT_LABEL,
+  DEFAULT_COURSE_ALL_CTA,
+  DEFAULT_SERVICE_ALL_CTA,
+  DEFAULT_DONATE_ARABIC_VERSE,
+  DEFAULT_DONATE_CAUSES,
+  DEFAULT_DONATE_CLOSING_MESSAGE,
+  DEFAULT_DONATE_CONTACT_LABEL,
+  DEFAULT_DONATE_HOW_TO_HEADING,
+  DEFAULT_DONATE_HOW_TO_TEXT,
+  DEFAULT_DONATE_PAY_ONLINE_LABEL,
+  DEFAULT_FAQ_HEADING,
+  DEFAULT_SEARCH_PLACEHOLDER,
+  DEFAULT_SITE_NAME_URDU,
+} from '@/lib/seo'
 import { LtrStringInput } from '../components/LtrStringInput'
 
 export const siteSettings = defineType({
@@ -39,26 +54,62 @@ export const siteSettings = defineType({
     defineField({ name: 'searchPlaceholder',     type: 'string', title: 'Search Placeholder Text',      initialValue: DEFAULT_SEARCH_PLACEHOLDER }),
     defineField({ name: 'faqHeading',            type: 'string', title: 'FAQ Section Heading',          initialValue: DEFAULT_FAQ_HEADING }),
     defineField({ name: 'serviceBookCtaLabel',   type: 'string', title: 'Service — Book CTA Label',     initialValue: 'یہ خدمت بک کریں' }),
-    defineField({ name: 'serviceAllCtaLabel',    type: 'string', title: 'Service — Back Link Label',    initialValue: 'تمام خدمات' }),
+    defineField({ name: 'serviceAllCtaLabel',    type: 'string', title: 'Service — Back Link Label',    initialValue: DEFAULT_SERVICE_ALL_CTA }),
     defineField({ name: 'courseEnrollCtaLabel',  type: 'string', title: 'Course — Enroll CTA Label',    initialValue: 'ابھی داخلہ لیں' }),
-    defineField({ name: 'courseAllCtaLabel',     type: 'string', title: 'Course — Back Link Label',     initialValue: 'تمام کورسز' }),
+    defineField({ name: 'courseAllCtaLabel',     type: 'string', title: 'Course — Back Link Label',     initialValue: DEFAULT_COURSE_ALL_CTA }),
     defineField({ name: 'courseInstructorLabel', type: 'string', title: 'Course — "Instructor" Label',  initialValue: 'استاد' }),
 
     // ── Contact page content ──────────────────────────────────────────────────
     defineField({
       name: 'contactFormSubjects', type: 'array', title: 'Contact — Form Subject Options',
       of: [{ type: 'string' }],
-      initialValue: ['عام پوچھ گچھ', 'کورس داخلہ', 'خدمت کی درخواست', 'عطیہ'],
+      initialValue: [...DEFAULT_CONTACT_FORM_SUBJECTS],
     }),
-    defineField({ name: 'contactFormSubmitLabel', type: 'string', title: 'Contact — Submit Button Label', initialValue: 'پیغام بھیجیں' }),
+    defineField({
+      name: 'contactFormSubmitLabel',
+      type: 'string',
+      title: 'Contact — Submit Button Label',
+      initialValue: DEFAULT_CONTACT_FORM_SUBMIT_LABEL,
+    }),
 
     // ── Donate page content ───────────────────────────────────────────────────
-    defineField({ name: 'donateArabicVerse', type: 'string', title: 'Donate — Arabic Verse', initialValue: 'بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ' }),
-    defineField({ name: 'donateHowToHeading', type: 'string', title: 'Donate — "How to Donate" Heading', initialValue: 'عطیہ کیسے دیں' }),
-    defineField({ name: 'donateHowToText', type: 'text', title: 'Donate — "How to Donate" Body', rows: 2, initialValue: 'بینک ٹرانسفر کی تفصیل کے لیے ہم سے رابطہ کریں یا نیچے آنلائن ادائیگی کا لنک استعمال کریں۔' }),
-    defineField({ name: 'donateClosingMessage', type: 'string', title: 'Donate — Closing Message',          initialValue: 'جزاک اللہ خیر — اللہ (سبحانہ و تعالیٰ) آپ کے عطیات قبول فرمائے۔' }),
-    defineField({ name: 'donatePayOnlineLabel',  type: 'string', title: 'Donate — "Pay Online" Button Label', initialValue: 'آنلائن ادائیگی' }),
-    defineField({ name: 'donateContactLabel',    type: 'string', title: 'Donate — "Contact Us" Button Label', initialValue: 'ہم سے رابطہ کریں' }),
+    defineField({
+      name: 'donateArabicVerse',
+      type: 'string',
+      title: 'Donate — Arabic Verse',
+      initialValue: DEFAULT_DONATE_ARABIC_VERSE,
+    }),
+    defineField({
+      name: 'donateHowToHeading',
+      type: 'string',
+      title: 'Donate — "How to Donate" Heading',
+      initialValue: DEFAULT_DONATE_HOW_TO_HEADING,
+    }),
+    defineField({
+      name: 'donateHowToText',
+      type: 'text',
+      title: 'Donate — "How to Donate" Body',
+      rows: 2,
+      initialValue: DEFAULT_DONATE_HOW_TO_TEXT,
+    }),
+    defineField({
+      name: 'donateClosingMessage',
+      type: 'string',
+      title: 'Donate — Closing Message',
+      initialValue: DEFAULT_DONATE_CLOSING_MESSAGE,
+    }),
+    defineField({
+      name: 'donatePayOnlineLabel',
+      type: 'string',
+      title: 'Donate — "Pay Online" Button Label',
+      initialValue: DEFAULT_DONATE_PAY_ONLINE_LABEL,
+    }),
+    defineField({
+      name: 'donateContactLabel',
+      type: 'string',
+      title: 'Donate — "Contact Us" Button Label',
+      initialValue: DEFAULT_DONATE_CONTACT_LABEL,
+    }),
     defineField({
       name: 'donateCauses', type: 'array', title: 'Donate — Cause Cards',
       of: [{ type: 'object', fields: [

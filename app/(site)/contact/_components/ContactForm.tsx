@@ -2,6 +2,7 @@
 
 import { useCallback, useState } from 'react'
 import TurnstileField from '@/components/ui/TurnstileField'
+import { CONTACT_PURPOSE_LABELS } from '@/lib/seo'
 import { TW_FORM_INPUT, TW_FORM_PANEL, TW_FORM_SUBMIT, TW_GRID_2 } from '@/lib/tailwind'
 
 type ContactFormOption = { _id: string; title: string; parentTitle?: string }
@@ -150,10 +151,10 @@ export default function ContactForm({
           onChange={e => { setPurpose(e.target.value as Purpose); setAppliedFor('') }}
           className={TW_FORM_INPUT}
         >
-          <option value="general">عام پوچھ گچھ</option>
-          {courses.length  > 0 && <option value="course">کورس میں داخلہ</option>}
-          {services.length > 0 && <option value="service">خدمت کی درخواست</option>}
-          <option value="other">دیگر</option>
+          <option value="general">{CONTACT_PURPOSE_LABELS.general}</option>
+          {courses.length  > 0 && <option value="course">{CONTACT_PURPOSE_LABELS.course}</option>}
+          {services.length > 0 && <option value="service">{CONTACT_PURPOSE_LABELS.service}</option>}
+          <option value="other">{CONTACT_PURPOSE_LABELS.other}</option>
         </select>
       </div>
 

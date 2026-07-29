@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { ArrowRight, MessageCircle } from 'lucide-react'
 import { externalLinkAttrs } from '@/lib/contact'
 import { DEFAULT_WHATSAPP_CTA_LABEL } from '@/lib/seo'
-import { TW_CONTAINER_NARROW, TW_CTA_ARROW, TW_GOLD_CTA, TW_LEAF_WHATSAPP_CTA, TW_SECTION_PY, TW_SECTION_TITLE } from '@/lib/tailwind'
+import { TW_CONTAINER_NARROW, TW_CTA_ARROW, TW_GOLD_CTA, TW_LEAF_WHATSAPP_CTA, TW_SECTION_TITLE } from '@/lib/tailwind'
 
 type LeafCtaBannerProps = {
   heading?: string
@@ -29,7 +29,7 @@ export default function LeafCtaBanner({
   if (!heading && !subtitle) return null
 
   return (
-    <section className={`bg-dq-900 ${TW_SECTION_PY}`}>
+    <section className="bg-dq-900 pt-16 sm:pt-20 pb-[max(2.5rem,calc(env(safe-area-inset-bottom)+5.5rem))] sm:pb-20">
       <div className={`${TW_CONTAINER_NARROW} text-center`}>
         {heading && (
           <h2 className={`${TW_SECTION_TITLE} text-white mb-4`}>

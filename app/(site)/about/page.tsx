@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { cmsPageMetadata, fetchCmsPage, resolveSeoDescription, resolveSeoTitle } from '@/lib/cmsPage'
-import { PATHS } from '@/lib/paths'
-import { resolveSiteNameUrdu } from '@/lib/seo'
+import { PATHS, SECTION_LABELS } from '@/lib/paths'
+import { resolveSiteNameUrdu, DEFAULT_ABOUT_COURSES_CTA } from '@/lib/seo'
 import CmsPageShell from '@/components/layout/CmsPageShell'
 import RichTextBody from '@/components/content/RichTextBody'
 import Reveal from '@/components/ui/Reveal'
@@ -22,7 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return cmsPageMetadata({
     slug: 'about',
     path: PATHS.about,
-    titleFallback: 'ہمارے بارے میں',
+    titleFallback: SECTION_LABELS.about,
   })
 }
 
@@ -30,7 +30,7 @@ export default async function AboutPage() {
   const { page, settings } = await fetchCmsPage('about')
 
   const siteName = resolveSiteNameUrdu(settings?.siteName)
-  const pageTitle = resolveSeoTitle(page, 'ہمارے بارے میں')
+  const pageTitle = resolveSeoTitle(page, SECTION_LABELS.about)
   const pageDescription = resolveSeoDescription(page)
 
   return (
@@ -39,7 +39,7 @@ export default async function AboutPage() {
       schemaDescription={pageDescription}
       path={PATHS.about}
       eyebrow={page?.eyebrow || 'ہماری کہانی'}
-      title={page?.title || 'ہمارے بارے میں'}
+      title={page?.title || SECTION_LABELS.about}
       subtitle={page?.subtitle || 'ہم کون ہیں اور ہمارا مقصد کیا ہے'}
       maxWidth="3xl"
     >
@@ -56,11 +56,11 @@ export default async function AboutPage() {
           <Reveal animation="up" delay={100}>
             <div className="mt-8 sm:mt-10 pt-7 sm:pt-8 border-t border-gray-100 flex flex-wrap gap-3">
               <Link href={PATHS.contact} className={TW_GOLD_CTA_DARK}>
-                ہم سے رابطہ کریں
+                {SECTION_LABELS.contact}
                 <ArrowRight size={13} strokeWidth={2.5} className={TW_CTA_ARROW} />
               </Link>
               <Link href={PATHS.onlineCourses} className={TW_OUTLINE_PILL}>
-                ہمارے کورسز
+                {DEFAULT_ABOUT_COURSES_CTA}
               </Link>
             </div>
           </Reveal>

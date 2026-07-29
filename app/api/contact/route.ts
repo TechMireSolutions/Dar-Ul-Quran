@@ -1,27 +1,9 @@
-import { createClient, type SanityClient } from '@sanity/client'
 import { NextResponse } from 'next/server'
 import { contactBodySchema } from '@/lib/contact-schema'
 import { isContactEmailConfigured, sendContactNotification } from '@/lib/contact-notify'
 import { rateLimitContact } from '@/lib/rate-limit'
 import { verifyTurnstileToken } from '@/lib/turnstile'
-
-function createSanityClient(): SanityClient {
-  const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
-  const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET
-  const token = process.env.SANITY_API_TOKEN
-
-  if (!projectId || !dataset || !token) {
-    throw new Error('Sanity is not configured')
-  }
-
-  return createClient({
-    projectId,
-    dataset,
-    token,
-    apiVersion: '2025-01-01',
-    useCdn: false,
-  })
-}
+import { getWriteClient } from '@/sanity/lib/client'
 
 function clientIp(req: Request): string {
   return (
@@ -63,7 +45,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Failed to save submission' }, { status: 503 })
     }
 
-    await createSanityClient().create({
+    await getWriteClient().create({
       _type: 'contactSubmission',
       firstName: data.firstName,
       lastName: data.lastName || undefined,

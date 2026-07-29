@@ -11,6 +11,7 @@ import {
   TW_SECTION_TITLE_COMPACT,
   TW_VIEW_ALL_LINK,
 } from '@/lib/tailwind'
+import { DEFAULT_VIEW_ALL_LABEL } from '@/lib/seo'
 
 type SectionHeaderRowProps = {
   eyebrow: string
@@ -32,7 +33,7 @@ export default function SectionHeaderRow({
   subtitle,
   compact = false,
   viewAllHref,
-  viewAllLabel = 'سب دیکھیں',
+  viewAllLabel = DEFAULT_VIEW_ALL_LABEL,
   actions,
 }: SectionHeaderRowProps) {
   const titleClass = compact ? TW_SECTION_TITLE_COMPACT : TW_SECTION_TITLE

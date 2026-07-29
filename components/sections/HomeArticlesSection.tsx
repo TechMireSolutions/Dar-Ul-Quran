@@ -4,7 +4,7 @@ import Reveal from '@/components/ui/Reveal'
 import SectionHeaderRow from '@/components/ui/SectionHeaderRow'
 import type { HomepageSettingsDoc, PostListItemDoc } from '@/lib/types'
 import { articlePath, PATHS } from '@/lib/paths'
-import { DEFAULT_ARTICLE_CTA } from '@/lib/seo'
+import { DEFAULT_ARTICLE_CTA, DEFAULT_ARTICLES_SECTION_HEADING } from '@/lib/seo'
 import { TW_CARD_GRID, TW_CONTAINER, TW_CV_AUTO } from '@/lib/tailwind'
 
 type HomeArticlesSectionProps = {
@@ -21,7 +21,7 @@ export default function HomeArticlesSection({ posts, settings }: HomeArticlesSec
         <Reveal animation="up">
           <SectionHeaderRow
             eyebrow="علم"
-            title={settings?.articlesHeading || 'تازہ ترین مضامین'}
+            title={settings?.articlesHeading || DEFAULT_ARTICLES_SECTION_HEADING}
             subtitle={settings?.articlesSubheading}
             compact
             viewAllHref={PATHS.articles}

@@ -87,7 +87,7 @@ export const TW_FORM_PANEL =
 
 /** Dark leaf-page WhatsApp CTA */
 export const TW_LEAF_WHATSAPP_CTA =
-  'inline-flex items-center gap-2 min-h-11 bg-white/10 hover:bg-white/15 text-white text-[14px] font-semibold px-8 py-3.5 rounded-full border border-white/20 transition-all duration-200 hover:-translate-y-px active:translate-y-0 motion-reduce:hover:translate-y-0'
+  'inline-flex items-center gap-2 min-h-11 bg-white/10 hover:bg-white/15 text-white text-[14px] font-semibold px-8 py-3.5 rounded-full border border-white/20 transition-all duration-200 hover:-translate-y-px active:translate-y-0 motion-reduce:hover:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-dq-900'
 
 /** Leaf hero supporting copy on dark background */
 export const TW_LEAF_HERO_SUBTITLE =
@@ -113,7 +113,7 @@ export const TW_CONTACT_INFO_ROW =
 
 /** Contact social chip */
 export const TW_CONTACT_SOCIAL_CHIP =
-  'inline-flex min-h-11 items-center gap-1.5 text-[12px] font-medium text-gray-500 hover:text-dq-700 focus-visible:text-dq-700 bg-white border border-gray-200 rounded-lg px-3 transition-colors'
+  'inline-flex min-h-11 items-center gap-1.5 text-[12px] font-medium text-gray-500 hover:text-dq-700 focus-visible:text-dq-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 bg-white border border-gray-200 rounded-lg px-3 transition-colors'
 
 /** Desktop nav dropdown / flyout shell */
 export const TW_NAV_DROPDOWN =
@@ -140,11 +140,11 @@ export const TW_HERO_CHIP_MUTED =
 
 /** Homepage hero primary CTA (gradient + inset highlight) */
 export const TW_HERO_GOLD_CTA =
-  'group inline-flex items-center gap-2 text-white font-bold text-[13.5px] rounded-full px-7 py-3.5 leading-snug bg-gold-cta shadow-gold-lg shadow-inset-highlight transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 active:brightness-95 motion-reduce:hover:translate-y-0'
+  'group inline-flex items-center gap-2 min-h-11 text-white font-bold text-[13.5px] rounded-full px-7 py-3.5 leading-snug bg-gold-cta shadow-gold-lg shadow-inset-highlight transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 active:brightness-95 motion-reduce:hover:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-300/70 focus-visible:ring-offset-2'
 
 /** Homepage hero secondary outline CTA */
 export const TW_HERO_OUTLINE_CTA =
-  'inline-flex items-center font-semibold text-[13.5px] rounded-full px-[26px] py-3.5 text-dq-700 border-[1.5px] border-dq-400/45 bg-dq-50/90 leading-snug transition-all duration-200 hover:-translate-y-0.5 hover:bg-dq-100/80 active:translate-y-0 motion-reduce:hover:translate-y-0'
+  'inline-flex items-center min-h-11 font-semibold text-[13.5px] rounded-full px-[26px] py-3.5 text-dq-700 border-[1.5px] border-dq-400/45 bg-dq-50/90 leading-snug transition-all duration-200 hover:-translate-y-0.5 hover:bg-dq-100/80 active:translate-y-0 motion-reduce:hover:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 focus-visible:ring-offset-2'
 
 /** Hero stat icon box */
 export const TW_HERO_STAT_ICON =
@@ -159,15 +159,23 @@ export const TW_SEARCH_FORM_MOBILE =
 
 /** Articles index search input */
 export const TW_SEARCH_INPUT =
-  'flex-1 min-h-11 px-4 py-3 text-sm outline-none text-slate-700 placeholder:text-gray-400 bg-white border border-gray-200 rounded-xl focus:border-dq-400 focus:ring-2 focus:ring-dq-400/40 transition-all'
+  'flex-1 min-h-11 px-4 py-3 text-sm outline-none text-slate-700 placeholder:text-gray-400 bg-white border border-gray-200 rounded-xl focus:border-dq-400 focus:ring-2 focus:ring-dq-400/40 focus-visible:border-dq-400 focus-visible:ring-2 focus-visible:ring-dq-400/40 transition-all'
 
 /** Header desktop search field (inside TW_SEARCH_FORM) */
 export const TW_HEADER_SEARCH_INPUT =
-  'min-h-11 px-4 py-2 text-[13px] outline-none w-[180px] text-slate-700 placeholder:text-gray-400 bg-white focus:bg-dq-50/40 transition-colors'
+  'min-h-11 px-4 py-2 text-[13px] outline-none w-[180px] text-slate-700 placeholder:text-gray-400 bg-white focus:bg-dq-50/40 focus-visible:bg-dq-50/40 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-dq-400/40 transition-colors'
 
 /** Header desktop search submit */
 export const TW_HEADER_SEARCH_SUBMIT =
   'flex min-h-11 min-w-11 shrink-0 items-center justify-center self-stretch bg-dq-500 px-3 text-white transition-colors hover:bg-dq-600'
+
+/** Header icon button (menu / search toggle) — ≥44px + focus ring */
+export const TW_HEADER_ICON_BTN =
+  'inline-flex size-11 shrink-0 items-center justify-center rounded-full text-white/60 hover:bg-dq-800 hover:text-dq-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 transition-all duration-200'
+
+/** Header search toggle (adds gold border) */
+export const TW_HEADER_SEARCH_TOGGLE =
+  `${TW_HEADER_ICON_BTN} border border-dq-700 hover:border-dq-400 focus-visible:border-dq-400 focus-visible:text-dq-400`
 
 /** Card footer link with underline reveal */
 export const TW_CARD_LINK =
@@ -205,7 +213,7 @@ export const TW_MOBILE_SEARCH_SUBMIT =
 
 /** PayPal donate CTA (brand colors — exception to dq-*) */
 export const TW_PAYPAL_CTA =
-  'group inline-flex items-center justify-center gap-2.5 bg-[#0070BA] hover:bg-[#005ea6] text-white text-sm font-bold px-8 py-3 rounded-full shadow-[0_4px_20px_rgb(0_112_186/0.45)] transition-all duration-200 hover:-translate-y-px'
+  'group inline-flex items-center justify-center gap-2.5 min-h-11 bg-[#0070BA] hover:bg-[#005ea6] text-white text-sm font-bold px-8 py-3 rounded-full shadow-[0_4px_20px_rgb(0_112_186/0.45)] transition-all duration-200 hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0070BA]/60 focus-visible:ring-offset-2'
 
 /** Floating WhatsApp button */
 export const TW_WHATSAPP_FLOAT =
@@ -221,15 +229,15 @@ export const TW_HERO_TITLE =
 
 /** Primary gold pill CTA */
 export const TW_GOLD_CTA =
-  'group inline-flex items-center gap-2 min-h-11 bg-dq-500 hover:bg-dq-400 text-white font-bold text-sm px-8 py-3.5 rounded-full shadow-gold-md transition-all duration-200 hover:-translate-y-px active:translate-y-0 active:brightness-95 motion-reduce:hover:translate-y-0'
+  'group inline-flex items-center gap-2 min-h-11 bg-dq-500 hover:bg-dq-400 text-white font-bold text-sm px-8 py-3.5 rounded-full shadow-gold-md transition-all duration-200 hover:-translate-y-px active:translate-y-0 active:brightness-95 motion-reduce:hover:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-300/70 focus-visible:ring-offset-2'
 
 /** Secondary gold CTA (darker, homepage about) */
 export const TW_GOLD_CTA_DARK =
-  'group inline-flex items-center gap-2 min-h-11 bg-dq-600 hover:bg-dq-700 text-white text-sm font-semibold px-6 py-3 rounded-full shadow-gold-sm hover:shadow-gold-hover transition-all duration-200 hover:-translate-y-px active:translate-y-0 motion-reduce:hover:translate-y-0'
+  'group inline-flex items-center gap-2 min-h-11 bg-dq-600 hover:bg-dq-700 text-white text-sm font-semibold px-6 py-3 rounded-full shadow-gold-sm hover:shadow-gold-hover transition-all duration-200 hover:-translate-y-px active:translate-y-0 motion-reduce:hover:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 focus-visible:ring-offset-2'
 
 /** Light outline pill CTA */
 export const TW_OUTLINE_PILL =
-  'inline-flex items-center justify-center min-h-11 gap-2 rounded-full border border-gray-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition-colors hover:bg-gray-50 hover:border-gray-400'
+  'inline-flex items-center justify-center min-h-11 gap-2 rounded-full border border-gray-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition-colors hover:bg-gray-50 hover:border-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 focus-visible:ring-offset-2'
 
 /** CTA arrow icon */
 export const TW_CTA_ARROW =
@@ -240,11 +248,11 @@ export const TW_TOUCH = 'min-h-11'
 
 /** Primary filled button (error/404 actions) */
 export const TW_BTN_PRIMARY =
-  'inline-flex items-center justify-center min-h-11 px-6 py-3 rounded-xl bg-dq-600 text-white text-sm font-semibold hover:bg-dq-700 transition-colors'
+  'inline-flex items-center justify-center min-h-11 px-6 py-3 rounded-xl bg-dq-600 text-white text-sm font-semibold hover:bg-dq-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 focus-visible:ring-offset-2'
 
 /** Secondary outline button */
 export const TW_BTN_SECONDARY =
-  'inline-flex items-center justify-center min-h-11 px-6 py-3 rounded-xl border border-gray-200 text-slate-700 text-sm font-semibold hover:bg-gray-50 transition-colors'
+  'inline-flex items-center justify-center min-h-11 px-6 py-3 rounded-xl border border-gray-200 text-slate-700 text-sm font-semibold hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 focus-visible:ring-offset-2'
 
 /** Below-fold content-visibility optimization */
 export const TW_CV_AUTO = 'cv-auto'
@@ -254,15 +262,15 @@ export const TW_SCROLLBAR_HIDE = 'scrollbar-hide'
 
 /** Section header "view all" text link */
 export const TW_VIEW_ALL_LINK =
-  'group inline-flex items-center gap-1.5 text-[13px] font-semibold text-dq-700 hover:text-dq-800 transition-colors whitespace-nowrap py-2'
+  'group inline-flex items-center gap-1.5 min-h-11 text-[13px] font-semibold text-dq-700 hover:text-dq-800 focus-visible:text-dq-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 focus-visible:ring-offset-2 rounded-md transition-colors whitespace-nowrap py-2'
 
 /** Contact form text input / select */
 export const TW_FORM_INPUT =
-  'w-full min-h-11 border border-gray-200 rounded-lg px-3.5 py-2.5 text-[13.5px] text-slate-700 placeholder:text-gray-400 bg-white focus:outline-none focus:border-dq-400 focus:ring-2 focus:ring-dq-400/20 transition-all'
+  'w-full min-h-11 border border-gray-200 rounded-lg px-3.5 py-2.5 text-[13.5px] text-slate-700 placeholder:text-gray-400 bg-white focus:outline-none focus:border-dq-400 focus:ring-2 focus:ring-dq-400/20 focus-visible:outline-none focus-visible:border-dq-400 focus-visible:ring-2 focus-visible:ring-dq-400/20 transition-all'
 
 /** Full-width gold form submit button */
 export const TW_FORM_SUBMIT =
-  'w-full min-h-11 bg-dq-600 hover:bg-dq-700 disabled:opacity-60 disabled:cursor-not-allowed text-white text-[13.5px] font-semibold py-3 rounded-lg shadow-gold-sm hover:shadow-gold-hover transition-all duration-200 hover:-translate-y-px active:translate-y-0 motion-reduce:hover:translate-y-0'
+  'w-full min-h-11 bg-dq-600 hover:bg-dq-700 disabled:opacity-60 disabled:cursor-not-allowed text-white text-[13.5px] font-semibold py-3 rounded-lg shadow-gold-sm hover:shadow-gold-hover transition-all duration-200 hover:-translate-y-px active:translate-y-0 motion-reduce:hover:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-300/70 focus-visible:ring-offset-2'
 
 /** Compact footer donate pill — keep ≥44px touch target + visible focus */
 export const TW_FOOTER_DONATE_CTA =
@@ -272,9 +280,9 @@ export const TW_FOOTER_DONATE_CTA =
 export const TW_FOOTER_CONTACT_LINK =
   'flex min-h-11 items-center gap-2 rounded-md text-[12px] sm:text-[12.5px] text-gray-300 hover:text-dq-400 focus-visible:text-dq-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-dq-900 transition-colors duration-150'
 
-/** Footer social icon button — ≥44px on mobile */
+/** Footer social icon button — keep ≥44px at all breakpoints */
 export const TW_FOOTER_SOCIAL =
-  'inline-flex size-11 sm:size-10 rounded-lg bg-dq-800 border border-dq-700 items-center justify-center text-gray-300 hover:border-dq-400 hover:text-dq-300 focus-visible:border-dq-400 focus-visible:text-dq-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 active:brightness-95 transition-all duration-200'
+  'inline-flex size-11 rounded-lg bg-dq-800 border border-dq-700 items-center justify-center text-gray-300 hover:border-dq-400 hover:text-dq-300 focus-visible:border-dq-400 focus-visible:text-dq-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 active:brightness-95 transition-all duration-200'
 
 /** Footer main column grid */
 export const TW_FOOTER_GRID =

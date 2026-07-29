@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { ChevronDown, ChevronLeft } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import { externalLinkAttrs } from '@/lib/contact'
+import { DEFAULT_VIEW_ALL_LABEL } from '@/lib/seo'
 import type { NavNode } from '@/lib/types'
 import { nodeIsActive } from '@/lib/navigation'
 import { TW_NAV_DROPDOWN, TW_NAV_MENU_ITEM } from '@/lib/tailwind'
@@ -141,8 +142,9 @@ export default function HeaderDesktopNav({ node }: { node: NavNode }) {
       <Link
         href={node.href || '#'}
         {...(node.external ? externalLinkAttrs(node.label) : {})}
-        className={`link-underline text-[13.5px] font-medium whitespace-nowrap transition-colors duration-150
-          ${isActive ? 'text-dq-400 active' : 'text-white/70 hover:text-white'}`}
+        className={`link-underline inline-flex min-h-11 items-center text-[13.5px] font-medium whitespace-nowrap transition-colors duration-150
+          ${isActive ? 'text-dq-400 active' : 'text-white/70 hover:text-white'}
+          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 rounded-md`}
       >
         {node.label}
       </Link>
@@ -155,8 +157,9 @@ export default function HeaderDesktopNav({ node }: { node: NavNode }) {
         <div className="flex items-center gap-0.5">
           <Link
             href={node.href}
-            className={`flex items-center gap-1 text-[13.5px] font-medium whitespace-nowrap transition-colors duration-150
-              ${isActive || open ? 'text-dq-400' : 'text-white/70 hover:text-white'}`}
+            className={`inline-flex min-h-11 items-center gap-1 text-[13.5px] font-medium whitespace-nowrap transition-colors duration-150
+              ${isActive || open ? 'text-dq-400' : 'text-white/70 hover:text-white'}
+              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 rounded-md`}
           >
             {node.label}
           </Link>
@@ -168,8 +171,9 @@ export default function HeaderDesktopNav({ node }: { node: NavNode }) {
             aria-label={`${node.label} — ذیلی مینو`}
             onClick={toggleMenu}
             onKeyDown={onTriggerKeyDown}
-            className={`p-1 rounded-md transition-colors duration-150
-              ${isActive || open ? 'text-dq-400' : 'text-white/70 hover:text-white hover:bg-dq-800'}`}
+            className={`inline-flex min-h-11 min-w-11 items-center justify-center rounded-md p-2 transition-colors duration-150
+              ${isActive || open ? 'text-dq-400' : 'text-white/70 hover:text-white hover:bg-dq-800'}
+              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50`}
           >
             <ChevronDown size={12} strokeWidth={2.5}
               className={`transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
@@ -183,8 +187,9 @@ export default function HeaderDesktopNav({ node }: { node: NavNode }) {
           aria-controls={menuId}
           onClick={toggleMenu}
           onKeyDown={onTriggerKeyDown}
-          className={`flex items-center gap-1 text-[13.5px] font-medium whitespace-nowrap transition-colors duration-150
-            ${isActive || open ? 'text-dq-400' : 'text-white/70 hover:text-white'}`}
+          className={`inline-flex min-h-11 items-center gap-1 text-[13.5px] font-medium whitespace-nowrap transition-colors duration-150
+            ${isActive || open ? 'text-dq-400' : 'text-white/70 hover:text-white'}
+            focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 rounded-md`}
         >
           {node.label}
           <ChevronDown size={12} strokeWidth={2.5}
@@ -218,7 +223,7 @@ export default function HeaderDesktopNav({ node }: { node: NavNode }) {
             >
               {node.label}
               <span className="text-[10px] font-medium text-dq-500 bg-dq-50 border border-dq-100 rounded-full px-2 py-0.5 whitespace-nowrap">
-                سب دیکھیں
+                {DEFAULT_VIEW_ALL_LABEL}
               </span>
             </Link>
           )}

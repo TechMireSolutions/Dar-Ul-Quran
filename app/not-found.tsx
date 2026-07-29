@@ -1,13 +1,13 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { pageMetadata, DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
-import { PATHS } from '@/lib/paths'
+import { HOME_LABEL, PATHS } from '@/lib/paths'
 import { TW_BODY_MUTED, TW_BTN_PRIMARY, TW_EYEBROW, TW_PAGE_TITLE } from '@/lib/tailwind'
 
 export const metadata: Metadata = pageMetadata({
   title: 'صفحہ نہیں ملا',
   description: `یہ صفحہ موجود نہیں ہے۔ ${DEFAULT_SITE_NAME_URDU} کی دیگر صفحات دیکھیں۔`,
-  path: '/404',
+  path: PATHS.notFound,
   noIndex: true,
   siteName: DEFAULT_SITE_NAME_URDU,
 })
@@ -24,7 +24,7 @@ export default function NotFound() {
         href={PATHS.home}
         className={TW_BTN_PRIMARY}
       >
-        صفحۂ اول پر واپس جائیں
+        {HOME_LABEL} پر واپس جائیں
       </Link>
     </div>
   )

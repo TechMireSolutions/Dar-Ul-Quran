@@ -9,6 +9,8 @@ export const PATHS = {
   donate: '/donate',
   about: '/about',
   contact: '/contact',
+  /** Metadata-only path for the App Router not-found page. */
+  notFound: '/404',
 } as const
 
 /** Urdu label for the home crumb / empty-state home CTA. */

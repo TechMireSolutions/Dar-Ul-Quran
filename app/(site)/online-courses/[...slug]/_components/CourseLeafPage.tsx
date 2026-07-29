@@ -192,11 +192,11 @@ export default function CourseLeafPage({
                           <table className="w-full text-[13.5px] border-collapse">
                             <thead>
                               <tr className="bg-slate-800 text-white">
-                                <th className="text-right font-semibold px-5 py-4 rounded-tr-2xl">مطالعہ پلان</th>
-                                <th className="text-right font-semibold px-5 py-4">ہفتہ وار تعداد</th>
-                                <th className="text-right font-semibold px-5 py-4">ماہانہ کلاسز</th>
-                                <th className="text-right font-semibold px-5 py-4">فی کلاس فیس</th>
-                                <th className="text-right font-semibold px-5 py-4 rounded-tl-2xl">ماہانہ کل</th>
+                                <th className="text-start font-semibold px-5 py-4 rounded-ss-2xl">مطالعہ پلان</th>
+                                <th className="text-start font-semibold px-5 py-4">ہفتہ وار تعداد</th>
+                                <th className="text-start font-semibold px-5 py-4">ماہانہ کلاسز</th>
+                                <th className="text-start font-semibold px-5 py-4">فی کلاس فیس</th>
+                                <th className="text-start font-semibold px-5 py-4 rounded-se-2xl">ماہانہ کل</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -233,15 +233,23 @@ export default function CourseLeafPage({
             whatsappLabel={course.ctaBtn2Label}
             footer={
               (site?.email || site?.phone) ? (
-                <div className="flex flex-wrap justify-center gap-6 text-[13px] text-slate-500">
+                <div className="flex flex-wrap justify-center gap-3 sm:gap-6 text-[13px] text-slate-500">
                   {site?.email && (
-                    <a href={`mailto:${site.email}`} className="flex items-center gap-1.5 hover:text-dq-700 transition-colors" dir="ltr">
+                    <a
+                      href={`mailto:${site.email}`}
+                      className="inline-flex min-h-11 items-center gap-1.5 rounded-md px-1.5 hover:text-dq-700 focus-visible:text-dq-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 transition-colors"
+                      dir="ltr"
+                    >
                       <Mail size={12} className="text-slate-600" />
                       <bdi>{site.email}</bdi>
                     </a>
                   )}
                   {site?.phone && (
-                    <a href={telHref(site.phone)} className="flex items-center gap-1.5 hover:text-dq-700 transition-colors" dir="ltr">
+                    <a
+                      href={telHref(site.phone)}
+                      className="inline-flex min-h-11 items-center gap-1.5 rounded-md px-1.5 hover:text-dq-700 focus-visible:text-dq-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 transition-colors"
+                      dir="ltr"
+                    >
                       <Phone size={12} className="text-slate-600" />
                       <bdi>{site.phone}</bdi>
                     </a>

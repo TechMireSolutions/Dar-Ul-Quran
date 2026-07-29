@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { ArrowRight, Users, BookOpen, GraduationCap, type LucideIcon } from 'lucide-react'
-import { DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
-import { PATHS } from '@/lib/paths'
+import { DEFAULT_HERO_CTA1_LABEL, DEFAULT_HERO_CTA2_LABEL, DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
+import { HOME_LABEL, PATHS } from '@/lib/paths'
 import { TW_CONTAINER_HERO, TW_CTA_ARROW, TW_HERO_GOLD_CTA, TW_HERO_OUTLINE_CTA, TW_HERO_STAT_ICON, TW_TEXT_GRADIENT_GOLD } from '@/lib/tailwind'
 
 export type HeroStat = {
@@ -41,9 +41,9 @@ export default function HeroSection({
   heroImageSrcSet,
   heroImageSizes = '(min-width: 768px) 58vw, 1px',
   heroImageBlur,
-  cta1Label   = 'کورسز دیکھیں',
+  cta1Label   = DEFAULT_HERO_CTA1_LABEL,
   cta1Link    = PATHS.onlineCourses,
-  cta2Label   = 'ہماری خدمات',
+  cta2Label   = DEFAULT_HERO_CTA2_LABEL,
   cta2Link    = PATHS.services,
   stats,
 }: HeroSectionProps) {
@@ -53,7 +53,7 @@ export default function HeroSection({
 
   return (
     <section
-      aria-label="صفحۂ اول کا تعارف"
+      aria-label={`${HOME_LABEL} کا تعارف`}
       className="relative w-full overflow-hidden min-h-[400px] md:min-h-[720px] bg-hero-surface"
     >
 

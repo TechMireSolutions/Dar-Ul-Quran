@@ -45,6 +45,59 @@ export const DEFAULT_DONATE_CAUSES: { title: string; desc: string }[] = [
   { title: `${DEFAULT_SITE_NAME_URDU} معاونت`, desc: 'ہمارے قرآنی ادارے میں حصہ ڈالیں' },
 ]
 
+/** Donate page chrome fallbacks (page + Studio seeds). */
+export const DEFAULT_DONATE_ARABIC_VERSE = 'بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ'
+export const DEFAULT_DONATE_HOW_TO_HEADING = 'عطیہ کیسے دیں'
+export const DEFAULT_DONATE_HOW_TO_TEXT =
+  'بینک ٹرانسفر کی تفصیل کے لیے ہم سے رابطہ کریں یا نیچے آنلائن ادائیگی کا لنک استعمال کریں۔'
+export const DEFAULT_DONATE_PAY_ONLINE_LABEL = 'آنلائن عطیہ دیں'
+export const DEFAULT_DONATE_CONTACT_LABEL = 'ہم سے رابطہ کریں'
+export const DEFAULT_DONATE_CLOSING_MESSAGE =
+  'جزاک اللہ خیر — اللہ (سبحانہ و تعالیٰ) آپ کے عطیات قبول فرمائے۔'
+
+/** Contact form subject options when CMS list is empty. */
+export const DEFAULT_CONTACT_FORM_SUBJECTS = [
+  'عام پوچھ گچھ',
+  'کورس داخلہ',
+  'خدمت کی درخواست',
+  'عطیہ',
+] as const
+
+/** Contact form submit button fallback. */
+export const DEFAULT_CONTACT_FORM_SUBMIT_LABEL = 'پیغام بھیجیں'
+
+/** Contact form purpose select labels. */
+export const CONTACT_PURPOSE_LABELS = {
+  general: DEFAULT_CONTACT_FORM_SUBJECTS[0],
+  course: 'کورس میں داخلہ',
+  service: 'خدمت کی درخواست',
+  other: 'دیگر',
+} as const
+
+/** Homepage / Studio “view all courses” CTA. */
+export const DEFAULT_COURSE_ALL_CTA = 'تمام کورسز'
+
+/** Homepage / Studio “view all services” CTA. */
+export const DEFAULT_SERVICE_ALL_CTA = 'تمام خدمات'
+
+/** Carousel / section “view all” fallback. */
+export const DEFAULT_VIEW_ALL_LABEL = 'سب دیکھیں'
+
+/** Homepage services section title (longer than SECTION_LABELS.services). */
+export const DEFAULT_SERVICES_SECTION_HEADING = 'ہماری خدمات'
+
+/** Homepage articles section title. */
+export const DEFAULT_ARTICLES_SECTION_HEADING = 'تازہ ترین مضامین'
+
+/** Homepage hero primary CTA fallback. */
+export const DEFAULT_HERO_CTA1_LABEL = 'کورسز دیکھیں'
+
+/** Homepage hero secondary CTA fallback. */
+export const DEFAULT_HERO_CTA2_LABEL = DEFAULT_SERVICES_SECTION_HEADING
+
+/** About page secondary courses CTA. */
+export const DEFAULT_ABOUT_COURSES_CTA = 'ہمارے کورسز'
+
 /** Resolve Urdu display name from CMS (UI chrome, titles, manifest). */
 export function resolveSiteNameUrdu(siteName?: string | null): string {
   const trimmed = siteName?.trim()

@@ -3,7 +3,15 @@ import { cmsPageMetadata, fetchCmsPage, resolveSeoDescription, resolveSeoTitle }
 import CmsPageShell from '@/components/layout/CmsPageShell'
 import DonateContent from './_components/DonateContent'
 import { PATHS, SECTION_LABELS } from '@/lib/paths'
-import { DEFAULT_DONATE_CAUSES } from '@/lib/seo'
+import {
+  DEFAULT_DONATE_ARABIC_VERSE,
+  DEFAULT_DONATE_CAUSES,
+  DEFAULT_DONATE_CLOSING_MESSAGE,
+  DEFAULT_DONATE_CONTACT_LABEL,
+  DEFAULT_DONATE_HOW_TO_HEADING,
+  DEFAULT_DONATE_HOW_TO_TEXT,
+  DEFAULT_DONATE_PAY_ONLINE_LABEL,
+} from '@/lib/seo'
 import { TW_CONTAINER_NARROW, TW_PAGE_BODY } from '@/lib/tailwind'
 
 export const revalidate = 300
@@ -38,7 +46,7 @@ export default async function DonatePage() {
       align="center"
       topContent={
         <p className="text-[20px] sm:text-[22px] text-dq-700 mb-3 leading-none">
-          {settings?.donateArabicVerse || 'بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ'}
+          {settings?.donateArabicVerse || DEFAULT_DONATE_ARABIC_VERSE}
         </p>
       }
     >
@@ -47,12 +55,12 @@ export default async function DonatePage() {
           <DonateContent
             body={page?.body}
             causes={causes}
-            howToHeading={settings?.donateHowToHeading || 'عطیہ کیسے دیں'}
-            howToText={settings?.donateHowToText || 'بینک ٹرانسفر کی تفصیل کے لیے ہم سے رابطہ کریں یا نیچے آنلائن ادائیگی کا لنک استعمال کریں۔'}
+            howToHeading={settings?.donateHowToHeading || DEFAULT_DONATE_HOW_TO_HEADING}
+            howToText={settings?.donateHowToText || DEFAULT_DONATE_HOW_TO_TEXT}
             donateUrl={settings?.donateUrl}
-            payOnlineLabel={settings?.donatePayOnlineLabel || 'آنلائن عطیہ دیں'}
-            contactLabel={settings?.donateContactLabel || 'ہم سے رابطہ کریں'}
-            closingMessage={settings?.donateClosingMessage || 'جزاک اللہ خیر — اللہ (سبحانہ و تعالیٰ) آپ کے عطیات قبول فرمائے۔'}
+            payOnlineLabel={settings?.donatePayOnlineLabel || DEFAULT_DONATE_PAY_ONLINE_LABEL}
+            contactLabel={settings?.donateContactLabel || DEFAULT_DONATE_CONTACT_LABEL}
+            closingMessage={settings?.donateClosingMessage || DEFAULT_DONATE_CLOSING_MESSAGE}
           />
         </div>
       </div>

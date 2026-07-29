@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import ContentCard from '@/components/ui/ContentCard'
 import SectionHeaderRow from '@/components/ui/SectionHeaderRow'
 import type { CarouselItem } from '@/lib/types/ui'
+import { DEFAULT_VIEW_ALL_LABEL } from '@/lib/seo'
 import { isMobileViewport } from '@/lib/viewport'
 import { TW_CAROUSEL_NAV_BTN, TW_CAROUSEL_NAV_BTN_OFF, TW_CAROUSEL_NAV_BTN_ON, TW_CONTAINER, TW_CV_AUTO, TW_SCROLLBAR_HIDE } from '@/lib/tailwind'
 
@@ -26,7 +27,7 @@ export default function CarouselSection({
   subtitle,
   items,
   viewAllHref,
-  viewAllLabel = 'سب دیکھیں',
+  viewAllLabel = DEFAULT_VIEW_ALL_LABEL,
   bg = 'white',
 }: CarouselSectionProps) {
   const trackRef = useRef<HTMLDivElement>(null)

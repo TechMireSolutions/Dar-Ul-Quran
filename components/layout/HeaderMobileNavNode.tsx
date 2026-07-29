@@ -5,6 +5,7 @@ import { useState, useId } from 'react'
 import { ChevronDown } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import { externalLinkAttrs } from '@/lib/contact'
+import { DEFAULT_VIEW_ALL_LABEL } from '@/lib/seo'
 import type { NavNode } from '@/lib/types'
 import { nodeIsActive } from '@/lib/navigation'
 import { TW_MOBILE_NAV_ROW, TW_MOBILE_NAV_ROW_ACTIVE } from '@/lib/tailwind'
@@ -110,7 +111,7 @@ export default function HeaderMobileNavNode({
               onClick={onClose}
               className="flex min-h-11 items-center gap-1.5 rounded-lg px-3 py-2 text-[13px] font-semibold text-dq-700 transition-colors hover:bg-dq-50"
             >
-              {node.label} — سب دیکھیں
+              {node.label} — {DEFAULT_VIEW_ALL_LABEL}
             </Link>
           )}
           {node.children.map(child => (

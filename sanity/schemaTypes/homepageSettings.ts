@@ -1,6 +1,13 @@
 import { defineField, defineType } from 'sanity'
 import { PATHS, SECTION_LABELS } from '@/lib/paths'
-import { DEFAULT_DONATE_CTA_LABEL, DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
+import {
+  DEFAULT_ARTICLES_SECTION_HEADING,
+  DEFAULT_DONATE_CTA_LABEL,
+  DEFAULT_HERO_CTA1_LABEL,
+  DEFAULT_HERO_CTA2_LABEL,
+  DEFAULT_SERVICES_SECTION_HEADING,
+  DEFAULT_SITE_NAME_URDU,
+} from '@/lib/seo'
 
 export const homepageSettings = defineType({
   name: 'homepageSettings',
@@ -11,15 +18,15 @@ export const homepageSettings = defineType({
     defineField({ name: 'heroTitle', type: 'string', title: 'Hero Headline', initialValue: DEFAULT_SITE_NAME_URDU }),
     defineField({ name: 'heroSubtitle', type: 'text', title: 'Hero Subtitle', rows: 3 }),
     defineField({ name: 'heroImage', type: 'image', title: 'Hero Background Image', options: { hotspot: true } }),
-    defineField({ name: 'heroCta1Label', type: 'string', title: 'Primary CTA Label', initialValue: 'کورسز دیکھیں' }),
+    defineField({ name: 'heroCta1Label', type: 'string', title: 'Primary CTA Label', initialValue: DEFAULT_HERO_CTA1_LABEL }),
     defineField({ name: 'heroCta1Link', type: 'string', title: 'Primary CTA Link', initialValue: PATHS.onlineCourses }),
-    defineField({ name: 'heroCta2Label', type: 'string', title: 'Secondary CTA Label', initialValue: 'ہماری خدمات' }),
+    defineField({ name: 'heroCta2Label', type: 'string', title: 'Secondary CTA Label', initialValue: DEFAULT_HERO_CTA2_LABEL }),
     defineField({ name: 'heroCta2Link', type: 'string', title: 'Secondary CTA Link', initialValue: PATHS.services }),
-    defineField({ name: 'servicesHeading', type: 'string', title: 'Services Section Heading', initialValue: 'ہماری خدمات' }),
+    defineField({ name: 'servicesHeading', type: 'string', title: 'Services Section Heading', initialValue: DEFAULT_SERVICES_SECTION_HEADING }),
     defineField({ name: 'servicesSubheading', type: 'string', title: 'Services Section Subheading' }),
     defineField({ name: 'coursesHeading', type: 'string', title: 'Courses Section Heading', initialValue: SECTION_LABELS.onlineCourses }),
     defineField({ name: 'coursesSubheading', type: 'string', title: 'Courses Section Subheading' }),
-    defineField({ name: 'articlesHeading', type: 'string', title: 'Articles Section Heading', initialValue: 'تازہ ترین مضامین' }),
+    defineField({ name: 'articlesHeading', type: 'string', title: 'Articles Section Heading', initialValue: DEFAULT_ARTICLES_SECTION_HEADING }),
     defineField({ name: 'articlesSubheading', type: 'string', title: 'Articles Section Subheading' }),
     defineField({ name: 'donateHeading', type: 'string', title: 'Donate CTA Heading', initialValue: 'ہمارے مشن میں ساتھ دیں' }),
     defineField({ name: 'donateText', type: 'text', title: 'Donate CTA Text', rows: 2 }),

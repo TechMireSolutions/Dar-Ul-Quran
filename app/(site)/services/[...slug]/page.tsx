@@ -3,9 +3,8 @@ import { unstable_noStore as noStore } from 'next/cache'
 import { ogImageUrl, leafHeroImageUrl, leafSquareImageUrl, defaultOgImage } from '@/sanity/lib/image'
 import { getServiceBySlug, getSiteSettings, getTopicClusterForPillar, getAllServicePaths } from '@/sanity/lib/fetchers'
 import ServiceSchema from '@/components/seo/ServiceSchema'
-import WebPageSchema from '@/components/seo/WebPageSchema'
-import BreadcrumbNav from '@/components/seo/BreadcrumbNav'
 import NestedChildListing from '@/components/content/NestedChildListing'
+import LeafRouteShell from '@/components/layout/LeafRouteShell'
 import ServiceLeafPage from './_components/ServiceLeafPage'
 import {
   breadcrumbLabelsFromAncestry,
@@ -92,28 +91,29 @@ export default async function ServiceCatchAllPage(
   )
 
   return (
-    <div>
-      <WebPageSchema title={serviceTitle} description={pageDescription} path={currentPath} />
-      <ServiceSchema
-        data={{
-          title: serviceTitle,
-          seoDescription: service.seoDescription,
-          excerpt: service.excerpt,
-          slugPath: sectionRelativePath(SECTION_PATH, currentPath),
-          price: service.price,
-          isBookable: service.isBookable,
-          faqItems,
-          orgName: site?.siteName,
-          breadcrumbLabels: breadcrumbLabelsFromAncestry(ancestry),
-        }}
-      />
-
-      <BreadcrumbNav
-        sectionLabel={SECTION_LABELS.services}
-        sectionHref={SECTION_PATH}
-        items={buildBreadcrumbNavItems(SECTION_PATH, ancestry, serviceTitle)}
-      />
-
+    <LeafRouteShell
+      schemaTitle={serviceTitle}
+      schemaDescription={pageDescription}
+      path={currentPath}
+      sectionLabel={SECTION_LABELS.services}
+      sectionHref={SECTION_PATH}
+      breadcrumbItems={buildBreadcrumbNavItems(SECTION_PATH, ancestry, serviceTitle)}
+      schema={
+        <ServiceSchema
+          data={{
+            title: serviceTitle,
+            seoDescription: service.seoDescription,
+            excerpt: service.excerpt,
+            slugPath: sectionRelativePath(SECTION_PATH, currentPath),
+            price: service.price,
+            isBookable: service.isBookable,
+            faqItems,
+            orgName: site?.siteName,
+            breadcrumbLabels: breadcrumbLabelsFromAncestry(ancestry),
+          }}
+        />
+      }
+    >
       {hasChildren ? (
         <NestedChildListing
           eyebrow={SECTION_LABELS.services}
@@ -135,6 +135,6 @@ export default async function ServiceCatchAllPage(
           faqItems={faqDisplayItems}
         />
       )}
-    </div>
+    </LeafRouteShell>
   )
 }

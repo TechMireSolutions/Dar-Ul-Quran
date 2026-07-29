@@ -1,16 +1,19 @@
 import { revalidatePath, revalidateTag } from 'next/cache'
 import { NextResponse } from 'next/server'
+import { z } from 'zod'
 import { CMS_TAG, cmsTypeTag, courseTag, postTag, serviceTag } from '@/lib/cache-tags'
 import { secretsEqual } from '@/lib/secrets'
 import { ancestryFromParent, articlePath, expectedPathFromAncestry, PATHS } from '@/lib/paths'
 import { getCourseBySlug, getServiceBySlug } from '@/sanity/lib/fetchers'
 
-type SanityWebhookBody = {
-  _type?: string
-  slug?: { current?: string }
-  projectId?: string
-  dataset?: string
-}
+const SanityWebhookBodySchema = z
+  .object({
+    _type: z.string().optional(),
+    slug: z.object({ current: z.string().optional() }).optional(),
+    projectId: z.string().optional(),
+    dataset: z.string().optional(),
+  })
+  .passthrough()
 
 const TYPE_PATHS: Record<string, string[]> = {
   siteSettings: [PATHS.home],
@@ -32,9 +35,11 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: 'Invalid secret' }, { status: 401 })
   }
 
-  let body: SanityWebhookBody = {}
+  let body: z.infer<typeof SanityWebhookBodySchema> = {}
   try {
-    body = (await req.json()) as SanityWebhookBody
+    const json: unknown = await req.json()
+    const parsed = SanityWebhookBodySchema.safeParse(json)
+    body = parsed.success ? parsed.data : {}
   } catch {
     body = {}
   }
