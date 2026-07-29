@@ -18,12 +18,13 @@ For nested CMS trees → `new-leaf-route` instead.
 7. Body shell: `TW_PAGE_BODY` + `` `${TW_CONTAINER_NARROW} lg:px-8` `` for prose; `PageHeroHeader` for hero
 8. Copy/type: Urdu UI · Nastaliq leading (`leading-urdu` / `leading-heading`) · `tracking-normal`
 9. Prefer existing shells before new markup (`05-components.mdc`)
+10. Mobile-first body shells (`TW_CONTAINER*` / `TW_PAGE_BODY`) — rules `18` · `19`
 
 ## Verify
 
-`check-urdu` · `preflight` · `technical-seo-audit` if SEO-critical · `rtl-check` if layout/type heavy
+`check-urdu` · `preflight` · `technical-seo-audit` if SEO-critical · `rtl-check` (375 · 768 · 1440) if layout/type heavy
 
-Rules: `02-coding-standards.mdc` · `03-rtl-urdu.mdc` · `06-tailwind.mdc` · `08-technical-seo-shared.mdc` · `14-file-structure.mdc` · `16-dry.mdc`
+Rules: `02-coding-standards.mdc` · `03-rtl-urdu.mdc` · `06-tailwind.mdc` · `08-technical-seo-shared.mdc` · `14-file-structure.mdc` · `16-dry.mdc` · `18-mobile-first-responsive.mdc` · `19-ui-ux.mdc`
 
 Portable Text → `components/content/RichTextBody.tsx`
 

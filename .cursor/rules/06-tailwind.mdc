@@ -113,6 +113,8 @@ Nastaliq leading tokens (theme): `leading-urdu` · `leading-urdu-display` · `le
 ## Do
 - Utilities in `className` only — no CSS-in-JS
 - Check `lib/tailwind.ts` before adding layout, section, or CTA classes
+- Mobile-first: base phone → `sm:`/`md:`/`lg:` (`18-mobile-first-responsive.mdc`)
+- Fluid shells via `TW_CONTAINER*` / Grid / Flex — no fixed `w-[1200px]` layouts
 - Interactive controls ≥ `min-h-11` + visible `:focus-visible` ring
 - Hover lift: pair with `motion-reduce:hover:translate-y-0` / `active:translate-y-0`
 - `shrink-0` · slash opacity · theme shadows (`shadow-gold-*`, `shadow-nav`, `shadow-focus-gold`)
@@ -127,6 +129,7 @@ Nastaliq leading tokens (theme): `leading-urdu` · `leading-urdu-display` · `le
 - Latin tracking on Urdu (`tracking-tight` / `tracking-wide` / negative tracking) — use `tracking-normal`
 - Body leading below **1.9** — prefer `leading-urdu` / `leading-relaxed`
 - Public-site `dark:` utilities or parallel dark theme
+- Desktop-first `max-md:grid-cols-1` collapses or fixed-pixel page widths
 
 ## Brand exceptions
 PayPal (`TW_PAYPAL_CTA`), WhatsApp float (`TW_WHATSAPP_FLOAT`) only.

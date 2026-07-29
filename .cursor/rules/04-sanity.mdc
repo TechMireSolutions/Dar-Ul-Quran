@@ -1,5 +1,5 @@
 ---
-description: Sanity schema, GROQ, fetchers, cache tags, webhook path map
+description: Sanity schema, GROQ, fetchers, cache tags, revalidate webhook
 globs: "{sanity/**/*,app/api/revalidate/**/*,app/(site)/**/page.tsx,lib/types/**/*,lib/cache-tags.ts}"
 alwaysApply: false
 ---
@@ -36,7 +36,8 @@ DRY: one query per concern — fragments in `queries.ts`, **route access only vi
 - Prefer type tags: `cmsTypeTag('course')` · slug tags when invalidating one leaf
 - ISR fallback: `revalidate = 300` on public routes
 - On-demand: Sanity webhook → `/api/revalidate` — skill: **`setup-revalidation`**
-- Webhook filter, path map, new `_type` handling → this rule + `app/api/revalidate/route.ts`
+- **Path map SSOT:** `TYPE_PATHS` / handlers in `app/api/revalidate/route.ts` (not duplicated here)
+- Webhook filter + new `_type` steps → `setup-revalidation` + `docs/sanity-webhook.md`
 - Secret query param & env → **`17-security.mdc`** (do not duplicate auth rules here)
 
 ```ts

@@ -1,56 +1,68 @@
 ---
-description: Mobile-led UI/UX — hierarchy, touch, forms, motion, and interaction patterns
+description: Mobile-led UI/UX — nav, touch, forms, tables, motion, hierarchy
 globs: "{components/**/*.{ts,tsx},app/(site)/**/*.{ts,tsx},app/error.tsx}"
 alwaysApply: false
 ---
 
 # UI / UX (mobile-led)
 
-**Authority for interaction & visual UX.** Layout breakpoints → `18-mobile-first-responsive.mdc`. A11y shells → `05-components.mdc`. CWV → `09` / `10`. Preserve brand (`dq-*` gold/navy) — no alternate theme.
+**Authority for interaction & visual UX.** Layout/breakpoints → `18-mobile-first-responsive.mdc`. Shells/a11y → `05-components.mdc`. CWV → `09` / `10`. Brand: `dq-*` gold/navy only.
 
 ## Hierarchy & composition
 
-- **One job per section:** one headline + short support; avoid stuffing stats, schedules, and promo chips into the same block
-- **First viewport (marketing):** brand/H1, one short lead, one CTA group, optional hero media — no card grids or secondary marketing in the hero
-- Prefer existing shells (`PageHeroHeader`, `LeafHero`, `SectionHeaderRow`, `CenteredSectionHeader`, `ContentCard`) before new chrome
-- Cards only when they wrap a **single** primary action (`ContentCard`) — no nested competing links
-- Clear visual order: H1 → sections → supporting lists; do not rely on color alone for meaning
+- **One job per section:** one headline + short support
+- **First viewport (marketing):** brand/H1, one short lead, one CTA group, optional hero media — no card grids in the hero
+- Prefer shells: `PageHeroHeader` · `LeafHero` · `SectionHeaderRow` · `CenteredSectionHeader` · `ContentCard`
+- Cards wrap **one** primary action only — no nested competing links
+
+## Navigation (below `lg` / &lt;1024px)
+
+- Desktop horizontal nav starts at **`lg:`** (`lg:flex` in `Header`) — drawer for all viewports below 1024px
+- Mobile: hamburger + slide-out drawer (`HeaderMobileMenu`, lazy `dynamic` / `ssr: false`)
+- Do not ship a second competing mobile nav pattern (bottom bar, etc.) unless product asks
+- Drawer: focus trap, close ≥44px, `env(safe-area-inset-*)`, keyboard operable without hover
+- Do **not** treat `md` (768) as the desktop-nav breakpoint — that is layout/`md` hero only (`18`, `09`)
 
 ## Touch & targets
 
-- Controls ≥ **44×44px** (`TW_TOUCH` / `min-h-11` / `min-w-11` for icon buttons)
-- Keep ≥8px gap between adjacent tap targets
-- Primary CTA within easy thumb reach on long pages (section CTA or leaf banner — not only footer)
-- Floating/sticky UI (WhatsApp, sticky header) must **not** cover form fields, focus rings, or leaf CTAs
-- Mobile nav: focus trap correct; close control ≥44px; `env(safe-area-inset-top/bottom)` respected
+- Interactive hit area ≥ **44×44px** (`TW_TOUCH` / `min-h-11` / `min-w-11`)
+- ≥8px gap between adjacent tap targets
+- Primary CTA reachable on long pages (section / leaf banner — not only footer)
+- Sticky/floating UI (header, WhatsApp) must not cover fields, focus rings, or leaf CTAs
+- Never rely on hover-only affordances on touch
 
 ## Forms & feedback
 
-- Full-width fields on mobile (`TW_FORM_*`); stack with `TW_GRID_2` (1 → `sm:2`)
-- Correct `type` + `inputMode` (`tel`, `email`); visible labels; errors beside the field
-- Status: `aria-busy` / `aria-live` for submit; disable double-submit
-- Turnstile / heavy widgets: load on intersect — never block first paint
+- Full-width fields on mobile (`TW_FORM_*`); stack via `TW_GRID_2`
+- `type` + `inputMode` (`tel`, `email`); visible labels; errors beside fields
+- `aria-busy` / `aria-live` on submit; prevent double-submit
+- Heavy widgets (Turnstile): load on intersect
+
+## Tables & dense data
+
+- Wide tables: wrap in `overflow-x-auto` **or** card/stacked layout below `md`
+- Pricing / comparison: prefer stacked cards on phone (`TW_CONTAINER_PRICING` patterns) over unreadable multi-column tables
 
 ## Motion & feedback
 
-- Respect `prefers-reduced-motion` + `motion-reduce:hover:translate-y-0`
-- Prefer opacity/transform; avoid animating layout that causes CLS on mobile
-- Reveal: CSS-visible on mobile / no-JS (`09`); do not gate content behind JS
-- `:focus-visible` rings always visible — never `outline-none` alone
-- Active press: `active:translate-y-0` / brightness — confirm taps without hover-only states
+- `prefers-reduced-motion` + `motion-reduce:hover:translate-y-0`
+- Prefer opacity/transform; avoid layout animation that causes CLS
+- Reveal visible on mobile / no-JS (`09`)
+- Visible `:focus-visible` — never bare `outline-none`
+- Press feedback: `active:*` states (not hover-only)
 
 ## Density & readability
 
-- Comfortable section padding (`TW_SECTION_PY`); do not pack multi-column tables on phones — stack or scroll with clear affordance
-- Long Urdu lines: prefer narrower prose containers on mobile; keep leading ≥1.9 (`03-rtl-urdu.mdc`)
-- Empty/error states: Urdu copy + clear next action (`app/error.tsx` pattern)
+- Section padding via `TW_SECTION_PY`
+- Narrower prose on phone; Nastaliq leading ≥1.9 (`03-rtl-urdu.mdc`)
+- Empty/error: Urdu + clear next action (`app/error.tsx`)
 
 ## Anti-patterns
 
-- Desktop-only hover as the sole affordance
-- Pill/chip clusters and multi-CTA rows that wrap into unreadable stacks
-- Inset “floating” hero cards that fight the full-bleed leaf/home heroes
-- Inventing a second design language (purple gradients, cream/serif defaults, dark mode)
+- Desktop-only hover as sole affordance
+- Fixed `px` layout widths / desktop-first `max-*` grids
+- Pill clusters that wrap into unusable stacks
+- Second design language (purple gradients, cream/serif defaults, dark mode)
 
 ## Related
 

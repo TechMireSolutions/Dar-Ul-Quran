@@ -1,6 +1,6 @@
 ---
 name: new-component
-description: Scaffolds a shared or route-private React component with correct folder, Tailwind, Nastaliq, and RTL conventions. Use when adding UI to components/ or app/**/_components/.
+description: Scaffolds a shared or route-private React component with correct folder, Tailwind, mobile-first layout, Nastaliq, and RTL conventions. Use when adding UI to components/ or app/**/_components/.
 ---
 
 # New component
@@ -26,15 +26,17 @@ Extend an existing shell before creating a parallel component. Do not fork logo 
 2. Server Component default; `"use client"` only if needed  
 3. React Compiler on — skip default `useMemo`/`useCallback`  
 4. `TW_*` from `lib/tailwind.ts` — no duplicated class strings  
-5. Nastaliq: `leading-urdu*` / `tracking-normal` on text (see `03-rtl-urdu.mdc`)  
-6. Interactive: `min-h-11` + `focus-visible` ring; **one** primary link per card  
-7. Urdu copy + `aria-label` / content `alt` in Urdu; decorative `alt=""`  
-8. Logical spacing; `shrink-0`; `motion-reduce` on hover translate  
-9. Images: `sizes` + lazy below fold  
-10. Phone/email/URL → `dir="ltr"` / `<bdi>`
+5. **Mobile-first** layout (`18`) — base phone → `sm:`/`md:`/`lg:`; fluid `TW_CONTAINER*` (no fixed px widths)  
+6. Nastaliq: `leading-urdu*` / `tracking-normal` on text (`03-rtl-urdu.mdc`)  
+7. Interactive: ≥44×44px (`min-h-11`) + `focus-visible`; **one** primary link per card  
+8. Urdu copy + `aria-label` / content `alt` in Urdu; decorative `alt=""`  
+9. Logical spacing; `shrink-0`; `motion-reduce` on hover translate  
+10. Images: `sizes` + fluid / lazy below fold  
+11. Phone/email/URL → `dir="ltr"` / `<bdi>`  
+12. Wide tables → `overflow-x-auto` or card stack on mobile (`19`)
 
 ## Verify
 
-`tailwind-ui` · `check-urdu` · `rtl-check` if nav/layout/type · `preflight`
+`tailwind-ui` · `check-urdu` · `rtl-check` (375 · 768 · 1440) · `preflight`
 
 Reference: `PageHeroHeader` · `LeafHero` · `SectionHeaderRow` · `CenteredSectionHeader` · `LeafCtaBanner`

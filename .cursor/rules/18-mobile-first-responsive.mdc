@@ -1,56 +1,70 @@
 ---
-description: Mobile-first responsive layout — breakpoints, grids, containers, overflow
+description: Mobile-first responsive layout — breakpoints, fluid sizing, media, overflow
 globs: "{**/*.{tsx,jsx,css},app/globals.css,lib/tailwind.ts}"
 alwaysApply: false
 ---
 
 # Mobile-first responsive
 
-**Authority for layout responsiveness.** CWV/PSI tactics → `09-technical-seo-mobile.mdc`. Tokens → `06-tailwind.mdc`.
+**Authority for layout responsiveness.** UX/touch → `19-ui-ux.mdc`. CWV/PSI → `09`. Tokens → `06-tailwind.mdc`.
 
-## Principle
+## 1. Core principles
 
-Style the **smallest screen first**, then enhance with `sm:` / `md:` / `lg:` (min-width). Never design desktop-first and hide with `max-*` overrides unless matching an existing LCP exception.
+| Principle | Rule |
+|-----------|------|
+| Mobile-first | Default styles = phone; scale up with **min-width** utilities (`sm:` / `md:` / `lg:` / `xl:`). Never desktop-first + `max-*` collapse unless an existing LCP exception (`09`). |
+| Fluid layouts | No fixed layout widths like `w-[1200px]` / `width: 1200px`. Use `%`, `rem`, `vw`, `max-w-*`, Grid, Flex, and `TW_CONTAINER*`. |
+| No horizontal scroll | Sections must not exceed the viewport. Prefer `max-w-full`, `min-w-0` on flex children, `box-border`. Root overflow from long Urdu titles is a bug. |
 
-| Prefix | Min width | Typical use |
-|--------|-----------|-------------|
-| (base) | 0 | Phone — default layout |
-| `sm:` | 640px | Large phone / small tablet |
-| `md:` | 768px | Tablet / hero image may appear |
-| `lg:` | 1024px | Desktop nav (`lg:flex`), wider grids |
-| `xl:` | 1280px | Rare — only if content truly needs it |
+```tsx
+// ❌ BAD
+<div className="w-[1200px] grid grid-cols-3 max-md:grid-cols-1">
 
-## Layout patterns (use `TW_*`)
+// ✅ GOOD
+<div className={`${TW_CONTAINER}`}>
+  <div className={TW_CARD_GRID}>{/* 1 → sm:2 → lg:3 */}</div>
+</div>
+```
+
+## 2. Standard breakpoints (Tailwind)
+
+| Range | Prefix | Use |
+|-------|--------|-----|
+| &lt; 640px | (base) | Mobile small — **default** |
+| 640–768px | `sm:` | Mobile large / tablet portrait |
+| 768–1024px | `md:` | Tablet landscape; hero image may appear |
+| 1024–1280px | `lg:` | Laptop; **desktop nav** (`lg:flex`); denser grids |
+| &gt; 1280px | `xl:` | Large desktop — only when content needs it |
+
+**Nav vs layout:** drawer for viewports **below `lg` (1024)**. `md` (768) is tablet layout / hero image (`09`) — not the desktop-nav switch (`19`).
+
+## 3. Layout patterns (`TW_*`)
 
 | Need | Pattern |
 |------|---------|
 | Section shell | `TW_CONTAINER` + `TW_SECTION_PY` |
 | Card listing | `TW_CARD_GRID` → `1` / `sm:2` / `lg:3` |
-| Two-up form/features | `TW_GRID_2` → `1` / `sm:2` |
+| Two-up | `TW_GRID_2` → `1` / `sm:2` |
 | Prose | `TW_CONTAINER_NARROW` (+ `lg:px-8` when needed) |
+| Wide tables | `overflow-x-auto` wrapper **or** stack/cardize rows below `md` — never force full table width on phones |
 
-```tsx
-// ❌ BAD — desktop-first
-<div className="grid grid-cols-3 max-md:grid-cols-1">
+## 4. Media & type
 
-// ✅ GOOD — mobile-first (or TW_CARD_GRID)
-<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+- Images / video / SVG: shrink in flow (`max-w-full` + `h-auto` when not using `fill`); Next `Image` / Sanity helpers with explicit **`sizes`** (`100vw` → `50vw` → `33vw`)
+- Fluid type: theme/`rem`/`text-*` scales — bump at `sm:`/`md:` only for hierarchy; body Nastaliq leading ≥1.9 → `03-rtl-urdu.mdc`
+- `viewport` (root): `device-width`, `initialScale: 1`, `viewportFit: 'cover'`
+- Safe areas on drawers/sticky chrome: `env(safe-area-inset-*)` (`TW_MOBILE_PANEL*`)
+- **Content parity:** same primary content on all breakpoints. `hidden md:block` only for decorative / LCP hero exceptions (`09`)
+
+## 5. Pre-ship verification
+
+```
+[ ] 375px — layout correct, no horizontal scroll, no clipped Urdu
+[ ] 768px — tablet layout / hero OK (nav still drawer below lg)
+[ ] 1024px+ — desktop nav (`lg:flex`) + grids; no overflow
+[ ] 1440px — desktop density OK; no overflow
+[ ] Forms/buttons usable with touch (≥44px — see 19)
+[ ] No text overlap at edge sizes
 ```
 
-## Hard constraints
-
-- **No horizontal scroll** at 375px / 390px — wrap long Urdu titles; avoid fixed widths wider than viewport
-- Gutters via `TW_CONTAINER*` (`px-4 sm:px-6 lg:px-8`) — do not invent one-off padding scales
-- Images: explicit `sizes` reflecting real columns (`100vw` → `50vw` → `33vw` as breakpoints grow)
-- `viewport` in root layout: `device-width`, `initialScale: 1`, `viewportFit: 'cover'` — keep aligned
-- Safe areas: drawers/sticky chrome use `env(safe-area-inset-*)` (see `TW_MOBILE_PANEL*`)
-- **Content parity:** same primary content on mobile and desktop. `hidden md:block` only for decorative / LCP hero image exceptions (`09`)
-
-## Typography scale
-
-- Base readable size on phone; bump at `sm:`/`md:` only when hierarchy needs it
-- Nastaliq leading/tracking still → `03-rtl-urdu.mdc` (never shrink leading below 1.9 for body)
-
-## Verify
-
-Check 375 · 768 · 1440. Skills: `tailwind-ui` · `rtl-check` · CWV → `optimize-lcp` / `09`.
+Skills: `tailwind-ui` · `rtl-check` · CWV → `optimize-lcp` / `09`.

@@ -35,11 +35,13 @@ Route-private UI: `app/(site)/**/_components/` — never imported elsewhere
 - `Header` + lazy `HeaderMobileMenu` (`dynamic`, `ssr: false`)
 - Footer icons: `FooterIcons` inline SVG in RSC; lucide only in client components
 - `role="menuitem"` only inside `role="menu"`
-- Images: `next/image` + explicit `sizes`; `loading="lazy"` below fold; LCP exception: hero `<img fetchPriority="high">`
+- Images: `next/image` + explicit `sizes`; `max-w-full` / fluid media; `loading="lazy"` below fold; LCP exception: hero `<img fetchPriority="high">`
 - Pass Sanity data as props; batch layout reads in `requestAnimationFrame`
 - Reveal: mobile + reduced-motion + `@media (scripting: none)` keep content visible
 - Errors: root `app/error.tsx` (Urdu reset UI); route `loading.tsx` only for slow CMS shells
 - Optional heavy islands: wrap in `<Suspense>` with a light fallback — never block LCP
+- Nav: desktop from **`lg:flex`** (1024+) → drawer below `lg` (`HeaderMobileMenu`); touch ≥44px — see `19-ui-ux.mdc`
+- Layout: mobile-first grids/containers — see `18-mobile-first-responsive.mdc`
 
 ## Accessibility (WCAG AA target)
 - Skip link → `#main-content`; one H1; landmark regions (`header`/`main`/`footer`/`nav`)

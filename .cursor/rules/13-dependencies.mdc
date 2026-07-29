@@ -6,27 +6,27 @@ alwaysApply: false
 
 # Dependencies — latest stable
 
-**Version tables & full dependency list:** `techstack.md`
+**Resolved version inventory (SSOT):** `techstack.md` § Synchronized dependencies / Resolved versions  
+**This rule:** upgrade policy + documented pin *exceptions* only. Skill: `upgrade-deps`.
 
-**Goal:** Every dependency on the **latest stable release** within its supported major line. Skill: `upgrade-deps`.
+**Goal:** Every dependency on the **latest stable release** within its supported major line.
 
-## Stack targets (keep current)
+## Stack policy (not a second version table)
 
 | Package | Policy |
 |---------|--------|
-| `next` | Exact **16.2.12** — match `eslint-config-next` |
-| `react` / `react-dom` | Exact **19.2.8** paired with Next |
+| `next` / `eslint-config-next` | Exact matched pair — see `techstack.md` Resolved versions |
+| `react` / `react-dom` | Exact pair with Next — see `techstack.md` |
 | `sanity`, `@sanity/*`, `next-sanity` | Latest **v6 / v7 / v13** line — never downgrade to v5 |
 | `tailwindcss`, `@tailwindcss/postcss` | Latest **4.x** |
 | `typescript` | Latest **6.x** — TS **7** blocked by `typescript-eslint` |
 | `zod` | Latest **4.x** — API validation |
-| `resend` | Latest — contact email |
-| `nodemailer` | Latest — SMTP fallback only (contact) |
+| `resend` / `nodemailer` | Latest — contact email (+ SMTP fallback) |
 | `@upstash/redis` / `@upstash/ratelimit` | Latest — optional distributed rate limit |
 | `vitest` | Latest — unit tests (dev) |
 | `babel-plugin-react-compiler` | **1.0.0** — enables `reactCompiler: true` |
-| `eslint`, `eslint-config-next` | ESLint **9.39.4** pin; config-next **exact match** Next |
-| Node (VPS + CI + local) | `>=22.12.0` per `engines` — CI + production VPS **24.17.0** |
+| `eslint` | Stay on **v9** until `eslint-config-next` supports v10 |
+| Node (VPS + CI + local) | `engines` in `package.json` — see `techstack.md` for CI/VPS pin |
 
 ## Upgrade workflow
 
@@ -44,22 +44,19 @@ npm run lint && npm run check:urdu && npm run test && npm run build
 
 ## Pinning exceptions (document here if added)
 
-- **Next / eslint-config-next 16.2.12** — exact matched pair (July 2026 security alignment)
-- **React / react-dom 19.2.8** — exact pair with Next
-- **ESLint 9.39.4** — exact pin + `overrides.eslint`; ESLint 10 crashes `eslint-config-next` (`getFilename()`). Dependabot ignores ESLint major bumps.
-- **TypeScript 6.0.3** — exact pin + `overrides.typescript`; TS 7 breaks `typescript-eslint` (peer `<6.1.0`). Dependabot ignores TypeScript major bumps.
-- **`postcss@^8.5.24` override** — patched PostCSS under Next/Tailwind
-- **`sharp@^0.35.3` override** — patched libvips CVEs for Next image pipeline
-- **`adm-zip@0.6.0` override** — Sanity CLI ZIP advisory
-- **`js-yaml@^4.3.0` override** — nested Sanity CLI / Vercel frameworks advisory
-- **`smol-toml@^1.7.1` override** — nested Vercel frameworks DoS advisory
-- **`typeid-js` → `uuid@^11.1.1`** — nested uuid buffer bounds advisory
-- **`minimatch@>=9` → brace-expansion `^5.0.8`** — do not globally override brace-expansion (breaks ESLint minimatch@3)
+Exact current pins live in `package.json` + `techstack.md`. Reasons to keep pins:
+
+- **Next / eslint-config-next** — exact matched pair (security alignment)
+- **React / react-dom** — exact pair with Next
+- **ESLint 9** — ESLint 10 crashes `eslint-config-next` (`getFilename()`). Dependabot ignores ESLint major bumps.
+- **TypeScript 6** — TS 7 breaks `typescript-eslint` (peer `<6.1.0`). Dependabot ignores TypeScript major bumps.
+- **`postcss` / `sharp` / `adm-zip` / `js-yaml` / `smol-toml` / nested `uuid` overrides** — see `package.json` `overrides` + `techstack.md`
+- **`minimatch@>=9` → brace-expansion** — do not globally override brace-expansion (breaks ESLint minimatch@3)
 - **babel-plugin-react-compiler 1.0.0** — required for React Compiler in `next.config.ts`
-- No other pins unless an upstream blocker is documented in this file
+- No other pins unless an upstream blocker is documented here **and** reflected in `techstack.md`
 
 ## Agent behavior
 
 - When touching `package.json`, check `npm outdated` and propose latest compatible versions
 - Do not leave stale majors when a safe upgrade path exists
-- Update `01-project.mdc` version line only when stack versions change materially
+- After material bumps: update **`techstack.md` Resolved versions** (and `package.json`). Keep `01-project.mdc` on major-line summary only.

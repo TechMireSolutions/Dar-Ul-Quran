@@ -48,7 +48,7 @@ export const thing = defineType({
 
 - Unique `slug` · `order` · SEO fields · content-image `alt`
 - Email/phone/URL fields in Studio → `LtrStringInput`
-- After schema: queries → fetchers → route → webhook path map
+- After schema: queries → fetchers → route → update path map in `app/api/revalidate/route.ts` (`setup-revalidation`)
 
 ## Verify
 

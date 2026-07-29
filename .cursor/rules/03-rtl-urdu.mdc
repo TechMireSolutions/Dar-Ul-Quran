@@ -33,10 +33,12 @@ Font: `Noto Nastaliq Urdu` via `DeferredUrduFont` + `fontFamily` in `tailwind.co
 Authority for theme line-heights: `tailwind.config.ts` (`leading-urdu*`, remapped `tight`/`relaxed`).
 
 ## A11y & interaction
-- Touch ≥44px — `TW_TOUCH` / `min-h-11`
+- Touch ≥44×44px — `TW_TOUCH` / `min-h-11` / `min-w-11`
 - Visible `:focus-visible` ring — never bare `outline-none` alone
 - Decorative images: `alt=""`; content images: Urdu `alt`
 - Form tel/email: appropriate `type` + `inputMode` (`tel`, `email`)
+- Dates in UI → `formatPublishedDate()` (`ur-PK`)
+- Responsive layout / overflow → `18-mobile-first-responsive.mdc` · UX → `19-ui-ux.mdc`
 
 ## Copy
 **All user-visible text in Urdu.** Run `npm run check:urdu`. False positive: `// urdu-ok`  

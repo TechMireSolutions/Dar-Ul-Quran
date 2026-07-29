@@ -22,8 +22,8 @@ For nested CMS trees (courses, services). Simple flat pages → `new-page` skill
 
 ## Verify
 
-`add-seo-to-page` · `technical-seo-audit` · `check-urdu` · `preflight`
+`add-seo-to-page` · `technical-seo-audit` · `check-urdu` · `rtl-check` (375 · 768 · 1440) · `preflight`
 
-Rules: `04-sanity.mdc` · `05-components.mdc` · `06-tailwind.mdc` · `08-technical-seo-shared.mdc` · `16-dry.mdc`
+Rules: `04-sanity.mdc` · `05-components.mdc` · `06-tailwind.mdc` · `08-technical-seo-shared.mdc` · `16-dry.mdc` · `18-mobile-first-responsive.mdc` · `19-ui-ux.mdc`
 
 Reference: `app/(site)/online-courses/[...slug]/` · `services/[...slug]/`

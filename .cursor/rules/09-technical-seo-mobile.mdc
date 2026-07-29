@@ -14,10 +14,12 @@ Primary Google index profile. PSI/Lighthouse **Mobile**.
 | INP | ≤200ms | lazy `HeaderMobileMenu`; Turnstile on intersect; passive scroll; carousel edge sentinels (no `scrollWidth` reads) |
 | CLS | ≤0.1 | image dimensions; reserved hero `min-h`; aspect-ratio on cards/articles |
 
-Touch ≥44px (`TW_TOUCH` / `min-h-11`) · visible `:focus-visible` · no horizontal scroll at 375px · manifest/viewport/theme_color · content parity with desktop · skip link works on small screens.
+Touch ≥44×44px (`TW_TOUCH` / `min-h-11`) · visible `:focus-visible` · no horizontal scroll at 375px · manifest/viewport/theme_color · content parity with desktop · skip link works on small screens.
 
 Forms: `inputMode` / `type` for tel & email; sticky CTAs must not cover content or trap focus.  
 Font: `DeferredUrduFont` with `display=optional` — never block first paint with Nastaliq.
+
+Pre-ship layout check (non-CWV): 375 · 768 · 1440 — see `18-mobile-first-responsive.mdc` § Pre-ship verification.
 
 ## Image rules (PSI)
 

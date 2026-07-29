@@ -8,7 +8,7 @@
 | `.agents/skills/*` | `.cursor/skills/*/SKILL.md` (20 skills — see `AGENTS.md`) |
 | Stack reference | `techstack.md` |
 | Conventions map | `AGENTS.md` |
-| Urdu allowlist | `CLAUDE.md` § Urdu |
+| Urdu allowlist | `CLAUDE.md` § Urdu-First Frontend Rule |
 | Content SEO | `.antigravityrules` |
 
 ## Current rule IDs

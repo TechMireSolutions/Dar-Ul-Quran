@@ -19,6 +19,7 @@ Homepage: `app/(site)/page.tsx` · CMS: `homepageSettings` schema · helpers: `l
 5. Nastaliq: titles `leading-heading` · body `leading-urdu` · `tracking-normal` (`03-rtl-urdu.mdc`)
 6. Urdu copy in JSX or Sanity fields · `check-urdu` after UI strings change
 7. One job per section — avoid stuffing stats/cards into the hero viewport
+8. Mobile-first: `TW_CARD_GRID` / containers from rule `18`; touch ≥44px from `19`
 
 ## Performance
 
@@ -26,9 +27,10 @@ Homepage: `app/(site)/page.tsx` · CMS: `homepageSettings` schema · helpers: `l
 - Carousels / heavy UI: dynamic import with skeleton / Suspense
 - Section wrappers: `TW_CV_AUTO` when below fold
 - Interactive: `min-h-11` + `focus-visible` · `motion-reduce` on hover lift
+- Fluid media + explicit `sizes`; no fixed-width section shells
 
 ## Verify
 
-`tailwind-ui` · `optimize-lcp` · `check-urdu` · `rtl-check` · `preflight`
+`tailwind-ui` · `optimize-lcp` · `check-urdu` · `rtl-check` (375 · 768 · 1440) · `preflight`
 
-Rules: `05-components.mdc` · `06-tailwind.mdc` · `03-rtl-urdu.mdc` · `09-technical-seo-mobile.mdc`
+Rules: `05-components.mdc` · `06-tailwind.mdc` · `03-rtl-urdu.mdc` · `09-technical-seo-mobile.mdc` · `18-mobile-first-responsive.mdc` · `19-ui-ux.mdc`

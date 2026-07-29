@@ -38,7 +38,7 @@ alwaysApply: false
 | Org name fallback | `DEFAULT_SITE_NAME` (EN email/schema) · `resolveSiteNameUrdu()` / `DEFAULT_SITE_NAME_URDU` (UI) in `lib/seo.ts` | Hardcoded org name in chrome / metadata |
 | Tagline / donate / related-site labels | `DEFAULT_TAGLINE` · `DEFAULT_DONATE_CTA_LABEL` · `DEFAULT_RELATED_SITE_LABEL` in `lib/seo.ts` | Duplicate marketing strings in layout |
 | Meta / home description fallbacks | `DEFAULT_SITE_DESCRIPTION` · `DEFAULT_HOME_DESCRIPTION` in `lib/seo.ts` | Hardcoded description strings in metadata |
-| Urdu allowlist | `CLAUDE.md` § Urdu | Parallel English-copy rules elsewhere |
+| Urdu allowlist | `CLAUDE.md` § Urdu-First Frontend Rule | Parallel English-copy rules elsewhere |
 
 ## When to extract
 

@@ -16,11 +16,11 @@ npm run lint && npm run check:urdu && npm run test
 
 | Change | Also run |
 |--------|----------|
-| UI / CSS / typography | `rtl-check` · `tailwind-ui` patterns |
+| UI / CSS / typography / layout | `tailwind-ui` · `rtl-check` (375 · 768 · 1440) |
 | SEO / metadata | `technical-seo-audit` |
 | LCP / hero | `optimize-lcp` |
 | API / Zod / lib helpers | `write-tests` · `secure-api-route` if new API |
-| New shared UI | Prefer shells in `05-components.mdc` before scaffolding |
+| New shared UI | Prefer shells in `05-components.mdc`; follow `18` + `19` |
 | Deploy / chunks | `deploy` · `fix-chunk-mime` if MIME/404 |
 
 ## Pass criteria
@@ -30,6 +30,7 @@ npm run lint && npm run check:urdu && npm run test
 [ ] check:urdu clean
 [ ] test green
 [ ] build green (if required above)
+[ ] UI changes: rtl-check responsive items pass (no horizontal scroll @375, touch 44px)
 ```
 
 Commit / push only when the user asks. Never commit secrets or `.env`.

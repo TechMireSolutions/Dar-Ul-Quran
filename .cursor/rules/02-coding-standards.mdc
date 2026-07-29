@@ -42,6 +42,8 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 - Portable Text → `RichTextBody` + `TW_RICH_TEXT_*`
 - Cards: one interactive link (`ContentCard`) · leaf heroes → `LeafHero`
 - Interactive: `min-h-11` + visible `focus-visible`; respect `motion-reduce`
+- Layout: mobile-first + fluid (`18-mobile-first-responsive.mdc`) — no fixed `w-[1200px]`-style shells
+- UX/nav/touch: `19-ui-ux.mdc`
 - Hydration: no `Date.now()` / `Math.random()` / locale-differing markup without a client boundary
 
 ## Cross-refs

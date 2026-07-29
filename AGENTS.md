@@ -1,7 +1,7 @@
 # Dar Ul Quran — Agent index
 
 **Rules (primary):** `.cursor/rules/*.mdc` · **Workflows:** `.cursor/skills/`  
-**Stack:** [`techstack.md`](techstack.md) (versions, infra, routes) · **Content SEO:** `.antigravityrules` · **Urdu:** `CLAUDE.md` § Urdu · **Security:** `SECURITY.md` + `17-security.mdc`
+**Stack:** [`techstack.md`](techstack.md) (versions, infra, routes) · **Content SEO:** `.antigravityrules` · **Urdu:** `CLAUDE.md` § Urdu-First Frontend Rule · **Security:** `SECURITY.md` + `17-security.mdc`
 
 Live: https://darulquran.pk · Port **3001** → `12-production-port.mdc`
 
@@ -70,4 +70,4 @@ Authority table (no conflicts): `00-mirror-sources.mdc`
 
 **Nastaliq:** body `leading-urdu` / `leading-relaxed` (≥1.9) · titles `leading-heading` — see `03-rtl-urdu.mdc` + `rtl-check`.
 
-**Behavior (authority: `00-mirror-sources.mdc`):** smallest correct diff · read matching skill before scaffolding · prefer shells in `05` · Urdu/`rtl-check` after UI · ops skills (`deploy`, `fix-chunk-mime`, `upgrade-deps`, `setup-revalidation`) only when asked · commits only when user asks · preflight: `lint` + `check:urdu` + `test` (+ `build` if deploy).
+**Behavior (authority: `00-mirror-sources.mdc`):** smallest correct diff · read matching skill before scaffolding · prefer shells in `05` · mobile-first/`18`+`19` (verify 375 · 768 · 1440) · Urdu/`rtl-check` after UI · ops skills (`deploy`, `fix-chunk-mime`, `upgrade-deps`, `setup-revalidation`) only when asked · commits only when user asks · preflight: `lint` + `check:urdu` + `test` (+ `build` if deploy).

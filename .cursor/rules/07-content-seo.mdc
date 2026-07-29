@@ -7,7 +7,7 @@ alwaysApply: false
 # Content SEO
 
 **Full narrative:** `.antigravityrules` (Antigravity / content agents).  
-**Stack SEO inventory:** `techstack.md` § SEO. This rule is the Cursor glob hook — do not duplicate long copy here.
+**Stack SEO inventory:** `techstack.md` § SEO (section 9). This rule is the Cursor glob hook — do not duplicate long copy here.
 
 ## Checklist
 - E-E-A-T: org JSON-LD in root layout; article authors/dates; HTTPS headers

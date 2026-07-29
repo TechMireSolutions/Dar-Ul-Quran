@@ -5,10 +5,10 @@ alwaysApply: true
 
 # Project
 
-Next.js **16.2.12** · React **19.2.8** · Sanity **v6** · Tailwind **v4.3** · TypeScript **6** · Node **≥22.12** (VPS **24.17**) · RTL Urdu/Nastaliq · React Compiler **1.0**
+Next.js **16** · React **19** · Sanity **v6** · Tailwind **v4** · TypeScript **6** · Node **≥22.12** · RTL Urdu/Nastaliq · React Compiler **1.0**
 
 Live: https://darulquran.pk · Runtime port **3001** (dev + prod) → `12-production-port.mdc`  
-License: **MIT** · Stack reference: **`techstack.md`**
+License: **MIT** · Exact versions: **`techstack.md`** (§ Synchronized dependencies / Resolved versions)
 
 ```bash
 npm run dev      # :3001, /studio — scripts/run-next.mjs
@@ -48,8 +48,8 @@ docs/ deploy/ scripts/
 - Fetch via `get*` in `sanity/lib/fetchers.ts` (CDN in production)
 - Unit tests: `lib/**/*.test.ts` (`write-tests` skill)
 - Typography / RTL → **`03-rtl-urdu.mdc`** (Nastaliq leading ≥1.9, `tracking-normal`)
-- Accessibility: skip link `#main-content`, touch ≥44px, visible `focus-visible`
-- Mobile-first UI → **`18-mobile-first-responsive.mdc`** · UX patterns → **`19-ui-ux.mdc`**
+- Accessibility: skip link `#main-content`, touch ≥44×44px, visible `focus-visible`
+- Mobile-first UI → **`18-mobile-first-responsive.mdc`** (fluid, breakpoints, no overflow) · UX → **`19-ui-ux.mdc`** (nav drawer, forms, tables)
 
 ## Key dependencies
 
