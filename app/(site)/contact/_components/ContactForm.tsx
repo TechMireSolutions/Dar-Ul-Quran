@@ -219,7 +219,7 @@ export default function ContactForm({
       <div className={TW_GRID_2}>
         <div>
           <FieldLabel required htmlFor="cf-email">ای میل</FieldLabel>
-          <input id="cf-email" type="email" name="email" required autoComplete="email" placeholder="آپ کی ای میل" dir="ltr" className={TW_FORM_INPUT} />
+          <input id="cf-email" type="email" name="email" required autoComplete="email" inputMode="email" placeholder="آپ کی ای میل" dir="ltr" className={TW_FORM_INPUT} />
         </div>
         <div>
           <FieldLabel required htmlFor="cf-phone">فون نمبر</FieldLabel>

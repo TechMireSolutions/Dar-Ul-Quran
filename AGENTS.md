@@ -29,6 +29,7 @@ Full layout: `14-file-structure.mdc`
 | **Core** | `00` | Hierarchy & behavior |
 | | `01` | Stack, commands, env |
 | | `12` | Production port 3001 |
+| | `20` | **Never push** — user pushes to GitHub |
 | **Code** | `02`–`06` | TS, RTL, Sanity, components, Tailwind |
 | | `13`–`16` | Dependencies, structure, naming, DRY |
 | | `18`–`19` | Mobile-first responsive · UI/UX |
@@ -70,4 +71,4 @@ Authority table (no conflicts): `00-mirror-sources.mdc`
 
 **Nastaliq:** body `leading-urdu` / `leading-relaxed` (≥1.9) · titles `leading-heading` — see `03-rtl-urdu.mdc` + `rtl-check`.
 
-**Behavior (authority: `00-mirror-sources.mdc`):** smallest correct diff · read matching skill before scaffolding · prefer shells in `05` · mobile-first/`18`+`19` (verify 375 · 768 · 1440) · Urdu/`rtl-check` after UI · ops skills (`deploy`, `fix-chunk-mime`, `upgrade-deps`, `setup-revalidation`) only when asked · commits only when user asks · preflight: `lint` + `check:urdu` + `test` (+ `build` if deploy).
+**Behavior (authority: `00-mirror-sources.mdc`):** smallest correct diff · read matching skill before scaffolding · prefer shells in `05` · mobile-first/`18`+`19` (verify 375 · 768 · 1440) · Urdu/`rtl-check` after UI · ops skills (`deploy`, `fix-chunk-mime`, `upgrade-deps`, `setup-revalidation`) only when asked · commits only when user asks · **never `git push` / open PRs — the user pushes (`20-git-push-policy.mdc`)** · preflight: `lint` + `check:urdu` + `test` (+ `build` if deploy).

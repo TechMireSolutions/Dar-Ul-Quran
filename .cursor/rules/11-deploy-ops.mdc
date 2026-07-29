@@ -8,6 +8,8 @@ alwaysApply: false
 
 Push `main` → **CI** passes → deploy workflow v8 (`workflow_run`). Skill: `deploy`.
 
+**The user runs the push** (`20-git-push-policy.mdc`) — the agent never pushes, so it never starts a deploy.
+
 Secret: `SSH_PRIVATE_KEY`. Optional vars: `DEPLOY_HOST`, `DEPLOY_USER`, `DEPLOY_PORT`.
 
 Port/runtime → **`12-production-port.mdc`** (do not duplicate port rules here).

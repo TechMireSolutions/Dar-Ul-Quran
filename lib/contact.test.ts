@@ -8,6 +8,7 @@ import {
   resolveWhatsappLink,
   SOCIAL_KIND_LABELS,
   telHref,
+  mailtoHref,
   whatsappHref,
 } from '@/lib/contact'
 
@@ -39,6 +40,12 @@ describe('telHref', () => {
 
   it('keeps a leading plus', () => {
     expect(telHref(' +92 300 ')).toBe('tel:+92300')
+  })
+})
+
+describe('mailtoHref', () => {
+  it('builds a mailto href and trims whitespace', () => {
+    expect(mailtoHref('  hello@darulquran.pk ')).toBe('mailto:hello@darulquran.pk')
   })
 })
 

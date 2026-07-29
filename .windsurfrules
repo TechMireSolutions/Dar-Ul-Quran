@@ -9,4 +9,5 @@ Next.js 16 · React 19 · Sanity v6 · Tailwind v4 · TypeScript strict · RTL U
 Key paths: `app/(site)/` · `sanity/lib/{queries,fetchers}.ts` · `lib/{tailwind,paths,footer,seo}.ts` · `components/ui/BrandLogo.tsx` · `components/content/RichTextBody.tsx`  
 API: `/api/contact` · `/api/revalidate` — `17-security.mdc`  
 Ship: `preflight` skill (`lint` + `check:urdu` + `test`)  
+Git: **never push / open PRs** — the user pushes (`20-git-push-policy.mdc`)  
 Mobile-first / UX: `18-mobile-first-responsive.mdc` · `19-ui-ux.mdc` · DRY: `16-dry.mdc`

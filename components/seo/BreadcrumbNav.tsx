@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { TW_CONTAINER } from '@/lib/tailwind'
+import { TW_CONTAINER, TW_TEXT_LINK_MUTED } from '@/lib/tailwind'
 
 type BreadcrumbItem = {
   label: string
@@ -11,9 +11,6 @@ type BreadcrumbNavProps = {
   sectionLabel: string
   sectionHref: string
 }
-
-const BREADCRUMB_LINK =
-  'inline-flex min-h-11 items-center rounded-md px-1.5 hover:text-dq-700 focus-visible:text-dq-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 transition-colors'
 
 function ChevronSep() {
   return (
@@ -28,14 +25,14 @@ export default function BreadcrumbNav({ items, sectionLabel, sectionHref }: Brea
     <div className="bg-white border-b border-gray-100">
       <div className={`${TW_CONTAINER} py-1 sm:py-2`}>
         <nav aria-label="بریڈ کرمب" className="flex items-center flex-wrap gap-x-0.5 gap-y-1 text-[12.5px] text-gray-400">
-          <Link href={sectionHref} className={`${BREADCRUMB_LINK} font-medium`}>
+          <Link href={sectionHref} className={`${TW_TEXT_LINK_MUTED} font-medium`}>
             {sectionLabel}
           </Link>
           {items.map((item, i) =>
             item.href ? (
               <span key={`${item.label}-${i}`} className="flex items-center gap-0.5">
                 <ChevronSep />
-                <Link href={item.href} className={BREADCRUMB_LINK}>
+                <Link href={item.href} className={TW_TEXT_LINK_MUTED}>
                   {item.label}
                 </Link>
               </span>

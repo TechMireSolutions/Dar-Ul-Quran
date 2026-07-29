@@ -15,7 +15,7 @@ npm run lint && npm run check:urdu && npm run test
 
 | Group | IDs | Files |
 |-------|-----|-------|
-| Core | 00, 01, 12 | mirror · project · production port |
+| Core | 00, 01, 12, 20 | mirror · project · production port · **never push (user pushes)** |
 | Code | 02–06, 13–16, 18–19 | coding · rtl · sanity · components · tailwind · deps · structure · naming · dry · mobile-first · ui/ux |
 | SEO | 07–10 | content · tech shared · mobile · desktop |
 | Ops | 11 | deploy |
@@ -48,6 +48,7 @@ Details: `AGENTS.md` · env: `.env.example` · security: `SECURITY.md` · **full
 - LTR islands: phone/email/URL via `dir="ltr"` / `<bdi>`; Studio → `LtrStringInput`
 - Global errors: `app/error.tsx` (Urdu) — no `middleware.ts` unless required
 - Ops skills (`deploy`, `fix-chunk-mime`, `upgrade-deps`, `setup-revalidation`): explicit invoke only
+- Git: agent never pushes or opens PRs — user pushes (`20-git-push-policy.mdc`)
 
 ## Urdu-First Frontend Rule
 

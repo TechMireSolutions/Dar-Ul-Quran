@@ -15,5 +15,6 @@
 
 Next.js 16 · React 19 · Sanity v6 · Tailwind v4 · RTL Urdu/Nastaliq · https://darulquran.pk · port **3001**
 
-Ship: `npm run lint && npm run check:urdu && npm run test` (+ `build` if deploy) — `preflight` skill  
+Ship: `npm run lint && npm run check:urdu && npm run test` (+ `build` if deploy) — `preflight` skill 
+Git: **never `git push` / open PRs** — the user pushes (`20-git-push-policy.mdc`)  
 Typography: `03-rtl-urdu.mdc` · shells: `05-components.mdc` (`BrandLogo`, footer model) · mobile-first/UX: `18` · `19` (375 · 768 · 1440) · DRY: `16-dry.mdc`

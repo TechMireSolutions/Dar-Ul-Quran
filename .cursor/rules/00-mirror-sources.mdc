@@ -24,6 +24,7 @@ alwaysApply: true
 | 00 | `00-mirror-sources.mdc` | This file — hierarchy & behavior |
 | 01 | `01-project.mdc` | Stack, commands, layout, env |
 | 12 | `12-production-port.mdc` | VPS port **3001** (mandatory) |
+| 20 | `20-git-push-policy.mdc` | **Never push** — user pushes to GitHub |
 
 ### Application code — glob-scoped
 | ID | File | Scope |
@@ -72,6 +73,7 @@ alwaysApply: true
 | Mobile-first layout | `18-mobile-first-responsive.mdc` (breakpoints, fluid, overflow, media) |
 | UI/UX interaction patterns | `19-ui-ux.mdc` (nav below `lg` / &lt;1024, touch 44px, forms, tables) |
 | Deploy steps | `11-deploy-ops.mdc` + `deploy` skill |
+| Git push / PR creation | `20-git-push-policy.mdc` — user only, never the agent |
 | CI audit severity | `critical` — `11-deploy-ops.mdc` + `.github/workflows/ci.yml` (+ `techstack.md`) |
 | CMS cache tags & fetch tagging | `04-sanity.mdc` + `lib/cache-tags.ts` |
 | Revalidation webhook & path map | Path map in `app/api/revalidate/route.ts`; filter/docs → `04-sanity.mdc` + `setup-revalidation` + `docs/sanity-webhook.md` |
@@ -103,7 +105,7 @@ Claude Code: `.claude/commands/<name>.md` → matching skill (stubs may shorten 
 - Smallest correct diff; match existing patterns — prefer shells in `05-components.mdc` before new components
 - **Skills first:** before scaffolding (page, leaf, schema, API, SEO, deploy), **read** the matching `.cursor/skills/*/SKILL.md` and follow it
 - Urdu UI only → `npm run check:urdu` after UI changes; layout/type/responsive → `rtl-check` (375 · 768 · 1440)
-- Commit/push only when user asks; never commit secrets
+- **Never `git push` or open PRs** — the user pushes (`20-git-push-policy.mdc`); commit only when asked; never commit secrets
 - Ship check → `preflight` skill (`lint` + `check:urdu` + `test` + `build` if deploy)
 - Do not invent parallel frameworks, design systems, or folders outside `14-file-structure.mdc`
 - Ops skills (`deploy`, `fix-chunk-mime`, `upgrade-deps`, `setup-revalidation`) — only when the user asks or a skill is named

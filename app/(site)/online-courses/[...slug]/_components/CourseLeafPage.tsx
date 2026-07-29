@@ -10,9 +10,9 @@ import PortableTextSection from '@/components/content/PortableTextSection'
 import CenteredSectionHeader from '@/components/ui/CenteredSectionHeader'
 import type { CourseDetailDoc, SiteSettingsDoc, TopicClusterDoc } from '@/lib/types'
 import type { FaqDisplayItem } from '@/lib/topicCluster'
-import { externalLinkAttrs, telHref } from '@/lib/contact'
+import { externalLinkAttrs, mailtoHref, telHref } from '@/lib/contact'
 import { DEFAULT_COURSE_ENROLL_CTA, DEFAULT_FAQ_HEADING } from '@/lib/seo'
-import { TW_CARD_GRID, TW_CARD_SURFACE, TW_CARD_SURFACE_PADDED, TW_CONTAINER_PRICING, TW_CONTAINER_PROSE, TW_CONTAINER_WIDE, TW_CTA_ARROW, TW_EYEBROW_LINE, TW_FEATURE_ICON, TW_GOLD_CTA, TW_HERO_CHIP_GOLD, TW_HERO_CHIP_MUTED, TW_PAGE_SUBTITLE, TW_SECTION_PY } from '@/lib/tailwind'
+import { TW_CARD_GRID, TW_CARD_SURFACE, TW_CARD_SURFACE_PADDED, TW_CONTAINER_PRICING, TW_CONTAINER_PROSE, TW_CONTAINER_WIDE, TW_CTA_ARROW, TW_EYEBROW_LINE, TW_FEATURE_ICON, TW_GOLD_CTA, TW_HERO_CHIP_GOLD, TW_HERO_CHIP_MUTED, TW_PAGE_SUBTITLE, TW_SECTION_PY, TW_TEXT_LINK_MUTED } from '@/lib/tailwind'
 
 type CourseLeafPageProps = {
   course: CourseDetailDoc
@@ -188,33 +188,68 @@ export default function CourseLeafPage({
                         </h3>
                       )}
                       {(table.rows?.length ?? 0) > 0 && (
-                        <div className="overflow-x-auto rounded-2xl border border-gray-200 shadow-sm">
-                          <table className="w-full text-[13.5px] border-collapse">
-                            <thead>
-                              <tr className="bg-slate-800 text-white">
-                                <th className="text-start font-semibold px-5 py-4 rounded-ss-2xl">مطالعہ پلان</th>
-                                <th className="text-start font-semibold px-5 py-4">ہفتہ وار تعداد</th>
-                                <th className="text-start font-semibold px-5 py-4">ماہانہ کلاسز</th>
-                                <th className="text-start font-semibold px-5 py-4">فی کلاس فیس</th>
-                                <th className="text-start font-semibold px-5 py-4 rounded-se-2xl">ماہانہ کل</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {table.rows!.map((row, ri) => (
-                                <tr
-                                  key={ri}
-                                  className={`border-t border-gray-100 ${ri % 2 === 0 ? 'bg-white' : 'bg-slate-50/60'}`}
-                                >
-                                  <td className="px-5 py-3.5 font-semibold text-slate-900">{row.plan}</td>
-                                  <td className="px-5 py-3.5 text-gray-600">{row.weeklyFrequency}</td>
-                                  <td className="px-5 py-3.5 text-gray-600">{row.monthlyClasses}</td>
-                                  <td className="px-5 py-3.5 text-gray-600">{row.feePerClass}</td>
-                                  <td className="px-5 py-3.5 font-semibold text-dq-700">{row.monthlyTotal}</td>
+                        <>
+                          {/* Stacked plan cards on phones */}
+                          <div className="space-y-3 md:hidden">
+                            {table.rows!.map((row, ri) => (
+                              <div
+                                key={ri}
+                                className={`${TW_CARD_SURFACE_PADDED} space-y-2.5`}
+                              >
+                                <p className="font-semibold text-[14.5px] text-slate-900 leading-urdu-tight">
+                                  {row.plan}
+                                </p>
+                                <dl className="grid grid-cols-2 gap-x-3 gap-y-2 text-[12.5px]">
+                                  <div>
+                                    <dt className="text-gray-400">ہفتہ وار تعداد</dt>
+                                    <dd className="text-gray-700 mt-0.5">{row.weeklyFrequency}</dd>
+                                  </div>
+                                  <div>
+                                    <dt className="text-gray-400">ماہانہ کلاسز</dt>
+                                    <dd className="text-gray-700 mt-0.5">{row.monthlyClasses}</dd>
+                                  </div>
+                                  <div>
+                                    <dt className="text-gray-400">فی کلاس فیس</dt>
+                                    <dd className="text-gray-700 mt-0.5">{row.feePerClass}</dd>
+                                  </div>
+                                  <div>
+                                    <dt className="text-gray-400">ماہانہ کل</dt>
+                                    <dd className="font-semibold text-dq-700 mt-0.5">{row.monthlyTotal}</dd>
+                                  </div>
+                                </dl>
+                              </div>
+                            ))}
+                          </div>
+
+                          {/* Multi-column table from tablet up */}
+                          <div className="hidden md:block overflow-x-auto rounded-2xl border border-gray-200 shadow-sm">
+                            <table className="w-full text-[13.5px] border-collapse">
+                              <thead>
+                                <tr className="bg-slate-800 text-white">
+                                  <th className="text-start font-semibold px-5 py-4 rounded-ss-2xl">مطالعہ پلان</th>
+                                  <th className="text-start font-semibold px-5 py-4">ہفتہ وار تعداد</th>
+                                  <th className="text-start font-semibold px-5 py-4">ماہانہ کلاسز</th>
+                                  <th className="text-start font-semibold px-5 py-4">فی کلاس فیس</th>
+                                  <th className="text-start font-semibold px-5 py-4 rounded-se-2xl">ماہانہ کل</th>
                                 </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        </div>
+                              </thead>
+                              <tbody>
+                                {table.rows!.map((row, ri) => (
+                                  <tr
+                                    key={ri}
+                                    className={`border-t border-gray-100 ${ri % 2 === 0 ? 'bg-white' : 'bg-slate-50/60'}`}
+                                  >
+                                    <td className="px-5 py-3.5 font-semibold text-slate-900">{row.plan}</td>
+                                    <td className="px-5 py-3.5 text-gray-600">{row.weeklyFrequency}</td>
+                                    <td className="px-5 py-3.5 text-gray-600">{row.monthlyClasses}</td>
+                                    <td className="px-5 py-3.5 text-gray-600">{row.feePerClass}</td>
+                                    <td className="px-5 py-3.5 font-semibold text-dq-700">{row.monthlyTotal}</td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        </>
                       )}
                     </div>
                   ))}
@@ -236,8 +271,8 @@ export default function CourseLeafPage({
                 <div className="flex flex-wrap justify-center gap-3 sm:gap-6 text-[13px] text-slate-500">
                   {site?.email && (
                     <a
-                      href={`mailto:${site.email}`}
-                      className="inline-flex min-h-11 items-center gap-1.5 rounded-md px-1.5 hover:text-dq-700 focus-visible:text-dq-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 transition-colors"
+                      href={mailtoHref(site.email)}
+                      className={TW_TEXT_LINK_MUTED}
                       dir="ltr"
                     >
                       <Mail size={12} className="text-slate-600" />
@@ -247,7 +282,7 @@ export default function CourseLeafPage({
                   {site?.phone && (
                     <a
                       href={telHref(site.phone)}
-                      className="inline-flex min-h-11 items-center gap-1.5 rounded-md px-1.5 hover:text-dq-700 focus-visible:text-dq-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 transition-colors"
+                      className={TW_TEXT_LINK_MUTED}
                       dir="ltr"
                     >
                       <Phone size={12} className="text-slate-600" />

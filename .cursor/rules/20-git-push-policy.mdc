@@ -1,0 +1,50 @@
+---
+description: Git push policy — the user pushes to GitHub, never the agent
+alwaysApply: true
+---
+
+# Git push policy
+
+**The user pushes to GitHub themselves. Never push code.**
+
+## Never (without an explicit, unambiguous user request in the current turn)
+
+- `git push` (any remote, branch, or tag) — including `--force`, `--tags`, `-u`
+- `gh pr create` / `gh pr merge` / `gh release create` — anything that writes to the remote
+- Any command that publishes a branch (`git push -u origin HEAD`, `gh repo sync`, …)
+
+Pushing `main` triggers CI + production deploy (`11-deploy-ops.mdc`) — treat it as a deploy action, not a save.
+
+## Allowed
+
+| Action | When |
+|--------|------|
+| Edit files in the working tree | Normal work |
+| `git status` / `git diff` / `git log` | Always (read-only) |
+| `git add` + `git commit` | **Only** when the user asks to commit |
+| Report what is staged / unstaged | End of a task |
+
+## Default end-of-task behavior
+
+Leave changes **uncommitted** in the working tree, run the ship checks
+(`npm run lint && npm run check:urdu && npm run test` — `preflight` skill), then summarize:
+
+```
+Changes are uncommitted on <branch>. Push when you're ready.
+```
+
+Do not offer to push. If a commit-and-push action is requested (e.g. a diff-tab
+action), commit only and tell the user the push is theirs to run.
+
+## Fix
+
+```bash
+# ❌ BAD — agent publishes to remote
+git commit -m "…" && git push origin HEAD
+
+# ✅ GOOD — agent stops at the commit the user asked for
+git commit -m "…"
+git status -sb   # report: ahead of origin/main by 1 commit
+```
+
+Related: `11-deploy-ops.mdc` (deploy is user-triggered) · `00-mirror-sources.mdc` § Behavior

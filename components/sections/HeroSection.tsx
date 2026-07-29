@@ -100,7 +100,7 @@ export default function HeroSection({
           <div style={heroDelay(0)} className="hero-item mb-5">
             <span className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 bg-emerald-100/70 border border-emerald-400/35">
               <span className="size-1.5 rounded-full bg-emerald-500 shrink-0" />
-              <span className="text-[11px] font-bold text-emerald-700 leading-snug">
+              <span className="text-[11px] font-bold text-emerald-700 leading-urdu-tight">
                 داخلے جاری ہیں
               </span>
             </span>

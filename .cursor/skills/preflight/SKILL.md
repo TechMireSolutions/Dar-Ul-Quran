@@ -33,4 +33,4 @@ npm run lint && npm run check:urdu && npm run test
 [ ] UI changes: rtl-check responsive items pass (no horizontal scroll @375, touch 44px)
 ```
 
-Commit / push only when the user asks. Never commit secrets or `.env`.
+Commit only when the user asks; **never push** — the user pushes (`20-git-push-policy.mdc`). Never commit secrets or `.env`.

@@ -181,6 +181,10 @@ export const TW_HEADER_SEARCH_TOGGLE =
 export const TW_CARD_LINK =
   'mt-auto inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-dq-700 py-2 transition-all duration-200 group/cta relative after:absolute after:bottom-0 after:end-0 after:h-px after:w-0 after:bg-dq-400 after:transition-all after:duration-300 hover:after:w-full'
 
+/** Compact text contact/meta link (≥44px hit, focus ring) */
+export const TW_TEXT_LINK_MUTED =
+  'inline-flex min-h-11 items-center gap-1.5 rounded-md px-1.5 hover:text-dq-700 focus-visible:text-dq-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 transition-colors'
+
 /** Mobile nav row base — 44px min touch target */
 export const TW_MOBILE_NAV_ROW =
   'flex min-h-11 items-center gap-2 py-2.5 ps-3 pe-[calc(12px+var(--nav-indent,0px))] rounded-xl text-sm font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-dq-400/50'

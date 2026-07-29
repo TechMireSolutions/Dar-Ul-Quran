@@ -59,23 +59,19 @@ export default function ServiceLeafPage({
           {(service.whyUs?.length ?? 0) > 0 && (
             <section className={`bg-white ${TW_SECTION_PY}`}>
               <div className={TW_CONTAINER_WIDE}>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                <div className={`grid grid-cols-1 gap-12 lg:gap-16 items-center ${whyUsImageUrl ? 'lg:grid-cols-2' : ''}`}>
 
-                  {/* Left: image */}
-                  <div className="flex justify-center lg:justify-start order-2 lg:order-1">
-                    {whyUsImageUrl ? (
+                  {/* Image — only when CMS asset exists (no Studio copy for visitors) */}
+                  {whyUsImageUrl && (
+                    <div className="flex justify-center lg:justify-start order-2 lg:order-1">
                       <div className="relative w-full max-w-sm aspect-square rounded-2xl overflow-hidden shadow-sm border border-gray-100">
                         <Image src={whyUsImageUrl} alt={service.whyUsHeading || serviceTitle} fill sizes="(max-width: 640px) 100vw, 384px" className="object-cover" />
                       </div>
-                    ) : (
-                      <div className="w-full max-w-sm aspect-square rounded-2xl bg-slate-50 border border-gray-200 flex items-center justify-center">
-                        <span className="text-[12px] text-gray-400">اسٹوڈیو میں تصویر شامل کریں</span>
-                      </div>
-                    )}
-                  </div>
+                    </div>
+                  )}
 
-                  {/* Right: features */}
-                  <div className="order-1 lg:order-2">
+                  {/* Features */}
+                  <div className={whyUsImageUrl ? 'order-1 lg:order-2' : undefined}>
                     <h2 className={`${TW_SECTION_TITLE} mb-8`}>
                       {service.whyUsHeading || 'ہمارا پلیٹ فارم کیوں استعمال کریں؟'}
                     </h2>

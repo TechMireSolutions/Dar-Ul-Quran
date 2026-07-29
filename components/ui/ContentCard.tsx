@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowUpRight } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { DEFAULT_CARD_CTA } from '@/lib/seo'
 import { TW_BADGE_SM, TW_CARD_LINK, TW_CTA_ARROW } from '@/lib/tailwind'
 
@@ -81,12 +81,7 @@ export default function ContentCard({
                 <span className="text-[11px] font-medium text-dq-600/45 tracking-normal">تصویر جلد</span>
               </div>
             )}
-            <div className="absolute inset-0 bg-dq-900/15 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <div className="absolute top-3 start-3 w-7 h-7 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center
-              opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0
-              transition-all duration-300 shadow-sm" aria-hidden="true">
-              <ArrowUpRight size={12} strokeWidth={2.5} className="text-dq-700" />
-            </div>
+            <div className="absolute inset-0 bg-dq-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 motion-reduce:opacity-0" />
           </div>
         </div>
 
@@ -109,10 +104,10 @@ export default function ContentCard({
 
           <span className={TW_CARD_LINK} aria-hidden="true">
             {ctaLabel}
-            <ArrowUpRight
+            <ArrowRight
               size={12}
               strokeWidth={2.5}
-              className={`${TW_CTA_ARROW} group-hover/cta:-translate-y-0.5`}
+              className={TW_CTA_ARROW}
             />
           </span>
         </div>

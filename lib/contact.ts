@@ -6,6 +6,11 @@ export function telHref(number: string): string {
   return `tel:${number.trim().replace(/[^\d+]/g, '')}`
 }
 
+/** Build a mailto: href from an email address. */
+export function mailtoHref(email: string): string {
+  return `mailto:${email.trim()}`
+}
+
 /** Empty-state copy when no contact details are configured (footer + contact page). */
 export const CONTACT_EMPTY_MESSAGE = 'رابطہ کی معلومات جلد دستیاب ہوں گی'
 
@@ -52,7 +57,7 @@ type FooterContactSource = {
 /** Contact rows for footer (and similar chrome). */
 export function buildFooterContactRows(settings: FooterContactSource): FooterContactRow[] {
   const rows: FooterContactRow[] = []
-  if (settings?.email) rows.push({ kind: 'email', href: `mailto:${settings.email}`, value: settings.email })
+  if (settings?.email) rows.push({ kind: 'email', href: mailtoHref(settings.email), value: settings.email })
   if (settings?.phone) rows.push({ kind: 'phone', href: telHref(settings.phone), value: settings.phone })
   if (settings?.whatsapp) {
     rows.push({ kind: 'whatsapp', href: whatsappHref(settings.whatsapp), value: settings.whatsapp })
