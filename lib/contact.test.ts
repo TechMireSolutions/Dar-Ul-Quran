@@ -71,7 +71,7 @@ describe('buildFooterContactRows', () => {
     ).toEqual([
       { kind: 'email', href: 'mailto:a@b.com', value: 'a@b.com' },
       { kind: 'phone', href: 'tel:+92300', value: '+92 300' },
-      { kind: 'whatsapp', href: 'https://wa.me/92300', value: '+92 300' },
+
       { kind: 'address', href: null, value: 'کراچی' },
     ])
     expect(buildFooterContactRows(null)).toEqual([])

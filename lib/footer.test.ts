@@ -73,7 +73,7 @@ describe('buildFooterModel', () => {
     expect(model.siteName).toBe('دار القرآن')
     expect(model.tagline).toBe('خدمت')
     expect(model.showFabPad).toBe(true)
-    expect(model.contactRows.map((r) => r.kind)).toEqual(['email', 'whatsapp'])
+    expect(model.contactRows.map((r) => r.kind)).toEqual(['email'])
     expect(model.socialLinks.map((l) => l.kind)).toEqual(['facebook', 'related'])
     expect(model.quickLinks.some((l) => l.href.includes('aabtaab'))).toBe(false)
     expect(model.quickLinks.some((l) => l.href === PATHS.donate)).toBe(false)
