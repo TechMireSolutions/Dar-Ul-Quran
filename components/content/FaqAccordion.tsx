@@ -54,7 +54,7 @@ export default function FaqAccordion({ heading, items, icon = 'chevron' }: FaqAc
               key={i}
               className={`group ${TW_CARD_SURFACE} overflow-hidden shadow-sm`}
             >
-              <summary className="flex min-h-11 items-center justify-between gap-4 px-6 py-5 cursor-pointer list-none font-semibold text-[15px] text-slate-900 dark:text-white hover:text-dq-700 dark:hover:text-dq-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 focus-visible:ring-inset">
+              <summary className="flex min-h-11 items-center justify-between gap-4 px-6 py-5 cursor-pointer list-none font-semibold text-[15px] leading-loose text-slate-900 dark:text-white hover:text-dq-700 dark:hover:text-dq-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 focus-visible:ring-inset">
                 {item.question}
                 <Icon size={icon === 'plus' ? 16 : 15} strokeWidth={icon === 'plus' ? 2 : undefined} className={iconClass} />
               </summary>

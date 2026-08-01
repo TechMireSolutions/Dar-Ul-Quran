@@ -28,18 +28,18 @@ const config: Config = {
       },
 
       lineHeight: {
-        none:           '1',
-        tight:          '1.35',   /* Nastaliq-safe (was Latin 1.25) */
-        snug:           '1.45',   /* Nastaliq-safe (was Latin 1.375) */
-        normal:         '1.6',
-        relaxed:        '1.9',    /* body paragraphs */
-        loose:          '2.15',
-        body:           '1.9',
-        heading:        '1.4',
-        // Nastaliq-specific leading — reserve vertical space before font loads
-        'urdu':         '1.9',
-        'urdu-display': '1.35',
-        'urdu-tight':   '1.65',
+        none:           '1.4',    /* Was 1.2, bumped for Nastaliq ascenders/descenders */
+        tight:          '1.7',    /* Nastaliq-safe (was 1.6) */
+        snug:           '1.85',   /* Nastaliq-safe (was 1.7) */
+        normal:         '2.0',    /* Nastaliq-safe (was 1.8) */
+        relaxed:        '2.2',    /* body paragraphs (was 2.1) */
+        loose:          '2.5',
+        body:           '2.2',
+        heading:        '1.9',    /* Was 1.75, caused clipping on titles */
+        // Nastaliq-specific leading — 'normal' allows browser to use actual font metrics
+        'urdu':         'normal',
+        'urdu-display': 'normal',
+        'urdu-tight':   'normal',
       },
 
       colors: {

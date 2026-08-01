@@ -21,13 +21,14 @@ Font: `Noto Nastaliq Urdu` via `DeferredUrduFont` + `fontFamily` in `tailwind.co
 ## Typography (Nastaliq)
 | Concern | Rule |
 |---------|------|
-| Body / paragraphs | `leading-urdu` or `leading-relaxed` (**≥1.9**) |
-| Section / page titles | `leading-heading` / `leading-urdu-display` — avoid `leading-none` on multi-line Urdu |
-| Card / compact titles | `leading-urdu-tight` |
+| Body / paragraphs | `leading-urdu` or `leading-relaxed` (**≥2.2**) |
+| Section / page titles | `leading-heading` / `leading-urdu-display` (**≥1.9**) — avoid `leading-none` or `leading-tight` on multi-line Urdu to prevent clipping tall ascenders/descenders |
+| Card / compact titles | `leading-urdu-tight` (**≥2.0**) |
+| `overflow-hidden` & `line-clamp` | ALWAYS add vertical padding (`py-1` or `pt-1 pb-1`) to text elements using `line-clamp-*` or inside `overflow-hidden` containers, otherwise the browser will clip Nastaliq dots/ascenders even with correct line-height. |
 | Tracking / kerning | **`tracking-normal` only** — never `tracking-tight`, `tracking-wide`, or `tracking-[-*]` (breaks joins) |
 | Eyebrows / badges | No Latin `uppercase` + wide tracking on Urdu labels |
 | Features | Body uses `kern` / `liga` / `calt` in `globals.css` — do not disable |
-| Pill CTAs | Compact line-height OK (see button rules in `globals.css`) — body copy still ≥1.9 |
+| Pill CTAs | Compact line-height OK (see button rules in `globals.css`) — body copy still ≥2.0 |
 | Dates / numbers in UI | `formatPublishedDate()` / `Intl` with `ur-PK` — not English month names |
 
 Authority for theme line-heights: `tailwind.config.ts` (`leading-urdu*`, remapped `tight`/`relaxed`).

@@ -40,7 +40,7 @@ export default function HowItWorksSection({
                 {i + 1}
               </span>
               <div className="pt-0.5">
-                <span className="font-bold text-slate-900 dark:text-white transition-colors text-[15px]">{step.label}</span>
+                <span className="font-bold text-slate-900 dark:text-white transition-colors text-[15px] leading-loose py-1">{step.label}</span>
                 {step.desc && (
                   <span className={TW_BODY_MUTED}> — {step.desc}</span>
                 )}

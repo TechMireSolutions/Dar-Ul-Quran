@@ -92,12 +92,12 @@ export default function ContentCard({
             </span>
           )}
 
-          <h3 className="font-semibold text-slate-900 dark:text-white text-[15px] leading-urdu-tight mb-2 line-clamp-2 group-hover:text-dq-700 dark:group-hover:text-dq-400 transition-colors duration-150">
+          <h3 className="font-semibold text-slate-900 dark:text-white text-[15px] leading-urdu-tight py-1 mb-1 line-clamp-2 group-hover:text-dq-700 dark:group-hover:text-dq-400 transition-colors duration-150">
             {title}
           </h3>
 
           {description && (
-            <p className="text-[12.5px] text-gray-500 dark:text-slate-400 leading-urdu line-clamp-2 flex-1 mb-4">
+            <p className="text-[12.5px] text-gray-500 dark:text-slate-400 leading-urdu py-1 line-clamp-2 flex-1 mb-3">
               {description}
             </p>
           )}

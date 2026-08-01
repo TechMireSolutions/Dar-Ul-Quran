@@ -89,7 +89,7 @@ export default function CourseLeafPage({
                       <div className={`${TW_FEATURE_ICON} w-10 h-10 mb-4`}>
                         <Check size={17} className="text-dq-600" strokeWidth={2.5} />
                       </div>
-                      <h3 className="font-bold text-[15px] text-slate-900 dark:text-white mb-2 transition-colors">{item.title}</h3>
+                      <h3 className="font-bold text-[15px] leading-loose py-1 text-slate-900 dark:text-white mb-1 transition-colors">{item.title}</h3>
                       {item.desc && (
                         <p className={TW_PAGE_SUBTITLE}>{item.desc}</p>
                       )}
@@ -115,7 +115,7 @@ export default function CourseLeafPage({
                         {i + 1}
                       </div>
                       <div>
-                        <h3 className="font-bold text-[15px] text-slate-900 dark:text-white mb-1.5 transition-colors">{item.title}</h3>
+                        <h3 className="font-bold text-[15px] leading-loose py-1 text-slate-900 dark:text-white mb-1 transition-colors">{item.title}</h3>
                         {item.desc && (
                           <p className={TW_PAGE_SUBTITLE}>{item.desc}</p>
                         )}

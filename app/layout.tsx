@@ -97,7 +97,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
-      <body className="antialiased" suppressHydrationWarning>
+      <body className="antialiased leading-urdu" suppressHydrationWarning>
         <SiteGraphSchema
           siteName={settings?.siteName}
           description={settings?.description}
