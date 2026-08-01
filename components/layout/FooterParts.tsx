@@ -236,7 +236,7 @@ function FooterContactRowItem({
 }) {
   if (row.kind === 'address') {
     return (
-      <li className="flex items-start gap-2 min-h-11">
+      <li className="flex items-start gap-2 py-1">
         <IconMapPin size={12} className={`${TW_FOOTER_ICON} mt-3`} />
         <p className={TW_FOOTER_ADDRESS}>
           <span className="sr-only">{CONTACT_KIND_LABELS.address}: </span>

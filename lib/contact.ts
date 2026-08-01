@@ -59,9 +59,6 @@ export function buildFooterContactRows(settings: FooterContactSource): FooterCon
   const rows: FooterContactRow[] = []
   if (settings?.email) rows.push({ kind: 'email', href: mailtoHref(settings.email), value: settings.email })
   if (settings?.phone) rows.push({ kind: 'phone', href: telHref(settings.phone), value: settings.phone })
-  if (settings?.whatsapp) {
-    rows.push({ kind: 'whatsapp', href: whatsappHref(settings.whatsapp), value: settings.whatsapp })
-  }
   if (settings?.address) rows.push({ kind: 'address', href: null, value: settings.address })
   return rows
 }

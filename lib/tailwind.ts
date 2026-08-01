@@ -282,7 +282,7 @@ export const TW_FOOTER_DONATE_CTA =
 
 /** Footer contact row (email / phone / WhatsApp) */
 export const TW_FOOTER_CONTACT_LINK =
-  'flex min-h-11 items-center gap-2 rounded-md text-[12px] sm:text-[12.5px] text-gray-300 hover:text-dq-400 focus-visible:text-dq-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-dq-900 transition-colors duration-150'
+  'flex py-1 items-center gap-2 rounded-md text-[12px] sm:text-[12.5px] leading-snug text-gray-300 hover:text-dq-400 focus-visible:text-dq-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-dq-900 transition-colors duration-150'
 
 /** Footer social icon button — keep ≥44px at all breakpoints */
 export const TW_FOOTER_SOCIAL =
@@ -294,11 +294,11 @@ export const TW_FOOTER_GRID =
 
 /** Footer column heading */
 export const TW_FOOTER_COL_HEADING =
-  'text-[13px] font-bold text-dq-400 mb-2.5 sm:mb-4 tracking-normal'
+  'text-[13px] font-bold text-dq-400 mb-2 sm:mb-4 tracking-normal'
 
 /** Footer quick-link / service row */
 export const TW_FOOTER_NAV_LINK =
-  'group flex min-h-11 items-center gap-1.5 rounded-md text-[12px] sm:text-[13px] text-gray-300 hover:text-dq-400 focus-visible:text-dq-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-dq-900 transition-colors duration-150'
+  'group flex py-1 items-center gap-1.5 rounded-md text-[12px] sm:text-[13px] leading-snug text-gray-300 hover:text-dq-400 focus-visible:text-dq-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-dq-900 transition-colors duration-150'
 
 /** Reserved-width hover chevron (no layout shift) */
 export const TW_FOOTER_NAV_CHEVRON =
@@ -310,7 +310,7 @@ export const TW_FOOTER_RELATED =
 
 /** Brand tagline under footer logo */
 export const TW_FOOTER_TAGLINE =
-  'text-[12px] sm:text-[13px] text-gray-300 leading-urdu mb-3 sm:mb-5 max-w-[280px] line-clamp-2 sm:line-clamp-none'
+  'text-[12px] sm:text-[13px] text-gray-300 leading-snug sm:leading-urdu mb-2 sm:mb-5 max-w-[280px] line-clamp-2 sm:line-clamp-none'
 
 /** Copyright line */
 export const TW_FOOTER_COPY =
@@ -324,7 +324,7 @@ export const TW_FOOTER_BODY = 'py-6 sm:py-10 lg:py-12'
  * is not covered by the fixed chip (`bottom-5 end-5`).
  */
 export const TW_FOOTER_BODY_FAB =
-  'pt-6 pb-[max(5.5rem,calc(env(safe-area-inset-bottom)+4.5rem))] sm:pt-10 sm:pb-10 lg:pt-12 lg:pb-12'
+  'pt-4 pb-[max(5.5rem,calc(env(safe-area-inset-bottom)+4.5rem))] sm:pt-10 sm:pb-10 lg:pt-12 lg:pb-12'
 
 /** Social chip row — ≥8px between tap targets */
 export const TW_FOOTER_SOCIAL_LIST =
@@ -332,20 +332,20 @@ export const TW_FOOTER_SOCIAL_LIST =
 
 /** Contact column grid */
 export const TW_FOOTER_CONTACT_GRID =
-  'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-x-4 gap-y-2 sm:gap-y-3'
+  'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-x-4 gap-y-0.5 sm:gap-y-1'
 
 /** Shared gold icon tint in footer contact/social rows */
 export const TW_FOOTER_ICON = 'text-dq-400 shrink-0'
 
 /** Address text under map pin */
 export const TW_FOOTER_ADDRESS =
-  'text-[12px] sm:text-[12.5px] text-gray-300 leading-urdu whitespace-pre-line py-2'
+  'text-[12px] sm:text-[12.5px] text-gray-300 leading-snug sm:leading-urdu whitespace-pre-line py-1'
 
 /** Empty contact fallback */
 export const TW_FOOTER_EMPTY = 'text-[12px] text-gray-400 leading-urdu'
 
 /** Nav column list spacing — ≥8px between tap targets */
-export const TW_FOOTER_NAV_LIST = 'space-y-2 sm:space-y-2.5'
+export const TW_FOOTER_NAV_LIST = 'space-y-0 sm:space-y-0'
 
 /** Bottom bar row (with optional FAB clearance applied separately) */
 export const TW_FOOTER_BOTTOM_INNER =
