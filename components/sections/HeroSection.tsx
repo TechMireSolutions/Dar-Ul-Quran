@@ -67,8 +67,8 @@ export default function HeroSection({
       <div className="absolute top-0 end-0 pointer-events-none opacity-[0.18] size-[260px] rounded-es-full border-[1.5px] border-dq-400 ltr:translate-x-[35%] rtl:-translate-x-[35%] -translate-y-[35%]" />
       <div className="absolute top-0 end-0 pointer-events-none opacity-[0.12] size-40 rounded-es-full border-[1.5px] border-dq-400 ltr:translate-x-[22%] rtl:-translate-x-[22%] -translate-y-[22%]" />
 
-      {/* Hero image — desktop only */}
-      <div className="absolute inset-0 hidden md:block md:inset-auto md:end-0 md:top-0 md:h-full md:w-[58%] pointer-events-none select-none">
+      {/* Hero image */}
+      <div className="absolute inset-0 md:inset-auto md:end-0 md:top-0 md:h-full md:w-[58%] pointer-events-none select-none">
         {heroImage ? (
           // eslint-disable-next-line @next/next/no-img-element -- intentional LCP optimization
           <img
@@ -87,9 +87,14 @@ export default function HeroSection({
           <div className="size-full bg-hero-fallback" />
         )}
 
+        {/* Desktop fade gradients */}
         <div className="absolute inset-0 hidden md:block bg-hero-fade-rtl dark:bg-hero-fade-rtl-dark" />
         <div className="absolute inset-0 hidden md:block rtl:hidden bg-hero-fade-ltr dark:bg-hero-fade-ltr-dark" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white/20 dark:to-slate-900/40 hidden md:block" />
+        
+        {/* Mobile fade gradients */}
+        <div className="absolute inset-0 md:hidden bg-white/50 dark:bg-slate-950/60" />
+        <div className="absolute inset-0 md:hidden bg-gradient-to-b from-transparent via-[#fdfbf2]/90 to-[#fdfbf2] dark:via-slate-900/95 dark:to-slate-900" />
       </div>
 
       {/* Content */}
@@ -97,7 +102,7 @@ export default function HeroSection({
         <div className="w-full md:max-w-[500px]">
 
           {/* Enrollment badge */}
-          <div style={heroDelay(0)} className="hero-item mb-5">
+          <div style={heroDelay(0)} className="hero-item mb-6">
             <span className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 bg-emerald-100/70 border border-emerald-400/35">
               <span className="size-1.5 rounded-full bg-emerald-500 shrink-0" />
               <span className="text-[11px] font-bold text-emerald-700 leading-urdu-tight">
@@ -110,13 +115,13 @@ export default function HeroSection({
           <p
             dir="rtl"
             style={heroDelay(80)}
-            className="hero-item text-[12.5px] font-medium mb-4 tracking-normal text-dq-500/80 leading-urdu-tight"
+            className="hero-item text-[12.5px] font-medium mb-6 sm:mb-7 tracking-normal text-dq-600/90 dark:text-dq-400/90 leading-urdu-tight"
           >
             {subtitle}
           </p>
 
           {/* Headline */}
-          <h1 className="mb-4 leading-urdu-display">
+          <h1 className="mb-6 sm:mb-8 leading-urdu-display">
             {titleLines.map((line, i) => (
               <span
                 key={i}
@@ -133,7 +138,7 @@ export default function HeroSection({
           </h1>
 
           {/* Gold decorative divider */}
-          <div style={heroDelay(310)} className="hero-item flex items-center gap-2 mb-5">
+          <div style={heroDelay(310)} className="hero-item flex items-center gap-2 mb-6 sm:mb-7">
             <span className="h-0.5 w-16 rounded-full shrink-0 bg-gold-line" />
             <span className="size-2 rounded-full shrink-0 bg-gradient-to-br from-dq-400 to-dq-600 shadow-gold-dot" />
             <span className="h-px w-8 rounded-full shrink-0 bg-dq-400/30" />
@@ -142,7 +147,7 @@ export default function HeroSection({
           {/* Description */}
           <p
             style={heroDelay(380)}
-            className="hero-item text-sm sm:text-[14.5px] text-gray-600 dark:text-slate-400 mb-8 max-w-[430px] leading-urdu"
+            className="hero-item text-sm sm:text-[14.5px] text-gray-600 dark:text-slate-400 mb-8 sm:mb-10 max-w-[430px] leading-urdu"
           >
             {description}
           </p>
@@ -163,7 +168,7 @@ export default function HeroSection({
           {visibleStats.length > 0 && (
             <div
               style={heroDelay(560)}
-              className="hero-item flex items-center flex-wrap gap-y-4 mt-10 pt-7 border-t border-dq-400/20"
+              className="hero-item flex items-center flex-wrap gap-x-6 gap-y-6 sm:gap-x-0 mt-12 sm:mt-14 pt-8 border-t border-dq-400/20 relative z-10"
             >
               {visibleStats.map(({ value, label }, i) => {
                 const Icon = STAT_ICONS[i % STAT_ICONS.length]
@@ -171,7 +176,7 @@ export default function HeroSection({
                   <div key={label} className="flex items-center">
                     <div className="flex items-center gap-3">
                       <div className={TW_HERO_STAT_ICON}>
-                        <Icon size={17} strokeWidth={1.5} className="text-dq-600" />
+                        <Icon size={17} strokeWidth={1.5} className="text-dq-600 dark:text-dq-400" />
                       </div>
                       <div>
                         <p className="font-bold leading-none tracking-normal text-[22px] text-dq-950 dark:text-white" dir="ltr">

@@ -155,7 +155,7 @@ export const TW_SEARCH_FORM =
   'flex items-center rounded-full overflow-hidden border border-dq-400 shadow-focus-gold'
 
 export const TW_SEARCH_FORM_MOBILE =
-  'flex items-center border border-gray-200 rounded-xl overflow-hidden focus-within:border-dq-500 focus-within:shadow-focus-gold-subtle transition-all duration-200'
+  'flex items-center border border-gray-200 dark:border-slate-600 rounded-xl overflow-hidden focus-within:border-dq-500 focus-within:shadow-focus-gold-subtle transition-all duration-200'
 
 /** Articles index search input */
 export const TW_SEARCH_INPUT =
@@ -187,10 +187,10 @@ export const TW_TEXT_LINK_MUTED =
 
 /** Mobile nav row base — 44px min touch target */
 export const TW_MOBILE_NAV_ROW =
-  'flex min-h-11 items-center gap-2 py-2.5 ps-3 pe-[calc(12px+var(--nav-indent,0px))] rounded-xl text-sm font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-dq-400/50'
+  'flex min-h-11 items-center gap-2 py-2.5 ps-3 pe-[calc(12px+var(--nav-indent,0px))] rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-dq-400/50'
 
 export const TW_MOBILE_NAV_ROW_ACTIVE =
-  'bg-dq-50 text-dq-700 font-semibold border-s-2 border-dq-500'
+  'bg-dq-50 dark:bg-dq-900/40 text-dq-700 dark:text-dq-400 font-semibold border-s-2 border-dq-500'
 
 /** Mobile drawer backdrop */
 export const TW_MOBILE_PANEL_BACKDROP =
@@ -201,7 +201,7 @@ export const TW_MOBILE_PANEL =
   'fixed inset-y-0 start-0 z-[70] flex h-dvh max-h-dvh w-[min(300px,85vw)] flex-col border-e border-gray-100 dark:border-slate-700 bg-white dark:bg-slate-800 lg:hidden shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none'
 
 export const TW_MOBILE_PANEL_HEADER =
-  'flex shrink-0 items-center justify-between border-b border-gray-100 px-5 pb-4 pt-[max(1rem,env(safe-area-inset-top))]'
+  'flex shrink-0 items-center justify-between border-b border-gray-100 dark:border-slate-700 px-5 pb-4 pt-[max(1rem,env(safe-area-inset-top))]'
 
 export const TW_MOBILE_PANEL_SEARCH =
   'shrink-0 space-y-2 border-b border-gray-100 dark:border-slate-700 bg-slate-50/60 dark:bg-slate-900/60 px-5 py-3'
@@ -221,7 +221,7 @@ export const TW_PAYPAL_CTA =
 
 /** Floating WhatsApp button */
 export const TW_WHATSAPP_FLOAT =
-  'fixed bottom-5 end-5 z-50 group flex items-center gap-2 bg-[#25D366] hover:bg-[#20bc5a] focus-visible:bg-[#20bc5a] text-white rounded-full shadow-[0_4px_20px_rgb(37_211_102/0.45)] hover:shadow-[0_6px_28px_rgb(37_211_102/0.6)] transition-all duration-300 hover:-translate-y-0.5 focus-visible:-translate-y-0.5 motion-reduce:hover:translate-y-0 motion-reduce:focus-visible:translate-y-0 size-[52px] hover:w-auto focus-visible:w-auto overflow-hidden ps-0 hover:ps-3.5 focus-visible:ps-3.5 pe-0 hover:pe-4 focus-visible:pe-4 justify-center hover:justify-start focus-visible:justify-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60'
+  'fixed bottom-5 end-5 z-50 group flex items-center gap-2 bg-[#25D366] hover:bg-[#20bc5a] focus-visible:bg-[#20bc5a] text-white rounded-full shadow-[0_4px_20px_rgb(37_211_102/0.45)] hover:shadow-[0_6px_28px_rgb(37_211_102/0.6)] transition-all duration-300 hover:-translate-y-0.5 focus-visible:-translate-y-0.5 motion-reduce:hover:translate-y-0 motion-reduce:focus-visible:translate-y-0 h-[52px] max-w-[52px] hover:max-w-[200px] focus-visible:max-w-[200px] px-[13px] overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60'
 
 /** Page hero H1 in PageHeroHeader */
 export const TW_PAGE_TITLE =
@@ -276,29 +276,29 @@ export const TW_FORM_INPUT =
 export const TW_FORM_SUBMIT =
   'w-full min-h-11 bg-dq-600 hover:bg-dq-700 disabled:opacity-60 disabled:cursor-not-allowed text-white text-[13.5px] font-semibold py-3 rounded-lg shadow-gold-sm hover:shadow-gold-hover transition-all duration-200 hover:-translate-y-px active:translate-y-0 motion-reduce:hover:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-300/70 focus-visible:ring-offset-2'
 
-/** Compact footer donate pill — keep ≥44px touch target + visible focus */
+/** Compact footer donate pill */
 export const TW_FOOTER_DONATE_CTA =
-  'group inline-flex items-center gap-1.5 mt-4 min-h-11 px-5 py-2.5 sm:mt-5 bg-dq-500 hover:bg-dq-600 text-white text-[13px] font-semibold rounded-full shadow-gold-sm hover:shadow-gold-hover transition-all duration-200 hover:-translate-y-px active:translate-y-0 motion-reduce:hover:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-dq-900'
+  'group inline-flex items-center justify-center gap-1.5 mt-3 sm:mt-5 min-h-11 px-3 sm:px-5 py-2.5 bg-dq-500 hover:bg-dq-600 text-white text-[11px] sm:text-[13px] font-semibold rounded-full shadow-gold-sm hover:shadow-gold-hover transition-all duration-200 hover:-translate-y-px active:translate-y-0 motion-reduce:hover:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-dq-900'
 
 /** Footer contact row (email / phone / WhatsApp) */
 export const TW_FOOTER_CONTACT_LINK =
-  'flex py-1 items-center gap-2 rounded-md text-[12px] sm:text-[12.5px] leading-snug text-gray-300 hover:text-dq-400 focus-visible:text-dq-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-dq-900 transition-colors duration-150'
+  'flex py-0.5 sm:py-1 items-center gap-2 rounded-md text-[12px] sm:text-[12.5px] leading-snug text-gray-300 hover:text-dq-400 focus-visible:text-dq-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-dq-900 transition-colors duration-150'
 
-/** Footer social icon button — keep ≥44px at all breakpoints */
+/** Footer social icon button */
 export const TW_FOOTER_SOCIAL =
-  'inline-flex size-11 rounded-lg bg-dq-800 border border-dq-700 items-center justify-center text-gray-300 hover:border-dq-400 hover:text-dq-300 focus-visible:border-dq-400 focus-visible:text-dq-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 active:brightness-95 transition-all duration-200'
+  'inline-flex size-9 sm:size-11 rounded-lg bg-dq-800 border border-dq-700 items-center justify-center text-gray-300 hover:border-dq-400 hover:text-dq-300 focus-visible:border-dq-400 focus-visible:text-dq-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 active:brightness-95 transition-all duration-200'
 
 /** Footer main column grid */
 export const TW_FOOTER_GRID =
-  'grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-6 sm:gap-8 lg:gap-10'
+  'grid grid-cols-3 lg:grid-cols-4 sm:gap-x-4 gap-y-4 sm:gap-8 lg:gap-10'
 
 /** Footer column heading */
 export const TW_FOOTER_COL_HEADING =
-  'text-[13px] font-bold text-dq-400 mb-2 sm:mb-4 tracking-normal'
+  'text-[13px] font-bold text-dq-400 mb-1.5 sm:mb-4 tracking-normal'
 
 /** Footer quick-link / service row */
 export const TW_FOOTER_NAV_LINK =
-  'group flex py-1 items-center gap-1.5 rounded-md text-[12px] sm:text-[13px] leading-snug text-gray-300 hover:text-dq-400 focus-visible:text-dq-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-dq-900 transition-colors duration-150'
+  'group flex py-0.5 sm:py-1 items-center gap-1.5 rounded-md text-[12px] sm:text-[13px] leading-snug text-gray-300 hover:text-dq-400 focus-visible:text-dq-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-dq-900 transition-colors duration-150'
 
 /** Reserved-width hover chevron (no layout shift) */
 export const TW_FOOTER_NAV_CHEVRON =
@@ -306,7 +306,7 @@ export const TW_FOOTER_NAV_CHEVRON =
 
 /** Related-site chip next to social icons */
 export const TW_FOOTER_RELATED =
-  'inline-flex items-center gap-1 min-h-11 text-[11px] font-medium text-gray-300 hover:text-dq-400 focus-visible:text-dq-400 bg-dq-800 border border-dq-700 hover:border-dq-400 focus-visible:border-dq-400 rounded-lg px-2.5 py-1.5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50'
+  'inline-flex items-center gap-1 min-h-9 sm:min-h-11 text-[11px] font-medium text-gray-300 hover:text-dq-400 focus-visible:text-dq-400 bg-dq-800 border border-dq-700 hover:border-dq-400 focus-visible:border-dq-400 rounded-lg px-2.5 py-1 sm:py-1.5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50'
 
 /** Brand tagline under footer logo */
 export const TW_FOOTER_TAGLINE =
@@ -317,14 +317,14 @@ export const TW_FOOTER_COPY =
   'text-[11.5px] text-gray-300 text-center sm:text-start'
 
 /** Main footer padding inside container */
-export const TW_FOOTER_BODY = 'py-6 sm:py-10 lg:py-12'
+export const TW_FOOTER_BODY = 'py-5 sm:py-10 lg:py-12'
 
 /**
  * Extra mobile bottom padding when WhatsApp FAB is present so the donate CTA
  * is not covered by the fixed chip (`bottom-5 end-5`).
  */
 export const TW_FOOTER_BODY_FAB =
-  'pt-4 pb-[max(5.5rem,calc(env(safe-area-inset-bottom)+4.5rem))] sm:pt-10 sm:pb-10 lg:pt-12 lg:pb-12'
+  'pt-5 pb-[max(3rem,calc(env(safe-area-inset-bottom)+2.5rem))] sm:pt-10 sm:pb-10 lg:pt-12 lg:pb-12'
 
 /** Social chip row — ≥8px between tap targets */
 export const TW_FOOTER_SOCIAL_LIST =
@@ -339,7 +339,7 @@ export const TW_FOOTER_ICON = 'text-dq-400 shrink-0'
 
 /** Address text under map pin */
 export const TW_FOOTER_ADDRESS =
-  'text-[12px] sm:text-[12.5px] text-gray-300 leading-snug sm:leading-urdu whitespace-pre-line py-1'
+  'text-[11px] sm:text-[12.5px] text-gray-300 leading-snug sm:leading-urdu whitespace-pre-line py-0.5 sm:py-1'
 
 /** Empty contact fallback */
 export const TW_FOOTER_EMPTY = 'text-[12px] text-gray-400 leading-urdu'
@@ -353,7 +353,7 @@ export const TW_FOOTER_BOTTOM_INNER =
 
 /** Extra bottom padding when WhatsApp FAB is present (safe-area aware). */
 export const TW_FOOTER_FAB_PAD =
-  'pt-4 pb-[max(4rem,calc(env(safe-area-inset-bottom)+1rem))] sm:pt-4 sm:pb-[max(1rem,env(safe-area-inset-bottom))]'
+  'pt-4 pb-[max(1rem,env(safe-area-inset-bottom))]'
 
 /** Footer shell */
 export const TW_FOOTER_SHELL = `bg-dq-900 border-t border-dq-800 ${TW_CV_AUTO}`
@@ -383,7 +383,7 @@ export const TW_NAV_MENU_ITEM =
 
 /** Mobile drawer search field */
 export const TW_MOBILE_SEARCH_INPUT =
-  'min-h-11 flex-1 bg-white px-4 py-3 text-[14px] text-slate-700 outline-none placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-dq-400/40'
+  'min-h-11 flex-1 bg-white dark:bg-slate-800 px-4 py-3 text-[14px] text-slate-700 dark:text-slate-200 outline-none placeholder:text-gray-400 dark:placeholder:text-gray-500 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-dq-400/40'
 
 /** Centered section title block spacing */
 export const TW_SECTION_HEADER_CENTER = 'text-center mb-12'

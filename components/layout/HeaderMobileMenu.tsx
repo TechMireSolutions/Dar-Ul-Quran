@@ -154,7 +154,7 @@ export default function HeaderMobileMenu({
             type="button"
             onClick={handleClose}
             aria-label="مینو بند کریں"
-            className="flex size-11 shrink-0 items-center justify-center rounded-full text-gray-500 transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50"
+            className="flex size-11 shrink-0 items-center justify-center rounded-full text-gray-500 dark:text-gray-400 transition-colors hover:bg-gray-100 dark:hover:bg-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50"
           >
             <X size={18} aria-hidden="true" />
           </button>

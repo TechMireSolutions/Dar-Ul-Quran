@@ -37,8 +37,8 @@ const VARIANT = {
     px: 40,
     sizes: '40px',
     fallbackText: 'text-lg',
-    nameDefault: 'truncate font-bold text-[16px] text-slate-900 tracking-normal',
-    ringOffset: 'focus-visible:ring-offset-white',
+    nameDefault: 'truncate font-bold text-[16px] text-slate-900 dark:text-white tracking-normal',
+    ringOffset: 'focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-800',
   },
 } as const
 

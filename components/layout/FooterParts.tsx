@@ -147,7 +147,7 @@ export function FooterBrandColumn({
   socialLinks: FooterSocialLink[]
 }) {
   return (
-    <Reveal animation="up" delay={0} className="col-span-2 lg:col-span-1">
+    <Reveal animation="up" delay={0} className="col-span-3 lg:col-span-1">
       <div>
         <BrandLogo
           siteName={siteName}
@@ -205,7 +205,7 @@ export function FooterContactColumn({
   const { contactRows, donateHref, donateLabel, copy, ids } = model
 
   return (
-    <Reveal animation="up" delay={240} className="col-span-2 lg:col-span-1">
+    <Reveal animation="up" delay={240} className="col-span-1">
       <div>
         <FooterColHeading id={ids.contact}>{copy.contact}</FooterColHeading>
         <ul aria-labelledby={ids.contact} className={TW_FOOTER_CONTACT_GRID}>

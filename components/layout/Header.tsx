@@ -103,6 +103,16 @@ export default function Header({
       >
         <div className={`${TW_CONTAINER_HEADER} h-[68px] flex items-center gap-4 lg:gap-8`}>
 
+          <BrandLogo siteName={siteName} logoUrl={logoUrl} variant="header" />
+
+          <nav aria-label="مرکزی نیویگیشن" className="hidden lg:flex flex-1 items-center justify-center gap-7">
+            {navLinks.map(node => (
+              <HeaderDesktopNav key={node.label} node={node} />
+            ))}
+          </nav>
+
+          <div className="flex-1 lg:hidden" aria-hidden="true" />
+
           <button
             ref={menuButtonRef}
             className={`lg:hidden ${TW_HEADER_ICON_BTN} text-white/70 hover:text-white`}
@@ -113,16 +123,6 @@ export default function Header({
           >
             <Menu size={20} />
           </button>
-
-          <BrandLogo siteName={siteName} logoUrl={logoUrl} variant="header" />
-
-          <nav aria-label="مرکزی نیویگیشن" className="hidden lg:flex flex-1 items-center justify-center gap-7">
-            {navLinks.map(node => (
-              <HeaderDesktopNav key={node.label} node={node} />
-            ))}
-          </nav>
-
-          <div className="flex-1 lg:hidden" aria-hidden="true" />
 
           <div className="hidden lg:flex items-center ms-auto">
             {searchOpen ? (

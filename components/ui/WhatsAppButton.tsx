@@ -31,7 +31,7 @@ export default function WhatsAppButton({ number }: WhatsAppButtonProps) {
       </svg>
 
       <span
-        className="text-[13.5px] font-semibold whitespace-nowrap max-w-0 group-hover:max-w-[120px] group-focus-visible:max-w-[120px] overflow-hidden opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-all duration-300"
+        className="text-[13.5px] font-semibold whitespace-nowrap opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-300"
         aria-hidden="true"
       >
         {CONTACT_KIND_LABELS.whatsapp}
