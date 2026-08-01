@@ -20,7 +20,7 @@ type Status  = 'idle' | 'loading' | 'success' | 'error' | 'rateLimited'
 
 function FieldLabel({ children, required, htmlFor }: { children: React.ReactNode; required?: boolean; htmlFor: string }) {
   return (
-    <label htmlFor={htmlFor} className="block text-[12px] font-semibold text-slate-700 mb-1.5">
+    <label htmlFor={htmlFor} className="block text-[12px] font-semibold text-slate-700 dark:text-slate-200 mb-1.5 transition-colors">
       {children}
       {required && (
         <>

@@ -30,7 +30,7 @@ export default function LeafHero({
 }: LeafHeroProps) {
   return (
     <section
-      className={`relative bg-dq-900 overflow-hidden ${
+      className={`relative bg-dq-900 dark:bg-slate-900 transition-colors overflow-hidden ${
         tall ? 'min-h-[340px] flex items-center justify-center' : ''
       }`}
     >

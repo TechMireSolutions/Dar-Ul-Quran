@@ -91,10 +91,10 @@ export default function CarouselSection({
 
   if (!items.length) return null
 
-  const bgClass = bg === 'gray' ? 'bg-slate-50' : 'bg-white'
+  const bgClass = bg === 'gray' ? 'bg-slate-50 dark:bg-slate-900/40' : 'bg-white dark:bg-slate-900'
 
   return (
-    <section aria-labelledby={headingId} className={`py-10 md:py-16 border-b border-gray-100 ${bgClass} ${TW_CV_AUTO}`}>
+    <section aria-labelledby={headingId} className={`py-10 md:py-16 border-b border-gray-100 dark:border-slate-800 transition-colors ${bgClass} ${TW_CV_AUTO}`}>
       <div className={TW_CONTAINER}>
 
         <SectionHeaderRow
@@ -134,12 +134,12 @@ export default function CarouselSection({
         <div className="relative">
           <div
             className={`absolute start-0 top-0 bottom-0 w-10 z-10 pointer-events-none hidden md:block
-              ltr:bg-gradient-to-r rtl:bg-gradient-to-l ${bg === 'gray' ? 'from-slate-50' : 'from-white'} to-transparent
+              ltr:bg-gradient-to-r rtl:bg-gradient-to-l ${bg === 'gray' ? 'from-slate-50 dark:from-slate-900/40' : 'from-white dark:from-slate-900'} to-transparent
               transition-opacity duration-200 ${active && canPrev ? 'opacity-100' : 'opacity-0'}`}
           />
           <div
             className={`absolute end-0 top-0 bottom-0 w-10 z-10 pointer-events-none hidden md:block
-              ltr:bg-gradient-to-l rtl:bg-gradient-to-r ${bg === 'gray' ? 'from-slate-50' : 'from-white'} to-transparent
+              ltr:bg-gradient-to-l rtl:bg-gradient-to-r ${bg === 'gray' ? 'from-slate-50 dark:from-slate-900/40' : 'from-white dark:from-slate-900'} to-transparent
               transition-opacity duration-200 ${active && canNext ? 'opacity-100' : 'opacity-0'}`}
           />
 

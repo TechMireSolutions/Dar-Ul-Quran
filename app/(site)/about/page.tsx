@@ -43,7 +43,7 @@ export default async function AboutPage() {
       subtitle={page?.subtitle || 'ہم کون ہیں اور ہمارا مقصد کیا ہے'}
       maxWidth="3xl"
     >
-      <div className={`${TW_PAGE_BODY} bg-white`}>
+      <div className={`${TW_PAGE_BODY} transition-colors`}>
         <div className={`${TW_CONTAINER_NARROW} lg:px-8`}>
           {page?.body ? (
             <Reveal animation="fade">

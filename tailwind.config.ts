@@ -114,6 +114,8 @@ const config: Config = {
         'hero-fallback':  'linear-gradient(135deg, rgb(240 216 154) 0%, rgb(253 243 208) 60%, #fff 100%)',
         'hero-fade-rtl':  'linear-gradient(to left, rgb(253 251 242) 0%, rgb(253 251 242 / 0.88) 16%, rgb(253 251 242 / 0.2) 46%, transparent 68%)',
         'hero-fade-ltr':  'linear-gradient(to right, rgb(253 251 242) 0%, rgb(253 251 242 / 0.88) 16%, rgb(253 251 242 / 0.2) 46%, transparent 68%)',
+        'hero-fade-rtl-dark':  'linear-gradient(to left, rgb(15 23 42) 0%, rgb(15 23 42 / 0.88) 16%, rgb(15 23 42 / 0.2) 46%, transparent 68%)',
+        'hero-fade-ltr-dark':  'linear-gradient(to right, rgb(15 23 42) 0%, rgb(15 23 42 / 0.88) 16%, rgb(15 23 42 / 0.2) 46%, transparent 68%)',
         'gold-radial':    'radial-gradient(ellipse at 75% 35%, rgb(184 144 14 / 0.1) 0%, transparent 60%)',
         'gold-radial-sm': 'radial-gradient(circle, rgb(184 144 14 / 0.6) 0%, transparent 70%)',
         'gold-line':      'linear-gradient(to right, rgb(212 168 32), rgb(212 168 32 / 0))',

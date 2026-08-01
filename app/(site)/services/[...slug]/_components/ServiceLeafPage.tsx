@@ -57,7 +57,7 @@ export default function ServiceLeafPage({
 
           {/* ── 2. WHY USE OUR PLATFORM ──────────────────────────────────── */}
           {(service.whyUs?.length ?? 0) > 0 && (
-            <section className={`bg-white ${TW_SECTION_PY}`}>
+            <section className={`bg-white dark:bg-slate-800/40 transition-colors ${TW_SECTION_PY}`}>
               <div className={TW_CONTAINER_WIDE}>
                 <div className={`grid grid-cols-1 gap-12 lg:gap-16 items-center ${whyUsImageUrl ? 'lg:grid-cols-2' : ''}`}>
 
@@ -78,12 +78,12 @@ export default function ServiceLeafPage({
                     <ul className="space-y-4">
                       {service.whyUs!.map((item, i) => (
                         <li key={i} className="flex items-start gap-3">
-                          <div className="w-6 h-6 rounded-md bg-dq-50 border border-dq-100 flex items-center justify-center shrink-0 mt-0.5">
-                            <Check size={13} className="text-dq-600" strokeWidth={2.5} />
+                          <div className="w-6 h-6 rounded-md bg-dq-50 dark:bg-slate-800 border border-dq-100 dark:border-slate-700 flex items-center justify-center shrink-0 mt-0.5 transition-colors">
+                            <Check size={13} className="text-dq-600 dark:text-dq-400" strokeWidth={2.5} />
                           </div>
-                          <p className="text-[14.5px] text-slate-700 leading-urdu">
-                            <span className="font-semibold text-slate-900">{item.title}:</span>
-                            {item.desc && <span className="text-gray-600"> {item.desc}</span>}
+                          <p className="text-[14.5px] text-slate-700 dark:text-slate-300 leading-urdu transition-colors">
+                            <span className="font-semibold text-slate-900 dark:text-white transition-colors">{item.title}:</span>
+                            {item.desc && <span className="text-gray-600 dark:text-gray-400 transition-colors"> {item.desc}</span>}
                           </p>
                         </li>
                       ))}
@@ -97,7 +97,7 @@ export default function ServiceLeafPage({
 
           {/* ── 3. OUR COMMITMENT ────────────────────────────────────────── */}
           {(service.commitment?.length ?? 0) > 0 && (
-            <section className={`bg-dq-900 ${TW_SECTION_PY}`}>
+            <section className={`bg-dq-900 dark:bg-slate-900 transition-colors ${TW_SECTION_PY}`}>
               <div className={`${TW_CONTAINER_NARROW} text-center`}>
                 <CenteredSectionHeader
                   title={service.commitmentHeading || 'ہمارا عہد'}
@@ -106,8 +106,8 @@ export default function ServiceLeafPage({
                 />
                 <ul className="space-y-5">
                   {service.commitment!.map((item, i) => (
-                    <li key={i} className="text-[14.5px] text-slate-300 leading-urdu">
-                      <span className="font-semibold text-white">{item.title}:</span>
+                    <li key={i} className="text-[14.5px] text-slate-300 dark:text-slate-400 leading-urdu transition-colors">
+                      <span className="font-semibold text-white transition-colors">{item.title}:</span>
                       {item.desc && <span> {item.desc}</span>}
                     </li>
                   ))}

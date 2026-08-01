@@ -77,7 +77,7 @@ export default function CourseLeafPage({
 
           {/* ── 3. WHAT YOU'LL ACHIEVE ───────────────────────────────────────── */}
           {(course.outcomes?.length ?? 0) > 0 && (
-            <section className={`bg-slate-50 ${TW_SECTION_PY}`}>
+            <section className={`bg-slate-50 dark:bg-transparent transition-colors ${TW_SECTION_PY}`}>
               <div className={TW_CONTAINER_WIDE}>
                 <CenteredSectionHeader title={course.outcomesHeading || 'آپ کیا حاصل کریں گے'} />
                 <div className={TW_CARD_GRID}>
@@ -89,7 +89,7 @@ export default function CourseLeafPage({
                       <div className={`${TW_FEATURE_ICON} w-10 h-10 mb-4`}>
                         <Check size={17} className="text-dq-600" strokeWidth={2.5} />
                       </div>
-                      <h3 className="font-bold text-[15px] text-slate-900 mb-2">{item.title}</h3>
+                      <h3 className="font-bold text-[15px] text-slate-900 dark:text-white mb-2 transition-colors">{item.title}</h3>
                       {item.desc && (
                         <p className={TW_PAGE_SUBTITLE}>{item.desc}</p>
                       )}
@@ -102,7 +102,7 @@ export default function CourseLeafPage({
 
           {/* ── 4. WHY OUR COURSE STANDS OUT ─────────────────────────────────── */}
           {(course.whyUs?.length ?? 0) > 0 && (
-            <section className={`bg-white ${TW_SECTION_PY}`}>
+            <section className={`bg-white dark:bg-slate-800/40 transition-colors ${TW_SECTION_PY}`}>
               <div className={TW_CONTAINER_WIDE}>
                 <CenteredSectionHeader title={course.whyUsHeading || 'ہمارا کورس کیوں منفرد ہے'} />
                 <div className={TW_CARD_GRID}>
@@ -115,7 +115,7 @@ export default function CourseLeafPage({
                         {i + 1}
                       </div>
                       <div>
-                        <h3 className="font-bold text-[15px] text-slate-900 mb-1.5">{item.title}</h3>
+                        <h3 className="font-bold text-[15px] text-slate-900 dark:text-white mb-1.5 transition-colors">{item.title}</h3>
                         {item.desc && (
                           <p className={TW_PAGE_SUBTITLE}>{item.desc}</p>
                         )}
@@ -134,7 +134,7 @@ export default function CourseLeafPage({
 
           {/* ── 6a. FEE SUMMARY (simple) ─────────────────────────────────────── */}
           {(course.feeSummaryItems?.length ?? 0) > 0 && (
-            <section className={`bg-white ${TW_SECTION_PY}`}>
+            <section className={`bg-white dark:bg-slate-800/40 transition-colors ${TW_SECTION_PY}`}>
               <div className={`${TW_CONTAINER_PROSE} lg:px-8`}>
                 <CenteredSectionHeader
                   title={course.feeSummaryHeading || 'فیس'}
@@ -154,7 +154,7 @@ export default function CourseLeafPage({
                       className={`flex items-center justify-between gap-4 ${TW_CARD_SURFACE} shadow-sm px-6 py-4
                         hover:border-dq-100 hover:shadow-gold-subtle transition-all duration-200`}
                     >
-                      <span className="text-[14.5px] text-slate-700 font-medium">{item.label}</span>
+                      <span className="text-[14.5px] text-slate-700 dark:text-slate-200 font-medium transition-colors">{item.label}</span>
                       <span className="shrink-0 font-bold text-[15px] px-4 py-1.5 rounded-full bg-gradient-to-br from-dq-50 to-dq-100 text-dq-700 border border-dq-400/30">
                         {item.amount}
                       </span>
@@ -172,7 +172,7 @@ export default function CourseLeafPage({
 
           {/* ── 6b. PRICING TABLES (multi-column) ────────────────────────────── */}
           {(course.pricingTables?.length ?? 0) > 0 && (
-            <section className={`bg-slate-50 ${TW_SECTION_PY}`}>
+            <section className={`bg-slate-50 dark:bg-transparent transition-colors ${TW_SECTION_PY}`}>
               <div className={TW_CONTAINER_PRICING}>
                 <CenteredSectionHeader
                   title={course.pricingHeading || 'سستے پلانز'}
@@ -182,7 +182,7 @@ export default function CourseLeafPage({
                   {course.pricingTables!.map((table, ti) => (
                     <div key={ti}>
                       {table.label && (
-                        <h3 className="font-bold text-[14.5px] text-slate-700 mb-4 flex items-center gap-2">
+                        <h3 className="font-bold text-[14.5px] text-slate-700 dark:text-slate-200 mb-4 flex items-center gap-2 transition-colors">
                           <span className={TW_EYEBROW_LINE} />
                           {table.label}
                         </h3>
@@ -196,7 +196,7 @@ export default function CourseLeafPage({
                                 key={ri}
                                 className={`${TW_CARD_SURFACE_PADDED} space-y-2.5`}
                               >
-                                <p className="font-semibold text-[14.5px] text-slate-900 leading-urdu-tight">
+                                <p className="font-semibold text-[14.5px] text-slate-900 dark:text-white leading-urdu-tight transition-colors">
                                   {row.plan}
                                 </p>
                                 <dl className="grid grid-cols-2 gap-x-3 gap-y-2 text-[12.5px]">
@@ -222,7 +222,7 @@ export default function CourseLeafPage({
                           </div>
 
                           {/* Multi-column table from tablet up */}
-                          <div className="hidden md:block overflow-x-auto rounded-2xl border border-gray-200 shadow-sm">
+                          <div className="hidden md:block overflow-x-auto rounded-2xl border border-gray-200 dark:border-slate-700 shadow-sm transition-colors">
                             <table className="w-full text-[13.5px] border-collapse">
                               <thead>
                                 <tr className="bg-slate-800 text-white">
@@ -237,12 +237,12 @@ export default function CourseLeafPage({
                                 {table.rows!.map((row, ri) => (
                                   <tr
                                     key={ri}
-                                    className={`border-t border-gray-100 ${ri % 2 === 0 ? 'bg-white' : 'bg-slate-50/60'}`}
+                                    className={`border-t border-gray-100 dark:border-slate-700 transition-colors ${ri % 2 === 0 ? 'bg-white dark:bg-slate-800' : 'bg-slate-50/60 dark:bg-slate-800/60'}`}
                                   >
-                                    <td className="px-5 py-3.5 font-semibold text-slate-900">{row.plan}</td>
-                                    <td className="px-5 py-3.5 text-gray-600">{row.weeklyFrequency}</td>
-                                    <td className="px-5 py-3.5 text-gray-600">{row.monthlyClasses}</td>
-                                    <td className="px-5 py-3.5 text-gray-600">{row.feePerClass}</td>
+                                    <td className="px-5 py-3.5 font-semibold text-slate-900 dark:text-white transition-colors">{row.plan}</td>
+                                    <td className="px-5 py-3.5 text-gray-600 dark:text-slate-300 transition-colors">{row.weeklyFrequency}</td>
+                                    <td className="px-5 py-3.5 text-gray-600 dark:text-slate-300 transition-colors">{row.monthlyClasses}</td>
+                                    <td className="px-5 py-3.5 text-gray-600 dark:text-slate-300 transition-colors">{row.feePerClass}</td>
                                     <td className="px-5 py-3.5 font-semibold text-dq-700">{row.monthlyTotal}</td>
                                   </tr>
                                 ))}

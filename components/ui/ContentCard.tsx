@@ -27,12 +27,12 @@ export default function ContentCard({
 }: ContentCardProps) {
   return (
     <article
-      className={`group relative flex flex-col rounded-2xl overflow-hidden bg-white
+      className={`group relative flex flex-col rounded-2xl overflow-hidden bg-white dark:bg-slate-800
         border transition-all duration-300 ease-out
         hover:-translate-y-2 motion-reduce:hover:translate-y-0
         ${active
           ? 'shadow-gold-lg border-dq-200/80 hover:shadow-gold-glow'
-          : 'shadow-card border-gray-100 hover:shadow-card-hover hover:border-dq-100'
+          : 'shadow-card border-gray-100 dark:border-slate-700 hover:shadow-card-hover hover:border-dq-100 dark:hover:border-slate-600'
         }`}
     >
       {/* Gold top accent stripe — slides in on hover */}
@@ -46,7 +46,7 @@ export default function ContentCard({
         className="flex flex-col flex-1 rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 focus-visible:ring-offset-2"
       >
         <div className="block overflow-hidden shrink-0">
-          <div className="relative w-full aspect-[3/2] bg-slate-100">
+          <div className="relative w-full aspect-[3/2] bg-slate-100 dark:bg-slate-900/50">
             {image ? (
               <Image
                 src={image}
@@ -60,7 +60,7 @@ export default function ContentCard({
               />
             ) : (
               <div
-                className="w-full h-full flex flex-col items-center justify-center gap-2 bg-gradient-to-br from-dq-50 via-dq-100/40 to-slate-100"
+                className="w-full h-full flex flex-col items-center justify-center gap-2 bg-gradient-to-br from-dq-50 via-dq-100/40 to-slate-100 dark:from-slate-800 dark:via-slate-800/80 dark:to-slate-900"
                 aria-hidden="true"
               >
                 <svg
@@ -92,12 +92,12 @@ export default function ContentCard({
             </span>
           )}
 
-          <h3 className="font-semibold text-slate-900 text-[15px] leading-urdu-tight mb-2 line-clamp-2 group-hover:text-dq-700 transition-colors duration-150">
+          <h3 className="font-semibold text-slate-900 dark:text-white text-[15px] leading-urdu-tight mb-2 line-clamp-2 group-hover:text-dq-700 dark:group-hover:text-dq-400 transition-colors duration-150">
             {title}
           </h3>
 
           {description && (
-            <p className="text-[12.5px] text-gray-500 leading-urdu line-clamp-2 flex-1 mb-4">
+            <p className="text-[12.5px] text-gray-500 dark:text-slate-400 leading-urdu line-clamp-2 flex-1 mb-4">
               {description}
             </p>
           )}

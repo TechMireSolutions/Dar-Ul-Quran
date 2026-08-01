@@ -12,7 +12,7 @@ type HomeDonateCtaSectionProps = {
 
 export default function HomeDonateCtaSection({ settings }: HomeDonateCtaSectionProps) {
   return (
-    <section className={`relative overflow-hidden bg-slate-50 border-y border-slate-200 py-10 sm:py-12 ${TW_CV_AUTO}`}>
+    <section className={`relative overflow-hidden bg-slate-50 dark:bg-slate-900/60 border-y border-slate-200 dark:border-slate-800 py-10 sm:py-12 transition-colors ${TW_CV_AUTO}`}>
       <div className="absolute inset-0 opacity-40 pointer-events-none bg-dot-grid-slate bg-size-dot-grid-sm" />
 
       <Reveal animation="up" className={`relative ${TW_CONTAINER_PROSE} text-center`}>
@@ -23,7 +23,7 @@ export default function HomeDonateCtaSection({ settings }: HomeDonateCtaSectionP
             <span className="w-6 h-px bg-amber-400" />
           </div>
 
-          <h2 className="font-bold text-[28px] lg:text-[34px] text-slate-900 leading-heading tracking-normal mb-3">
+          <h2 className="font-bold text-[28px] lg:text-[34px] text-slate-900 dark:text-white leading-heading tracking-normal mb-3">
             {settings?.donateHeading || 'ہمارے مشن میں ساتھ دیں'}
           </h2>
 
@@ -32,11 +32,11 @@ export default function HomeDonateCtaSection({ settings }: HomeDonateCtaSectionP
               'آپ کا صدقہ اور چندہ ہمیں اہل بیت (ع) کی تعلیمات پھیلاتے رہنے میں مدد کرتا ہے'}
           </p>
 
-          <div className="relative max-w-lg mx-auto mb-7 bg-white border border-slate-200 rounded-xl px-6 py-5 shadow-sm">
-            <div className="absolute -top-3.5 start-1/2 -translate-x-1/2 rtl:translate-x-1/2 w-7 h-7 bg-white border border-slate-200 rounded-full flex items-center justify-center">
+          <div className="relative max-w-lg mx-auto mb-7 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-6 py-5 shadow-sm transition-colors">
+            <div className="absolute -top-3.5 start-1/2 -translate-x-1/2 rtl:translate-x-1/2 w-7 h-7 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full flex items-center justify-center transition-colors">
               <span className="text-amber-500 text-[15px] font-bold leading-none">&quot;</span>
             </div>
-            <p className="text-[13.5px] text-slate-600 italic leading-urdu">
+            <p className="text-[13.5px] text-slate-600 dark:text-slate-300 italic leading-urdu">
               {settings?.donateQuote || 'صدقہ رب کے غضب کو بجھاتا اور بری موت کو دور کرتا ہے۔'}
             </p>
             <div className="mt-3 flex items-center justify-center gap-2">

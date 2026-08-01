@@ -31,7 +31,7 @@ export default function PageHeroHeader({
   const alignClass = align === 'center' ? 'text-center' : ''
 
   return (
-    <div className="bg-white border-b border-gray-100">
+    <div className="bg-white dark:bg-slate-900/50 border-b border-gray-100 dark:border-slate-800 transition-colors">
       <Reveal
         animation="up"
         className={`${MAX_WIDTH[maxWidth]} ${TW_PAGE_HERO_PADDING} ${alignClass}`}

@@ -24,7 +24,7 @@ type HomeAboutSectionProps = {
 
 export default function HomeAboutSection({ settings }: HomeAboutSectionProps) {
   return (
-    <section className={`relative py-14 md:py-20 bg-white overflow-hidden border-b border-gray-100 ${TW_CV_AUTO}`}>
+    <section className={`relative py-14 md:py-20 bg-white dark:bg-slate-900 overflow-hidden border-b border-gray-100 dark:border-slate-800 transition-colors ${TW_CV_AUTO}`}>
       <div className="absolute inset-0 opacity-30 pointer-events-none bg-dot-grid bg-size-dot-grid" />
       <div className={`relative ${TW_CONTAINER}`}>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
@@ -98,12 +98,12 @@ export default function HomeAboutSection({ settings }: HomeAboutSectionProps) {
                 </div>
               </div>
 
-              <div className="absolute bottom-0 start-6 bg-white border border-gray-200 rounded-2xl px-4 py-3 shadow-lg flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center shrink-0">
+              <div className="absolute bottom-0 start-6 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-2xl px-4 py-3 shadow-lg flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-emerald-50 dark:bg-emerald-900/40 border border-emerald-100 dark:border-emerald-800 flex items-center justify-center shrink-0">
                   <span className="text-emerald-600 font-bold text-[16px]">✓</span>
                 </div>
                 <div>
-                  <p className="text-[12px] font-semibold text-slate-800">{settings?.aboutBadgeText || 'اہل علماء'}</p>
+                  <p className="text-[12px] font-semibold text-slate-800 dark:text-slate-100">{settings?.aboutBadgeText || 'اہل علماء'}</p>
                   <p className="text-[11px] text-gray-400">{settings?.aboutBadgeSubtext || 'تصدیق شدہ و قابل اعتماد'}</p>
                 </div>
               </div>

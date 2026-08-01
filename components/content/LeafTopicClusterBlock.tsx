@@ -33,7 +33,7 @@ export default function LeafTopicClusterBlock({
   if (inline) return related
 
   return (
-    <section className="bg-white pb-12 sm:pb-16">
+    <section className="bg-white dark:bg-slate-800/40 transition-colors pb-12 sm:pb-16">
       <div className={TW_CONTAINER_NARROW}>{related}</div>
     </section>
   )

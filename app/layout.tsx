@@ -6,7 +6,10 @@ import { SITE_URL, DEFAULT_SITE_NAME_URDU, DEFAULT_SITE_DESCRIPTION, resolveSite
 import './globals.css'
 
 export const viewport: Viewport = {
-  themeColor: '#b8900e',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#0f172a' },
+  ],
   width: 'device-width',
   initialScale: 1,
   viewportFit: 'cover',

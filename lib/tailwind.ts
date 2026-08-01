@@ -11,15 +11,15 @@ export const TW_EYEBROW_LINE = 'w-6 h-px bg-dq-400 inline-block shrink-0'
 
 /** Section H2 on light backgrounds */
 export const TW_SECTION_TITLE =
-  'font-bold text-2xl sm:text-3xl text-slate-900 leading-heading tracking-normal'
+  'font-bold text-2xl sm:text-3xl text-slate-900 dark:text-white leading-heading tracking-normal'
 
 /** Section H2 — compact (homepage article/testimonial blocks) */
 export const TW_SECTION_TITLE_COMPACT =
-  'font-bold text-2xl sm:text-[27px] text-slate-900 leading-heading tracking-normal'
+  'font-bold text-2xl sm:text-[27px] text-slate-900 dark:text-white leading-heading tracking-normal'
 
 /** Article detail H1 */
 export const TW_ARTICLE_TITLE =
-  'font-bold text-[26px] sm:text-[30px] lg:text-[38px] text-slate-900 leading-heading tracking-normal'
+  'font-bold text-[26px] sm:text-[30px] lg:text-[38px] text-slate-900 dark:text-white leading-heading tracking-normal'
 
 /** Category / tag badge */
 export const TW_BADGE =
@@ -62,28 +62,28 @@ export const TW_SECTION_PY = 'py-16 sm:py-20'
 export const TW_PAGE_HERO_PADDING = 'mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12'
 
 /** Subtitle under page/section titles */
-export const TW_PAGE_SUBTITLE = 'text-[13.5px] text-gray-500 leading-urdu'
+export const TW_PAGE_SUBTITLE = 'text-[13.5px] text-gray-500 dark:text-slate-400 leading-urdu'
 
 /** Muted body copy (error pages, empty states) */
-export const TW_BODY_MUTED = 'text-[14px] text-gray-500 leading-urdu'
+export const TW_BODY_MUTED = 'text-[14px] text-gray-500 dark:text-slate-400 leading-urdu'
 
 /** White card surface */
-export const TW_CARD_SURFACE = 'bg-white border border-gray-100 rounded-2xl'
+export const TW_CARD_SURFACE = 'bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 rounded-2xl'
 
 /** Padded card (outcomes, how-it-works) */
 export const TW_CARD_SURFACE_PADDED = `${TW_CARD_SURFACE} p-6 shadow-sm`
 
 /** Soft feature/cause card on light pages */
 export const TW_FEATURE_CARD =
-  'bg-slate-50 rounded-xl border border-gray-100 p-5 sm:p-6'
+  'bg-slate-50 dark:bg-slate-800/80 rounded-xl border border-gray-100 dark:border-slate-700 p-5 sm:p-6'
 
 /** Feature card title + description */
-export const TW_FEATURE_CARD_TITLE = 'font-semibold text-slate-900 text-[14px] mb-1.5 leading-urdu-tight'
-export const TW_FEATURE_CARD_DESC = 'text-[13px] text-gray-500 leading-urdu'
+export const TW_FEATURE_CARD_TITLE = 'font-semibold text-slate-900 dark:text-white text-[14px] mb-1.5 leading-urdu-tight'
+export const TW_FEATURE_CARD_DESC = 'text-[13px] text-gray-500 dark:text-slate-400 leading-urdu'
 
 /** Contact form panel */
 export const TW_FORM_PANEL =
-  'lg:col-span-3 bg-white border border-gray-100 rounded-2xl shadow-sm p-5 sm:p-6 space-y-4'
+  'lg:col-span-3 bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 rounded-2xl shadow-sm p-5 sm:p-6 space-y-4'
 
 /** Dark leaf-page WhatsApp CTA */
 export const TW_LEAF_WHATSAPP_CTA =
@@ -109,26 +109,26 @@ export const TW_SECTION_HEADER_ROW =
 
 /** Contact sidebar info row */
 export const TW_CONTACT_INFO_ROW =
-  'flex items-start gap-3 sm:gap-3.5 bg-white border border-gray-100 rounded-xl px-4 py-3.5 shadow-sm'
+  'flex items-start gap-3 sm:gap-3.5 bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 rounded-xl px-4 py-3.5 shadow-sm'
 
 /** Contact social chip */
 export const TW_CONTACT_SOCIAL_CHIP =
-  'inline-flex min-h-11 items-center gap-1.5 text-[12px] font-medium text-gray-500 hover:text-dq-700 focus-visible:text-dq-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 bg-white border border-gray-200 rounded-lg px-3 transition-colors'
+  'inline-flex min-h-11 items-center gap-1.5 text-[12px] font-medium text-gray-500 hover:text-dq-700 focus-visible:text-dq-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg px-3 transition-colors'
 
 /** Desktop nav dropdown / flyout shell */
 export const TW_NAV_DROPDOWN =
-  'bg-white border border-gray-100 rounded-2xl shadow-nav'
+  'bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 rounded-2xl shadow-nav'
 
 /** CMS page body shell */
-export const TW_PAGE_BODY = 'py-8 sm:py-12 bg-slate-50/40'
+export const TW_PAGE_BODY = 'py-8 sm:py-12 bg-slate-50/40 dark:bg-slate-900/40'
 
 /** Icon box on about/donate feature cards */
 export const TW_FEATURE_ICON =
-  'w-9 h-9 bg-dq-50 border border-dq-100 rounded-xl flex items-center justify-center mb-3'
+  'w-9 h-9 bg-dq-50 dark:bg-slate-800/50 border border-dq-100 dark:border-slate-700 rounded-xl flex items-center justify-center mb-3'
 
 /** Dark leaf hero gradient overlay */
 export const TW_LEAF_HERO_OVERLAY =
-  'absolute inset-0 bg-gradient-to-b from-dq-900/60 via-transparent to-dq-900/80 pointer-events-none'
+  'absolute inset-0 bg-gradient-to-b from-dq-900/60 dark:from-slate-900/60 via-transparent dark:via-transparent to-dq-900/80 dark:to-slate-900/80 pointer-events-none'
 
 /** Gold meta chip on dark heroes */
 export const TW_HERO_CHIP_GOLD =
@@ -148,7 +148,7 @@ export const TW_HERO_OUTLINE_CTA =
 
 /** Hero stat icon box */
 export const TW_HERO_STAT_ICON =
-  'size-11 rounded-xl flex items-center justify-center shrink-0 bg-gold-icon border border-dq-400/40 shadow-gold-icon'
+  'size-11 rounded-xl flex items-center justify-center shrink-0 bg-gold-icon dark:bg-none dark:bg-slate-800/80 border border-dq-400/40 dark:border-dq-400/20 shadow-gold-icon'
 
 /** Search form shell (header + mobile) */
 export const TW_SEARCH_FORM =
@@ -159,11 +159,11 @@ export const TW_SEARCH_FORM_MOBILE =
 
 /** Articles index search input */
 export const TW_SEARCH_INPUT =
-  'flex-1 min-h-11 px-4 py-3 text-sm outline-none text-slate-700 placeholder:text-gray-400 bg-white border border-gray-200 rounded-xl focus:border-dq-400 focus:ring-2 focus:ring-dq-400/40 focus-visible:border-dq-400 focus-visible:ring-2 focus-visible:ring-dq-400/40 transition-all'
+  'flex-1 min-h-11 px-4 py-3 text-sm outline-none text-slate-700 dark:text-slate-200 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600 rounded-xl focus:border-dq-400 focus:ring-2 focus:ring-dq-400/40 focus-visible:border-dq-400 focus-visible:ring-2 focus-visible:ring-dq-400/40 transition-all'
 
 /** Header desktop search field (inside TW_SEARCH_FORM) */
 export const TW_HEADER_SEARCH_INPUT =
-  'min-h-11 px-4 py-2 text-[13px] outline-none w-[180px] text-slate-700 placeholder:text-gray-400 bg-white focus:bg-dq-50/40 focus-visible:bg-dq-50/40 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-dq-400/40 transition-colors'
+  'min-h-11 px-4 py-2 text-[13px] outline-none w-[180px] text-slate-700 dark:text-slate-200 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-slate-800 focus:bg-dq-50/40 dark:focus:bg-slate-700 focus-visible:bg-dq-50/40 dark:focus-visible:bg-slate-700 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-dq-400/40 transition-colors'
 
 /** Header desktop search submit */
 export const TW_HEADER_SEARCH_SUBMIT =
@@ -198,13 +198,13 @@ export const TW_MOBILE_PANEL_BACKDROP =
 
 /** Mobile slide-over panel — dynamic viewport height + safe areas */
 export const TW_MOBILE_PANEL =
-  'fixed inset-y-0 start-0 z-[70] flex h-dvh max-h-dvh w-[min(300px,85vw)] flex-col border-e border-gray-100 bg-white lg:hidden shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none'
+  'fixed inset-y-0 start-0 z-[70] flex h-dvh max-h-dvh w-[min(300px,85vw)] flex-col border-e border-gray-100 dark:border-slate-700 bg-white dark:bg-slate-800 lg:hidden shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none'
 
 export const TW_MOBILE_PANEL_HEADER =
   'flex shrink-0 items-center justify-between border-b border-gray-100 px-5 pb-4 pt-[max(1rem,env(safe-area-inset-top))]'
 
 export const TW_MOBILE_PANEL_SEARCH =
-  'shrink-0 space-y-2 border-b border-gray-100 bg-slate-50/60 px-5 py-3'
+  'shrink-0 space-y-2 border-b border-gray-100 dark:border-slate-700 bg-slate-50/60 dark:bg-slate-900/60 px-5 py-3'
 
 export const TW_MOBILE_PANEL_SEARCH_LABEL =
   'text-[11px] font-bold text-gray-400 tracking-normal'
@@ -225,7 +225,7 @@ export const TW_WHATSAPP_FLOAT =
 
 /** Page hero H1 in PageHeroHeader */
 export const TW_PAGE_TITLE =
-  'font-bold text-[26px] sm:text-[30px] text-slate-900 leading-heading tracking-normal'
+  'font-bold text-[26px] sm:text-[30px] text-slate-900 dark:text-white leading-heading tracking-normal'
 
 /** Dark hero H1 (course/service leaf) */
 export const TW_HERO_TITLE =
@@ -241,7 +241,7 @@ export const TW_GOLD_CTA_DARK =
 
 /** Light outline pill CTA */
 export const TW_OUTLINE_PILL =
-  'inline-flex items-center justify-center min-h-11 gap-2 rounded-full border border-gray-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition-colors hover:bg-gray-50 hover:border-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 focus-visible:ring-offset-2'
+  'inline-flex items-center justify-center min-h-11 gap-2 rounded-full border border-gray-300 dark:border-slate-600 bg-white dark:bg-transparent px-6 py-3 text-sm font-semibold text-slate-700 dark:text-slate-200 transition-colors hover:bg-gray-50 dark:hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 focus-visible:ring-offset-2'
 
 /** CTA arrow icon */
 export const TW_CTA_ARROW =
@@ -256,7 +256,7 @@ export const TW_BTN_PRIMARY =
 
 /** Secondary outline button */
 export const TW_BTN_SECONDARY =
-  'inline-flex items-center justify-center min-h-11 px-6 py-3 rounded-xl border border-gray-200 text-slate-700 text-sm font-semibold hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 focus-visible:ring-offset-2'
+  'inline-flex items-center justify-center min-h-11 px-6 py-3 rounded-xl border border-gray-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-sm font-semibold hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 focus-visible:ring-offset-2'
 
 /** Below-fold content-visibility optimization */
 export const TW_CV_AUTO = 'cv-auto'
@@ -270,7 +270,7 @@ export const TW_VIEW_ALL_LINK =
 
 /** Contact form text input / select */
 export const TW_FORM_INPUT =
-  'w-full min-h-11 border border-gray-200 rounded-lg px-3.5 py-2.5 text-[13.5px] text-slate-700 placeholder:text-gray-400 bg-white focus:outline-none focus:border-dq-400 focus:ring-2 focus:ring-dq-400/20 focus-visible:outline-none focus-visible:border-dq-400 focus-visible:ring-2 focus-visible:ring-dq-400/20 transition-all'
+  'w-full min-h-11 border border-gray-200 dark:border-slate-600 rounded-lg px-3.5 py-2.5 text-[13.5px] text-slate-700 dark:text-slate-200 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-slate-800 focus:outline-none focus:border-dq-400 focus:ring-2 focus:ring-dq-400/20 focus-visible:outline-none focus-visible:border-dq-400 focus-visible:ring-2 focus-visible:ring-dq-400/20 transition-all'
 
 /** Full-width gold form submit button */
 export const TW_FORM_SUBMIT =

@@ -61,6 +61,21 @@ body.mobile-menu-open {
   width: 100%;
 }
 
+:root {
+  --color-bg-page: #ffffff;
+  --color-text-page: #0f172a;
+  --color-border-card: #e2e8f0;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg-page: #0f172a;
+    --color-text-page: #f8fafc;
+    --color-border-card: #1e293b;
+    color-scheme: dark;
+  }
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -70,7 +85,8 @@ body.mobile-menu-open {
   }
 
   body {
-    @apply text-slate-900 bg-white;
+    background-color: var(--color-bg-page);
+    color: var(--color-text-page);
     font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', 'Geeza Pro', system-ui, serif;
     font-size: 16px;
     line-height: 1.9;
@@ -154,10 +170,10 @@ body.mobile-menu-open {
 @layer components {
   /* Pure-Tailwind rich text (replaces @tailwindcss/typography prose-*) */
   .rich-text {
-    @apply text-gray-700 leading-urdu;
+    @apply text-gray-700 dark:text-slate-300 leading-urdu transition-colors;
   }
   .rich-text :where(h2, h3, h4) {
-    @apply font-bold text-slate-900 tracking-normal mt-8 mb-4 leading-heading;
+    @apply font-bold text-slate-900 dark:text-white tracking-normal mt-8 mb-4 leading-heading transition-colors;
   }
   .rich-text :where(h2) { @apply text-2xl; }
   .rich-text :where(h3) { @apply text-xl; }
@@ -166,11 +182,11 @@ body.mobile-menu-open {
   .rich-text :where(a) {
     @apply text-dq-500 no-underline hover:underline;
   }
-  .rich-text :where(strong) { @apply font-semibold text-slate-900; }
+  .rich-text :where(strong) { @apply font-semibold text-slate-900 dark:text-white transition-colors; }
   .rich-text :where(ul, ol) { @apply my-4 ps-6 space-y-2; }
-  .rich-text :where(li) { @apply text-gray-700; }
+  .rich-text :where(li) { @apply text-gray-700 dark:text-slate-300 transition-colors; }
   .rich-text :where(blockquote) {
-    @apply border-s-4 border-dq-400 ps-4 my-6 text-slate-600 not-italic;
+    @apply border-s-4 border-dq-400 ps-4 my-6 text-slate-600 dark:text-slate-400 not-italic transition-colors;
   }
   .rich-text-lg :where(p) { @apply text-base sm:text-lg; }
   .rich-text-sm :where(p) { @apply text-sm; }

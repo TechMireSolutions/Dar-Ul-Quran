@@ -25,7 +25,7 @@ export default function TopicClusterRelated({
   if (!pillarHref && articles.length === 0) return null
 
   return (
-    <aside className="mt-12 pt-8 border-t border-gray-100">
+    <aside className="mt-12 pt-8 border-t border-gray-100 dark:border-slate-700 transition-colors">
       <p className={`${TW_EYEBROW} mb-3`}>
         <span className={TW_EYEBROW_LINE} />
         {clusterName || pillarKeyword || 'متعلقہ موضوعات'}
@@ -34,9 +34,9 @@ export default function TopicClusterRelated({
       {pillarHref && pillarPage?.title && (
         <Link
           href={pillarHref}
-          className="group flex min-h-11 items-center justify-between gap-3 bg-dq-50 border border-dq-100 rounded-xl px-4 py-3.5 mb-4 hover:bg-dq-100/60 focus-visible:bg-dq-100/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 transition-colors"
+          className="group flex min-h-11 items-center justify-between gap-3 bg-dq-50 dark:bg-slate-800/80 border border-dq-100 dark:border-slate-700 rounded-xl px-4 py-3.5 mb-4 hover:bg-dq-100/60 dark:hover:bg-slate-800 focus-visible:bg-dq-100/60 dark:focus-visible:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 transition-colors"
         >
-          <span className="text-[14px] font-semibold text-slate-900">{pillarPage.title}</span>
+          <span className="text-[14px] font-semibold text-slate-900 dark:text-white transition-colors">{pillarPage.title}</span>
           <ArrowRight
             size={14}
             strokeWidth={2.5}
@@ -51,9 +51,9 @@ export default function TopicClusterRelated({
             <li key={article._id}>
               <Link
                 href={articlePath(article.slug)}
-                className="block min-h-11 rounded-xl border border-gray-100 bg-slate-50/60 px-4 py-3 hover:border-dq-100 hover:bg-dq-50/40 focus-visible:border-dq-100 focus-visible:bg-dq-50/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 transition-colors"
+                className="block min-h-11 rounded-xl border border-gray-100 dark:border-slate-700 bg-slate-50/60 dark:bg-slate-800/60 px-4 py-3 hover:border-dq-100 dark:hover:border-slate-600 hover:bg-dq-50/40 dark:hover:bg-slate-800/80 focus-visible:border-dq-100 dark:focus-visible:border-slate-600 focus-visible:bg-dq-50/40 dark:focus-visible:bg-slate-800/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 transition-colors"
               >
-                <span className="font-medium text-[14px] text-slate-900">{article.title}</span>
+                <span className="font-medium text-[14px] text-slate-900 dark:text-white transition-colors">{article.title}</span>
                 {article.excerpt && (
                   <p className={`${TW_FEATURE_CARD_DESC} mt-1 line-clamp-2`}>{article.excerpt}</p>
                 )}

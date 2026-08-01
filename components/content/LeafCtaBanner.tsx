@@ -29,7 +29,7 @@ export default function LeafCtaBanner({
   if (!heading && !subtitle) return null
 
   return (
-    <section className="bg-dq-900 pt-16 sm:pt-20 pb-[max(2.5rem,calc(env(safe-area-inset-bottom)+5.5rem))] sm:pb-20">
+    <section className="bg-dq-900 dark:bg-slate-900 transition-colors pt-16 sm:pt-20 pb-[max(2.5rem,calc(env(safe-area-inset-bottom)+5.5rem))] sm:pb-20">
       <div className={`${TW_CONTAINER_NARROW} text-center`}>
         {heading && (
           <h2 className={`${TW_SECTION_TITLE} text-white mb-4`}>

@@ -54,7 +54,7 @@ export default function HeroSection({
   return (
     <section
       aria-label={`${HOME_LABEL} کا تعارف`}
-      className="relative w-full overflow-hidden min-h-[400px] md:min-h-[720px] bg-hero-surface"
+      className="relative w-full overflow-hidden min-h-[400px] md:min-h-[720px] bg-hero-surface dark:bg-slate-900 dark:bg-none transition-colors"
     >
 
       {/* Dot-grid texture */}
@@ -87,9 +87,9 @@ export default function HeroSection({
           <div className="size-full bg-hero-fallback" />
         )}
 
-        <div className="absolute inset-0 hidden md:block bg-hero-fade-rtl" />
-        <div className="absolute inset-0 hidden md:block rtl:hidden bg-hero-fade-ltr" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white/20 hidden md:block" />
+        <div className="absolute inset-0 hidden md:block bg-hero-fade-rtl dark:bg-hero-fade-rtl-dark" />
+        <div className="absolute inset-0 hidden md:block rtl:hidden bg-hero-fade-ltr dark:bg-hero-fade-ltr-dark" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white/20 dark:to-slate-900/40 hidden md:block" />
       </div>
 
       {/* Content */}
@@ -126,7 +126,7 @@ export default function HeroSection({
                 {i === titleLines.length - 1 ? (
                   <span className={TW_TEXT_GRADIENT_GOLD}>{line}</span>
                 ) : (
-                  <span className="text-dq-950">{line}</span>
+                  <span className="text-dq-950 dark:text-white">{line}</span>
                 )}
               </span>
             ))}
@@ -142,7 +142,7 @@ export default function HeroSection({
           {/* Description */}
           <p
             style={heroDelay(380)}
-            className="hero-item text-sm sm:text-[14.5px] text-gray-600 mb-8 max-w-[430px] leading-urdu"
+            className="hero-item text-sm sm:text-[14.5px] text-gray-600 dark:text-slate-400 mb-8 max-w-[430px] leading-urdu"
           >
             {description}
           </p>
@@ -174,7 +174,7 @@ export default function HeroSection({
                         <Icon size={17} strokeWidth={1.5} className="text-dq-600" />
                       </div>
                       <div>
-                        <p className="font-bold leading-none tracking-normal text-[22px] text-dq-950" dir="ltr">
+                        <p className="font-bold leading-none tracking-normal text-[22px] text-dq-950 dark:text-white" dir="ltr">
                           {value}
                         </p>
                         <p className="text-[11px] mt-1 text-gray-400 leading-urdu-tight">{label}</p>

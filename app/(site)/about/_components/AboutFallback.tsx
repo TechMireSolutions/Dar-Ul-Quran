@@ -22,8 +22,8 @@ export default function AboutFallback({ siteName }: AboutFallbackProps) {
   return (
     <div className="space-y-6 sm:space-y-8">
       <Reveal animation="up">
-        <p className="text-[14.5px] text-gray-600 leading-urdu">
-          <strong className="text-slate-900">{siteName}</strong> اسلامی علم کے فروغ کا ایک خصوصی پلیٹ فارم ہے جو قرآن مجید اور اہل بیت (ع) کی تعلیمات پر مبنی ہے۔ ہمارا نام —
+        <p className="text-[14.5px] text-gray-600 dark:text-slate-300 leading-urdu transition-colors">
+          <strong className="text-slate-900 dark:text-white">{siteName}</strong> اسلامی علم کے فروغ کا ایک خصوصی پلیٹ فارم ہے جو قرآن مجید اور اہل بیت (ع) کی تعلیمات پر مبنی ہے۔ ہمارا نام —
           جس کے معنی <em>&ldquo;گھرِ قرآن&rdquo;</em> — قرآن کو تعلیم اور مستند اسلامی مواد کی بنیاد بنانے کے ہمارے مشن کی عکاسی کرتا ہے۔
         </p>
       </Reveal>
@@ -44,9 +44,9 @@ export default function AboutFallback({ siteName }: AboutFallbackProps) {
 
       <Reveal animation="up" delay={80}>
         <div className={TW_FEATURE_CARD}>
-          <h3 className="font-semibold text-slate-900 mb-2 text-[15px] leading-urdu-tight">{siteName}</h3>
-          <p className="text-[13.5px] text-gray-600 leading-urdu">
-            ہم <strong className="text-slate-800">{siteName}</strong> سے وابستہ ہیں، جو ہمارا خصوصی قرآنی ادارہ ہے اور ہر عمر کے طلبہ کے لیے منظم قرآنی تعلیمی پروگرام فراہم کرتا ہے۔
+          <h3 className="font-semibold text-slate-900 dark:text-white mb-2 text-[15px] leading-urdu-tight transition-colors">{siteName}</h3>
+          <p className="text-[13.5px] text-gray-600 dark:text-slate-300 leading-urdu transition-colors">
+            ہم <strong className="text-slate-800 dark:text-slate-100">{siteName}</strong> سے وابستہ ہیں، جو ہمارا خصوصی قرآنی ادارہ ہے اور ہر عمر کے طلبہ کے لیے منظم قرآنی تعلیمی پروگرام فراہم کرتا ہے۔
           </p>
         </div>
       </Reveal>

@@ -18,7 +18,7 @@ type FaqAccordionProps = {
 function FaqAnswer({ answer }: { answer?: unknown }) {
   if (Array.isArray(answer) && answer.length > 0) {
     return (
-      <div className="px-6 pb-5 pt-1 text-sm text-gray-600 leading-urdu border-t border-gray-50">
+      <div className="px-6 pb-5 pt-1 text-sm text-gray-600 dark:text-slate-300 leading-urdu border-t border-gray-50 dark:border-slate-700/50 transition-colors">
         <RichTextBody value={answer as PortableTextBlock[]} size="sm" />
       </div>
     )
@@ -26,7 +26,7 @@ function FaqAnswer({ answer }: { answer?: unknown }) {
 
   if (typeof answer === 'string' && answer.trim()) {
     return (
-      <div className="px-6 pb-5 pt-1 text-sm text-gray-600 leading-urdu border-t border-gray-50">
+      <div className="px-6 pb-5 pt-1 text-sm text-gray-600 dark:text-slate-300 leading-urdu border-t border-gray-50 dark:border-slate-700/50 transition-colors">
         <p className="leading-urdu tracking-normal">{answer}</p>
       </div>
     )
@@ -45,7 +45,7 @@ export default function FaqAccordion({ heading, items, icon = 'chevron' }: FaqAc
       : 'shrink-0 text-gray-400 transition-transform duration-200 rtl:rotate-180 group-open:rotate-90 group-open:rtl:rotate-90'
 
   return (
-    <section className={`bg-slate-50 ${TW_SECTION_PY}`}>
+    <section className={`bg-slate-50 dark:bg-transparent transition-colors ${TW_SECTION_PY}`}>
       <div className={TW_CONTAINER_NARROW}>
         {heading && <CenteredSectionHeader title={heading} tight />}
         <div className="space-y-3">
@@ -54,7 +54,7 @@ export default function FaqAccordion({ heading, items, icon = 'chevron' }: FaqAc
               key={i}
               className={`group ${TW_CARD_SURFACE} overflow-hidden shadow-sm`}
             >
-              <summary className="flex min-h-11 items-center justify-between gap-4 px-6 py-5 cursor-pointer list-none font-semibold text-[15px] text-slate-900 hover:text-dq-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 focus-visible:ring-inset">
+              <summary className="flex min-h-11 items-center justify-between gap-4 px-6 py-5 cursor-pointer list-none font-semibold text-[15px] text-slate-900 dark:text-white hover:text-dq-700 dark:hover:text-dq-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 focus-visible:ring-inset">
                 {item.question}
                 <Icon size={icon === 'plus' ? 16 : 15} strokeWidth={icon === 'plus' ? 2 : undefined} className={iconClass} />
               </summary>
