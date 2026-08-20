@@ -36,3 +36,22 @@ export async function rateLimitContact(ip: string): Promise<RateLimitResult> {
 
   return rateLimitMemory(ip)
 }
+
+export async function rateLimitSearch(ip: string): Promise<RateLimitResult> {
+  const url = process.env.UPSTASH_REDIS_REST_URL
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN
+
+  if (url && token) {
+    const { Ratelimit } = await import('@upstash/ratelimit')
+    const { Redis } = await import('@upstash/redis')
+    const ratelimit = new Ratelimit({
+      redis: new Redis({ url, token }),
+      limiter: Ratelimit.slidingWindow(20, '1 m'), // 20 searches per minute
+      prefix: 'dq:search',
+    })
+    const result = await ratelimit.limit(ip)
+    return { success: result.success, remaining: result.remaining }
+  }
+
+  return rateLimitMemory(ip)
+}

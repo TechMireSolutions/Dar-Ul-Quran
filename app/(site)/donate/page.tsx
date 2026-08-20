@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import { cmsPageMetadata, fetchCmsPage, resolveSeoDescription, resolveSeoTitle } from '@/lib/cmsPage'
+import { getPaymentMethods } from '@/sanity/lib/fetchers'
+
 import CmsPageShell from '@/components/layout/CmsPageShell'
 import DonateContent from './_components/DonateContent'
 import { PATHS, SECTION_LABELS } from '@/lib/paths'
@@ -25,7 +27,10 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function DonatePage() {
-  const { page, settings } = await fetchCmsPage('donate')
+  const [{ page, settings }, paymentMethods] = await Promise.all([
+    fetchCmsPage('donate'),
+    getPaymentMethods()
+  ])
 
   const causes = settings?.donateCauses?.length
     ? settings.donateCauses
@@ -41,7 +46,7 @@ export default async function DonatePage() {
       path={PATHS.donate}
       eyebrow={page?.eyebrow || 'عطا کیجیے'}
       title={page?.title || SECTION_LABELS.donate}
-      subtitle={page?.subtitle || 'آپ کی سخاوت اہل بیت (ع) کے نور کو زندہ رکھتی ہے۔ ہر عطیہ — چھوٹا یا بڑا — فرق ڈالتا ہے۔'}
+      subtitle={page?.subtitle || 'آپ کی سخاوت اہل بیت (ع) کے نور کو زندہ رکھتی ہے۔ آپ کا ہر عطیہ، چاہے چھوٹا ہو یا بڑا، ہمارے مشن کے لیے بے حد اہم ہے۔'}
       maxWidth="5xl"
       align="center"
       topContent={
@@ -61,6 +66,7 @@ export default async function DonatePage() {
             payOnlineLabel={settings?.donatePayOnlineLabel || DEFAULT_DONATE_PAY_ONLINE_LABEL}
             contactLabel={settings?.donateContactLabel || DEFAULT_DONATE_CONTACT_LABEL}
             closingMessage={settings?.donateClosingMessage || DEFAULT_DONATE_CLOSING_MESSAGE}
+            paymentMethods={paymentMethods ?? []}
           />
         </div>
       </div>

@@ -69,7 +69,7 @@ export const featuredPostsQuery = `
 `
 
 export const postBySlugQuery = `
-  *[_type == "post" && slug.current == $slug][0] {
+  *[_type == "post" && (slug.current == $slug || slug.current == $slug + " ")][0] {
     _id, title, slug, mainImage, body, publishedAt, _updatedAt, excerpt,
     "categories": categories[]->{ _id, title, slug },
     "author": author->{ name, image, bio }
@@ -89,7 +89,7 @@ export const topLevelCoursesQuery = `
 `
 
 export const courseBySlugDeepQuery = `
-  *[_type == "course" && slug.current == $slug][0] {
+  *[_type == "course" && (slug.current == $slug || slug.current == $slug + " ")][0] {
     _id, title, slug, excerpt, body, subject, featuredImage,
     price, duration, instructor, enrollmentLink, faq,
     ${FAQ_ITEMS_PT},
@@ -133,7 +133,7 @@ export const topLevelServicesQuery = `
 `
 
 export const serviceBySlugDeepQuery = `
-  *[_type == "service" && slug.current == $slug][0] {
+  *[_type == "service" && (slug.current == $slug || slug.current == $slug + " ")][0] {
     _id, title, slug, excerpt, body, icon, isBookable, price, faq,
     ${FAQ_ITEMS_PT},
     "seoTitle": seoTitle, "seoDescription": seoDescription,
@@ -163,7 +163,7 @@ export const allServicePathsQuery = `
 // ─── Pages ───────────────────────────────────────────────────────────────────
 
 export const pageBySlugQuery = `
-  *[_type == "page" && slug.current == $slug][0] {
+  *[_type == "page" && (slug.current == $slug || slug.current == $slug + " ")][0] {
     _id, title, slug, eyebrow, subtitle, body, seoTitle, seoDescription
   }
 `
@@ -206,7 +206,7 @@ export const homepageSettingsQuery = `
     coursesHeading, coursesSubheading, servicesHeading, servicesSubheading,
     articlesHeading, articlesSubheading,
     testimonialsEyebrow, testimonialsHeading,
-    donateHeading, donateText, donateQuote, donateQuoteAttribution, donateCtaLabel
+    donateHeading, donateText, donateQuote, donateQuoteAttribution, donateQuoteReference, donateCtaLabel
   }
 `
 
@@ -222,7 +222,7 @@ export const siteSettingsQuery = `
   *[_type == "siteSettings"][0] {
     siteName, description, tagline, email, phone, whatsapp, address,
     favicon, logo, facebook, youtube,
-    darulQuranUrl, searchPlaceholder
+    darulQuranUrl, searchPlaceholder, donateUrl
   }
 `
 
@@ -330,5 +330,11 @@ export const topicClusterForPostQuery = `
 export const topicClusterForPillarQuery = `
   *[_type == "topicCluster" && pillarPage._ref == $pillarId][0] {
     ${TOPIC_CLUSTER_PILLAR_FIELDS}
+  }
+`
+
+export const paymentMethodsQuery = `
+  *[_type == "paymentMethod"] | order(order asc) {
+    _id, title, icon, accountTitle, accountNumber, bankName, order
   }
 `

@@ -13,6 +13,7 @@ import HeaderDesktopNav from './HeaderDesktopNav'
 import { TW_CONTAINER_HEADER, TW_HEADER_ICON_BTN, TW_HEADER_SEARCH_INPUT, TW_HEADER_SEARCH_SUBMIT, TW_HEADER_SEARCH_TOGGLE, TW_SEARCH_FORM } from '@/lib/tailwind'
 
 const HeaderMobileMenu = dynamic(() => import('./HeaderMobileMenu'), { ssr: false })
+const SearchPalette = dynamic(() => import('@/components/layout/SearchPalette'), { ssr: false })
 
 type HeaderProps = {
   darulQuranUrl?:     string
@@ -27,7 +28,6 @@ export default function Header({
 }: HeaderProps) {
   const [menuOpen,   setMenuOpen]   = useState(false)
   const [mobileMenuMounted, setMobileMenuMounted] = useState(false)
-  const [query,      setQuery]      = useState('')
   const [searchOpen, setSearchOpen] = useState(false)
   const [scrolled,   setScrolled]   = useState(false)
   const menuButtonRef = useRef<HTMLButtonElement>(null)
@@ -59,6 +59,17 @@ export default function Header({
   }, [])
 
   useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        setSearchOpen(true);
+      }
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  useEffect(() => {
     if (wasMenuOpen.current && !menuOpen) {
       requestAnimationFrame(() => menuButtonRef.current?.focus())
     }
@@ -82,14 +93,9 @@ export default function Header({
     setMenuOpen(true)
   }
 
-  function handleSearch(e: React.FormEvent) {
-    e.preventDefault()
-    if (query.trim()) {
-      router.push(`${PATHS.articles}?q=${encodeURIComponent(query.trim())}`)
-      setQuery('')
-      setMenuOpen(false)
-      setSearchOpen(false)
-    }
+  function openSearch() {
+    setMenuOpen(false)
+    setSearchOpen(true)
   }
 
   return (
@@ -125,37 +131,13 @@ export default function Header({
           </button>
 
           <div className="hidden lg:flex items-center ms-auto">
-            {searchOpen ? (
-              <form onSubmit={handleSearch} role="search" aria-label={DEFAULT_SEARCH_LANDMARK}
-                className={TW_SEARCH_FORM}>
-                <label htmlFor="desktop-search" className="sr-only">{DEFAULT_SEARCH_LABEL}</label>
-                <input
-                  id="desktop-search"
-                  autoFocus
-                  type="search"
-                  value={query}
-                  onChange={e => setQuery(e.target.value)}
-                  onBlur={(e) => {
-                    const next = e.relatedTarget as HTMLElement | null
-                    if (!query && next?.getAttribute('type') !== 'submit') setSearchOpen(false)
-                  }}
-                  placeholder={searchPlaceholder}
-                  className={TW_HEADER_SEARCH_INPUT}
-                />
-                <button type="submit" aria-label={DEFAULT_SEARCH_SUBMIT_LABEL}
-                  className={TW_HEADER_SEARCH_SUBMIT}>
-                  <Search size={13} className="text-white" strokeWidth={2.5} />
-                </button>
-              </form>
-            ) : (
-              <button
-                onClick={() => setSearchOpen(true)}
-                aria-label="تلاش کھولیں"
-                className={TW_HEADER_SEARCH_TOGGLE}
-              >
-                <Search size={15} strokeWidth={2} />
-              </button>
-            )}
+            <button
+              onClick={() => setSearchOpen(true)}
+              aria-label="تلاش کھولیں (Cmd+K)"
+              className={TW_HEADER_SEARCH_TOGGLE}
+            >
+              <Search size={16} strokeWidth={2.5} />
+            </button>
           </div>
         </div>
       </header>
@@ -168,11 +150,10 @@ export default function Header({
           logoUrl={logoUrl ?? null}
           siteName={siteName}
           searchPlaceholder={searchPlaceholder}
-          query={query}
-          setQuery={setQuery}
-          onSearch={handleSearch}
+          onOpenSearch={openSearch}
         />
       )}
+      <SearchPalette isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
     </>
   )
 }

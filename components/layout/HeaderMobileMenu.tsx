@@ -13,10 +13,7 @@ import {
   TW_MOBILE_PANEL_HEADER,
   TW_MOBILE_PANEL_NAV,
   TW_MOBILE_PANEL_SEARCH,
-  TW_MOBILE_PANEL_SEARCH_LABEL,
   TW_MOBILE_SEARCH_INPUT,
-  TW_MOBILE_SEARCH_SUBMIT,
-  TW_SEARCH_FORM_MOBILE,
 } from '@/lib/tailwind'
 
 export type HeaderMobileMenuProps = {
@@ -26,9 +23,7 @@ export type HeaderMobileMenuProps = {
   logoUrl: string | null
   siteName: string
   searchPlaceholder: string
-  query: string
-  setQuery: (value: string) => void
-  onSearch: (e: React.FormEvent) => void
+  onOpenSearch: () => void
 }
 
 export default function HeaderMobileMenu({
@@ -38,9 +33,7 @@ export default function HeaderMobileMenu({
   logoUrl,
   siteName,
   searchPlaceholder,
-  query,
-  setQuery,
-  onSearch,
+  onOpenSearch,
 }: HeaderMobileMenuProps) {
   const panelRef = useRef<HTMLDivElement>(null)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
@@ -85,13 +78,8 @@ export default function HeaderMobileMenu({
     }
     window.addEventListener('keydown', onKey)
 
-    const focusRaf = requestAnimationFrame(() => {
-      searchInputRef.current?.focus({ preventScroll: true })
-    })
-
     return () => {
       window.removeEventListener('keydown', onKey)
-      cancelAnimationFrame(focusRaf)
       unlockScroll(scrollY)
     }
   }, [open, handleClose, lockScroll, unlockScroll])
@@ -161,33 +149,14 @@ export default function HeaderMobileMenu({
         </div>
 
         <div className={TW_MOBILE_PANEL_SEARCH}>
-          <p className={TW_MOBILE_PANEL_SEARCH_LABEL} id="mobile-search-label">
-            {DEFAULT_SEARCH_LANDMARK}
-          </p>
-          <form
-            onSubmit={onSearch}
-            role="search"
-            aria-labelledby="mobile-search-label"
-            className={TW_SEARCH_FORM_MOBILE}
+          <button
+            onClick={onOpenSearch}
+            className={`${TW_MOBILE_SEARCH_INPUT} flex items-center justify-between text-right w-full text-gray-500`}
+            aria-label={DEFAULT_SEARCH_LANDMARK}
           >
-            <label htmlFor="mobile-search" className="sr-only">
-              {DEFAULT_SEARCH_LABEL}
-            </label>
-            <input
-              ref={searchInputRef}
-              id="mobile-search"
-              type="search"
-              enterKeyHint="search"
-              autoComplete="off"
-              value={query}
-              onChange={e => setQuery(e.target.value)}
-              placeholder={searchPlaceholder}
-              className={TW_MOBILE_SEARCH_INPUT}
-            />
-            <button type="submit" aria-label={DEFAULT_SEARCH_SUBMIT_LABEL} className={TW_MOBILE_SEARCH_SUBMIT}>
-              <Search size={14} className="text-white" strokeWidth={2.5} aria-hidden="true" />
-            </button>
-          </form>
+            <span>{searchPlaceholder}</span>
+            <Search size={16} className="text-gray-400" strokeWidth={2.5} aria-hidden="true" />
+          </button>
         </div>
 
         <nav

@@ -10,6 +10,7 @@ import { homepageSettings }   from './homepageSettings'
 import { testimonial }        from './testimonial'
 import { contactSubmission }  from './contactSubmission'
 import { topicCluster }       from './topicCluster'
+import { paymentMethod }      from './paymentMethod'
 
 export const schemaTypes = [
   post,
@@ -24,4 +25,5 @@ export const schemaTypes = [
   testimonial,
   contactSubmission,
   topicCluster,
+  paymentMethod,
 ]

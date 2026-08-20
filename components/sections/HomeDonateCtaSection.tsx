@@ -41,8 +41,15 @@ export default function HomeDonateCtaSection({ settings }: HomeDonateCtaSectionP
             </p>
             <div className="mt-3 flex items-center justify-center gap-2">
               <span className="w-5 h-px bg-amber-300" />
-              <cite className="not-italic text-[11px] font-semibold text-amber-600 tracking-normal">
-                {settings?.donateQuoteAttribution || 'امام صادق (ع)'}
+              <cite className="not-italic flex flex-col items-center gap-0.5 tracking-normal">
+                <span className="text-[11px] font-semibold text-amber-600">
+                  {settings?.donateQuoteAttribution || 'امام صادق (ع)'}
+                </span>
+                {(settings?.donateQuoteReference || 'الکافی، جلد 4، صفحہ 2') && (
+                  <span className="text-[10px] font-normal text-slate-400 dark:text-slate-500">
+                    [{settings?.donateQuoteReference || 'الکافی، جلد 4، صفحہ 2'}]
+                  </span>
+                )}
               </cite>
               <span className="w-5 h-px bg-amber-300" />
             </div>

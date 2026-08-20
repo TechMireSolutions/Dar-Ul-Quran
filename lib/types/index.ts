@@ -31,4 +31,5 @@ export type {
   CmsPageDoc,
   SlugListItem,
   SanityImageAsset,
+  PaymentMethodDoc,
 } from './cms'

@@ -1,7 +1,9 @@
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import RichTextBody from '@/components/content/RichTextBody'
+import DynamicPaymentMethods from './DynamicPaymentMethods'
 import Reveal from '@/components/ui/Reveal'
+
 import { externalLinkAttrs } from '@/lib/contact'
 import { PATHS } from '@/lib/paths'
 import {
@@ -18,6 +20,8 @@ import type { PortableTextBlock } from '@portabletext/types'
 
 type DonateCause = { title: string; desc: string }
 
+import type { PaymentMethodDoc } from '@/lib/types'
+
 type DonateContentProps = {
   body?: PortableTextBlock[] | null
   causes: DonateCause[]
@@ -27,6 +31,7 @@ type DonateContentProps = {
   payOnlineLabel: string
   contactLabel: string
   closingMessage: string
+  paymentMethods: PaymentMethodDoc[]
 }
 
 export default function DonateContent({
@@ -38,6 +43,7 @@ export default function DonateContent({
   payOnlineLabel,
   contactLabel,
   closingMessage,
+  paymentMethods,
 }: DonateContentProps) {
   return (
     <>
@@ -92,6 +98,25 @@ export default function DonateContent({
           </div>
         </div>
       </Reveal>
+
+      <div className="mt-8 sm:mt-10">
+        <Reveal animation="up">
+          <div className="mb-5 text-center">
+            <p className="text-eyebrow mb-2 flex items-center justify-center gap-2 text-gold-600">
+              <span className="eyebrow-line-gold w-6" aria-hidden="true" />
+              مقامی ادائیگی کے طریقے
+              <span className="eyebrow-line-gold w-6" aria-hidden="true" />
+            </p>
+            <h2 className="font-bold text-[20px] sm:text-[22px] tracking-normal leading-heading text-slate-900 dark:text-white">
+              پاکستانی بینکوں اور ایپس کے ذریعے عطیہ کریں
+            </h2>
+            <p className="text-[13px] sm:text-[13.5px] text-slate-500 mb-6 max-w-sm mx-auto leading-urdu">
+              بینک ٹرانسفر اور موبائل ادائیگیوں کے لیے ان میں سے کوئی بھی طریقہ استعمال کریں۔
+            </p>
+          </div>
+        </Reveal>
+        <DynamicPaymentMethods methods={paymentMethods} />
+      </div>
 
       <p className="text-center text-[12px] text-gray-400 mt-6">
         {closingMessage}

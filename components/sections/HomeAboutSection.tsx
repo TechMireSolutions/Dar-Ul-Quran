@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import Reveal from '@/components/ui/Reveal'
+import HomeAboutQuotePanel from './HomeAboutQuotePanel'
+import { FALLBACK_QUOTES } from '@/lib/fallbacks/quotes'
 import type { HomepageSettingsDoc } from '@/lib/types'
 import {
   DEFAULT_ABOUT_CTA_LABEL,
@@ -71,43 +73,10 @@ export default function HomeAboutSection({ settings }: HomeAboutSectionProps) {
           </Reveal>
 
           <Reveal animation="scale" delay={120}>
-            <div className="relative pb-10">
-              <div className="bg-dq-900 rounded-3xl p-8 sm:p-10 text-white relative overflow-hidden">
-                <div className="absolute top-0 end-0 size-72 rounded-full pointer-events-none opacity-20 bg-gold-radial-sm ltr:translate-x-[30%] rtl:-translate-x-[30%] -translate-y-[30%]" />
-                <p className="text-center text-[28px] sm:text-[32px] leading-urdu text-amber-400 font-light mb-3" dir="rtl">
-                  {settings?.aboutHadithArabic || 'اطلبوا العلم من المهد إلى اللحد'}
-                </p>
-                <div className="w-10 h-px bg-amber-400/40 mx-auto mb-3" />
-                <p className="text-center text-[13px] text-gray-400 italic leading-urdu">
-                  &quot;{settings?.aboutHadithTranslation || 'علم حاصل کرو گہوارے سے لحد تک۔'}&quot;
-                </p>
-                <p className="text-center text-[11px] text-amber-500 font-semibold mt-2 tracking-normal">
-                  — {settings?.aboutHadithAttribution || 'حضرت محمد (ص)'}
-                </p>
-                <div className="grid grid-cols-3 gap-4 mt-8 pt-6 border-t border-white/10">
-                  {[
-                    { value: settings?.aboutStat1Value || '500+', label: settings?.aboutStat1Label || 'طلباء' },
-                    { value: settings?.aboutStat2Value || '10+', label: settings?.aboutStat2Label || 'علماء' },
-                    { value: settings?.aboutStat3Value || '5+', label: settings?.aboutStat3Label || 'ممالک' },
-                  ].map((stat) => (
-                    <div key={stat.label} className="text-center">
-                      <p className="text-[22px] font-bold text-white leading-none">{stat.value}</p>
-                      <p className="text-[11px] text-gray-400 mt-1 leading-urdu-tight">{stat.label}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="absolute bottom-0 start-6 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-2xl px-4 py-3 shadow-lg flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-emerald-50 dark:bg-emerald-900/40 border border-emerald-100 dark:border-emerald-800 flex items-center justify-center shrink-0">
-                  <span className="text-emerald-600 font-bold text-[16px]">✓</span>
-                </div>
-                <div>
-                  <p className="text-[12px] font-semibold text-slate-800 dark:text-slate-100">{settings?.aboutBadgeText || 'اہل علماء'}</p>
-                  <p className="text-[11px] text-gray-400">{settings?.aboutBadgeSubtext || 'تصدیق شدہ و قابل اعتماد'}</p>
-                </div>
-              </div>
-            </div>
+            <HomeAboutQuotePanel 
+              homepage={settings || null}
+              quotes={FALLBACK_QUOTES}
+            />
           </Reveal>
         </div>
       </div>

@@ -112,8 +112,8 @@ export function breadcrumbHref(basePath: string, ancestry: { slug: string }[], i
 /** Normalize catch-all params — Next may pass string[] or a slash-joined string. */
 export function normalizeCatchAllSlug(slug: string | string[] | undefined): string[] {
   if (!slug) return []
-  if (Array.isArray(slug)) return slug.filter(Boolean)
-  return slug.split('/').filter(Boolean)
+  if (Array.isArray(slug)) return slug.filter(Boolean).map(decodeURIComponent)
+  return slug.split('/').filter(Boolean).map(decodeURIComponent)
 }
 
 /** Parse catch-all route params into segments + leaf slug. */
@@ -158,7 +158,7 @@ export function assertSlugAncestry(
   const expected = expectedSlugSegmentsFromAncestry(ancestry, leafSlug)
   return (
     urlSlugs.length === expected.length &&
-    urlSlugs.every((segment, i) => segment === expected[i])
+    urlSlugs.every((segment, i) => segment.trim() === expected[i]?.trim())
   )
 }
 

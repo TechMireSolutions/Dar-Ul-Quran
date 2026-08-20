@@ -111,6 +111,7 @@ export type HomepageSettingsDoc = {
   donateText?: string
   donateQuote?: string
   donateQuoteAttribution?: string
+  donateQuoteReference?: string
   donateCtaLabel?: string
 }
 
@@ -295,4 +296,14 @@ export type ServiceDetailDoc = {
   ctaBtn1Label?: string
   ctaBtn2Label?: string
   faqSectionHeading?: string
+}
+
+export type PaymentMethodDoc = {
+  _id: string
+  title: string
+  icon?: SanityImageAsset
+  accountTitle: string
+  accountNumber: string
+  bankName?: string
+  order?: number
 }

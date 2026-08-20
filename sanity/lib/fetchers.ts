@@ -24,6 +24,7 @@ import {
   postSlugsQuery,
   sitemapQuery,
   llmFeedQuery,
+  paymentMethodsQuery,
 } from './queries'
 import type {
   PageDoc,
@@ -41,6 +42,7 @@ import type {
   TopicClusterDoc,
   CourseDetailDoc,
   ServiceDetailDoc,
+  PaymentMethodDoc,
 } from '@/lib/types'
 import type { SitemapData, LlmFeedData } from '@/lib/types/feed'
 
@@ -114,3 +116,5 @@ export const getPostSlugs = cache(() => safeFetch<Array<{ slug: string }>>(postS
 export const getSitemapData = cache(() => safeFetch<SitemapData>(sitemapQuery))
 
 export const getLlmFeedData = cache(() => safeFetch<LlmFeedData>(llmFeedQuery))
+
+export const getPaymentMethods = cache(() => safeFetch<PaymentMethodDoc[]>(paymentMethodsQuery))

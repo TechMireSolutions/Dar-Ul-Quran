@@ -34,6 +34,7 @@ export const homepageSettings = defineType({
     defineField({ name: 'donateCtaLabel', type: 'string', title: 'Donate CTA Button Label', initialValue: DEFAULT_DONATE_CTA_LABEL }),
     defineField({ name: 'donateQuote', type: 'text', title: 'Donate Quote', rows: 2, initialValue: 'صدقہ رب کے غضب کو بجھاتا اور بری موت کو دور کرتا ہے۔' }),
     defineField({ name: 'donateQuoteAttribution', type: 'string', title: 'Donate Quote Attribution', initialValue: 'امام صادق (ع)' }),
+    defineField({ name: 'donateQuoteReference', type: 'string', title: 'Quote Reference' }),
 
     // ── About Us section ──────────────────────────────────────────────────────
     defineField({ name: 'aboutEyebrow', type: 'string', title: 'About — Eyebrow', initialValue: 'ہم کون ہیں' }),
