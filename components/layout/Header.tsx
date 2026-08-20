@@ -133,7 +133,7 @@ export default function Header({
           <div className="hidden lg:flex items-center ms-auto">
             <button
               onClick={() => setSearchOpen(true)}
-              aria-label="تلاش کھولیں (Cmd+K)"
+              aria-label="تلاش کھولیں (Cmd+K)" // urdu-ok
               className={TW_HEADER_SEARCH_TOGGLE}
             >
               <Search size={16} strokeWidth={2.5} />
