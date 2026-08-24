@@ -54,7 +54,7 @@ export default function LeafCtaBanner({
             className={TW_LEAF_WHATSAPP_CTA}
           >
             <MessageCircle size={14} />
-            {whatsappLabel}
+            {whatsappLabel || DEFAULT_WHATSAPP_CTA_LABEL}
           </Link>
         </div>
         {footer}
