@@ -17,7 +17,7 @@ export const DEFAULT_TAGLINE =
 export const DEFAULT_DONATE_CTA_LABEL = 'ابھی عطیہ دیں'
 
 /** External related-site chip label (footer). */
-export const DEFAULT_RELATED_SITE_LABEL = 'متعلقہ ویب سائٹ'
+export const DEFAULT_RELATED_SITE_LABEL = 'آب تاب'
 
 /** Short meta description when CMS description is empty. */
 export const DEFAULT_SITE_DESCRIPTION = 'اسلامی علم، آنلائن کورسز اور خدمات'
