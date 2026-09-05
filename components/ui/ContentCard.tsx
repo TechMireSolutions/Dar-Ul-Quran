@@ -13,6 +13,7 @@ type ContentCardProps = {
   badge?:       string | null
   active?:      boolean
   imageAlt?:    string
+  imageSizes?:  string
 }
 
 export default function ContentCard({
@@ -24,6 +25,7 @@ export default function ContentCard({
   badge,
   active = false,
   imageAlt,
+  imageSizes,
 }: ContentCardProps) {
   return (
     <article
@@ -55,7 +57,7 @@ export default function ContentCard({
                 loading="lazy"
                 decoding="async"
                 quality={75}
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 400px"
+                sizes={imageSizes ?? "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 400px"}
                 className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.07] motion-reduce:group-hover:scale-100"
               />
             ) : (

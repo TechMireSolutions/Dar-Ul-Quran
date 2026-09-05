@@ -22,13 +22,26 @@
 @source inline("focus-within:border-dq-{50,100,200,300,400,500,600,700,800,900,950}");
 
 /* ─── Custom Scrollbar ─── */
-::-webkit-scrollbar          { width: 6px; height: 6px; }
-::-webkit-scrollbar-track    { background: theme(colors.slate.100); }
-::-webkit-scrollbar-thumb    { background: theme(colors.slate.300); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: theme(colors.slate.400); }
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: theme(colors.slate.100);
+}
+::-webkit-scrollbar-thumb {
+  background: theme(colors.slate.300);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: theme(colors.slate.400);
+}
 
 /* ─── Text Selection ─── */
-::selection { background: theme(colors.dq.100); color: theme(colors.dq.900); }
+::selection {
+  background: theme(colors.dq.100);
+  color: theme(colors.dq.900);
+}
 
 /* ─── Skip link (keyboard / screen reader) ─── */
 .skip-link {
@@ -79,7 +92,9 @@ body.mobile-menu-open {
 @layer base {
   html {
     scroll-behavior: smooth;
-    font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', 'Geeza Pro', system-ui, serif;
+    font-family:
+      var(--font-noto-urdu), "Jameel Noori Nastaleeq", "Geeza Pro", system-ui,
+      serif;
     text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
   }
@@ -87,7 +102,9 @@ body.mobile-menu-open {
   body {
     background-color: var(--color-bg-page);
     color: var(--color-text-page);
-    font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', 'Geeza Pro', system-ui, serif;
+    font-family:
+      var(--font-noto-urdu), "Jameel Noori Nastaleeq", "Geeza Pro", system-ui,
+      serif;
     font-size: 16px;
     line-height: 1.9;
     font-weight: 400;
@@ -96,12 +113,21 @@ body.mobile-menu-open {
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     /* Enable ligatures and contextual alternates — critical for Arabic/Urdu */
-    font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1, 'rlig' 1;
+    font-feature-settings:
+      "kern" 1,
+      "liga" 1,
+      "calt" 1,
+      "rlig" 1;
     overflow-x: hidden;
   }
 
   /* ── Heading hierarchy ─────────────────────────────── */
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-weight: 700;
     letter-spacing: 0; /* Nastaliq — never tighten Latin-style tracking */
     text-rendering: optimizeLegibility;
@@ -109,21 +135,44 @@ body.mobile-menu-open {
   }
 
   /* Nastaliq: Needs extremely large line height (1.8-2.2) to prevent ascenders/descenders from clipping */
-  h1 { font-size: 2.5rem;    line-height: 1.85; } /* 40px */
-  h2 { font-size: 2rem;      line-height: 1.9;  } /* 32px */
-  h3 { font-size: 1.625rem;  line-height: 2.0;  } /* 26px */
-  h4 { font-size: 1.25rem;   line-height: 2.05; } /* 20px */
-  h5 { font-size: 1.0625rem; line-height: 2.1;  } /* 17px */
-  h6 { font-size: 0.9375rem; line-height: 2.1;  } /* 15px */
+  h1 {
+    font-size: 2.5rem;
+    line-height: 1.85;
+  } /* 40px */
+  h2 {
+    font-size: 2rem;
+    line-height: 1.9;
+  } /* 32px */
+  h3 {
+    font-size: 1.625rem;
+    line-height: 2;
+  } /* 26px */
+  h4 {
+    font-size: 1.25rem;
+    line-height: 2.05;
+  } /* 20px */
+  h5 {
+    font-size: 1.0625rem;
+    line-height: 2.1;
+  } /* 17px */
+  h6 {
+    font-size: 0.9375rem;
+    line-height: 2.1;
+  } /* 15px */
 
   p {
     line-height: 2.2;
     text-wrap: pretty;
   }
 
-  small { font-size: 0.8125rem; line-height: 2.1; } /* 13px */
+  small {
+    font-size: 0.8125rem;
+    line-height: 2.1;
+  } /* 13px */
 
-  strong { font-weight: 700; }
+  strong {
+    font-weight: 700;
+  }
 
   /* Focus ring */
   :focus-visible {
@@ -137,7 +186,9 @@ body.mobile-menu-open {
 @utility scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
-  &::-webkit-scrollbar { display: none; }
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @utility cv-auto {
@@ -151,7 +202,7 @@ body.mobile-menu-open {
 @utility link-underline {
   position: relative;
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: -2px;
     right: 0;
@@ -175,21 +226,39 @@ body.mobile-menu-open {
   .rich-text :where(h2, h3, h4) {
     @apply font-bold text-slate-900 dark:text-white tracking-normal mt-8 mb-4 leading-heading transition-colors;
   }
-  .rich-text :where(h2) { @apply text-2xl; }
-  .rich-text :where(h3) { @apply text-xl; }
-  .rich-text :where(h4) { @apply text-lg; }
-  .rich-text :where(p) { @apply mb-4 leading-urdu; }
+  .rich-text :where(h2) {
+    @apply text-2xl;
+  }
+  .rich-text :where(h3) {
+    @apply text-xl;
+  }
+  .rich-text :where(h4) {
+    @apply text-lg;
+  }
+  .rich-text :where(p) {
+    @apply mb-4 leading-urdu;
+  }
   .rich-text :where(a) {
     @apply text-dq-500 no-underline hover:underline;
   }
-  .rich-text :where(strong) { @apply font-semibold text-slate-900 dark:text-white transition-colors; }
-  .rich-text :where(ul, ol) { @apply my-4 ps-6 space-y-2; }
-  .rich-text :where(li) { @apply text-gray-700 dark:text-slate-300 transition-colors; }
+  .rich-text :where(strong) {
+    @apply font-semibold text-slate-900 dark:text-white transition-colors;
+  }
+  .rich-text :where(ul, ol) {
+    @apply my-4 ps-6 space-y-2;
+  }
+  .rich-text :where(li) {
+    @apply text-gray-700 dark:text-slate-300 transition-colors;
+  }
   .rich-text :where(blockquote) {
     @apply border-s-4 border-dq-400 ps-4 my-6 text-slate-600 dark:text-slate-400 not-italic transition-colors;
   }
-  .rich-text-lg :where(p) { @apply text-base sm:text-lg; }
-  .rich-text-sm :where(p) { @apply text-sm; }
+  .rich-text-lg :where(p) {
+    @apply text-base sm:text-lg;
+  }
+  .rich-text-sm :where(p) {
+    @apply text-sm;
+  }
 }
 
 /* ═══════════════════════════════════════════════
@@ -208,47 +277,61 @@ body.mobile-menu-open {
   opacity: 0;
   transform: translateY(30px);
   transition:
-    opacity  0.65s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
     transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.rv-up.rv-visible { opacity: 1; transform: none; }
+.rv-up.rv-visible {
+  opacity: 1;
+  transform: none;
+}
 
 /* Fade only */
 .rv-fade {
   opacity: 0;
   transition: opacity 0.7s ease;
 }
-.rv-fade.rv-visible { opacity: 1; }
+.rv-fade.rv-visible {
+  opacity: 1;
+}
 
 /* Scale in */
 .rv-scale {
   opacity: 0;
   transform: scale(0.93);
   transition:
-    opacity  0.6s ease,
+    opacity 0.6s ease,
     transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.rv-scale.rv-visible { opacity: 1; transform: scale(1); }
+.rv-scale.rv-visible {
+  opacity: 1;
+  transform: scale(1);
+}
 
 /* Slide from left (in RTL context: slides in from the right/end side) */
 .rv-left {
   opacity: 0;
   transform: translateX(-28px);
   transition:
-    opacity  0.65s ease,
+    opacity 0.65s ease,
     transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.rv-left.rv-visible { opacity: 1; transform: none; }
+.rv-left.rv-visible {
+  opacity: 1;
+  transform: none;
+}
 
 /* Slide from right (in RTL context: slides in from the start) */
 .rv-right {
   opacity: 0;
   transform: translateX(28px);
   transition:
-    opacity  0.65s ease,
+    opacity 0.65s ease,
     transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.rv-right.rv-visible { opacity: 1; transform: none; }
+.rv-right.rv-visible {
+  opacity: 1;
+  transform: none;
+}
 
 /* ═══════════════════════════════════════════════
    HOVER INTERACTION UTILITIES
@@ -258,7 +341,9 @@ body.mobile-menu-open {
 .img-zoom img {
   @apply transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)];
 }
-.img-zoom:hover img { @apply scale-[1.07]; }
+.img-zoom:hover img {
+  @apply scale-[1.07];
+}
 
 /* ═══════════════════════════════════════════════
    KEYFRAME ANIMATIONS
@@ -272,13 +357,20 @@ body.mobile-menu-open {
 @media (min-width: 768px) {
   .hero-item {
     opacity: 0;
-    animation: heroFadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) var(--hero-delay, 0ms) both;
+    animation: heroFadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1)
+      var(--hero-delay, 0ms) both;
   }
 }
 
 @keyframes heroFadeUp {
-  from { opacity: 0; transform: translateY(22px); }
-  to   { opacity: 1; transform: none; }
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* ─── Focus ring for buttons & links ─── */
@@ -305,14 +397,21 @@ input[type="button"],
 }
 
 /* Link-buttons (Next.js <Link> styled as buttons) */
-a:where([class*="rounded-full"], [class*="rounded-xl"], [class*="rounded-lg"],
-        [class*="px-"], [class*="py-"]):not([class*="block"]):not([class*="flex"]) {
+a:where(
+    [class*="rounded-full"],
+    [class*="rounded-xl"],
+    [class*="rounded-lg"],
+    [class*="px-"],
+    [class*="py-"]
+  ):not([class*="block"]):not([class*="flex"]) {
   line-height: 1.4;
 }
 
 /* ─── Prevent layout shift on font load ─── */
 @layer base {
-  * { min-width: 0; }
+  * {
+    min-width: 0;
+  }
 }
 
 /* ─── Below-fold rendering (skip layout/paint until near viewport) ─── */

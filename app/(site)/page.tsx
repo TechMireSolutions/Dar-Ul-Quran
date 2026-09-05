@@ -20,9 +20,6 @@ import WebPageSchema from '@/components/seo/WebPageSchema'
 import LcpImagePreload from '@/components/seo/LcpImagePreload'
 import HeroSection from '@/components/sections/HeroSection'
 import HomeAboutSection from '@/components/sections/HomeAboutSection'
-import HomeArticlesSection from '@/components/sections/HomeArticlesSection'
-import HomeTestimonialsSection from '@/components/sections/HomeTestimonialsSection'
-import HomeDonateCtaSection from '@/components/sections/HomeDonateCtaSection'
 import nextDynamic from 'next/dynamic'
 import { TW_CONTAINER } from '@/lib/tailwind'
 
@@ -35,6 +32,10 @@ const CarouselSection = nextDynamic(() => import('@/components/sections/Carousel
     </div>
   ),
 })
+
+const HomeArticlesSection = nextDynamic(() => import('@/components/sections/HomeArticlesSection'))
+const HomeTestimonialsSection = nextDynamic(() => import('@/components/sections/HomeTestimonialsSection'))
+const HomeDonateCtaSection = nextDynamic(() => import('@/components/sections/HomeDonateCtaSection'))
 
 export const revalidate = 300
 

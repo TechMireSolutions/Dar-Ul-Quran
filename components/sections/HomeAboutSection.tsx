@@ -1,8 +1,10 @@
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import Reveal from '@/components/ui/Reveal'
-import HomeAboutQuotePanel from './HomeAboutQuotePanel'
+import nextDynamic from 'next/dynamic'
 import { FALLBACK_QUOTES } from '@/lib/fallbacks/quotes'
+
+const HomeAboutQuotePanel = nextDynamic(() => import('./HomeAboutQuotePanel'))
 import type { HomepageSettingsDoc } from '@/lib/types'
 import {
   DEFAULT_ABOUT_CTA_LABEL,

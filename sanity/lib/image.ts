@@ -36,11 +36,11 @@ const LCP_HERO_WIDTHS = [640, 828, 1200] as const
 export function lcpHeroImageProps(source: SanityImageSource) {
   const srcSet = LCP_HERO_WIDTHS.map((w) => {
     const h = Math.round(w * (552 / 828))
-    const url = urlFor(source).width(w).height(h).fit('crop').auto('format').quality(70).url()
+    const url = urlFor(source).width(w).height(h).fit('crop').auto('format').quality(60).url()
     return `${url} ${w}w`
   }).join(', ')
 
-  const src = urlFor(source).width(828).height(552).fit('crop').auto('format').quality(70).url()
+  const src = urlFor(source).width(828).height(552).fit('crop').auto('format').quality(60).url()
 
   return {
     src,

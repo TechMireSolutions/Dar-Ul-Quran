@@ -13,6 +13,7 @@
     "build": "next build",
     "start": "node scripts/run-next.mjs start",
     "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "check:urdu": "node scripts/check-urdu.mjs"
   },
