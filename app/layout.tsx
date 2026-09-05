@@ -21,7 +21,8 @@ export async function generateMetadata(): Promise<Metadata> {
     const settings = await getSiteSettings()
 
     const siteName   = resolveSiteNameUrdu(settings?.siteName)
-    const faviconUrl = settings?.favicon ? urlFor(settings.favicon).width(256).height(256).url() : undefined
+    const rawFaviconUrl = settings?.favicon ? urlFor(settings.favicon).width(256).height(256).url() : undefined
+    const faviconUrl = rawFaviconUrl ? `/_next/image?url=${encodeURIComponent(rawFaviconUrl)}&w=256&q=75` : undefined
     const description = settings?.description || DEFAULT_SITE_DESCRIPTION
     const ogImageUrl = defaultOgImage(settings)
 

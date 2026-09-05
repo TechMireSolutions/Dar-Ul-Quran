@@ -11,19 +11,19 @@ export default async function manifest(): Promise<MetadataRoute.Manifest> {
   const icons: MetadataRoute.Manifest['icons'] = source
     ? [
         {
-          src: urlFor(source).width(192).height(192).url(),
+          src: `/_next/image?url=${encodeURIComponent(urlFor(source).width(192).height(192).url())}&w=256&q=75`,
           sizes: '192x192',
           type: 'image/png',
           purpose: 'any',
         },
         {
-          src: urlFor(source).width(512).height(512).url(),
+          src: `/_next/image?url=${encodeURIComponent(urlFor(source).width(512).height(512).url())}&w=640&q=75`,
           sizes: '512x512',
           type: 'image/png',
           purpose: 'any',
         },
         {
-          src: urlFor(source).width(512).height(512).fit('crop').url(),
+          src: `/_next/image?url=${encodeURIComponent(urlFor(source).width(512).height(512).fit('crop').url())}&w=640&q=75`,
           sizes: '512x512',
           type: 'image/png',
           purpose: 'maskable',
