@@ -77,7 +77,6 @@ export default function HeroSection({
             sizes={heroImageSizes}
             alt={title ? `${brand} - ${title.replace(/\n/g, ' ')}` : `${brand} - اسلامی علم اور کورسز`}
             fetchPriority="high"
-            decoding="async"
             crossOrigin="anonymous"
             width={828}
             height={552}
