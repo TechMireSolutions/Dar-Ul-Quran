@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { preload } from 'react-dom'
 import { ArrowRight, Users, BookOpen, GraduationCap, type LucideIcon } from 'lucide-react'
 import { DEFAULT_HERO_CTA1_LABEL, DEFAULT_HERO_CTA2_LABEL, DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
 import { HOME_LABEL, PATHS } from '@/lib/paths'
@@ -50,6 +51,15 @@ export default function HeroSection({
   const titleLines = title ? title.split('\n') : DEFAULT_LINES
   const visibleStats = (stats ?? []).filter((s) => s.value.trim() && s.label.trim())
   const brand = DEFAULT_SITE_NAME_URDU
+
+  if (heroImage) {
+    preload(heroImage, {
+      as: 'image',
+      fetchPriority: 'high',
+      imageSrcSet: heroImageSrcSet,
+      imageSizes: heroImageSizes,
+    })
+  }
 
   return (
     <section

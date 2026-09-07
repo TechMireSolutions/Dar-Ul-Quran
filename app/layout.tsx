@@ -3,15 +3,8 @@ import { getSiteSettings } from '@/sanity/lib/fetchers'
 import { urlFor, defaultOgImage } from '@/sanity/lib/image'
 import SiteGraphSchema from '@/components/seo/SiteGraphSchema'
 import { SITE_URL, DEFAULT_SITE_NAME_URDU, DEFAULT_SITE_DESCRIPTION, resolveSiteNameUrdu } from '@/lib/seo'
-import { Noto_Nastaliq_Urdu } from 'next/font/google'
+import DeferredUrduFont from '@/components/ui/DeferredUrduFont'
 import './globals.css'
-
-const notoUrdu = Noto_Nastaliq_Urdu({
-  subsets: ['arabic'],
-  weight: ['400', '700'],
-  variable: '--font-noto-urdu',
-  display: 'swap',
-})
 
 export const viewport: Viewport = {
   themeColor: [
@@ -104,7 +97,8 @@ export default async function RootLayout({ children }: RootLayoutProps) {
       <head>
         <link rel="preconnect" href="https://cdn.sanity.io" crossOrigin="anonymous" />
       </head>
-      <body className={`antialiased leading-urdu ${notoUrdu.variable}`} suppressHydrationWarning>
+      <body className={`antialiased leading-urdu font-urdu`} suppressHydrationWarning>
+        <DeferredUrduFont />
         <SiteGraphSchema
           siteName={settings?.siteName}
           description={settings?.description}
