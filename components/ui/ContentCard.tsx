@@ -57,7 +57,7 @@ export default function ContentCard({
                 loading="lazy"
                 decoding="async"
                 quality={65}
-                sizes={imageSizes ?? "(max-width: 640px) 90vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 400px"}
+                sizes={imageSizes ?? "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"}
                 className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.07] motion-reduce:group-hover:scale-100"
               />
             ) : (

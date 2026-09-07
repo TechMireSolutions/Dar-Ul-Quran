@@ -167,7 +167,7 @@ export default function CarouselSection({
                   href={item.href}
                   badge={item.badge}
                   ctaLabel={item.ctaLabel}
-                  imageSizes="(max-width: 640px) 75vw, (max-width: 1024px) 296px, 316px"
+                  imageSizes="(max-width: 640px) 270px, (max-width: 1024px) 296px, 316px"
                 />
               </div>
             ))}

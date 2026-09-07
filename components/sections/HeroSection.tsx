@@ -40,7 +40,7 @@ export default function HeroSection({
   description = `${DEFAULT_SITE_NAME_URDU} میں ہم ہر شخص کے لیے آسان اور سستی شیعہ اسلامی تعلیم پیش کرتے ہیں، چاہے آپ دنیا میں کہیں بھی ہوں۔`,
   heroImage,
   heroImageSrcSet,
-  heroImageSizes = '(min-width: 768px) 58vw, 1px',
+  heroImageSizes = '(max-width: 767px) 100vw, 58vw',
   heroImageBlur,
   cta1Label   = DEFAULT_HERO_CTA1_LABEL,
   cta1Link    = PATHS.onlineCourses,
