@@ -17,7 +17,6 @@ import {
 } from '@/lib/homepage'
 import { PATHS, SECTION_LABELS } from '@/lib/paths'
 import WebPageSchema from '@/components/seo/WebPageSchema'
-import LcpImagePreload from '@/components/seo/LcpImagePreload'
 import HeroSection from '@/components/sections/HeroSection'
 import HomeAboutSection from '@/components/sections/HomeAboutSection'
 import nextDynamic from 'next/dynamic'
@@ -85,11 +84,6 @@ export default async function HomePage() {
 
   return (
     <>
-      <LcpImagePreload
-        href={hero.preloadHref}
-        imageSrcSet={hero.heroImageSrcSet}
-        imageSizes={hero.heroImageSizes}
-      />
       <WebPageSchema title={homeTitle} description={homeDescription} path={PATHS.home} />
 
       <HeroSection

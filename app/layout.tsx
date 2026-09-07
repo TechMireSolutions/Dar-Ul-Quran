@@ -7,7 +7,7 @@ import { Noto_Nastaliq_Urdu } from 'next/font/google'
 import './globals.css'
 
 const notoUrdu = Noto_Nastaliq_Urdu({
-  subsets: ['arabic'],
+  subsets: ['arabic', 'latin'],
   weight: ['400', '700'],
   variable: '--font-noto-urdu',
   display: 'swap',
