@@ -11,7 +11,6 @@ const notoUrdu = Noto_Nastaliq_Urdu({
   weight: ['400', '700'],
   variable: '--font-noto-urdu',
   display: 'swap',
-  preload: false,
 })
 
 export const viewport: Viewport = {

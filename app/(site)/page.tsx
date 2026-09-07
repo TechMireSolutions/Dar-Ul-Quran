@@ -19,22 +19,10 @@ import { PATHS, SECTION_LABELS } from '@/lib/paths'
 import WebPageSchema from '@/components/seo/WebPageSchema'
 import HeroSection from '@/components/sections/HeroSection'
 import HomeAboutSection from '@/components/sections/HomeAboutSection'
-import nextDynamic from 'next/dynamic'
-import { TW_CONTAINER } from '@/lib/tailwind'
-
-const CarouselSection = nextDynamic(() => import('@/components/sections/CarouselSection'), {
-  loading: () => (
-    <div className="py-12 md:py-16 bg-white border-b border-gray-100">
-      <div className={TW_CONTAINER}>
-        <div className="h-72 rounded-2xl bg-gray-100 animate-pulse" />
-      </div>
-    </div>
-  ),
-})
-
-const HomeArticlesSection = nextDynamic(() => import('@/components/sections/HomeArticlesSection'))
-const HomeTestimonialsSection = nextDynamic(() => import('@/components/sections/HomeTestimonialsSection'))
-const HomeDonateCtaSection = nextDynamic(() => import('@/components/sections/HomeDonateCtaSection'))
+import CarouselSection from '@/components/sections/CarouselSection'
+import HomeArticlesSection from '@/components/sections/HomeArticlesSection'
+import HomeTestimonialsSection from '@/components/sections/HomeTestimonialsSection'
+import HomeDonateCtaSection from '@/components/sections/HomeDonateCtaSection'
 
 export const revalidate = 300
 
