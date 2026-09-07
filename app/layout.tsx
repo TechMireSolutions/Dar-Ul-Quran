@@ -10,7 +10,7 @@ const notoUrdu = Noto_Nastaliq_Urdu({
   subsets: ['arabic'],
   weight: ['400', '700'],
   variable: '--font-noto-urdu',
-  display: 'block',
+  display: 'swap',
   preload: false,
 })
 

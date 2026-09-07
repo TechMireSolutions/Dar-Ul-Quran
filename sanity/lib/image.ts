@@ -45,7 +45,7 @@ export function lcpHeroImageProps(source: SanityImageSource) {
   return {
     src,
     srcSet,
-    sizes: '(min-width: 768px) 58vw, 1px',
+    sizes: '(max-width: 767px) 100vw, 58vw',
     preloadHref: src,
   }
 }
