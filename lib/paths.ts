@@ -9,6 +9,8 @@ export const PATHS = {
   donate: '/donate',
   about: '/about',
   contact: '/contact',
+  privacy: '/privacy-policy',
+  terms: '/terms-conditions',
   /** Metadata-only path for the App Router not-found page. */
   notFound: '/404',
 } as const
@@ -27,6 +29,8 @@ export const SECTION_LABELS = {
   donate: 'عطیہ',
   about: 'ہمارے بارے میں',
   contact: 'ہم سے رابطہ کریں',
+  privacy: 'پرائیویسی پالیسی',
+  terms: 'شرائط و ضوابط',
 } as const
 
 /**

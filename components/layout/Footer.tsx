@@ -10,6 +10,8 @@ import {
   TW_FOOTER_PAD_Y,
   TW_FOOTER_SHELL,
 } from '@/lib/tailwind'
+import Link from 'next/link'
+import { PATHS, SECTION_LABELS } from '@/lib/paths'
 import { buildFooterModel } from '@/lib/footer'
 import type { NavNode, SiteSettingsDoc, FooterServiceDoc } from '@/lib/types'
 import {
@@ -59,7 +61,7 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
 
       <div className={TW_FOOTER_BOTTOM}>
         <div
-          className={`${TW_CONTAINER} ${model.showFabPad ? TW_FOOTER_FAB_PAD : TW_FOOTER_PAD_Y} ${TW_FOOTER_BOTTOM_INNER}`}
+          className={`${TW_CONTAINER} ${model.showFabPad ? TW_FOOTER_FAB_PAD : TW_FOOTER_PAD_Y} flex flex-col sm:flex-row items-center justify-between gap-4`}
         >
           <p className={TW_FOOTER_COPY}>
             <span dir="ltr" className="inline-block">
@@ -67,6 +69,12 @@ export default function Footer({ settings, logoUrl, navItems, footerServices }: 
             </span>
             {` ${model.siteName}۔ ${model.copy.rights}`}
           </p>
+
+          <div className="flex items-center gap-3 text-[11.5px] text-gray-400">
+            <Link href={PATHS.privacy} className="hover:text-gray-300 transition-colors">{SECTION_LABELS.privacy}</Link>
+            <span className="w-px h-3 bg-gray-700" aria-hidden="true" />
+            <Link href={PATHS.terms} className="hover:text-gray-300 transition-colors">{SECTION_LABELS.terms}</Link>
+          </div>
         </div>
       </div>
     </footer>

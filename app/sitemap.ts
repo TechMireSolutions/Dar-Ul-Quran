@@ -15,6 +15,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}${PATHS.about}`, lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
     { url: `${SITE_URL}${PATHS.contact}`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${SITE_URL}${PATHS.donate}`, lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
+    { url: `${SITE_URL}${PATHS.privacy}`, lastModified: now, changeFrequency: 'yearly', priority: 0.1 },
+    { url: `${SITE_URL}${PATHS.terms}`, lastModified: now, changeFrequency: 'yearly', priority: 0.1 },
   ]
 
   const coursePages: MetadataRoute.Sitemap = (data?.courses ?? []).map((c) => ({
