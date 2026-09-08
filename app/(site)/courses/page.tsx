@@ -20,7 +20,7 @@ import { coursePath, PATHS, SECTION_LABELS } from '@/lib/paths'
 
 export const revalidate = 300
 
-const PAGE_SLUG = 'online-courses'
+const PAGE_SLUG = 'courses'
 const PAGE_PATH = PATHS.onlineCourses
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -29,7 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
     path: PAGE_PATH,
     titleFallback: SECTION_LABELS.onlineCourses,
     descriptionFallback: DEFAULT_COURSES_DESCRIPTION,
-    keywords: ['آن لائن قرآن کورسز', 'Online Shia Quran classes', DEFAULT_SITE_NAME_URDU],
+    keywords: ['قرآن کورسز', 'Shia Quran classes', DEFAULT_SITE_NAME_URDU],
   })
 }
 
