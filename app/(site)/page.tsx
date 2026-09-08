@@ -6,6 +6,7 @@ import {
   getFeaturedPosts,
   getTopLevelServices,
   getTopLevelCourses,
+  getAllCoursePaths,
   getTestimonials,
 } from '@/sanity/lib/fetchers'
 import { pageMetadata, DEFAULT_SITE_NAME_URDU, DEFAULT_COURSE_ALL_CTA, DEFAULT_SERVICE_ALL_CTA, DEFAULT_SERVICES_SECTION_HEADING } from '@/lib/seo'
@@ -68,10 +69,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
-  const [posts, services, courses, homepageSettings, testimonials, settings] = await Promise.all([
+  const [posts, services, courses, allCoursePaths, homepageSettings, testimonials, settings] = await Promise.all([
     getFeaturedPosts(),
     getTopLevelServices(),
     getTopLevelCourses(),
+    getAllCoursePaths(),
     getHomepageSettings(),
     getTestimonials(),
     getSiteSettings(),
@@ -79,6 +81,15 @@ export default async function HomePage() {
 
   const { title: homeTitle, description: homeDescription } = resolveHomeCopy(settings, homepageSettings)
   const hero = buildHomeHeroModel(homepageSettings, lcpHeroImageProps)
+  
+  const totalCourses = allCoursePaths?.length || courses?.length || 0
+  if (hero.stats && hero.stats.length > 1) {
+    hero.stats[1] = {
+      value: `${totalCourses}`,
+      label: 'کورسیز'
+    }
+  }
+
   const courseItems = coursesToCarouselItems(courses, carouselImageUrl)
   const serviceItems = servicesToCarouselItems(services, carouselImageUrl)
 

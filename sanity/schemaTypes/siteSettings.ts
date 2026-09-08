@@ -41,6 +41,7 @@ export const siteSettings = defineType({
       components: { input: LtrStringInput },
     }),
     defineField({ name: 'address', type: 'text', rows: 3 }),
+    defineField({ name: 'addressLink', type: 'url', title: 'Address Map Link' }),
     defineField({ name: 'facebook', type: 'url' }),
     defineField({ name: 'youtube', type: 'url' }),
     defineField({

@@ -84,6 +84,9 @@ export default function Header({
     navLinks.push({ label: DEFAULT_RELATED_SITE_LABEL, href: darulQuranUrl, external: true })
   }
 
+  const donateNode = navLinks.find(node => node.label === 'عطیات' || node.label === 'Donate')
+  const desktopNavLinks = navLinks.filter(node => node.label !== 'عطیات' && node.label !== 'Donate')
+
   function closeMobileMenu() {
     setMenuOpen(false)
   }
@@ -112,7 +115,7 @@ export default function Header({
           <BrandLogo siteName={siteName} logoUrl={logoUrl} variant="header" />
 
           <nav aria-label="مرکزی نیویگیشن" className="hidden lg:flex flex-1 items-center justify-center gap-7">
-            {navLinks.map(node => (
+            {desktopNavLinks.map(node => (
               <HeaderDesktopNav key={node.label} node={node} />
             ))}
           </nav>
@@ -130,7 +133,16 @@ export default function Header({
             <Menu size={20} />
           </button>
 
-          <div className="hidden lg:flex items-center ms-auto">
+          <div className="hidden lg:flex items-center gap-4 ms-auto">
+            {donateNode && (
+              <Link
+                href={donateNode.href}
+                {...(donateNode.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                className="inline-flex items-center justify-center bg-dq-500 hover:bg-dq-400 text-white px-6 h-9 rounded-full text-[13px] font-bold tracking-normal transition-all duration-200 shadow-gold-sm hover:shadow-gold-hover hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/60"
+              >
+                {donateNode.label}
+              </Link>
+            )}
             <button
               onClick={() => setSearchOpen(true)}
               aria-label="تلاش کھولیں (Cmd+K)" // urdu-ok

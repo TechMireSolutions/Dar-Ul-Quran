@@ -45,13 +45,14 @@ export type FooterContactRow =
   | { kind: 'email'; href: string; value: string }
   | { kind: 'phone'; href: string; value: string }
   | { kind: 'whatsapp'; href: string; value: string }
-  | { kind: 'address'; href: null; value: string }
+  | { kind: 'address'; href: string | null; value: string }
 
 type FooterContactSource = {
   email?: string
   phone?: string
   whatsapp?: string
   address?: string
+  addressLink?: string
 } | null | undefined
 
 /** Contact rows for footer (and similar chrome). */
@@ -59,7 +60,7 @@ export function buildFooterContactRows(settings: FooterContactSource): FooterCon
   const rows: FooterContactRow[] = []
   if (settings?.email) rows.push({ kind: 'email', href: mailtoHref(settings.email), value: settings.email })
   if (settings?.phone) rows.push({ kind: 'phone', href: telHref(settings.phone), value: settings.phone })
-  if (settings?.address) rows.push({ kind: 'address', href: null, value: settings.address })
+  if (settings?.address) rows.push({ kind: 'address', href: settings.addressLink ?? null, value: settings.address })
   return rows
 }
 

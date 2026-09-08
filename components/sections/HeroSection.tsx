@@ -80,7 +80,7 @@ export default function HeroSection({
             crossOrigin="anonymous"
             width={828}
             height={552}
-            className={`absolute inset-0 size-full object-cover object-center${heroImageBlur ? ' bg-cover bg-center' : ''}`}
+            className={`absolute inset-0 size-full object-cover object-[80%_top] md:object-center${heroImageBlur ? ' bg-cover bg-[80%_top] md:bg-center' : ''}`}
             style={heroImageBlur ? { backgroundImage: `url(${heroImageBlur})` } : undefined}
           />
         ) : (

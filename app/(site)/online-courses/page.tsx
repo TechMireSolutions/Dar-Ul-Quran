@@ -14,7 +14,8 @@ import {
   toItemListEntries,
 } from '@/lib/cmsPage'
 import { DEFAULT_SITE_NAME_URDU } from '@/lib/seo'
-import ListingIndexShell, { ListingContentCards, ListingEmptyState } from '@/components/layout/ListingIndexShell'
+import FilteredCourseListing from '@/components/sections/FilteredCourseListing'
+import ListingIndexShell, { ListingEmptyState } from '@/components/layout/ListingIndexShell'
 import { coursePath, PATHS, SECTION_LABELS } from '@/lib/paths'
 
 export const revalidate = 300
@@ -57,7 +58,7 @@ export default async function CoursesPage() {
       {courses.length === 0 ? (
         <ListingEmptyState message="کورسز جلد آ رہے ہیں۔" />
       ) : (
-        <ListingContentCards
+        <FilteredCourseListing
           items={courses.map((course) => {
             const image = resolveCourseCardImage(course)
             return {
@@ -67,6 +68,7 @@ export default async function CoursesPage() {
               title: course.title ?? '',
               description:
                 course.excerpt || [course.price, course.duration].filter(Boolean).join(' · ') || null,
+              badge: course.subject || null,
               ctaLabel: courseCtaLabel(course.childCount ?? 0),
             }
           })}

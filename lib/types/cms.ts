@@ -38,6 +38,7 @@ export type SiteSettingsDoc = {
   phone?: string
   whatsapp?: string
   address?: string
+  addressLink?: string
   favicon?: SanityImageAsset
   logo?: SanityImageAsset
   facebook?: string

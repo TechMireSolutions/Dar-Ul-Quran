@@ -235,6 +235,24 @@ function FooterContactRowItem({
   whatsappPrefix: string
 }) {
   if (row.kind === 'address') {
+    if (row.href) {
+      return (
+        <li>
+          <Link
+            href={row.href}
+            {...externalLinkAttrs()}
+            className="flex items-start gap-2 py-1 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 rounded-md"
+          >
+            <IconMapPin size={12} className={`${TW_FOOTER_ICON} mt-3 group-hover:text-dq-300 transition-colors`} />
+            <p className={`${TW_FOOTER_ADDRESS} group-hover:text-dq-400 transition-colors`}>
+              <span className="sr-only">{CONTACT_KIND_LABELS.address}: </span>
+              {row.value}
+            </p>
+          </Link>
+        </li>
+      )
+    }
+
     return (
       <li className="flex items-start gap-2 py-1">
         <IconMapPin size={12} className={`${TW_FOOTER_ICON} mt-3`} />

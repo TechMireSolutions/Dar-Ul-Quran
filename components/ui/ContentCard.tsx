@@ -1,7 +1,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
-import { DEFAULT_CARD_CTA } from '@/lib/seo'
+import { DEFAULT_CARD_CTA, DEFAULT_SERVICE_BOOK_CTA } from '@/lib/seo'
+import { PATHS } from '@/lib/paths'
 import { TW_BADGE_SM, TW_CARD_LINK, TW_CTA_ARROW } from '@/lib/tailwind'
 
 type ContentCardProps = {
@@ -27,11 +28,14 @@ export default function ContentCard({
   imageAlt,
   imageSizes,
 }: ContentCardProps) {
+  const actualHref = ctaLabel === DEFAULT_SERVICE_BOOK_CTA ? PATHS.contact : href
+
   return (
     <article
       className={`group relative flex flex-col rounded-2xl overflow-hidden bg-white dark:bg-slate-800
         border transition-all duration-300 ease-out
         hover:-translate-y-2 motion-reduce:hover:translate-y-0
+        focus-within:ring-2 focus-within:ring-dq-400/50 focus-within:ring-offset-2 focus-within:outline-none
         ${active
           ? 'shadow-gold-lg border-dq-200/80 hover:shadow-gold-glow'
           : 'shadow-card border-gray-100 dark:border-slate-700 hover:shadow-card-hover hover:border-dq-100 dark:hover:border-slate-600'
@@ -42,11 +46,8 @@ export default function ContentCard({
         ltr:bg-gradient-to-r rtl:bg-gradient-to-l from-dq-400 via-dq-500 to-dq-300
         ${active ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100 group-hover:origin-inline-start'}`} />
 
-      {/* Single primary link wraps media + title for one keyboard stop */}
-      <Link
-        href={href}
-        className="flex flex-col flex-1 rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 focus-visible:ring-offset-2"
-      >
+      {/* Main container */}
+      <div className="flex flex-col flex-1 rounded-2xl">
         <div className="block overflow-hidden shrink-0">
           <div className="relative w-full aspect-[3/2] bg-slate-100 dark:bg-slate-900/50">
             {image ? (
@@ -89,13 +90,15 @@ export default function ContentCard({
 
         <div className="flex flex-col flex-1 px-4 pt-4 pb-5">
           {badge && (
-            <span className={`${TW_BADGE_SM} mb-3`}>
+            <span className={`${TW_BADGE_SM} mb-3 relative z-10 w-max`}>
               {badge}
             </span>
           )}
 
           <h3 className="font-semibold text-slate-900 dark:text-white text-[15px] leading-urdu-tight py-1 mb-1 line-clamp-2 group-hover:text-dq-700 dark:group-hover:text-dq-400 transition-colors duration-150">
-            {title}
+            <Link href={href} className="before:absolute before:inset-0 focus-visible:outline-none">
+              {title}
+            </Link>
           </h3>
 
           {description && (
@@ -104,16 +107,16 @@ export default function ContentCard({
             </p>
           )}
 
-          <span className={TW_CARD_LINK} aria-hidden="true">
+          <Link href={actualHref} className={`relative z-10 w-max ${TW_CARD_LINK} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dq-400/50 rounded-sm`}>
             {ctaLabel}
             <ArrowRight
               size={12}
               strokeWidth={2.5}
               className={TW_CTA_ARROW}
             />
-          </span>
+          </Link>
         </div>
-      </Link>
+      </div>
     </article>
   )
 }

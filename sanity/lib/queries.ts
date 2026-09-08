@@ -220,7 +220,7 @@ export const testimonialsQuery = `
 
 export const siteSettingsQuery = `
   *[_type == "siteSettings"][0] {
-    siteName, description, tagline, email, phone, whatsapp, address,
+    siteName, description, tagline, email, phone, whatsapp, address, addressLink,
     favicon, logo, facebook, youtube,
     darulQuranUrl, searchPlaceholder, donateUrl
   }
