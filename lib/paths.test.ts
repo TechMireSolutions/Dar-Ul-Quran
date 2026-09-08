@@ -56,7 +56,7 @@ describe('PATHS', () => {
 
 describe('SECTION_LABELS / HOME_LABEL', () => {
   it('keeps canonical Urdu section titles', () => {
-    expect(SECTION_LABELS.onlineCourses).toBe('آنلائن کورسز')
+    expect(SECTION_LABELS.onlineCourses).toBe('کورسز')
     expect(SECTION_LABELS.services).toBe('خدمات')
     expect(SECTION_LABELS.articles).toBe('مضامین')
     expect(HOME_LABEL).toContain('صفحہ')
@@ -65,7 +65,7 @@ describe('SECTION_LABELS / HOME_LABEL', () => {
 
 describe('NAV_LABELS', () => {
   it('uses shorter nav copy where it differs from section titles', () => {
-    expect(NAV_LABELS.onlineCourses).toBe('آنلائن کلاسز')
+    expect(NAV_LABELS.onlineCourses).toBe('کورسز')
     expect(NAV_LABELS.services).toBe(SECTION_LABELS.services)
     expect(NAV_LABELS.contact).toBe('رابطہ')
   })

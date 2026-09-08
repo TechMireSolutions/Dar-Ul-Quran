@@ -43,6 +43,8 @@ export type SiteSettingsDoc = {
   logo?: SanityImageAsset
   facebook?: string
   youtube?: string
+  instagram?: string
+  twitter?: string
   darulQuranUrl?: string
   searchPlaceholder?: string
   contactFormSubjects?: string[]

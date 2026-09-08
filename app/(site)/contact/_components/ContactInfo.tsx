@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import type { LucideIcon } from 'lucide-react'
 import { Globe, Play } from 'lucide-react'
+import { IconInstagram, IconX } from '@/components/layout/FooterIcons'
 import Reveal from '@/components/ui/Reveal'
 import {
   buildFooterSocialLinks,
@@ -21,6 +22,8 @@ type ContactInfoProps = {
   items: ContactInfoItem[]
   facebook?: string | null
   youtube?: string | null
+  instagram?: string | null
+  twitter?: string | null
 }
 
 const LTR_LABELS = new Set<string>([
@@ -32,13 +35,17 @@ const LTR_LABELS = new Set<string>([
 const SOCIAL_ICONS = {
   facebook: Globe,
   youtube: Play,
+  instagram: IconInstagram,
+  twitter: IconX,
 } as const
 
-export default function ContactInfo({ items, facebook, youtube }: ContactInfoProps) {
+export default function ContactInfo({ items, facebook, youtube, instagram, twitter }: ContactInfoProps) {
   const socialLinks = buildFooterSocialLinks({
     facebook: facebook ?? undefined,
     youtube: youtube ?? undefined,
-  }).filter((link) => link.kind === 'facebook' || link.kind === 'youtube')
+    instagram: instagram ?? undefined,
+    twitter: twitter ?? undefined,
+  }).filter((link) => link.kind !== 'related')
 
   return (
     <div className="lg:col-span-2 space-y-3">
@@ -71,7 +78,7 @@ export default function ContactInfo({ items, facebook, youtube }: ContactInfoPro
         <Reveal animation="up" delay={items.length * 70}>
           <div className="flex gap-2 pt-1">
             {socialLinks.map((link) => {
-              const Icon = SOCIAL_ICONS[link.kind as 'facebook' | 'youtube']
+              const Icon = SOCIAL_ICONS[link.kind as keyof typeof SOCIAL_ICONS]
               return (
                 <Link
                   key={link.kind}

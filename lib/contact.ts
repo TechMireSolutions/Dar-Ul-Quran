@@ -26,6 +26,8 @@ export const CONTACT_KIND_LABELS = {
 export const SOCIAL_KIND_LABELS = {
   facebook: 'فیس بک',
   youtube: 'یوٹیوب',
+  instagram: 'انسٹاگرام',
+  twitter: 'ایکس',
 } as const
 
 /** target/rel (+ optional Urdu aria) for links that open a new tab. */
@@ -67,11 +69,15 @@ export function buildFooterContactRows(settings: FooterContactSource): FooterCon
 export type FooterSocialLink =
   | { kind: 'facebook'; href: string; label: typeof SOCIAL_KIND_LABELS.facebook }
   | { kind: 'youtube'; href: string; label: typeof SOCIAL_KIND_LABELS.youtube }
+  | { kind: 'instagram'; href: string; label: typeof SOCIAL_KIND_LABELS.instagram }
+  | { kind: 'twitter'; href: string; label: typeof SOCIAL_KIND_LABELS.twitter }
   | { kind: 'related'; href: string; label: string }
 
 type FooterSocialSource = {
   facebook?: string
   youtube?: string
+  instagram?: string
+  twitter?: string
   darulQuranUrl?: string
 } | null | undefined
 
@@ -86,6 +92,12 @@ export function buildFooterSocialLinks(
   }
   if (settings?.youtube) {
     links.push({ kind: 'youtube', href: settings.youtube, label: SOCIAL_KIND_LABELS.youtube })
+  }
+  if (settings?.instagram) {
+    links.push({ kind: 'instagram', href: settings.instagram, label: SOCIAL_KIND_LABELS.instagram })
+  }
+  if (settings?.twitter) {
+    links.push({ kind: 'twitter', href: settings.twitter, label: SOCIAL_KIND_LABELS.twitter })
   }
   if (settings?.darulQuranUrl) {
     links.push({ kind: 'related', href: settings.darulQuranUrl, label: relatedLabel })

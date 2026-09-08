@@ -36,6 +36,7 @@ const CarouselSection = nextDynamic(() => import('@/components/sections/Carousel
 const HomeArticlesSection = nextDynamic(() => import('@/components/sections/HomeArticlesSection'))
 const HomeTestimonialsSection = nextDynamic(() => import('@/components/sections/HomeTestimonialsSection'))
 const HomeDonateCtaSection = nextDynamic(() => import('@/components/sections/HomeDonateCtaSection'))
+const HomeContactCtaSection = nextDynamic(() => import('@/components/sections/HomeContactCtaSection'))
 
 export const revalidate = 300
 
@@ -141,6 +142,7 @@ export default async function HomePage() {
       <HomeArticlesSection posts={posts} settings={homepageSettings} />
       <HomeTestimonialsSection testimonials={testimonials} settings={homepageSettings} />
       <HomeDonateCtaSection settings={homepageSettings} />
+      <HomeContactCtaSection />
     </>
   )
 }

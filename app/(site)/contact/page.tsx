@@ -74,6 +74,8 @@ export default async function ContactPage() {
               items={contactItems}
               facebook={settings?.facebook}
               youtube={settings?.youtube}
+              instagram={settings?.instagram}
+              twitter={settings?.twitter}
             />
 
             <Reveal animation="right" delay={100} className="lg:col-span-3">

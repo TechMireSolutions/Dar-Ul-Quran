@@ -44,6 +44,8 @@ export const siteSettings = defineType({
     defineField({ name: 'addressLink', type: 'url', title: 'Address Map Link' }),
     defineField({ name: 'facebook', type: 'url' }),
     defineField({ name: 'youtube', type: 'url' }),
+    defineField({ name: 'instagram', type: 'url' }),
+    defineField({ name: 'twitter', type: 'url', title: 'X (Twitter)' }),
     defineField({
       name: 'whatsapp',
       type: 'string',

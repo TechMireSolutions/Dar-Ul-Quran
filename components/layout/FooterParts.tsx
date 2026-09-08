@@ -24,10 +24,12 @@ import {
   IconCtaArrow,
   IconExternalLink,
   IconFacebook,
+  IconInstagram,
   IconMail,
   IconMapPin,
   IconMessageCircle,
   IconPhone,
+  IconX,
   IconYoutube,
 } from '@/components/layout/FooterIcons'
 
@@ -40,6 +42,8 @@ const CONTACT_ICON = {
 const SOCIAL_ICON = {
   facebook: IconFacebook,
   youtube: IconYoutube,
+  instagram: IconInstagram,
+  twitter: IconX,
 } as const
 
 /** Shared social glyph size (facebook / youtube). */
