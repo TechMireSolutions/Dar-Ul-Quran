@@ -3,7 +3,7 @@ import type { ParentSlugNode, TopicClusterPillarPage } from '@/lib/types'
 /** Canonical public paths — prefer these over string literals. */
 export const PATHS = {
   home: '/',
-  onlineCourses: '/online-courses',
+  onlineCourses: '/courses',
   services: '/services',
   articles: '/articles',
   donate: '/donate',
@@ -21,7 +21,7 @@ export const HOME_LABEL = 'صفحۂ اول'
  * Keep spelling consistent — do not re-hardcode these strings in pages/schemas.
  */
 export const SECTION_LABELS = {
-  onlineCourses: 'آنلائن کورسز',
+  onlineCourses: 'کورسز',
   services: 'خدمات',
   articles: 'مضامین',
   donate: 'عطیہ',
@@ -33,7 +33,7 @@ export const SECTION_LABELS = {
  * Header/footer nav labels (may differ from section page titles, e.g. کلاسز vs کورسز).
  */
 export const NAV_LABELS = {
-  onlineCourses: 'آنلائن کلاسز',
+  onlineCourses: 'کورسز',
   services: SECTION_LABELS.services,
   articles: SECTION_LABELS.articles,
   donate: 'عطیات',
