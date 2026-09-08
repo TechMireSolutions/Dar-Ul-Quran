@@ -278,7 +278,7 @@ Deploy rule: **stop PM2 before rebuilding `.next`** to avoid chunk 404s.
 | `/` | Homepage |
 | `/about` `/contact` `/donate` | CMS pages |
 | `/articles` `/articles/[slug]` | Blog |
-| `/online-courses` `/online-courses/[...slug]` | Courses |
+| `/courses` `/courses/[...slug]` | Courses |
 | `/services` `/services/[...slug]` | Services |
 | `/studio` | Sanity Studio |
 | `/sitemap.xml` `/robots.txt` `/llms.txt` | Crawl / AI feeds |

@@ -13,7 +13,7 @@ export function matchKeyword(term: string): KeywordMatch | null {
     return { label: "عطیات و صدقات", href: "/donate", category: "page" };
   }
   if (t === "courses" || t === "کورسز" || t === "کورس") {
-    return { label: "تمام آنلائن کورسز", href: "/online-courses", category: "course" };
+    return { label: "تمام کورسز", href: "/courses", category: "course" };
   }
   if (t === "services" || t === "خدمات" || t === "سروسز") {
     return { label: "مذہبی خدمات", href: "/services", category: "service" };
@@ -37,7 +37,7 @@ export function getSuggestions(term: string): KeywordMatch[] {
     t.includes("learn") || t.includes("سیکھیں") ||
     t.includes("course") || t.includes("کورس")
   ) {
-    results.push({ label: "قرآن و اسلامی کورسز", href: "/online-courses", category: "course" });
+    results.push({ label: "قرآن و اسلامی کورسز", href: "/courses", category: "course" });
   }
 
   // Religious Services related

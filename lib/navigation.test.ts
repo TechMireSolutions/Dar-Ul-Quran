@@ -17,12 +17,12 @@ describe('toNavNode / buildNavTree', () => {
     const tree = buildNavTree([
       {
         label: 'کورسز',
-        href: '/online-courses',
-        children: [{ label: 'قرآن', href: '/online-courses/quran' }],
+        href: '/courses',
+        children: [{ label: 'قرآن', href: '/courses/quran' }],
       },
     ])
     expect(tree).toHaveLength(1)
-    expect(tree![0].children?.[0].href).toBe('/online-courses/quran')
+    expect(tree![0].children?.[0].href).toBe('/courses/quran')
   })
 
   it('returns undefined for empty input', () => {
@@ -42,17 +42,17 @@ describe('ensurePrimaryNav', () => {
       { label: 'خدمات', href: '/services' },
       { label: 'مضامین', href: '/articles' },
     ])
-    expect(nav.some((n) => n.href === '/online-courses')).toBe(true)
+    expect(nav.some((n) => n.href === '/courses')).toBe(true)
     expect(nav.some((n) => n.href === '/contact')).toBe(true)
-    expect(nav[0].href).toBe('/online-courses')
+    expect(nav[0].href).toBe('/courses')
   })
 
   it('does not duplicate existing pillar links', () => {
     const nav = ensurePrimaryNav([
-      { label: 'آنلائن کلاسز', href: '/online-courses' },
+      { label: 'کورسز', href: '/courses' },
       { label: 'رابطہ', href: '/contact' },
     ])
-    expect(nav.filter((n) => n.href === '/online-courses')).toHaveLength(1)
+    expect(nav.filter((n) => n.href === '/courses')).toHaveLength(1)
     expect(nav.filter((n) => n.href === '/contact')).toHaveLength(1)
   })
 })
@@ -60,19 +60,19 @@ describe('ensurePrimaryNav', () => {
 describe('nodeIsActive', () => {
   const courses: NavNode = {
     label: 'کورسز',
-    href: '/online-courses',
+    href: '/courses',
     children: [
-      { label: 'قرآن', href: '/online-courses/quran' },
-      { label: 'فقہ', href: '/online-courses/fiqh' },
+      { label: 'قرآن', href: '/courses/quran' },
+      { label: 'فقہ', href: '/courses/fiqh' },
     ],
   }
 
   it('matches exact pathname', () => {
-    expect(nodeIsActive(courses, '/online-courses')).toBe(true)
+    expect(nodeIsActive(courses, '/courses')).toBe(true)
   })
 
   it('matches nested pathname under href', () => {
-    expect(nodeIsActive(courses, '/online-courses/quran/nazra')).toBe(true)
+    expect(nodeIsActive(courses, '/courses/quran/nazra')).toBe(true)
   })
 
   it('does not treat root as prefix of everything', () => {

@@ -25,9 +25,9 @@ import {
 
 describe('coursePath / servicePath', () => {
   it('builds course paths for 1–3 levels', () => {
-    expect(coursePath('nazra')).toBe('/online-courses/nazra')
-    expect(coursePath('nazra', 'quran')).toBe('/online-courses/quran/nazra')
-    expect(coursePath('nazra', 'quran', 'kids')).toBe('/online-courses/kids/quran/nazra')
+    expect(coursePath('nazra')).toBe('/courses/nazra')
+    expect(coursePath('nazra', 'quran')).toBe('/courses/quran/nazra')
+    expect(coursePath('nazra', 'quran', 'kids')).toBe('/courses/kids/quran/nazra')
   })
 
   it('builds service paths with optional parent', () => {
@@ -120,8 +120,8 @@ describe('ancestry + breadcrumbs', () => {
   })
 
   it('builds breadcrumb href segments', () => {
-    expect(breadcrumbHref('/online-courses', ancestry, 0)).toBe('/online-courses/quran')
-    expect(breadcrumbHref('/online-courses', ancestry, 1)).toBe('/online-courses/quran/kids')
+    expect(breadcrumbHref('/courses', ancestry, 0)).toBe('/courses/quran')
+    expect(breadcrumbHref('/courses', ancestry, 1)).toBe('/courses/quran/kids')
   })
 
   it('maps ancestry to JSON-LD labels', () => {
@@ -132,9 +132,9 @@ describe('ancestry + breadcrumbs', () => {
   })
 
   it('builds nav items with current page unlinked', () => {
-    expect(buildBreadcrumbNavItems('/online-courses', ancestry, 'نظریہ')).toEqual([
-      { label: 'قرآن', href: '/online-courses/quran' },
-      { label: 'بچے', href: '/online-courses/quran/kids' },
+    expect(buildBreadcrumbNavItems('/courses', ancestry, 'نظریہ')).toEqual([
+      { label: 'قرآن', href: '/courses/quran' },
+      { label: 'بچے', href: '/courses/quran/kids' },
       { label: 'نظریہ' },
     ])
   })
@@ -152,8 +152,8 @@ describe('assertSlugAncestry / expectedPathFromAncestry', () => {
       'nazra-rozana',
       'leaf',
     ])
-    expect(expectedPathFromAncestry('/online-courses', ancestry, 'leaf')).toBe(
-      '/online-courses/rozana/nazra-rozana/leaf',
+    expect(expectedPathFromAncestry('/courses', ancestry, 'leaf')).toBe(
+      '/courses/rozana/nazra-rozana/leaf',
     )
   })
 
@@ -183,7 +183,7 @@ describe('normalizeCatchAllSlug / parseCatchAllSlug', () => {
 describe('sectionRelativePath', () => {
   it('strips the section prefix from a canonical path', () => {
     expect(sectionRelativePath('/services', '/services/zakat/fitrana')).toBe('zakat/fitrana')
-    expect(sectionRelativePath('/online-courses', '/online-courses/nazra')).toBe('nazra')
+    expect(sectionRelativePath('/courses', '/courses/nazra')).toBe('nazra')
   })
 })
 
@@ -197,7 +197,7 @@ describe('resolveLeafCanonical', () => {
     ).toEqual({
       leafSlug: 'nazra',
       ancestry: [{ title: 'قرآن', slug: 'quran' }],
-      canonicalPath: '/online-courses/quran/nazra',
+      canonicalPath: '/courses/quran/nazra',
     })
   })
 
@@ -221,7 +221,7 @@ describe('pillarPagePath', () => {
     expect(pillarPagePath({ _type: 'page', slug: 'about' })).toBe('/about')
     expect(
       pillarPagePath({ _type: 'course', slug: 'nazra', parentSlug: 'quran' }),
-    ).toBe('/online-courses/quran/nazra')
+    ).toBe('/courses/quran/nazra')
     expect(
       pillarPagePath({ _type: 'service', slug: 'fitrana', parentSlug: 'zakat' }),
     ).toBe('/services/zakat/fitrana')

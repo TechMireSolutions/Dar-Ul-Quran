@@ -8,7 +8,7 @@ vi.mock('next/navigation', () => ({
 }))
 
 describe('loadCatchAllLeaf', () => {
-  const sectionPath = '/online-courses'
+  const sectionPath = '/courses'
 
   it('returns doc + ancestry when URL matches parent chain', async () => {
     const doc = {
@@ -22,7 +22,7 @@ describe('loadCatchAllLeaf', () => {
     )
 
     expect(result.leafSlug).toBe('nazra')
-    expect(result.canonicalPath).toBe('/online-courses/rozana/nazra')
+    expect(result.canonicalPath).toBe('/courses/rozana/nazra')
     expect(result.ancestry).toEqual([{ title: 'روزانہ', slug: 'rozana' }])
     expect(result.doc).toBe(doc)
   })

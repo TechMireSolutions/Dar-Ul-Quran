@@ -48,7 +48,7 @@ export const searchSite = cache(async (term: string): Promise<SearchResponse> =>
     if (res._type === "post") href = `/posts/${res.slug}`;
     else if (res._type === "event") href = `/events/${res.slug}`;
     else if (res._type === "course") {
-      const base = "/online-courses";
+      const base = "/courses";
       if (res.grandparentSlug && res.parentSlug) href = `${base}/${res.grandparentSlug}/${res.parentSlug}/${res.slug}`;
       else if (res.parentSlug) href = `${base}/${res.parentSlug}/${res.slug}`;
       else href = `${base}/${res.slug}`;

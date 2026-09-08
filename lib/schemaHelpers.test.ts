@@ -55,8 +55,8 @@ describe('buildOrganizationProvider', () => {
 describe('buildBreadcrumbSchema', () => {
   it('includes home, section, and nested slug parts', () => {
     const schema = buildBreadcrumbSchema({
-      pageUrl: `${SITE_URL}/online-courses/quran/nazra`,
-      sectionPath: '/online-courses',
+      pageUrl: `${SITE_URL}/courses/quran/nazra`,
+      sectionPath: '/courses',
       sectionLabel: SECTION_LABELS.onlineCourses,
       slugPath: 'quran/nazra',
       title: 'نظریہ',
@@ -70,19 +70,19 @@ describe('buildBreadcrumbSchema', () => {
         '@type': 'ListItem',
         position: 2,
         name: SECTION_LABELS.onlineCourses,
-        item: `${SITE_URL}/online-courses`,
+        item: `${SITE_URL}/courses`,
       },
       {
         '@type': 'ListItem',
         position: 3,
         name: 'قرآن',
-        item: `${SITE_URL}/online-courses/quran`,
+        item: `${SITE_URL}/courses/quran`,
       },
       {
         '@type': 'ListItem',
         position: 4,
         name: 'نظریہ',
-        item: `${SITE_URL}/online-courses/quran/nazra`,
+        item: `${SITE_URL}/courses/quran/nazra`,
       },
     ])
   })

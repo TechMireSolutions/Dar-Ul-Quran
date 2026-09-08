@@ -81,11 +81,11 @@ describe('toItemListEntries', () => {
           { title: 'قرآن', slug: { current: 'quran' } },
           { title: 'فقہ', slug: { current: 'fiqh' } },
         ],
-        '/online-courses',
+        '/courses',
       ),
     ).toEqual([
-      { name: 'قرآن', url: '/online-courses/quran' },
-      { name: 'فقہ', url: '/online-courses/fiqh' },
+      { name: 'قرآن', url: '/courses/quran' },
+      { name: 'فقہ', url: '/courses/fiqh' },
     ])
   })
 
@@ -93,9 +93,9 @@ describe('toItemListEntries', () => {
     expect(
       toItemListEntries(
         [{ title: 'نظریہ', slug: 'nazra' }],
-        '/online-courses/rozana',
+        '/courses/rozana',
       ),
-    ).toEqual([{ name: 'نظریہ', url: '/online-courses/rozana/nazra' }])
+    ).toEqual([{ name: 'نظریہ', url: '/courses/rozana/nazra' }])
   })
 })
 
