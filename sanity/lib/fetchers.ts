@@ -25,6 +25,7 @@ import {
   sitemapQuery,
   llmFeedQuery,
   paymentMethodsQuery,
+  publicationsQuery,
 } from './queries'
 import type {
   PageDoc,
@@ -43,6 +44,7 @@ import type {
   CourseDetailDoc,
   ServiceDetailDoc,
   PaymentMethodDoc,
+  PublicationDoc,
 } from '@/lib/types'
 import type { SitemapData, LlmFeedData } from '@/lib/types/feed'
 
@@ -118,3 +120,5 @@ export const getSitemapData = cache(() => safeFetch<SitemapData>(sitemapQuery))
 export const getLlmFeedData = cache(() => safeFetch<LlmFeedData>(llmFeedQuery))
 
 export const getPaymentMethods = cache(() => safeFetch<PaymentMethodDoc[]>(paymentMethodsQuery))
+
+export const getPublications = cache(() => safeFetch<PublicationDoc[]>(publicationsQuery))

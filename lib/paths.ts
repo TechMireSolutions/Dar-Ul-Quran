@@ -11,6 +11,7 @@ export const PATHS = {
   contact: '/contact',
   privacy: '/privacy-policy',
   terms: '/terms-conditions',
+  publications: '/publications',
   /** Metadata-only path for the App Router not-found page. */
   notFound: '/404',
 } as const
@@ -31,6 +32,7 @@ export const SECTION_LABELS = {
   contact: 'ہم سے رابطہ کریں',
   privacy: 'پرائیویسی پالیسی',
   terms: 'شرائط و ضوابط',
+  publications: 'نشریات',
 } as const
 
 /**
@@ -44,6 +46,7 @@ export const NAV_LABELS = {
   about: SECTION_LABELS.about,
   contact: 'رابطہ',
   home: 'ہوم',
+  publications: SECTION_LABELS.publications,
 } as const
 
 type AncestryNode = { title: string; slug: string; parent?: AncestryNode | null }

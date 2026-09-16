@@ -6,6 +6,7 @@ import { NAV_LABELS, normalizeHref, PATHS, servicePath } from '@/lib/paths'
 export const FALLBACK_HEADER_NAV: NavNode[] = [
   { label: NAV_LABELS.onlineCourses, href: PATHS.onlineCourses },
   { label: NAV_LABELS.services, href: PATHS.services },
+  { label: NAV_LABELS.publications, href: PATHS.publications },
   { label: NAV_LABELS.articles, href: PATHS.articles },
   { label: NAV_LABELS.donate, href: PATHS.donate },
   { label: NAV_LABELS.about, href: PATHS.about },
@@ -22,6 +23,7 @@ export const FALLBACK_QUICK_LINKS: NavNode[] = [
 
 const PRIMARY_NAV_LINKS: Array<{ href: string; label: string; insertAt?: 'start' | 'end' }> = [
   { href: PATHS.onlineCourses, label: NAV_LABELS.onlineCourses, insertAt: 'start' },
+  { href: PATHS.publications, label: NAV_LABELS.publications, insertAt: 'end' },
   { href: PATHS.contact, label: NAV_LABELS.contact, insertAt: 'end' },
 ]
 

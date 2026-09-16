@@ -11,6 +11,7 @@ import { testimonial }        from './testimonial'
 import { contactSubmission }  from './contactSubmission'
 import { topicCluster }       from './topicCluster'
 import { paymentMethod }      from './paymentMethod'
+import { publication }        from './publication'
 
 export const schemaTypes = [
   post,
@@ -26,4 +27,5 @@ export const schemaTypes = [
   contactSubmission,
   topicCluster,
   paymentMethod,
+  publication,
 ]

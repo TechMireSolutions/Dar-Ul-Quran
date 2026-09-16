@@ -32,4 +32,5 @@ export type {
   SlugListItem,
   SanityImageAsset,
   PaymentMethodDoc,
+  PublicationDoc,
 } from './cms'

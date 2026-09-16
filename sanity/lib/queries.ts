@@ -338,3 +338,12 @@ export const paymentMethodsQuery = `
     _id, title, icon, accountTitle, accountNumber, bankName, order
   }
 `
+
+// ─── Publications ────────────────────────────────────────────────────────────
+
+export const publicationsQuery = `
+  *[_type == "publication"] | order(publishedAt desc) {
+    _id, title, "slug": slug.current, author, description, coverImage, 
+    "fileUrl": file.asset->url, publishedAt
+  }
+`
