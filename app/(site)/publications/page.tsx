@@ -39,7 +39,7 @@ export default async function PublicationsPage() {
   // Map to item list format for SEO schema
   const listItems = publications.map((pub, index) => ({
     name: pub.title ?? '',
-    url: pub.fileUrl ?? '#',
+    url: pub.fileUrl || pub.externalLink || '#',
   }))
 
   return (
@@ -61,7 +61,7 @@ export default async function PublicationsPage() {
         <ListingContentCards
           items={publications.map((pub) => ({
             id: pub._id,
-            href: pub.fileUrl ?? '#',
+            href: pub.fileUrl || pub.externalLink || '#',
             image: pub.coverImage ? cardImageUrl(pub.coverImage) : null,
             title: pub.title ?? '',
             description: pub.description || null,

@@ -74,7 +74,7 @@ CHUNK_URL_PATH="/_next/static/chunks/$(basename "$SAMPLE_CHUNK")"
 HEALTH_OK=0
 
 for i in 1 2 3 4 5 6; do
-  if curl -fsS "http://127.0.0.1:${APP_PORT}/" -o /dev/null \
+  if curl -fsS "http://07.0.0.1:${APP_PORT}/" -o /dev/null \
     && curl -fsS "http://127.0.0.1:${APP_PORT}${CHUNK_URL_PATH}" -o /dev/null; then
     echo "Health check passed: homepage + ${CHUNK_URL_PATH}"
     HEALTH_OK=1

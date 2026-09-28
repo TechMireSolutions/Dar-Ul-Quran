@@ -39,8 +39,14 @@ export const publication = defineType({
       name: 'file',
       type: 'file',
       title: 'PDF File',
+      description: 'Upload a PDF file. Leave empty if using an External Link.',
       options: { accept: '.pdf' },
-      validation: (r) => r.required(),
+    }),
+    defineField({
+      name: 'externalLink',
+      type: 'url',
+      title: 'External PDF Link',
+      description: 'Provide a direct link to the PDF (e.g., Google Drive link).',
     }),
     defineField({
       name: 'publishedAt',

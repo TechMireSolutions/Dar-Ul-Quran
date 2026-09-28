@@ -344,6 +344,6 @@ export const paymentMethodsQuery = `
 export const publicationsQuery = `
   *[_type == "publication"] | order(publishedAt desc) {
     _id, title, "slug": slug.current, author, description, coverImage, 
-    "fileUrl": file.asset->url, publishedAt
+    "fileUrl": file.asset->url, externalLink, publishedAt
   }
 `

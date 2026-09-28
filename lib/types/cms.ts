@@ -319,5 +319,6 @@ export type PublicationDoc = {
   description?: string
   coverImage?: SanityImageAsset
   fileUrl?: string
+  externalLink?: string
   publishedAt?: string
 }
