@@ -103,6 +103,10 @@ export function articlePath(slug: string): string {
   return `${PATHS.articles}/${slug}`
 }
 
+export function publicationPath(slug: string): string {
+  return `${PATHS.publications}/${slug}`
+}
+
 /** Strip trailing slashes for href equality (keeps `/`). */
 export function normalizeHref(href: string): string {
   if (!href || href === '/') return href || '/'

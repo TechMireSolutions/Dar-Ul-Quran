@@ -16,3 +16,7 @@ export function serviceTag(slug: string): string {
 export function postTag(slug: string): string {
   return `post:${slug}`
 }
+
+export function publicationTag(slug: string): string {
+  return `publication:${slug}`
+}

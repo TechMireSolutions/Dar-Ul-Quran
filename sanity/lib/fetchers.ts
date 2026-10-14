@@ -26,6 +26,8 @@ import {
   llmFeedQuery,
   paymentMethodsQuery,
   publicationsQuery,
+  publicationBySlugQuery,
+  publicationSlugsQuery,
 } from './queries'
 import type {
   PageDoc,
@@ -122,3 +124,11 @@ export const getLlmFeedData = cache(() => safeFetch<LlmFeedData>(llmFeedQuery))
 export const getPaymentMethods = cache(() => safeFetch<PaymentMethodDoc[]>(paymentMethodsQuery))
 
 export const getPublications = cache(() => safeFetch<PublicationDoc[]>(publicationsQuery))
+
+export const getPublicationBySlug = cache((slug: string) =>
+  safeFetch<PublicationDoc | null>(publicationBySlugQuery, { slug }),
+)
+
+export const getPublicationSlugs = cache(() =>
+  safeFetch<Array<{ slug: string }>>(publicationSlugsQuery),
+)

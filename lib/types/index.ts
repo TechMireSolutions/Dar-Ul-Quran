@@ -6,6 +6,7 @@ export type {
   SitemapCourseEntry,
   SitemapServiceEntry,
   SitemapArticleEntry,
+  SitemapPublicationEntry,
 } from './feed'
 export type { CourseSchemaData, ServiceSchemaData, FaqSchemaItem, TopicClusterDoc, TopicClusterPillarPage, TopicClusterRelatedArticle } from './schema'
 export type {

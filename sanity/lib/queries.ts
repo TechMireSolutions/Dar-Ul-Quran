@@ -259,6 +259,10 @@ export const sitemapQuery = `{
     "parentSlug": parent->slug.current,
     _updatedAt,
     "hasChildren": count(*[_type == "service" && parent._ref == ^._id]) > 0
+  },
+  "publications": *[_type == "publication" && defined(slug.current)] | order(publishedAt desc) {
+    "slug": slug.current,
+    _updatedAt
   }
 }`
 
@@ -344,6 +348,28 @@ export const paymentMethodsQuery = `
 export const publicationsQuery = `
   *[_type == "publication"] | order(publishedAt desc) {
     _id, title, "slug": slug.current, author, description, coverImage, 
-    "fileUrl": file.asset->url, externalLink, publishedAt
+    "fileUrl": file.asset->url, "fileSize": file.asset->size, externalLink, publishedAt
+  }
+`
+
+export const publicationBySlugQuery = `
+  *[_type == "publication" && slug.current == $slug][0] {
+    _id,
+    _updatedAt,
+    title,
+    "slug": slug.current,
+    author,
+    description,
+    coverImage,
+    "fileUrl": file.asset->url,
+    "fileSize": file.asset->size,
+    externalLink,
+    publishedAt
+  }
+`
+
+export const publicationSlugsQuery = `
+  *[_type == "publication" && defined(slug.current)] {
+    "slug": slug.current
   }
 `

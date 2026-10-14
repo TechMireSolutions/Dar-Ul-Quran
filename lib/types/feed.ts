@@ -18,10 +18,16 @@ export type SitemapArticleEntry = {
   _updatedAt: string
 }
 
+export type SitemapPublicationEntry = {
+  slug: string
+  _updatedAt: string
+}
+
 export type SitemapData = {
   courses: SitemapCourseEntry[]
   articles: SitemapArticleEntry[]
   services: SitemapServiceEntry[]
+  publications?: SitemapPublicationEntry[]
 }
 
 export type LlmFeedSettings = {

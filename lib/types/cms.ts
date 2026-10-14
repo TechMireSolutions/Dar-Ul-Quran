@@ -313,12 +313,14 @@ export type PaymentMethodDoc = {
 
 export type PublicationDoc = {
   _id: string
+  _updatedAt?: string
   title?: string
   slug?: string
   author?: string
   description?: string
   coverImage?: SanityImageAsset
   fileUrl?: string
+  fileSize?: number
   externalLink?: string
   publishedAt?: string
 }

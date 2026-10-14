@@ -8,14 +8,15 @@ import {
   resolveSeoTitle,
 } from '@/lib/cmsPage'
 import ListingIndexShell, { ListingContentCards, ListingEmptyState } from '@/components/layout/ListingIndexShell'
-import { PATHS, SECTION_LABELS } from '@/lib/paths'
+import { PATHS, publicationPath, SECTION_LABELS } from '@/lib/paths'
+import { SITE_URL } from '@/lib/seo'
 
 export const revalidate = 300
 
 const PAGE_SLUG = 'publications'
 const PAGE_PATH = PATHS.publications
 const DEFAULT_DESCRIPTION = 'ہماری تمام مطبوعات اور کتابیں یہاں سے ڈاؤن لوڈ کریں۔'
-const CTA_LABEL = 'ڈاؤن لوڈ کریں'
+const CTA_LABEL = 'تفصیلات دیکھیں'
 
 export async function generateMetadata(): Promise<Metadata> {
   return cmsPageMetadata({
@@ -37,9 +38,9 @@ export default async function PublicationsPage() {
   const description = resolveSeoDescription(page, DEFAULT_DESCRIPTION)
 
   // Map to item list format for SEO schema
-  const listItems = publications.map((pub, index) => ({
+  const listItems = publications.map((pub) => ({
     name: pub.title ?? '',
-    url: pub.fileUrl || pub.externalLink || '#',
+    url: pub.slug ? `${SITE_URL}${publicationPath(pub.slug)}` : (pub.fileUrl || pub.externalLink || '#'),
   }))
 
   return (
@@ -61,7 +62,7 @@ export default async function PublicationsPage() {
         <ListingContentCards
           items={publications.map((pub) => ({
             id: pub._id,
-            href: pub.fileUrl || pub.externalLink || '#',
+            href: pub.slug ? publicationPath(pub.slug) : (pub.fileUrl || pub.externalLink || '#'),
             image: pub.coverImage ? cardImageUrl(pub.coverImage) : null,
             title: pub.title ?? '',
             description: pub.description || null,

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { cmsTypeTag, CMS_TAG, courseTag, postTag, serviceTag } from '@/lib/cache-tags'
+import { cmsTypeTag, CMS_TAG, courseTag, postTag, publicationTag, serviceTag } from '@/lib/cache-tags'
 
 describe('cache-tags', () => {
   it('exports the shared cms root tag', () => {
@@ -12,6 +12,7 @@ describe('cache-tags', () => {
     expect(courseTag('nazra')).toBe('course:nazra')
     expect(serviceTag('nikah')).toBe('service:nikah')
     expect(postTag('ramadan')).toBe('post:ramadan')
+    expect(publicationTag('quran-tafseer')).toBe('publication:quran-tafseer')
   })
 
   it('preserves nested slug segments in tag ids', () => {

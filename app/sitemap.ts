@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { getSitemapData } from '@/sanity/lib/fetchers'
-import { coursePath, servicePath, articlePath, PATHS } from '@/lib/paths'
+import { coursePath, servicePath, articlePath, publicationPath, PATHS } from '@/lib/paths'
 import { SITE_URL } from '@/lib/seo'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -12,6 +12,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}${PATHS.onlineCourses}`, lastModified: now, changeFrequency: 'weekly', priority: 1.0 },
     { url: `${SITE_URL}${PATHS.services}`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
     { url: `${SITE_URL}${PATHS.articles}`, lastModified: now, changeFrequency: 'daily', priority: 0.7 },
+    { url: `${SITE_URL}${PATHS.publications}`, lastModified: now, changeFrequency: 'weekly', priority: 0.7 },
     { url: `${SITE_URL}${PATHS.about}`, lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
     { url: `${SITE_URL}${PATHS.contact}`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${SITE_URL}${PATHS.donate}`, lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
@@ -40,5 +41,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }))
 
-  return [...staticPages, ...coursePages, ...servicePages, ...articlePages]
+  const publicationPages: MetadataRoute.Sitemap = (data?.publications ?? []).map((p) => ({
+    url: `${SITE_URL}${publicationPath(p.slug)}`,
+    lastModified: new Date(p._updatedAt),
+    changeFrequency: 'monthly' as const,
+    priority: 0.7,
+  }))
+
+  return [...staticPages, ...coursePages, ...servicePages, ...articlePages, ...publicationPages]
 }

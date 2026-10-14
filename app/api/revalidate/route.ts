@@ -1,9 +1,9 @@
 import { revalidatePath, revalidateTag } from 'next/cache'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
-import { CMS_TAG, cmsTypeTag, courseTag, postTag, serviceTag } from '@/lib/cache-tags'
+import { CMS_TAG, cmsTypeTag, courseTag, postTag, publicationTag, serviceTag } from '@/lib/cache-tags'
 import { secretsEqual } from '@/lib/secrets'
-import { ancestryFromParent, articlePath, expectedPathFromAncestry, PATHS } from '@/lib/paths'
+import { ancestryFromParent, articlePath, expectedPathFromAncestry, PATHS, publicationPath } from '@/lib/paths'
 import { getCourseBySlug, getServiceBySlug } from '@/sanity/lib/fetchers'
 
 const SanityWebhookBodySchema = z
@@ -23,6 +23,7 @@ const TYPE_PATHS: Record<string, string[]> = {
   course: [PATHS.onlineCourses],
   service: [PATHS.services],
   post: [PATHS.articles],
+  publication: [PATHS.publications],
   page: [PATHS.about, PATHS.contact, PATHS.donate],
   testimonial: [PATHS.home],
 }
@@ -54,6 +55,10 @@ export async function POST(req: Request) {
     if (type === 'post') {
       revalidateTag(postTag(slug), 'max')
       paths.add(articlePath(slug))
+    }
+    if (type === 'publication') {
+      revalidateTag(publicationTag(slug), 'max')
+      paths.add(publicationPath(slug))
     }
     if (type === 'page') paths.add(`/${slug}`)
     if (type === 'course') {

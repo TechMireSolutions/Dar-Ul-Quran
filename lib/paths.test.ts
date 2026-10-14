@@ -20,6 +20,7 @@ import {
   sectionRelativePath,
   servicePath,
   articlePath,
+  publicationPath,
   staticParamsFromPaths,
 } from '@/lib/paths'
 
@@ -35,8 +36,9 @@ describe('coursePath / servicePath', () => {
     expect(servicePath('fitrana', 'zakat')).toBe('/services/zakat/fitrana')
   })
 
-  it('builds article paths', () => {
+  it('builds article and publication paths', () => {
     expect(articlePath('ramadan')).toBe('/articles/ramadan')
+    expect(publicationPath('quran-tafseer')).toBe('/publications/quran-tafseer')
   })
 
   it('normalizes service slug casing', () => {
