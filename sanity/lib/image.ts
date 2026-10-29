@@ -22,11 +22,11 @@ export function carouselImageUrl(source: SanityImageSource): string {
 }
 
 export function bookCoverImageUrl(source: SanityImageSource): string {
-  return urlFor(source).width(800).auto('format').quality(80).url()
+  return urlFor(source).width(800).height(1067).fit('crop').auto('format').quality(85).url()
 }
 
 export function bookThumbnailUrl(source: SanityImageSource): string {
-  return urlFor(source).width(600).auto('format').quality(80).url()
+  return urlFor(source).width(600).height(800).fit('crop').auto('format').quality(80).url()
 }
 
 

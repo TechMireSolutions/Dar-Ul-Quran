@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { getPublications } from '@/sanity/lib/fetchers'
-import { cardImageUrl } from '@/sanity/lib/image'
+import { bookThumbnailUrl } from '@/sanity/lib/image'
 import {
   cmsPageMetadata,
   fetchCmsPage,
@@ -63,12 +63,14 @@ export default async function PublicationsPage() {
           items={publications.map((pub) => ({
             id: pub._id,
             href: pub.slug ? publicationPath(pub.slug) : (pub.fileUrl || pub.externalLink || '#'),
-            image: pub.coverImage ? cardImageUrl(pub.coverImage) : null,
+            image: pub.coverImage ? bookThumbnailUrl(pub.coverImage) : null,
             title: pub.title ?? '',
             description: pub.description || null,
             badge: pub.author || null,
             ctaLabel: CTA_LABEL,
           }))}
+          cardAspectRatio="aspect-[3/4]"
+          cardImageFit="cover"
         />
       )}
     </ListingIndexShell>

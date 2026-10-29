@@ -16,7 +16,7 @@ import {
   TW_SECTION_TITLE_COMPACT,
   TW_VIEW_ALL_LINK,
 } from '@/lib/tailwind'
-import { bookCoverImageUrl, cardImageUrl } from '@/sanity/lib/image'
+import { bookCoverImageUrl, bookThumbnailUrl } from '@/sanity/lib/image'
 import type { PublicationDoc } from '@/lib/types'
 
 type PublicationDetailProps = {
@@ -50,7 +50,7 @@ export default function PublicationDetail({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start mb-16 sm:mb-20">
         {/* Book Cover Column */}
         <div className="lg:col-span-5 xl:col-span-4">
-          <div className="relative w-full max-w-[320px] sm:max-w-[360px] mx-auto aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl border border-gray-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 group flex items-center justify-center">
+          <div className="relative w-full max-w-[320px] sm:max-w-[360px] mx-auto aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl border border-gray-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 group">
             {coverUrl ? (
               <Image
                 src={coverUrl}
@@ -58,7 +58,7 @@ export default function PublicationDetail({
                 fill
                 priority
                 sizes="(max-width: 640px) 320px, (max-width: 1024px) 360px, 400px"
-                className="object-contain p-2 sm:p-3 transition-transform duration-500 ease-out group-hover:scale-[1.02]"
+                className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
               />
             ) : (
               <div
@@ -236,11 +236,13 @@ export default function PublicationDetail({
               <Reveal key={pub._id} animation="up" delay={i * 70}>
                 <ContentCard
                   href={pub.slug ? publicationPath(pub.slug) : (pub.fileUrl || pub.externalLink || '#')}
-                  image={pub.coverImage ? cardImageUrl(pub.coverImage) : null}
+                  image={pub.coverImage ? bookThumbnailUrl(pub.coverImage) : null}
                   title={pub.title ?? ''}
                   description={pub.description || null}
                   badge={pub.author || null}
                   ctaLabel="تفصیلات دیکھیں"
+                  aspectRatio="aspect-[3/4]"
+                  imageFit="cover"
                 />
               </Reveal>
             ))}
