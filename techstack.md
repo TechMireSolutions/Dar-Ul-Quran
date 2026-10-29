@@ -18,7 +18,7 @@ This file is the single source of truth for stack versions, infrastructure, secu
 | Layer | Technology | Version | Operational & architecture notes |
 |-------|------------|---------|----------------------------------|
 | Runtime | **Node.js** | ≥ **22.12** (CI/Prod **24.17.0**) | Managed via NVM; required for Sanity v6 engine |
-| Framework | **Next.js** (App Router) | **16.4.0** (Active LTS) | Patched for SSR/Server Action/ImageResponse CVE-2026 advisories; Turbopack build |
+| Framework | **Next.js** (App Router) | **16.4.3** (Active LTS) | Patched for SSR/Server Action/ImageResponse CVE-2026 advisories; Turbopack build |
 | UI library | **React** / **React DOM** | **19.2.8** | RSC-first; **React Compiler 1.0** for memoization (`reactCompiler: true`) |
 | Language | **TypeScript** | **6.0.3** | Strict mode, `target: ES2022`, `@/*` path aliases |
 | Styling | **Tailwind CSS** v4 | **4.3.3** | CSS-first theme (`@import "tailwindcss"`); shared `TW_*` in `lib/tailwind.ts` |
@@ -31,7 +31,7 @@ This file is the single source of truth for stack versions, infrastructure, secu
 | CMS custom input | **LtrStringInput** | `sanity/components/` | LTR override for emails, phones, URLs |
 | Validation | **Zod** | **4.4.3** | API payloads and contact forms |
 | Tests | **Vitest** | **4.1.10** | Unit tests under `lib/**/*.test.ts` |
-| Linting | **ESLint** + Urdu check | **9.39.4** (pin) + custom | `eslint-config-next@16.4.0` + `check-urdu.mjs` |
+| Linting | **ESLint** + Urdu check | **9.39.4** (pin) + custom | `eslint-config-next@16.4.3` + `check-urdu.mjs` |
 
 ### Architecture patterns
 

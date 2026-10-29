@@ -63,10 +63,22 @@ export type ListingCardItem = {
   image?: string | null
   badge?: string | null
   ctaLabel: string
+  aspectRatio?: string
+  imageFit?: 'cover' | 'contain'
+}
+
+type ListingContentCardsProps = {
+  items: ListingCardItem[]
+  cardAspectRatio?: string
+  cardImageFit?: 'cover' | 'contain'
 }
 
 /** Shared Reveal + ContentCard grid for listing indexes. */
-export function ListingContentCards({ items }: { items: ListingCardItem[] }) {
+export function ListingContentCards({
+  items,
+  cardAspectRatio,
+  cardImageFit,
+}: ListingContentCardsProps) {
   return (
     <ListingCardGrid>
       {items.map((item, i) => (
@@ -78,12 +90,15 @@ export function ListingContentCards({ items }: { items: ListingCardItem[] }) {
             description={item.description}
             badge={item.badge}
             ctaLabel={item.ctaLabel}
+            aspectRatio={item.aspectRatio ?? cardAspectRatio}
+            imageFit={item.imageFit ?? cardImageFit}
           />
         </Reveal>
       ))}
     </ListingCardGrid>
   )
 }
+
 
 export function ListingEmptyState({ message }: { message: string }) {
   return (

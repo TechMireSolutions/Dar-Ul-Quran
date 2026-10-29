@@ -15,6 +15,8 @@ type ContentCardProps = {
   active?:      boolean
   imageAlt?:    string
   imageSizes?:  string
+  aspectRatio?: string
+  imageFit?:    'cover' | 'contain'
 }
 
 export default function ContentCard({
@@ -27,6 +29,8 @@ export default function ContentCard({
   active = false,
   imageAlt,
   imageSizes,
+  aspectRatio = 'aspect-[3/2]',
+  imageFit = 'cover',
 }: ContentCardProps) {
   const actualHref = ctaLabel === DEFAULT_SERVICE_BOOK_CTA ? PATHS.contact : href
 
@@ -49,7 +53,7 @@ export default function ContentCard({
       {/* Main container */}
       <div className="flex flex-col flex-1 rounded-2xl">
         <div className="block overflow-hidden shrink-0">
-          <div className="relative w-full aspect-[3/2] bg-slate-100 dark:bg-slate-900/50">
+          <div className={`relative w-full ${aspectRatio} bg-slate-100 dark:bg-slate-900/50 flex items-center justify-center`}>
             {image ? (
               <Image
                 src={image}
@@ -59,7 +63,7 @@ export default function ContentCard({
                 decoding="async"
                 quality={65}
                 sizes={imageSizes ?? "(max-width: 640px) 210px, (max-width: 1024px) 50vw, 33vw"}
-                className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.07] motion-reduce:group-hover:scale-100"
+                className={`${imageFit === 'contain' ? 'object-contain p-2.5 sm:p-3' : 'object-cover'} transition-transform duration-500 ease-out group-hover:scale-[1.07] motion-reduce:group-hover:scale-100`}
               />
             ) : (
               <div

@@ -71,6 +71,7 @@ const nextConfig: NextConfig = {
     ],
   },
   experimental: {
+    agentUpgrade: 'security',
     inlineCss: true,
     optimizePackageImports: ['lucide-react', '@portabletext/react', '@sanity/client'],
   },

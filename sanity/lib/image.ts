@@ -25,6 +25,11 @@ export function bookCoverImageUrl(source: SanityImageSource): string {
   return urlFor(source).width(800).auto('format').quality(80).url()
 }
 
+export function bookThumbnailUrl(source: SanityImageSource): string {
+  return urlFor(source).width(600).auto('format').quality(80).url()
+}
+
+
 /** Default Open Graph image from site settings (logo → favicon). */
 export function defaultOgImage(
   settings?: { logo?: SanityImageAsset; favicon?: SanityImageAsset } | null,
